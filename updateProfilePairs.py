@@ -20,6 +20,16 @@ for i in range(0,len(profiles)):
         if numFriends > 0:
         	distance = profile1.distanceToOther(profile2)
 
-        m = ProfilePair(profile1=profile1, profile2=profile2, mutualFriendCount=numFriends, distance=distance)
+        #if already in database, update
+        profileList = ProfilePair.objects.filter(profile1=profiles[0],profile2=profiles[1])
+        if len(profileList) == 0:
+            profileList = ProfilePair.objects.filter(profile1=profiles[1],profile2=profiles[0])
+        if len(profileList) > 0:
+            m = profileList[0]
+            m.mutualFriendCount = numFriends
+            m.distance = distance
+        #if not create new object
+        else:
+            m = ProfilePair(profile1=profile1, profile2=profile2, mutualFriendCount=numFriends, distance=distance)
         m.computeMatchScore()
         m.save()

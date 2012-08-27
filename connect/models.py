@@ -34,7 +34,7 @@ class Profile(models.Model):
 		g = geocoders.Google()
 		loc1 = self.location
 		_, coord = g.geocode(self.location)
-		_, otherCoord = g.geocode(location)
+		_, otherCoord = g.geocode(otherProfile.location)
 		return distance.distance(coord,otherCoord).miles
 	def locationFromFacebook(self):
 		# other facts we can get http://developers.facebook.com/docs/reference/api/user/
