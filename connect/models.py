@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Q
 from la_facebook.models import UserAssociation
 import facebook	
 from geopy import geocoders
@@ -55,6 +56,22 @@ class Profile(models.Model):
 			print dictInfo['interested_in']
 		if 'gender' in dictInfo.keys():
 			self.gender = dictInfo['gender']
+
+	#getMatches calls
+	def getMatches(self):
+		#only return pairs with matchScore greater than 0
+		q = Q(matchScore__gte=0) & (Q(profile1=self) | Q(profile2=self))
+		#sort pairs by matchScore
+		matchPairs = ProfilePair.objects.order_by('matchScore').filter(q)
+
+		matches = []
+		for matchPair in matchPairs:
+			if matchPair.profile1 == self:
+				matches.append(matchPair.profile2)
+			else:
+				matches.append(matchPair.profile1)
+		return matches
+
 
 
 
