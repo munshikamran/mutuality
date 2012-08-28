@@ -64,6 +64,7 @@ class Profile(models.Model):
 		q = Q(matchScore__gte=0) & (Q(profile1=self) | Q(profile2=self))
 		#sort pairs by matchScore
 		matchPairs = ProfilePair.objects.order_by('matchScore').filter(q)
+		# matchPairs.reverse()
 
 		matches = []
 		for matchPair in matchPairs:
