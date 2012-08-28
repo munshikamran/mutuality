@@ -62,12 +62,12 @@ class Profile(models.Model):
 	def getMatches(self):
 		#only return pairs with matchScore greater than 0
 		q = Q(matchScore__gte=0) & (Q(profile1=self) | Q(profile2=self))
-		#sort pairs by matchScore
-		matchPairs = ProfilePair.objects.order_by('matchScore').filter(q)
-		# matchPairs.reverse()
+		#sort pairs by matchScore greatest to smallest
+		matchPairs = ProfilePair.objects.order_by('matchScore').reverse().filter(q)
 
 		matches = []
 		for matchPair in matchPairs:
+			print matchPair.matchScore
 			if matchPair.profile1 == self:
 				matches.append(matchPair.profile2)
 			else:
