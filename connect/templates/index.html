@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>This is a test</title>
-</head>
-<body>
-    <h2>django-la-facebook test project page</h2>
-<a href="/after">A login protected page</a>
+{% extends "base.html" %}
 
-    {% include 'fbinfo.html' %}
-</body>
-</html>
+{% block content %}
+
+	<h2>Welcome to Mutuality!</h2>
+	Mutuality is all about getting pussy and setting up your friends to get pussy.
+	{% if user.is_authenticated %}
+        {% if profile %}
+			You're logged in.  Checkout your <a href="/dashboard">dashboard</a>.
+        {% endif %}
+    {% else %}
+            <a href="{% url login %}">Sign-up</a>
+    {% endif %}
+
+{% endblock %}

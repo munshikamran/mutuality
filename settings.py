@@ -12,6 +12,7 @@ TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
     ('Jeff Ames', 'jeffreymames@gmail.com'),
+    ('Kamran Munshi', 'kamran.munshi@gmail.com'),
     
 )
  
@@ -85,10 +86,41 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'Mutuality.urls'
 
+TEMPLATE_DIR1 = os.path.join(os.path.dirname(__file__), '')
+
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+     TEMPLATE_DIR1,
+)
+
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Example: "/home/media/media.lawrence.com/static/"
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
+
+# URL prefix for static files.
+# Example: "http://media.lawrence.com/static/"
+STATIC_URL = '/assets'
+
+STATIC_DIR1 = os.path.join(os.path.dirname(__file__), 'assets')
+
+# Additional locations of static files
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    STATIC_DIR1,
+)
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 INSTALLED_APPS = (
@@ -98,6 +130,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
     #'notification',
     'connect',
     'la_facebook',
