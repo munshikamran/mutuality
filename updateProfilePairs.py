@@ -21,9 +21,9 @@ for i in range(0,len(profiles)):
         	distance = profile1.distanceToOther(profile2)
 
         #if already in database, update
-        profileList = ProfilePair.objects.filter(profile1=profiles[0],profile2=profiles[1])
+        profileList = ProfilePair.objects.filter(profile1=profile1,profile2=profile2)
         if len(profileList) == 0:
-            profileList = ProfilePair.objects.filter(profile1=profiles[1],profile2=profiles[0])
+            profileList = ProfilePair.objects.filter(profile1=profile2,profile2=profile1)
         if len(profileList) > 0:
             m = profileList[0]
             m.mutualFriendCount = numFriends

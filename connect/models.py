@@ -56,6 +56,7 @@ class Profile(models.Model):
 			print dictInfo['interested_in']
 		if 'gender' in dictInfo.keys():
 			self.gender = dictInfo['gender']
+		self.save()
 
 	#getMatches calls
 	def getMatches(self):
