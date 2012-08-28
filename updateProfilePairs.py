@@ -32,4 +32,5 @@ for i in range(0,len(profiles)):
         else:
             m = ProfilePair(profile1=profile1, profile2=profile2, mutualFriendCount=numFriends, distance=distance)
         m.computeMatchScore()
-        m.save()
+        if m.matchScore > 0:
+            m.save()
