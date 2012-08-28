@@ -76,9 +76,6 @@ class Profile(models.Model):
 		return matches
 
 
-
-
-
 class ProfilePair(models.Model):
 	profile1 = models.ForeignKey(Profile, related_name='profile1')
 	profile2 = models.ForeignKey(Profile, related_name='profile2')
@@ -88,6 +85,13 @@ class ProfilePair(models.Model):
 	
 	def computeMatchScore(self):
 		self.matchScore =  self.mutualFriendCount/(self.distance + 1)
+
+
+class ProfilePairRating(models.Model):
+	rater = models.ForeignKey(Profile, related_name='rater')
+	ratingProfile1 = models.ForeignKey(Profile, related_name='ratingProfile1')
+	ratingProfile2 = models.ForeignKey(Profile, related_name='ratingProfile2')
+	rating = models.IntegerField(default=0)
 
 
 # class MutualFriends(models.Model):
