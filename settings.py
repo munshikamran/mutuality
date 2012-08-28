@@ -14,7 +14,7 @@ ADMINS = (
     ('Jeff Ames', 'jeffreymames@gmail.com'),
     
 )
-
+ 
 MANAGERS = ADMINS
 
 DATABASES = {
