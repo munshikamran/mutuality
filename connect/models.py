@@ -57,6 +57,8 @@ class Profile(models.Model):
 		if 'gender' in dictInfo.keys():
 			self.gender = dictInfo['gender']
 		self.save()
+	def getFriendInfo(self):
+		# https://graph.facebook.com/me/friends?fields=name,location,gender,picture&access_token=
 
 	#getMatches calls
 	def getMatchPairs(self):
