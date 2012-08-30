@@ -24,6 +24,9 @@ class Profile(models.Model):
 	friendList= []
 	femaleFriendList = []
 	maleFriendList = []
+	maleLocationDictionary = {}
+	femaleLocationDictionary = {}
+	locationSet = ()
 
 	def authToken(self):
 		return UserAssociation.objects.get(user_id=self.user.id).token
@@ -83,7 +86,7 @@ class Profile(models.Model):
 	#FACEBOOK FRIEND MATCHMAKING METHODS
 	def updateFriendList(self):
 		graph = facebook.GraphAPI(self.authToken())
-		fields = ['name','location','picture','gender']
+		fields = ['name','location','picture','gender','birthday']
 		kwargs = {"fields": fields}
 		self.friendList = graph.get_connections("me","friends",**kwargs)['data']
 
@@ -97,16 +100,50 @@ class Profile(models.Model):
 				else:
 					self.maleFriendList.append(friend)
 
+	def updateLocationDictionaries(self):
+		if len(self.femaleFriendList) == 0 and len(self.maleFriendList) == 0:
+			self.updateGenderFriendLists()
+		for girl in self.femaleFriendList:
+			if 'location' in girl.keys():
+				locationName = girl['location']['name']
+				if not locationName in self.femaleLocationDictionary.keys():
+					self.femaleLocationDictionary[locationName] = []
+				self.femaleLocationDictionary[locationName].append(girl)
+		for guy in self.maleFriendList:
+			if 'location' in guy.keys():
+				locationName = guy['location']['name']
+				if not locationName in self.maleLocationDictionary.keys():
+					self.maleLocationDictionary[locationName] = []
+				self.maleLocationDictionary[locationName].append(guy)
+
 	def getRandomMatch(self):
-		if len(self.femaleFriendList) == 0 or len(self.maleFriendList) == 0:
+		if len(self.femaleFriendList) == 0 and len(self.maleFriendList) == 0:
 			self.updateGenderFriendLists()
 		numGirls = len(self.femaleFriendList)
 		numGuys = len(self.maleFriendList)
-		girlidx = random.randint(0,numGirls-1)
-		guyidx = random.randint(0,numGuys-1)
-		girl = self.femaleFriendList[girlidx]
-		guy = self.maleFriendList[guyidx]
+		girlIDX = random.randint(0,numGirls-1)
+		guyIDX = random.randint(0,numGuys-1)
+		girl = self.femaleFriendList[girlIDX]
+		guy = self.maleFriendList[guyIDX]
 		print guy['name'] + ' and ' + girl['name'] + ' sitting in a tree'
+
+	def getRandomLocationMatch(self):
+		if len(self.maleLocationDictionary.keys()) == 0 and len(self.femaleLocationDictionary) == 0:
+			self.updateLocationDictionaries
+		if len(self.locationSet) == 0:
+			self.locationSet = set(self.maleLocationDictionary.keys()).intersection(set(self.femaleLocationDictionary.keys()))
+		#get random location
+		location = random.sample(self.locationSet,1)[0]
+		guys = self.maleLocationDictionary[location]
+		numGuys = len(guys)
+		guyIDX = random.randint(0,numGuys-1)
+		guy = guys[guyIDX]
+		girls = self.femaleLocationDictionary[location]
+		numGirls = len(girls)
+		girlIDX = random.randint(0,numGirls-1)
+		girl = girls[girlIDX]
+		matchFound = True
+		print guy['name'] + ' and ' + girl['name'] + ' from ' + str(location)
 
 
 
