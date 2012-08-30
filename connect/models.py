@@ -5,6 +5,7 @@ from la_facebook.models import UserAssociation
 import facebook	
 from geopy import geocoders
 from geopy import distance
+import random
 # Create your models here.
 
 class Profile(models.Model):
@@ -62,22 +63,6 @@ class Profile(models.Model):
 			self.gender = dictInfo['gender']
 		self.save()
 
-	def updateFriendList(self):
-		graph = facebook.GraphAPI(self.authToken())
-		fields = ['name','location','picture','gender']
-		kwargs = {"fields": fields}
-		self.friendList = graph.get_connections("me","friends",**kwargs)['data']
-
-	def updateGenderFriendLists(self):
-		if len(self.friendList) == 0:
-			self.updateFriendList()
-		for friend in self.friendList:
-			if 'gender' in friend.keys():
-				if friend['gender'] == 'female':
-					self.femaleFriendList.append(friend)
-				else:
-					self.maleFriendList.append(friend)
-
 	#getMatches calls
 	def getMatchPairs(self):
 		#only return pairs with matchScore greater than 0
@@ -94,6 +79,35 @@ class Profile(models.Model):
 			else:
 				matches.append(matchPair.profile1)
 		return matches
+
+	#FACEBOOK FRIEND MATCHMAKING METHODS
+	def updateFriendList(self):
+		graph = facebook.GraphAPI(self.authToken())
+		fields = ['name','location','picture','gender']
+		kwargs = {"fields": fields}
+		self.friendList = graph.get_connections("me","friends",**kwargs)['data']
+
+	def updateGenderFriendLists(self):
+		if len(self.friendList) == 0:
+			self.updateFriendList()
+		for friend in self.friendList:
+			if 'gender' in friend.keys():
+				if friend['gender'] == 'female':
+					self.femaleFriendList.append(friend)
+				else:
+					self.maleFriendList.append(friend)
+
+	def getRandomMatch(self):
+		if len(self.femaleFriendList) == 0 or len(self.maleFriendList) == 0:
+			self.updateGenderFriendLists()
+		numGirls = len(self.femaleFriendList)
+		numGuys = len(self.maleFriendList)
+		girlidx = random.randint(0,numGirls-1)
+		guyidx = random.randint(0,numGuys-1)
+		girl = self.femaleFriendList[girlidx]
+		guy = self.maleFriendList[guyidx]
+		print guy['name'] + ' and ' + girl['name'] + ' sitting in a tree'
+
 
 
 class ProfilePair(models.Model):
