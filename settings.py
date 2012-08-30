@@ -158,5 +158,5 @@ FACEBOOK_ACCESS_SETTINGS = {
         # The following keys are optional
         # TODO - Comment next line out but still have tests pass
         "CALLBACK": "la_facebook.callbacks.default.default_facebook_callback", 
-        "PROVIDER_SCOPE": ['email','user_location,friends_relationship_details','friends_birthday'], # FACEBOOK PERMISSIONS http://developers.facebook.com/docs/authentication/permissions/
+        "PROVIDER_SCOPE": ['email','user_location','friends_location','friends_relationship_details','friends_birthday'], # FACEBOOK PERMISSIONS http://developers.facebook.com/docs/authentication/permissions/
 }

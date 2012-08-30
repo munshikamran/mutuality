@@ -18,7 +18,11 @@ class Profile(models.Model):
 	interestedInMen = models.BooleanField(default=False)
 	interestedInWomen = models.BooleanField(default=False)
 	lookingForFriends = models.BooleanField(default=True)
-	
+
+	# fields we don't store in the database
+	friendList= []
+	femaleFriendList = []
+	maleFriendList = []
 
 	def authToken(self):
 		return UserAssociation.objects.get(user_id=self.user.id).token
@@ -43,8 +47,8 @@ class Profile(models.Model):
 		kwargs = {"fields": "location"}
 		return graph.get_object("me",**kwargs)['location']['name']
 	def updateInfoUsingFacebook(self):
-		fields = ['location','birthday','interested_in','gender']
 		graph = facebook.GraphAPI(self.authToken())
+		fields = ['location','birthday','interested_in','gender']
 		kwargs = {"fields": fields}
 		dictInfo = graph.get_object("me",**kwargs)
 		if 'location' in dictInfo.keys():
@@ -57,8 +61,22 @@ class Profile(models.Model):
 		if 'gender' in dictInfo.keys():
 			self.gender = dictInfo['gender']
 		self.save()
-	def getFriendInfo(self):
-		# https://graph.facebook.com/me/friends?fields=name,location,gender,picture&access_token=
+
+	def updateFriendList(self):
+		graph = facebook.GraphAPI(self.authToken())
+		fields = ['name','location','picture','gender']
+		kwargs = {"fields": fields}
+		self.friendList = graph.get_connections("me","friends",**kwargs)['data']
+
+	def updateGenderFriendLists(self):
+		if len(self.friendList) == 0:
+			self.updateFriendList()
+		for friend in self.friendList:
+			if 'gender' in friend.keys():
+				if friend['gender'] == 'female':
+					self.femaleFriendList.append(friend)
+				else:
+					self.maleFriendList.append(friend)
 
 	#getMatches calls
 	def getMatchPairs(self):
