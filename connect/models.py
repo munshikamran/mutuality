@@ -107,7 +107,6 @@ class Profile(models.Model):
 		#only return pairs with matchScore greater than 0
 		q = Q(matchScore__gte=0) & (Q(profile1=self) | Q(profile2=self))
 		#sort pairs by matchScore greatest to smallest
-		# return ProfilePair.objects.order_by('matchScore').reverse().filter(q)
 		return ProfilePair.objects.filter(q).order_by('matchScore').reverse()
 
 	def getMatchProfiles(self):
@@ -213,15 +212,3 @@ class ProfilePairRating(models.Model):
 	ratingProfile1 = models.ForeignKey(Profile, related_name='ratingProfile1')
 	ratingProfile2 = models.ForeignKey(Profile, related_name='ratingProfile2')
 	rating = models.IntegerField(default=0)
-
-
-# class MutualFriends(models.Model):
-# 	mutualfriends_profile1 = models.ForeignKey(Profile, related_name='mutualfriends_profile1')
-# 	mutualfriends_profile2 = models.ForeignKey(Profile, related_name='mutualfriends_profile2')
-# 	number = models.IntegerField()
-
-
-# class GeographicDistance(models.Model):
-# 	distance_profile1 = models.ForeignKey(Profile, related_name='distance_profile1')
-# 	distance_profile2 = models.ForeignKey(Profile, related_name='distance_profile2')
-# 	distance = models.FloatField()
