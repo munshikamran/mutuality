@@ -7,7 +7,7 @@ import facebook
 from geopy import geocoders
 from geopy import distance
 import random
-import datetime
+from datetime import datetime, timedelta
 # Create your models here.
 
 class Profile(models.Model):
@@ -70,9 +70,24 @@ class Profile(models.Model):
 
 
 	# MESSAGE THREADS
+	#imagine this working like facebook where user can see last few messages and clicking on the message opens the thread.
+	#thus we will first call getRecentMessages and then when a message is selected we will call getMessageThreadWithOther
+	#return all messages associated with profile that have been sent since past date
+	def getMessagesSince(self,pastDate):
+		q = (Q(sender_id=self.user_id) | Q(recipient_id=self.user_id)) & Q(sent_at__gte=pastDate)
+		#order newer messages first
+		return Message.objects.filter(q).order_by('sent_at').reverse()
+
+	#return all messages associated with profile that have been sent in last month
+	def getRecentMessages(self):
+		now = datetime.now()
+		pastDate = now - timedelta(weeks=4)
+		return self.getMessagesSince(pastDate)
+
 	def getMessageThreadWithOther(self,otherProfile):
 		q = (Q(sender_id=self.user_id) & Q(recipient_id=otherProfile.user_id)) | (Q(sender_id=otherProfile.user_id) & Q(recipient_id=self.user_id))
-		return Message.objects.order_by('sent_at').filter(q)
+		#order older messages first
+		return Message.objects.filter(q).order_by('sent_at')
 
 	#test function showing output of thread
 	def outputThread(self,otherProfile):
@@ -92,7 +107,8 @@ class Profile(models.Model):
 		#only return pairs with matchScore greater than 0
 		q = Q(matchScore__gte=0) & (Q(profile1=self) | Q(profile2=self))
 		#sort pairs by matchScore greatest to smallest
-		return ProfilePair.objects.order_by('matchScore').reverse().filter(q)
+		# return ProfilePair.objects.order_by('matchScore').reverse().filter(q)
+		return ProfilePair.objects.filter(q).order_by('matchScore').reverse()
 
 	def getMatchProfiles(self):
 		matchPairs = self.getMatchPairs()
