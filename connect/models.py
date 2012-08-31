@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Q
 from la_facebook.models import UserAssociation
+from messages.models import Message
 import facebook	
 from geopy import geocoders
 from geopy import distance
@@ -67,7 +68,26 @@ class Profile(models.Model):
 			self.gender = dictInfo['gender']
 		self.save()
 
-	#getMatches calls
+
+	# MESSAGE THREADS
+	def getMessageThreadWithOther(self,otherProfile):
+		q = (Q(sender_id=self.user_id) & Q(recipient_id=otherProfile.user_id)) | (Q(sender_id=otherProfile.user_id) & Q(recipient_id=self.user_id))
+		return Message.objects.order_by('sent_at').filter(q)
+
+	#test function showing output of thread
+	def outputThread(self,otherProfile):
+		thread = self.getMessageThreadWithOther(otherProfile)
+		if len(thread) == 0:
+			return
+		for m in thread:
+			name = Profile.objects.get(user_id=m.sender_id).name
+			content = m.body
+			print name + ': ' + content
+
+
+
+
+	# SITE USER MATCH MAKING
 	def getMatchPairs(self):
 		#only return pairs with matchScore greater than 0
 		q = Q(matchScore__gte=0) & (Q(profile1=self) | Q(profile2=self))
