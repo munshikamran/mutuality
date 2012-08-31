@@ -6,6 +6,7 @@ import facebook
 from geopy import geocoders
 from geopy import distance
 import random
+import datetime
 # Create your models here.
 
 class Profile(models.Model):
@@ -89,6 +90,19 @@ class Profile(models.Model):
 		fields = ['name','location','picture','gender','birthday']
 		kwargs = {"fields": fields}
 		self.friendList = graph.get_connections("me","friends",**kwargs)['data']
+		# update friend ages
+		year = datetime.datetime.now().year
+		birthdayKey = 'birthday'
+		ageKey = 'age'
+		for friend in self.friendList:
+			if birthdayKey in friend.keys():
+				bday = friend[birthdayKey].split('/')
+				# see if they share the year they were born
+				if len(bday )== 3:
+					yearBorn = int(bday[2])
+					friend[ageKey] = year - yearBorn
+
+
 
 	def updateGenderFriendLists(self):
 		if len(self.friendList) == 0:
