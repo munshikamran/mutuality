@@ -249,7 +249,7 @@ class Profile(models.Model):
 			if 'age' in args:
 				maxAgeDifference = 5
 				isPotential = isPotential and 'age' in otherFriend.keys() and (abs(friend['age'] - otherFriend['age']) <= maxAgeDifference)
-
+			#check if pair has already been rated
 			if isPotential:
 				potentials.append(otherFriend)
 		return potentials
@@ -278,6 +278,11 @@ class Profile(models.Model):
 			print match[0]['name'] + ' and ' + match[1]['name']
 		return match
 
+	def rateMatch(self,match,rating):
+		goodMatchRating = 4
+		if rating > goodMatchRating:
+			fbPairRating = FacebookPairRating(facebookPairRater=self,friendFacebookID1=match[0]['id'],friendFacebookID2=match[1]['id'],rating=rating)
+			fbPairRating.save()
 
 
 class ProfilePair(models.Model):
@@ -292,8 +297,13 @@ class ProfilePair(models.Model):
 
 
 class ProfilePairRating(models.Model):
-	rater = models.ForeignKey(Profile, related_name='rater')
+	profilePairRater = models.ForeignKey(Profile, related_name='profilePairRater')
 	ratingProfile1 = models.ForeignKey(Profile, related_name='ratingProfile1')
 	ratingProfile2 = models.ForeignKey(Profile, related_name='ratingProfile2')
 	rating = models.IntegerField(default=0)
 
+class FacebookPairRating(models.Model):
+	facebookPairRater = models.ForeignKey(Profile, related_name='facebookPairRater')
+	friendFacebookID1 = models.CharField(max_length=255)
+	friendFacebookID2 = models.CharField(max_length=255)
+	rating = models.IntegerField(default=0)
