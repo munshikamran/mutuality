@@ -24,11 +24,11 @@ class Profile(models.Model):
 
 	# fields we don't store in the database
 	friendList= []
-	femaleFriendList = []
-	maleFriendList = []
-	maleLocationDictionary = {}
-	femaleLocationDictionary = {}
-	locationSet = ()
+	# femaleFriendList = []
+	# maleFriendList = []
+	# maleLocationDictionary = {}
+	# femaleLocationDictionary = {}
+	# locationSet = ()
 
 	def authToken(self):
 		return UserAssociation.objects.get(user_id=self.user.id).token
@@ -126,9 +126,11 @@ class Profile(models.Model):
 		kwargs = {"fields": fields}
 		self.friendList = graph.get_connections("me","friends",**kwargs)['data']
 		# update friend ages
-		year = datetime.datetime.now().year
+		year = datetime.now().year
 		birthdayKey = 'birthday'
 		ageKey = 'age'
+		locationKey = 'location'
+		stateKey = 'state'
 		for friend in self.friendList:
 			if birthdayKey in friend.keys():
 				bday = friend[birthdayKey].split('/')
@@ -136,63 +138,145 @@ class Profile(models.Model):
 				if len(bday )== 3:
 					yearBorn = int(bday[2])
 					friend[ageKey] = year - yearBorn
+			if locationKey in friend.keys():
+				if friend[locationKey]['name'] != None:
+					state = friend[locationKey]['name'].split(', ')[-1]
+					friend[stateKey] = state
 
 
 
-	def updateGenderFriendLists(self):
+	# def updateGenderFriendLists(self):
+	# 	if len(self.friendList) == 0:
+	# 		self.updateFriendList()
+	# 	for friend in self.friendList:
+	# 		if 'gender' in friend.keys():
+	# 			if friend['gender'] == 'female':
+	# 				self.femaleFriendList.append(friend)
+	# 			else:
+	# 				self.maleFriendList.append(friend)
+
+	# def updateLocationDictionaries(self):
+	# 	if len(self.femaleFriendList) == 0 and len(self.maleFriendList) == 0:
+	# 		self.updateGenderFriendLists()
+	# 	for girl in self.femaleFriendList:
+	# 		if 'location' in girl.keys():
+	# 			locationName = girl['location']['name']
+	# 			if not locationName in self.femaleLocationDictionary.keys():
+	# 				self.femaleLocationDictionary[locationName] = []
+	# 			self.femaleLocationDictionary[locationName].append(girl)
+	# 	for guy in self.maleFriendList:
+	# 		if 'location' in guy.keys():
+	# 			locationName = guy['location']['name']
+	# 			if not locationName in self.maleLocationDictionary.keys():
+	# 				self.maleLocationDictionary[locationName] = []
+	# 			self.maleLocationDictionary[locationName].append(guy)
+
+	# def getRandomMatch(self):
+	# 	if len(self.femaleFriendList) == 0 and len(self.maleFriendList) == 0:
+	# 		self.updateGenderFriendLists()
+	# 	numGirls = len(self.femaleFriendList)
+	# 	numGuys = len(self.maleFriendList)
+	# 	girlIDX = random.randint(0,numGirls-1)
+	# 	guyIDX = random.randint(0,numGuys-1)
+	# 	girl = self.femaleFriendList[girlIDX]
+	# 	guy = self.maleFriendList[guyIDX]
+	# 	print guy['name'] + ' and ' + girl['name'] + ' sitting in a tree'
+
+	# def getRandomLocationMatch(self):
+	# 	if len(self.maleLocationDictionary.keys()) == 0 and len(self.femaleLocationDictionary) == 0:
+	# 		self.updateLocationDictionaries
+	# 	if len(self.locationSet) == 0:
+	# 		self.locationSet = set(self.maleLocationDictionary.keys()).intersection(set(self.femaleLocationDictionary.keys()))
+	# 	#get random location
+	# 	location = random.sample(self.locationSet,1)[0]
+	# 	guys = self.maleLocationDictionary[location]
+	# 	numGuys = len(guys)
+	# 	guyIDX = random.randint(0,numGuys-1)
+	# 	guy = guys[guyIDX]
+	# 	girls = self.femaleLocationDictionary[location]
+	# 	numGirls = len(girls)
+	# 	girlIDX = random.randint(0,numGirls-1)
+	# 	girl = girls[girlIDX]
+	# 	matchFound = True
+	# 	print guy['name'] + ' and ' + girl['name'] + ' from ' + str(location)
+
+	def getRandomFriend(self):
 		if len(self.friendList) == 0:
 			self.updateFriendList()
-		for friend in self.friendList:
-			if 'gender' in friend.keys():
-				if friend['gender'] == 'female':
-					self.femaleFriendList.append(friend)
-				else:
-					self.maleFriendList.append(friend)
+		numFriends = len(self.friendList)
+		friendIDX = random.randint(0,numFriends)
+		return self.friendList[friendIDX]
 
-	def updateLocationDictionaries(self):
-		if len(self.femaleFriendList) == 0 and len(self.maleFriendList) == 0:
-			self.updateGenderFriendLists()
-		for girl in self.femaleFriendList:
-			if 'location' in girl.keys():
-				locationName = girl['location']['name']
-				if not locationName in self.femaleLocationDictionary.keys():
-					self.femaleLocationDictionary[locationName] = []
-				self.femaleLocationDictionary[locationName].append(girl)
-		for guy in self.maleFriendList:
-			if 'location' in guy.keys():
-				locationName = guy['location']['name']
-				if not locationName in self.maleLocationDictionary.keys():
-					self.maleLocationDictionary[locationName] = []
-				self.maleLocationDictionary[locationName].append(guy)
+	def getFriendMatchArgs(self,friend):
+		args = []
+		keys = friend.keys()
+		if 'gender' in keys:
+			args.append('gender')
+		if 'location' in keys:
+			# args.append('location')
+			args.append('state')
+		if 'age' in keys:
+			args.append('age')
+		return args
+
+	def getFriendPotentials(self,friend,*args):
+		potentials = []
+		print args
+
+		#check if friend even has args (if not no match can be made)
+		for arg in args:
+			if not arg in friend.keys():
+				print "a match can not be made for "+ friend['name'] + ' based on the args'
+				print args
+				return potentials
+
+		for otherFriend in self.friendList:
+			isPotential = not friend == otherFriend
+			#filter by gender
+			if 'gender' in args:
+				if friend['gender'] == 'female':
+					desiredGender = 'male'
+				else:
+					desiredGender = 'female'
+				isPotential = isPotential and 'gender' in otherFriend.keys() and (otherFriend['gender'] == desiredGender)
+			#filter by location
+			if 'location' in args:
+				isPotential = isPotential and 'location' in otherFriend.keys() and (friend['location'] == otherFriend['location'])
+			#filter by state
+			if 'state' in args:
+				isPotential = isPotential and 'state' in otherFriend.keys() and (friend['state'] == otherFriend['state'])
+			#filter by age
+			if 'age' in args:
+				maxAgeDifference = 5
+				isPotential = isPotential and 'age' in otherFriend.keys() and (abs(friend['age'] - otherFriend['age']) <= maxAgeDifference)
+
+			if isPotential:
+				potentials.append(otherFriend)
+		return potentials
+
+	def getFriendOptimumPotentials(self,friend):
+		args = self.getFriendMatchArgs(friend)
+		potentials = self.getFriendPotentials(friend,*args)
+		return potentials
+
+	def getMatchForFriendFromPotentials(self,friend,potentials):
+		numPotentials = len(potentials)
+		if numPotentials == 0:
+			print 'no matches for ' + friend['name']
+			return None
+		else:
+			idx = random.randint(0,numPotentials-1)
+			return [friend,potentials[idx]]
 
 	def getRandomMatch(self):
-		if len(self.femaleFriendList) == 0 and len(self.maleFriendList) == 0:
-			self.updateGenderFriendLists()
-		numGirls = len(self.femaleFriendList)
-		numGuys = len(self.maleFriendList)
-		girlIDX = random.randint(0,numGirls-1)
-		guyIDX = random.randint(0,numGuys-1)
-		girl = self.femaleFriendList[girlIDX]
-		guy = self.maleFriendList[guyIDX]
-		print guy['name'] + ' and ' + girl['name'] + ' sitting in a tree'
-
-	def getRandomLocationMatch(self):
-		if len(self.maleLocationDictionary.keys()) == 0 and len(self.femaleLocationDictionary) == 0:
-			self.updateLocationDictionaries
-		if len(self.locationSet) == 0:
-			self.locationSet = set(self.maleLocationDictionary.keys()).intersection(set(self.femaleLocationDictionary.keys()))
-		#get random location
-		location = random.sample(self.locationSet,1)[0]
-		guys = self.maleLocationDictionary[location]
-		numGuys = len(guys)
-		guyIDX = random.randint(0,numGuys-1)
-		guy = guys[guyIDX]
-		girls = self.femaleLocationDictionary[location]
-		numGirls = len(girls)
-		girlIDX = random.randint(0,numGirls-1)
-		girl = girls[girlIDX]
-		matchFound = True
-		print guy['name'] + ' and ' + girl['name'] + ' from ' + str(location)
+		friend = self.getRandomFriend()
+		potentials = self.getFriendOptimumPotentials(friend)
+		match = self.getMatchForFriendFromPotentials(friend,potentials)
+		if match == None:
+			print 'match not found'
+		else:
+			print match[0]['name'] + ' and ' + match[1]['name']
+		return match
 
 
 
@@ -212,3 +296,4 @@ class ProfilePairRating(models.Model):
 	ratingProfile1 = models.ForeignKey(Profile, related_name='ratingProfile1')
 	ratingProfile2 = models.ForeignKey(Profile, related_name='ratingProfile2')
 	rating = models.IntegerField(default=0)
+
