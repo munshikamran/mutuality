@@ -6,6 +6,9 @@ test_project = os.path.dirname(__file__)
 test_directory = os.path.dirname(test_project)
 sys.path.append(test_directory)
 
+#add slot machine class to path
+sys.path.append(os.path.join(test_project,'slotMachine'))
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

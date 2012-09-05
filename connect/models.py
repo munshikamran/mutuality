@@ -278,7 +278,7 @@ class Profile(models.Model):
 			print match[0]['name'] + ' and ' + match[1]['name']
 		return match
 
-	def rateMatch(self,match,rating):
+	def rateFacebookMatch(self,match,rating):
 		goodMatchRating = 4
 		if rating > goodMatchRating:
 			fbPairRating = FacebookPairRating(facebookPairRater=self,friendFacebookID1=match[0]['id'],friendFacebookID2=match[1]['id'],rating=rating)
