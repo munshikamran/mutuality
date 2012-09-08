@@ -74,7 +74,7 @@ class Profile(models.Model):
 	#thus we will first call getRecentMessages and then when a message is selected we will call getMessageThreadWithOther
 	#return all messages associated with profile that have been sent since past date
 	def getMessagesSince(self,pastDate):
-		q = (Q(sender_id=self.user_id) | Q(recipient_id=self.user_id)) & Q(sent_at__gte=pastDate)
+		q = Q(sender_deleted_at__isnull=True) & (Q(sender_id=self.user_id) | Q(recipient_id=self.user_id)) & Q(sent_at__gte=pastDate)
 		#order newer messages first
 		return Message.objects.filter(q).order_by('sent_at').reverse()
 
@@ -85,7 +85,7 @@ class Profile(models.Model):
 		return self.getMessagesSince(pastDate)
 
 	def getMessageThreadWithOther(self,otherProfile):
-		q = (Q(sender_id=self.user_id) & Q(recipient_id=otherProfile.user_id)) | (Q(sender_id=otherProfile.user_id) & Q(recipient_id=self.user_id))
+		q =  Q(sender_deleted_at__isnull=True) & (Q(sender_id=self.user_id) & Q(recipient_id=otherProfile.user_id)) | (Q(sender_id=otherProfile.user_id) & Q(recipient_id=self.user_id))
 		#order older messages first
 		return Message.objects.filter(q).order_by('sent_at')
 
@@ -281,7 +281,7 @@ class Profile(models.Model):
 	def rateFacebookMatch(self,match,rating):
 		goodMatchRating = 4
 		if rating > goodMatchRating:
-			fbPairRating = FacebookPairRating(facebookPairRater=self,friendFacebookID1=match[0]['id'],friendFacebookID2=match[1]['id'],rating=rating)
+			fbPairRating = FopacebookPairRating(facebookPairRater=self,friendFacebookID1=match[0]['id'],friendFacebookID2=match[1]['id'],rating=rating)
 			fbPairRating.save()
 
 
