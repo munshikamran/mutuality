@@ -1,9 +1,21 @@
 from django.conf import settings
 from django.shortcuts import render_to_response
-from Mutuality.connect.models import Profile
+from django.utils.translation import ugettext_lazy as _
+from django.http import HttpResponseRedirect, Http404
+from django.template import Context, RequestContext
+from django.shortcuts import render_to_response, get_object_or_404
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.utils import simplejson
+from django.utils.functional import Promise
+from django.utils.encoding import force_unicode
 from django.contrib.auth.decorators import login_required
 
+from Mutuality.connect.models import Profile
+from slotMachine import SlotMachine
 from la_facebook.models import UserAssociation
+
+slotMachine = None
 
 def fbinfo(request):
     """ returns a dict of info about FB and user status """
@@ -71,8 +83,31 @@ def dashboard(request):
         try:
             context_dict['profile'] = request.user.get_profile()
             context_dict['profile_pic'] = request.user.get_profile().imageURL()
+            slotMachine = SlotMachine(request.user.get_profile())
+            # context_dict['spin'] = slotMachine.spinBothSlots
+            # context_dict['slotMachine'] = slotMachine 
         except Profile.DoesNotExist:
             pass
-        
-    
-    return render_to_response('dashboard.html', context_dict)
+        html = render_to_string('dashboard.html', RequestContext(request, context_dict))
+        return HttpResponse(html)
+
+class LazyEncoder(simplejson.JSONEncoder):
+    """Encodes django's lazy i18n strings.
+    """
+    def default(self, obj):
+        if isinstance(obj, Promise):
+            return force_unicode(obj)
+        return obj
+
+def spinSlotMachine(request):
+    slotMachine = SlotMachine(request.user.get_profile())
+    slotMachine.spinButtonPressed()
+    if request.method == "POST":
+        type = "success"
+        message ="Slot machine spun! " + slotMachine.leftSlot.name + " and " + slotMachine.rightSlot.name
+    if request.is_ajax():
+        result = simplejson.dumps({
+            "message": message,
+            "type": type,
+        }, cls=LazyEncoder)
+        return HttpResponse(result, mimetype='application/javascript')  

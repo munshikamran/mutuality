@@ -1,15 +1,23 @@
 {% extends "base.html" %}
 {% load la_facebook_tags %}
-
 {% block content %}
     {% if user %}
         {% if profile %}
         <h2>{{profile.name}}'s Dashboard Page</h2>
-            Here you will be able to view potential matches and new alerts etc.
+            Here is your main view - for the SlotMachine and for finding mutual friends!
         {% else %}
             You're logged in as {{ user.username }}, but you don't seem to have a profile associated with this user.
         {% endif %}
     {% else %}
         You should never see this since you're not even logged in!
     {% endif %}
+    <br />
+    <img src={{profile_pic}} alt="profile_pic" />
+    <br />
+    <div id="form-newsletter-message"></div>
+        <form action="{% url spinSlotMachine %}" method="post" class="form-newsletter" id="form-newsletter">
+        {% csrf_token %}
+            <input type="submit" value="Spin the machine!" class="form-submit" />
+        </form>
+
 {% endblock %}
