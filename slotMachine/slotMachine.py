@@ -24,7 +24,7 @@ class SlotMachine:
 			self.spinRightSlot()
 		elif self.rightSlotLocked and not self.leftSlotLocked:
 			self.spinLeftSlot()
-		elif self.rightSlotLocked and self.leftSlotLocked:
+		elif not (self.rightSlotLocked and self.leftSlotLocked):
 			self.spinBothSlots()
 
 	def leftLockButtonPressed(self):
