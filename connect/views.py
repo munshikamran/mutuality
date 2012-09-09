@@ -15,8 +15,6 @@ from Mutuality.connect.models import Profile
 from slotMachine import SlotMachine
 from la_facebook.models import UserAssociation
 
-slotMachine = None
-
 def fbinfo(request):
     """ returns a dict of info about FB and user status """
     info = {}
@@ -83,9 +81,8 @@ def dashboard(request):
         try:
             context_dict['profile'] = request.user.get_profile()
             context_dict['profile_pic'] = request.user.get_profile().imageURL()
-            slotMachine = SlotMachine(request.user.get_profile())
-            # context_dict['spin'] = slotMachine.spinBothSlots
-            # context_dict['slotMachine'] = slotMachine 
+            slotMachine = None
+            request.session['slotMachine'] = slotMachine
         except Profile.DoesNotExist:
             pass
         html = render_to_string('dashboard.html', RequestContext(request, context_dict))
@@ -100,11 +97,16 @@ class LazyEncoder(simplejson.JSONEncoder):
         return obj
 
 def spinSlotMachine(request):
-    slotMachine = SlotMachine(request.user.get_profile())
+    if request.session['slotMachine'] == None:
+        slotMachine = SlotMachine(request.user.get_profile())
+        request.session['slotMachine'] = slotMachine
+
+    slotMachine = request.session['slotMachine']
     slotMachine.spinButtonPressed()
     if request.method == "POST":
         type = "success"
-        message ="Slot machine spun! " + slotMachine.leftSlot.name + " and " + slotMachine.rightSlot.name
+        slotMachine.printState()
+        message ="Slot machine spun! " + slotMachine.leftSlot['name'] + " and " + slotMachine.rightSlot['name']
     if request.is_ajax():
         result = simplejson.dumps({
             "message": message,
