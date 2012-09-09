@@ -33,8 +33,14 @@ class SlotMachine:
 	def rightLockButtonPressed(self):
 		self.rightSlotLocked = not self.rightSlotLocked
 
+	def getStateString(self):
+		if self.leftSlot == None or self.rightSlot == None:
+			return 'incorrect match'
+		else:
+			return self.leftSlot['name'] + ' and ' + self.rightSlot['name']
+
 	def printState(self):
-		print self.leftSlot['name'] + ' and ' + self.rightSlot['name']
+		print self.getStateString()
 
 	#private
 	def spinLeftSlot(self):
@@ -43,7 +49,10 @@ class SlotMachine:
 		else:
 			potentials = self.profile.getFriendOptimumPotentials(self.rightSlot)
 			match = self.profile.getMatchForFriendFromPotentials(self.rightSlot,potentials)
-			self.leftSlot = match[1]
+			if not match == None:
+				self.leftSlot = match[1]
+			else:
+				self.leftSlot = None
 
 	def spinRightSlot(self):
 		if self.leftSlot == None:
@@ -51,7 +60,10 @@ class SlotMachine:
 		else:
 			potentials = self.profile.getFriendOptimumPotentials(self.leftSlot)
 			match = self.profile.getMatchForFriendFromPotentials(self.leftSlot,potentials)
-			self.rightSlot = match[1]
+			if not match == None:
+				self.rightSlot = match[1]
+			else:
+				self.rightSlot = None
 
 	def spinBothSlots(self):
 		self.leftSlot = None

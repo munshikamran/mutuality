@@ -106,7 +106,7 @@ def spinSlotMachine(request):
     if request.method == "POST":
         type = "success"
         slotMachine.printState()
-        message ="Slot machine spun! " + slotMachine.leftSlot['name'] + " and " + slotMachine.rightSlot['name']
+        message = slotMachine.getStateString()
     if request.is_ajax():
         result = simplejson.dumps({
             "message": message,
