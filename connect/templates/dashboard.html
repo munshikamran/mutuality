@@ -1,23 +1,59 @@
 {% extends "base.html" %}
 {% load la_facebook_tags %}
+{% block extrascript %} 
+    <script>
+        var disableSubmit = function(val, id){
+            $(id + ' input[type=submit]').attr('disabled', val);
+        };   
+        
+        $('.form-submit').click(function() {
+            var form = $(this).parents("form:first");
+            var formId = '#' + form.attr('id');
+            var formAction = form.attr('action');
+            var resultMessage = '#spinButtonResultMessage';
+
+            disableSubmit(true, formId);
+
+            $(resultMessage).html('Spinning...').fadeIn();        
+            
+            $(this).parents("form:first").ajaxSubmit({
+                dataType: "json",
+                "success": function(data) {
+                    $(resultMessage).hide();
+                    $(resultMessage).html(data['message']).fadeIn('slow');
+                    $('#leftslot').attr('src', data['leftslot']['picture']['data']['url']);
+                    $('#rightslot').attr('src', data['rightslot']['picture']['data']['url']);
+                    disableSubmit(false, formId); 
+                }
+            });
+
+            return false;
+        });    
+    </script>
+    
+{% endblock %}
 {% block content %}
     {% if user %}
         {% if profile %}
         <h2>{{profile.name}}'s Dashboard Page</h2>
-            Here is your main view - for the SlotMachine and for finding mutual friends!
         {% else %}
             You're logged in as {{ user.username }}, but you don't seem to have a profile associated with this user.
         {% endif %}
     {% else %}
         You should never see this since you're not even logged in!
     {% endif %}
-    <br />
-    <img src={{profile_pic}} alt="profile_pic" />
-    <br />
-    <div id="form-newsletter-message"></div>
-        <form action="{% url spinSlotMachine %}" method="post" class="form-newsletter" id="form-newsletter">
-        {% csrf_token %}
-            <input type="submit" value="Spin the machine!" class="form-submit" />
-        </form>
-
+    <div id="left-content">
+        <img src={{profile_pic}} alt="profile_pic" />
+    </div>
+    <div id="right-content">
+        <div id="slotMachine">
+            <div id="spinButtonResultMessage"></div>
+            <img id="leftslot" />
+            <img id="rightslot" />
+                <form action="{% url spinSlotMachine %}" method="post" id="spinButtonForm">
+                {% csrf_token %}
+                    <input type="submit" value="Spin both!" class="form-submit" />
+                </form>
+        <div>
+    <div>
 {% endblock %}

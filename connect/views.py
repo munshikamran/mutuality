@@ -107,8 +107,12 @@ def spinSlotMachine(request):
         type = "success"
         slotMachine.printState()
         message = slotMachine.getStateString()
+        leftslot=slotMachine.leftSlot
+        rightslot=slotMachine.rightSlot
     if request.is_ajax():
         result = simplejson.dumps({
+            "leftslot": leftslot,
+            "rightslot": rightslot,
             "message": message,
             "type": type,
         }, cls=LazyEncoder)
