@@ -73,6 +73,7 @@ class Profile(models.Model):
 	#imagine this working like facebook where user can see last few messages and clicking on the message opens the thread.
 	#thus we will first call getRecentMessages and then when a message is selected we will call getMessageThreadWithOther
 	#return all messages associated with profile that have been sent since past date
+
 	def getMessagesSince(self,pastDate):
 		q = Q(sender_deleted_at__isnull=True) & (Q(sender_id=self.user_id) | Q(recipient_id=self.user_id)) & Q(sent_at__gte=pastDate)
 		#order newer messages first
@@ -98,6 +99,15 @@ class Profile(models.Model):
 			name = Profile.objects.get(user_id=m.sender_id).name
 			content = m.body
 			print name + ': ' + content
+
+	#see messages.forms to make sure you are doing everything you want		
+	def sendMessageToOtherProfile(self,otherProfile,messageBody):
+		sender = self.user
+		recipient = otherProfile.user
+		body = messageBody
+		message = Message(sender = sender, recipient = recipient,body = body)
+		message.save()
+
 
 
 

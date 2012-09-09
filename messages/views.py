@@ -72,7 +72,6 @@ def compose(request, recipient=None, form_class=ComposeForm,
 
     if request.method == "POST":
         sender = request.user
-        print sender
         form = form_class(request.POST, recipient_filter=recipient_filter)
         if form.is_valid():
             form.save(sender=request.user)
