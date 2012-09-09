@@ -152,6 +152,8 @@ class Profile(models.Model):
 				if friend[locationKey]['name'] != None:
 					state = friend[locationKey]['name'].split(', ')[-1]
 					friend[stateKey] = state
+			# set large image url
+			friend['picture']['data']['largepicurl'] = 'https://graph.facebook.com/'+friend['id']+'/picture?type=large'
 
 
 
