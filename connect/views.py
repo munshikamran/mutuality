@@ -105,10 +105,10 @@ def spinSlotMachine(request):
     if request.method == "POST":
         slotMachine.leftSlotLocked = "leftlocked" in request.POST.keys()
         slotMachine.rightSlotLocked = "rightlocked" in request.POST.keys();
-        print slotMachine.rightSlotLocked
-        print slotMachine.leftSlotLocked
         type = "success"
         slotMachine.spinButtonPressed()
+        print slotMachine.leftSlotLocked
+        print slotMachine.rightSlotLocked
         slotMachine.printState()
         message = slotMachine.getStateString()
         leftslot=slotMachine.leftSlot

@@ -154,6 +154,8 @@ class Profile(models.Model):
 					friend[stateKey] = state
 			# set large image url
 			friend['picture']['data']['largepicurl'] = 'https://graph.facebook.com/'+friend['id']+'/picture?type=large'
+			# set profile url
+			friend['facebookprofile'] = 'https://facebook.com/'+friend['id']
 
 
 
