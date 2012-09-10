@@ -19,11 +19,25 @@
             $(this).parents("form:first").ajaxSubmit({
                 dataType: "json",
                 "success": function(data) {
+                    $("#rightslot").unbind('click');
+                    $("#leftslot").unbind('click');
                     $(resultMessage).hide();
                     $(resultMessage).html(data['message']).fadeIn('slow');
                     $('#leftslot').attr('src', data['leftslot']['picture']['data']['largepicurl']);
                     $('#rightslot').attr('src', data['rightslot']['picture']['data']['largepicurl']);
-                    disableSubmit(false, formId); 
+                    $("#leftslot").click(function() {
+                        alert(data['leftslot']['facebookprofile']);
+                        window.open(data['leftslot']['facebookprofile']);
+                        return false;
+                    });
+                    $("#rightslot").click(function() {
+                        window.open(data['rightslot']['facebookprofile']);
+                        return false;
+                    });
+                    disableSubmit(false, formId);
+                    if(data['type'] == 'success'){
+                        $(':input', formId).not(':button, :submit, :reset, :hidden').val('');
+                    }  
                 }
             });
 
@@ -48,8 +62,9 @@
     <div id="right-content">
         <div id="slotMachine">
             <div id="spinButtonResultMessage"></div>
-            <img id="leftslot" />
-            <img id="rightslot" />
+
+            <img style = "cursor: pointer" id="leftslot" />
+            <img style = "cursor: pointer" id="rightslot" />
                 <form action="{% url spinSlotMachine %}" method="post" id="spinButtonForm">
                     {% csrf_token %}
                     <input type="checkbox" name="leftlocked" value="left-locked"/> Lock Left

@@ -81,8 +81,9 @@ def dashboard(request):
         try:
             context_dict['profile'] = request.user.get_profile()
             context_dict['profile_pic'] = request.user.get_profile().imageURL()
-            slotMachine = None
+            slotMachine = SlotMachine(request.user.get_profile())
             request.session['slotMachine'] = slotMachine
+
         except Profile.DoesNotExist:
             pass
         html = render_to_string('dashboard.html', RequestContext(request, context_dict))
@@ -97,11 +98,8 @@ class LazyEncoder(simplejson.JSONEncoder):
         return obj
 
 def spinSlotMachine(request):
-    if request.session['slotMachine'] == None:
-        slotMachine = SlotMachine(request.user.get_profile())
-        request.session['slotMachine'] = slotMachine
-
     slotMachine = request.session['slotMachine']
+
     if request.method == "POST":
         slotMachine.leftSlotLocked = "leftlocked" in request.POST.keys()
         slotMachine.rightSlotLocked = "rightlocked" in request.POST.keys();
