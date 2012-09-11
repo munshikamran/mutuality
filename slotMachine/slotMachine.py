@@ -31,7 +31,8 @@ class SlotMachine:
 			self.spinBothSlots()
 
 	def rateButtonPressed(self):
-		self.profile.rateFacebookMatch([self.leftSlot,self.rightSlot],self.rating)
+		if self.rating > 0:
+			self.profile.rateFacebookMatch([self.leftSlot,self.rightSlot],self.rating)
 
 	def setRating(self,rating):
 		self.rating = rating
