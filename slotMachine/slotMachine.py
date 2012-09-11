@@ -1,4 +1,5 @@
 from connect.models import Profile
+from connect.models import FacebookPairRating
 
 #example usage
 # from connect.models import Profile
@@ -14,6 +15,7 @@ class SlotMachine:
 	rightSlot = None
 	leftSlotLocked = False
 	rightSlotLocked = False
+	rating = 0
 	def __init__(self,Profile):
 		self.profile = Profile
 		self.spinBothSlots()
@@ -26,6 +28,12 @@ class SlotMachine:
 			self.spinLeftSlot()
 		elif not (self.rightSlotLocked and self.leftSlotLocked):
 			self.spinBothSlots()
+
+	def rateButtonPressed(self):
+		self.profile.rateFacebookMatch([self.leftSlot,self.rightSlot],self.rating)
+
+	def setRating(self,rating):
+		self.rating = rating
 
 	def getStateString(self):
 		if self.leftSlot == None or self.rightSlot == None:
