@@ -22,6 +22,7 @@ class SlotMachine:
 
 	#public methods
 	def spinButtonPressed(self):
+		self.rating = 0
 		if self.leftSlotLocked and not self.rightSlotLocked:
 			self.spinRightSlot()
 		elif self.rightSlotLocked and not self.leftSlotLocked:
