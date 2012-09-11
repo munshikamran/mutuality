@@ -27,12 +27,6 @@ class SlotMachine:
 		elif not (self.rightSlotLocked and self.leftSlotLocked):
 			self.spinBothSlots()
 
-	def leftLockButtonPressed(self):
-		self.leftSlotLocked = not self.leftSlotLocked
-
-	def rightLockButtonPressed(self):
-		self.rightSlotLocked = not self.rightSlotLocked
-
 	def getStateString(self):
 		if self.leftSlot == None or self.rightSlot == None:
 			return 'incorrect match'
