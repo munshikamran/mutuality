@@ -134,7 +134,7 @@ class Profile(models.Model):
 	#FACEBOOK FRIEND MATCHMAKING METHODS
 	def updateFriendList(self):
 		now = datetime.now()
-		yesterday = now - timedelta(days=4)
+		yesterday = now - timedelta(days=1)
 		if self.friendList == '' or self.friendListLastUpdate < yesterday:
 			graph = facebook.GraphAPI(self.authToken())
 			fields = ['name','location','picture','gender','birthday']
