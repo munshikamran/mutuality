@@ -98,19 +98,17 @@ class LazyEncoder(simplejson.JSONEncoder):
         return obj
 
 def spinSlotMachine(request):
-    slotMachine = request.session['slotMachine']
 
     if request.method == "POST":
+        slotMachine = request.session['slotMachine']
         slotMachine.leftSlotLocked = "leftlocked" in request.POST.keys()
         slotMachine.rightSlotLocked = "rightlocked" in request.POST.keys();
         type = "success"
         slotMachine.spinButtonPressed()
-        print slotMachine.leftSlotLocked
-        print slotMachine.rightSlotLocked
-        slotMachine.printState()
         message = slotMachine.getStateString()
         leftslot=slotMachine.leftSlot
         rightslot=slotMachine.rightSlot
+        request.session['slotMachine'] = slotMachine
     if request.is_ajax():
         result = simplejson.dumps({
             "leftslot": leftslot,

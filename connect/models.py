@@ -8,6 +8,7 @@ from geopy import geocoders
 from geopy import distance
 import random
 from datetime import datetime, timedelta
+from picklefield.fields import PickledObjectField
 # Create your models here.
 
 class Profile(models.Model):
@@ -21,9 +22,10 @@ class Profile(models.Model):
 	interestedInMen = models.BooleanField(default=False)
 	interestedInWomen = models.BooleanField(default=False)
 	lookingForFriends = models.BooleanField(default=True)
+	friendList = PickledObjectField(default='')
+	friendListLastUpdate = models.DateTimeField(null=True, blank=True)
 
 	# fields we don't store in the database
-	friendList= []
 	# femaleFriendList = []
 	# maleFriendList = []
 	# maleLocationDictionary = {}
@@ -131,31 +133,37 @@ class Profile(models.Model):
 
 	#FACEBOOK FRIEND MATCHMAKING METHODS
 	def updateFriendList(self):
-		graph = facebook.GraphAPI(self.authToken())
-		fields = ['name','location','picture','gender','birthday']
-		kwargs = {"fields": fields}
-		self.friendList = graph.get_connections("me","friends",**kwargs)['data']
-		# update friend ages
-		year = datetime.now().year
-		birthdayKey = 'birthday'
-		ageKey = 'age'
-		locationKey = 'location'
-		stateKey = 'state'
-		for friend in self.friendList:
-			if birthdayKey in friend.keys():
-				bday = friend[birthdayKey].split('/')
-				# see if they share the year they were born
-				if len(bday )== 3:
-					yearBorn = int(bday[2])
-					friend[ageKey] = year - yearBorn
-			if locationKey in friend.keys():
-				if friend[locationKey]['name'] != None:
-					state = friend[locationKey]['name'].split(', ')[-1]
-					friend[stateKey] = state
-			# set large image url
-			friend['picture']['data']['largepicurl'] = 'https://graph.facebook.com/'+friend['id']+'/picture?type=large'
-			# set profile url
-			friend['facebookprofile'] = 'https://facebook.com/'+friend['id']
+		now = datetime.now()
+		yesterday = now - timedelta(days=1)
+		if self.friendList == '' or self.friendListLastUpdate < yesterday:
+			graph = facebook.GraphAPI(self.authToken())
+			fields = ['name','location','picture','gender','birthday']
+			kwargs = {"fields": fields}
+			friendList = graph.get_connections("me","friends",**kwargs)['data']
+			# update friend ages
+			year = datetime.now().year
+			birthdayKey = 'birthday'
+			ageKey = 'age'
+			locationKey = 'location'
+			stateKey = 'state'
+			for friend in friendList:
+				if birthdayKey in friend.keys():
+					bday = friend[birthdayKey].split('/')
+					# see if they share the year they were born
+					if len(bday )== 3:
+						yearBorn = int(bday[2])
+						friend[ageKey] = year - yearBorn
+				if locationKey in friend.keys():
+					if friend[locationKey]['name'] != None:
+						state = friend[locationKey]['name'].split(', ')[-1]
+						friend[stateKey] = state
+				# set large image url
+				friend['picture']['data']['largepicurl'] = 'https://graph.facebook.com/'+friend['id']+'/picture?type=large'
+				# set profile url
+				friend['facebookprofile'] = 'https://facebook.com/'+friend['id']
+			self.friendList = friendList
+			self.friendListLastUpdate = now
+			self.save()
 
 
 
@@ -293,10 +301,8 @@ class Profile(models.Model):
 		return match
 
 	def rateFacebookMatch(self,match,rating):
-		goodMatchRating = 4
-		if rating > goodMatchRating:
-			fbPairRating = FopacebookPairRating(facebookPairRater=self,friendFacebookID1=match[0]['id'],friendFacebookID2=match[1]['id'],rating=rating)
-			fbPairRating.save()
+		fbPairRating = FacebookPairRating(facebookPairRater=self,friendFacebookID1=match[0]['id'],friendFacebookID2=match[1]['id'],rating=rating)
+		fbPairRating.save()
 
 
 class ProfilePair(models.Model):

@@ -1,4 +1,5 @@
 from connect.models import Profile
+from connect.models import FacebookPairRating
 
 #example usage
 # from connect.models import Profile
@@ -14,12 +15,14 @@ class SlotMachine:
 	rightSlot = None
 	leftSlotLocked = False
 	rightSlotLocked = False
+	rating = 0
 	def __init__(self,Profile):
 		self.profile = Profile
 		self.spinBothSlots()
 
 	#public methods
 	def spinButtonPressed(self):
+		self.rating = 0
 		if self.leftSlotLocked and not self.rightSlotLocked:
 			self.spinRightSlot()
 		elif self.rightSlotLocked and not self.leftSlotLocked:
@@ -27,11 +30,12 @@ class SlotMachine:
 		elif not (self.rightSlotLocked and self.leftSlotLocked):
 			self.spinBothSlots()
 
-	def leftLockButtonPressed(self):
-		self.leftSlotLocked = not self.leftSlotLocked
+	def rateButtonPressed(self):
+		if self.rating > 0:
+			self.profile.rateFacebookMatch([self.leftSlot,self.rightSlot],self.rating)
 
-	def rightLockButtonPressed(self):
-		self.rightSlotLocked = not self.rightSlotLocked
+	def setRating(self,rating):
+		self.rating = rating
 
 	def getStateString(self):
 		if self.leftSlot == None or self.rightSlot == None:
