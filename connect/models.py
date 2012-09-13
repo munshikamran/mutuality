@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Q
+import settings
 from la_facebook.models import UserAssociation
 from messages.models import Message
 import facebook	
@@ -109,6 +110,26 @@ class Profile(models.Model):
 		body = messageBody
 		message = Message(sender = sender, recipient = recipient,body = body)
 		message.save()
+    
+    # FACEBOOK MESSAGING BETWEEN FRIENDS
+            #https://developers.facebook.com/docs/reference/dialogs/send/
+        def getMessageDialogueURLForFriend(self,friend,messageBody):
+                urlRoot = 'https://www.facebook.com/dialog/send?'
+                prop = {}
+                prop['app_id'] = settings.FACEBOOK_APP_ID
+                prop['redirect_uri'] = 'http://localhost:8000/'
+                prop['to'] = friend['id']
+                prop['link'] = 'www.mutuality.com'
+                prop['description'] = messageBody
+                url = urlRoot
+                keys = prop.keys()
+                for key in keys[0:len(keys)-1]:
+                        url +=  key + '=' + prop[key] + '&'
+                key = keys[-1]
+                url += key + '=' + prop[key]
+                return url
+            
+        
 
 
 
