@@ -23,8 +23,14 @@
                     $("#leftslot").unbind('click');
                     $(resultMessage).hide();
                     $(resultMessage).html(data['message']).fadeIn('slow');
-                    $('#leftslot').attr('src', data['leftslot']['picture']['data']['largepicurl']);
-                    $('#rightslot').attr('src', data['rightslot']['picture']['data']['largepicurl']);
+                    $('#leftslot').attr({
+                        src:   data['leftslot']['picture']['data']['largepicurl'],
+                        title: "visit " + data['leftslot']['name'] + "'s profile"
+                    });
+                    $('#rightslot').attr({
+                        src:   data['rightslot']['picture']['data']['largepicurl'],
+                        title: "visit " + data['rightslot']['name'] + "'s profile"
+                    });
                     $("#leftslot").click(function() {
                         window.open(data['leftslot']['facebookprofile']);
                         return false;
