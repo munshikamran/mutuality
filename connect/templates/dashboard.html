@@ -24,11 +24,11 @@
                     $(resultMessage).hide();
                     $(resultMessage).html(data['message']).fadeIn('slow');
                     $('#leftslot').attr({
-                        src:   data['leftslot']['picture']['data']['largepicurl'],
+                        src:   data['leftslot']['picture']['data']['largePicURL'],
                         title: "visit " + data['leftslot']['name'] + "'s profile"
                     });
                     $('#rightslot').attr({
-                        src:   data['rightslot']['picture']['data']['largepicurl'],
+                        src:   data['rightslot']['picture']['data']['largePicURL'],
                         title: "visit " + data['rightslot']['name'] + "'s profile"
                     });
                     $("#leftslot").click(function() {

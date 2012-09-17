@@ -179,7 +179,8 @@ class Profile(models.Model):
 						state = friend[locationKey]['name'].split(', ')[-1]
 						friend[stateKey] = state
 				# set large image url
-				friend['picture']['data']['largepicurl'] = 'https://graph.facebook.com/'+friend['id']+'/picture?type=large'
+				friend['picture']['data']['largePicURL'] = 'https://graph.facebook.com/'+friend['id']+'/picture?type=large'
+				# friend['picture']['data']['squarePicURL'] = 'https://graph.facebook.com/'+friend['id']+'/picture?width=250&height=250'
 				# set profile url
 				friend['facebookprofile'] = 'https://facebook.com/'+friend['id']
 			self.friendList = friendList
