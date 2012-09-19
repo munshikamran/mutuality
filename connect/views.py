@@ -18,6 +18,7 @@ from la_facebook.models import UserAssociation
 def fbinfo(request):
     """ returns a dict of info about FB and user status """
     info = {}
+    context_dict = {}
     if request.user.is_authenticated():
         info['User Authenticated'] = 'Yes'
         if request.user.has_usable_password():
@@ -46,26 +47,34 @@ def fbinfo(request):
 def index(request):
     context_dict = {}
     context_dict['request'] = request
+    print request
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
         print 
         try:
             if request.user.is_authenticated():
-                context_dict['profile'] = request.user.get_profile()
+                profile = request.user.get_profile()
+                context_dict['profile'] = profile
+                context_dict['facebookID'] = profile.facebookID()
         except Profile.DoesNotExist:
             pass
     return render_to_response('index.html', context_dict)
 
 @login_required
-def profile(request):
+def profile(request,facebookid):
     # Let's prove facebook's creepy stalker-ware is working
     # TODO: Needs a lot of validation
     context_dict = {}
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
         try:
-            context_dict['profile'] = request.user.get_profile()
-            context_dict['profile_pic'] = request.user.get_profile().imageURL()
+            user_id = UserAssociation.objects.get(identifier=facebookid).user_id
+            profile = Profile.objects.get(user_id=user_id)
+            context_dict['profile'] = profile
+            context_dict['profile_pic'] = profile.imageURL()
+            context_dict['facebookID'] = profile.facebookID()
+            # context_dict['profile'] = request.user.get_profile()
+            # context_dict['profile_pic'] = request.user.get_profile().imageURL()
         except Profile.DoesNotExist:
             pass
         
@@ -79,9 +88,11 @@ def dashboard(request):
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
         try:
-            context_dict['profile'] = request.user.get_profile()
-            context_dict['profile_pic'] = request.user.get_profile().imageURL()
-            slotMachine = SlotMachine(request.user.get_profile())
+            profile = request.user.get_profile()
+            context_dict['profile'] = profile
+            context_dict['profile_pic'] = profile.imageURL()
+            context_dict['facebookID'] = profile.facebookID()
+            slotMachine = SlotMachine(profile)
             request.session['slotMachine'] = slotMachine
 
         except Profile.DoesNotExist:
