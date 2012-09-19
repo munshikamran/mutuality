@@ -33,10 +33,29 @@
                         window.open(data['rightslot']['facebookprofile']);
                         return false;
                     });
-                    disableSubmit(false, formId);
-                    if(data['type'] == 'success'){
-                        $(':input', formId).not(':button, :submit, :reset, :hidden').val('');
-                    }  
+                    disableSubmit(false, formId); 
+                }
+            });
+
+            return false;
+        }); 
+        $('.rating-form-submit').click(function() {
+            var form = $(this).parents("form:first");
+            var formId = '#' + form.attr('id');
+            var formAction = form.attr('action');
+            var resultMessage = '#ratingButtonResultMessage';
+
+            disableSubmit(true, formId);
+
+            $(resultMessage).html('Submitting your rating...').fadeIn();        
+            
+            $(this).parents("form:first").ajaxSubmit({
+                dataType: "json",
+                "success": function(data) {
+                    $(resultMessage).hide();
+                    $(resultMessage).html(data['message']).fadeIn('slow');
+
+                    disableSubmit(false, formId); 
                 }
             });
 
@@ -68,8 +87,16 @@
                     {% csrf_token %}
                     <input type="checkbox" name="leftlocked" value="left-locked"/> Lock Left
                     <input type="checkbox" name="rightlocked" value="right-locked"/> Lock Right
-                    <input type="submit" value="Spin both!" class="form-submit" />
+                    <input type="submit" value="Spin!" class="form-submit" />
                 </form>
-        <div>
+                <div id="ratingButtonResultMessage"></div>
+                <form action="{% url submitRating %}" method="post" id="ratingButtonForm">
+                    <input type="radio" name="rating" value="1"> 1 <br>
+                    <input type="radio" name="rating" value="2" checked> 2 <br>
+                    <input type="radio" name="rating" value="3"> 3 <br>
+                    <input type="radio" name="rating" value="4" checked> 4 <br>          
+                    <input type="radio" name="rating" value="5" checked> 5 <br>
+                    <input type="submit" value="Rate!" class="rating-form-submit" />
+            <div>
     <div>
 {% endblock %}

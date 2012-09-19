@@ -98,7 +98,6 @@ class LazyEncoder(simplejson.JSONEncoder):
         return obj
 
 def spinSlotMachine(request):
-
     if request.method == "POST":
         slotMachine = request.session['slotMachine']
         slotMachine.leftSlotLocked = "leftlocked" in request.POST.keys()
@@ -116,4 +115,18 @@ def spinSlotMachine(request):
             "message": message,
             "type": type,
         }, cls=LazyEncoder)
-        return HttpResponse(result, mimetype='application/javascript')  
+        return HttpResponse(result, mimetype='application/javascript')
+
+def submitRating(request):
+    if request.method == "POST":
+        slotMachine = request.session['slotMachine']
+        type = "success"
+        message = "Rated: " + slotMachine.leftSlot['name'] + slotMachine.rightSlot['name']
+        # request.session['slotMachine'] = slotMachine
+    if request.is_ajax():
+        result = simplejson.dumps({
+            "message": message,
+            "type": type,
+        }, cls=LazyEncoder)
+        return HttpResponse(result, mimetype='application/javascript')
+
