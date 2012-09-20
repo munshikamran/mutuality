@@ -132,7 +132,7 @@ def submitRating(request):
     if request.method == "POST":
         slotMachine = request.session['slotMachine']
         type = "success"
-        message = "Rated: " + slotMachine.leftSlot['name'] + slotMachine.rightSlot['name']
+        message = "Rated: " + slotMachine.leftSlot['name'] + " and " + slotMachine.rightSlot['name']
         # request.session['slotMachine'] = slotMachine
     if request.is_ajax():
         result = simplejson.dumps({

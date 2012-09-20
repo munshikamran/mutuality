@@ -45,6 +45,7 @@
 
             return false;
         }); 
+
         $('.rating-form-submit').click(function() {
             var form = $(this).parents("form:first");
             var formId = '#' + form.attr('id');
@@ -97,12 +98,14 @@
                 </form>
                 <div id="ratingButtonResultMessage"></div>
                 <form action="{% url submitRating %}" method="post" id="ratingButtonForm">
-                    <input type="radio" name="rating" value="1"> 1 <br>
-                    <input type="radio" name="rating" value="2" checked> 2 <br>
-                    <input type="radio" name="rating" value="3"> 3 <br>
-                    <input type="radio" name="rating" value="4" checked> 4 <br>          
-                    <input type="radio" name="rating" value="5" checked> 5 <br>
+                    {% csrf_token %}
+                    <input type="radio" name="rating1" value="1" /> 1 <br>
+                    <input type="radio" name="rating2" value="2" /> 2 <br>
+                    <input type="radio" name="rating3" value="3" /> 3 <br>
+                    <input type="radio" name="rating4" value="4" /> 4 <br>          
+                    <input type="radio" name="rating5" value="5" /> 5 <br>
                     <input type="submit" value="Rate!" class="rating-form-submit" />
+                </form>
             <div>
     <div>
 {% endblock %}

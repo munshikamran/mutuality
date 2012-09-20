@@ -7,5 +7,5 @@ urlpatterns = patterns('Mutuality.connect.views',
     url(r'^dashboard/?$', "dashboard", name="dashboard"),
     url(r'^fbinfo/?$', "fbinfo", name="fbinfo"),
     url(r'^spinSlotMachine$', spinSlotMachine, name="spinSlotMachine"),
-    url(r'^submitRating$', submitRating, name="submitRating")
+    url(r'^submitRating$', submitRating, name="submitRating"),
 )
