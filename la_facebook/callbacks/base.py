@@ -66,7 +66,9 @@ class BaseFacebookCallback(object):
         - LOGIN_REDIRECT_URLNAME - the name of a URLconf entry in the settings
         """
 
-        redirect_to = request.REQUEST.get(redirect_field_name)
+        #modified by Jeff. For some reason this is causing a login error so I just redirect to settings.LOGIN_REDIRECT_URL immediately
+        # redirect_to = request.REQUEST.get(redirect_field_name)
+        redirect_to = settings.LOGIN_REDIRECT_URL
         if not redirect_to:
             logger.debug("redirect not in get params")
             # try the session if available
