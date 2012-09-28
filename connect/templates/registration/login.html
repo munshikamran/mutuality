@@ -1,6 +1,5 @@
 
 {% extends "base.html" %}
-
 {% block content %}
     <h1>Login to Mutuality</h1>
 
@@ -8,7 +7,7 @@
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
-
+<div id="nonFacebookSignup" style="display:none;">
 <form method="post" action="{% url login %}">
 {% csrf_token %}
 	<table>
@@ -21,10 +20,31 @@
 		    <td>{{ form.password }}</td>
 		</tr>
 	</table>
-
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{ next }}" />
+	<input type="submit" value="login" />
+	<input type="hidden" name="next" value="{{ next }}" />
 </form>
+</div>
+<div id="facebookSignup" style="width:700px;">
+<iframe src="https://www.facebook.com/plugins/registration?
+             client_id=475217095841801&
+             fb_only=true&
+             redirect_uri=http://localhost:8000/la_facebook/login?next=&
+             fields=[
+ 					 {'name':'name'},
+					 {'name':'email'},
+					 {'name':'location'},
+					 {'name':'gender'},
+					 {'name':'birthday'},
+					 {'name':'single','description':'Single?', 'type':'checkbox',  'default':'checked'}
+					]"
+        scrolling="auto"
+        frameborder="no"
+        style="border:none"
+        allowTransparency="true"
+        width="100%"
+        height="450">
+</iframe>
+</div>
 <p><a href="{% url la_facebook_login %}?next={{ next }}">Login with FaceBook</a></p>
 {% endblock %}
 
