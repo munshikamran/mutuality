@@ -1,0 +1,28 @@
+
+{% extends "base.html" %}
+{% block content %}
+    <h1>A bit more information for Mutuality</h1>
+	<div id="facebookSignup" style="width:700px;">
+	<iframe src="https://www.facebook.com/plugins/registration?
+	             client_id=475217095841801&
+	             fb_only=true&
+	             redirect_uri=http://localhost:8000/dashboard/&
+	             fields=[
+	 					 {'name':'name'},
+						 {'name':'email'},
+						 {'name':'location'},
+						 {'name':'gender'},
+						 {'name':'birthday'},
+						 {'name':'single','description':'Single?', 'type':'checkbox',  'default':'checked'}
+						]"
+	        scrolling="auto"
+	        frameborder="no"
+	        style="border:none"
+	        allowTransparency="true"
+	        width="100%"
+	        height="350">
+	</iframe>
+	</div>
+{% endblock %}
+
+

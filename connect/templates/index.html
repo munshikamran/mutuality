@@ -3,13 +3,13 @@
 {% block content %}
 
 	<h2>Welcome to Mutuality!</h2>
-	Mutuality is all about getting ..
+	Mutuality is all about meeting someone through your existing network of friends...
 	{% if user.is_authenticated %}
         {% if profile %}
 			You're logged in.  Checkout your <a href="/dashboard">dashboard</a>.
         {% endif %}
     {% else %}
-            <a href="{% url login %}">Sign-up</a>
+    <a href="{% url la_facebook_login %}?next={{ next }}"><img src="http://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_light_medium_long.gif"></a>
     {% endif %}
 
 {% endblock %}

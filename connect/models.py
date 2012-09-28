@@ -10,8 +10,8 @@ from geopy import distance
 import random
 from datetime import datetime, timedelta
 from picklefield.fields import PickledObjectField
-# Create your models here.
 
+# Create your models here.
 class Profile(models.Model):
 	user = models.ForeignKey(User)
 	bio = models.TextField()
@@ -20,6 +20,7 @@ class Profile(models.Model):
 	birthday = models.CharField(max_length =255, default='')
 	location = models.CharField(max_length=255,default='') #can be a location from facebook or a zipcode
 	gender = models.CharField(max_length=6, default='')
+	single = models.BooleanField(default=False)
 	interestedInMen = models.BooleanField(default=False)
 	interestedInWomen = models.BooleanField(default=False)
 	lookingForFriends = models.BooleanField(default=True)
@@ -35,26 +36,32 @@ class Profile(models.Model):
 
 	def authToken(self):
 		return UserAssociation.objects.get(user_id=self.user.id).token
+
 	def facebookID(self):
 		return UserAssociation.objects.get(user_id=self.user.id).identifier
+
 	def mutualFriends(self,otherProfile):
 		graph = facebook.GraphAPI(self.authToken())
 		friends = graph.get_connections("me","mutualfriends/"+otherProfile.facebookID())
 		return friends
+
 	def imageURL(self,type='normal'):
 		url = 'http://graph.facebook.com/%s/picture?type=%s'
 		return url % (self.facebookID(), type)
+
 	def distanceToOther(self,otherProfile):
 		g = geocoders.Google()
 		loc1 = self.location
 		_, coord = g.geocode(self.location)
 		_, otherCoord = g.geocode(otherProfile.location)
 		return distance.distance(coord,otherCoord).miles
+
 	def locationFromFacebook(self):
 		# other facts we can get http://developers.facebook.com/docs/reference/api/user/
 		graph = facebook.GraphAPI(self.authToken())
 		kwargs = {"fields": "location"}
 		return graph.get_object("me",**kwargs)['location']['name']
+
 	def updateInfoUsingFacebook(self):
 		graph = facebook.GraphAPI(self.authToken())
 		fields = ['location','birthday','interested_in','gender']
@@ -112,7 +119,7 @@ class Profile(models.Model):
 		message.save()
     
     # FACEBOOK MESSAGING BETWEEN FRIENDS
-            #https://developers.facebook.com/docs/reference/dialogs/send/
+    # https://developers.facebook.com/docs/reference/dialogs/send/
 	def getMessageDialogueURLForFriend(self,friend,messageBody):
 		urlRoot = 'https://www.facebook.com/dialog/send?'
 		prop = {}
@@ -127,13 +134,7 @@ class Profile(models.Model):
 			url +=  key + '=' + prop[key] + '&'
 		key = keys[-1]
 		url += key + '=' + prop[key]
-		return url
-            
-        
-
-
-
-
+		return url   
 
 	# SITE USER MATCH MAKING
 	def getMatchPairs(self):
@@ -186,8 +187,6 @@ class Profile(models.Model):
 			self.friendList = friendList
 			self.friendListLastUpdate = now
 			self.save()
-
-
 
 	# def updateGenderFriendLists(self):
 	# 	if len(self.friendList) == 0:

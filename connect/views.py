@@ -60,6 +60,11 @@ def index(request):
             pass
     return render_to_response('index.html', context_dict)
 
+def register(request):
+    context_dict = {}
+    context_dict['request'] = request
+    return render_to_response('register.html', context_dict)
+
 @login_required
 def profile(request,facebookid):
     # Let's prove facebook's creepy stalker-ware is working
