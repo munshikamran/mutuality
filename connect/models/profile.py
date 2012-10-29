@@ -166,7 +166,7 @@ class Profile(models.Model):
 		# if self.friendList == '' or self.friendListLastUpdate < yesterday:
 		if True:
 			graph = facebook.GraphAPI(self.authToken())
-			fields = ['name','location','picture','gender','birthday']
+			fields = ['name','location','picture','gender','birthday','relationship_status']
 			kwargs = {"fields": fields}
 			friendList = graph.get_connections("me","friends",**kwargs)['data']
 			# update friend ages
@@ -182,6 +182,10 @@ class Profile(models.Model):
 					if len(bday )== 3:
 						yearBorn = int(bday[2])
 						friend[ageKey] = year - yearBorn
+						# birthdate = datetime(bday[2],bday[0],bday[1])
+						# now = datetime.now()
+						# age = (now-birthdate).days/365.25
+
 				if locationKey in friend.keys():
 					if friend[locationKey]['name'] != None:
 						state = friend[locationKey]['name'].split(', ')[-1]
@@ -193,12 +197,18 @@ class Profile(models.Model):
 				friend['facebookprofile'] = 'https://facebook.com/'+friend['id']
 				# update if existing
 				if FacebookUser.objects.filter(facebookID=friend['id']).exists():
-					print "user already exists"
-					# do something
+					fbUser = FacebookUser.objects.get(facebookID=friend['id'])
+					fbUser.updateUsingFacebookDictionary(friend)
+					fbUser.save()
+					# create a friendship if one doesn't exist
+					if not Friendship.objects.filter(user=self,friend=fbUser).exists():
+						friendship = Friendship(user=self,friend=fbUser)
+						friendship.save()
 
 				# else create new facebookuser
 				else:
 					fbUser = FacebookUser(facebookID=friend['id'],name=friend['name'])
+					fbUser.updateUsingFacebookDictionary(friend)
 					fbUser.save()
 					# create friend relationship
 					friendship = Friendship(user=self,friend=fbUser)

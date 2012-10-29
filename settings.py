@@ -8,6 +8,7 @@ sys.path.append(test_directory)
 
 #add slot machine class to path
 sys.path.append(os.path.join(test_project,'slotMachine'))
+sys.path.append(os.path.join(test_project,'common'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -161,5 +162,5 @@ FACEBOOK_ACCESS_SETTINGS = {
         # The following keys are optional
         # TODO - Comment next line out but still have tests pass
         "CALLBACK": "la_facebook.callbacks.default.default_facebook_callback", 
-        "PROVIDER_SCOPE": ['email','user_location','friends_location','friends_relationship_details','friends_birthday'], # FACEBOOK PERMISSIONS http://developers.facebook.com/docs/authentication/permissions/
+        "PROVIDER_SCOPE": ['email','user_location','friends_location','friends_relationship_details','friends_relationships','friends_birthday'], # FACEBOOK PERMISSIONS http://developers.facebook.com/docs/authentication/permissions/
 }
