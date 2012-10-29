@@ -11,6 +11,9 @@ import random
 from datetime import datetime, timedelta
 from picklefield.fields import PickledObjectField
 
+from facebookuser import FacebookUser
+from friendship import Friendship
+
 # Create your models here.
 class Profile(models.Model):
 	user = models.ForeignKey(User)
@@ -26,6 +29,9 @@ class Profile(models.Model):
 	lookingForFriends = models.BooleanField(default=True)
 	friendList = PickledObjectField(default='')
 	friendListLastUpdate = models.DateTimeField(null=True, blank=True)
+
+	class Meta:
+		app_label = 'connect'
 
 	# fields we don't store in the database
 	# femaleFriendList = []
@@ -157,7 +163,8 @@ class Profile(models.Model):
 	def updateFriendList(self):
 		now = datetime.now()
 		yesterday = now - timedelta(days=1)
-		if self.friendList == '' or self.friendListLastUpdate < yesterday:
+		# if self.friendList == '' or self.friendListLastUpdate < yesterday:
+		if True:
 			graph = facebook.GraphAPI(self.authToken())
 			fields = ['name','location','picture','gender','birthday']
 			kwargs = {"fields": fields}
@@ -184,6 +191,19 @@ class Profile(models.Model):
 				# friend['picture']['data']['squarePicURL'] = 'https://graph.facebook.com/'+friend['id']+'/picture?width=250&height=250'
 				# set profile url
 				friend['facebookprofile'] = 'https://facebook.com/'+friend['id']
+				# update if existing
+				if FacebookUser.objects.filter(facebookID=friend['id']).exists():
+					print "user already exists"
+					# do something
+
+				# else create new facebookuser
+				else:
+					fbUser = FacebookUser(facebookID=friend['id'],name=friend['name'])
+					fbUser.save()
+					# create friend relationship
+					friendship = Friendship(user=self,friend=fbUser)
+					friendship.save()
+
 			self.friendList = friendList
 			self.friendListLastUpdate = now
 			self.save()
@@ -244,8 +264,8 @@ class Profile(models.Model):
 	# 	print guy['name'] + ' and ' + girl['name'] + ' from ' + str(location)
 
 	def getRandomFriend(self):
-		if len(self.friendList) == 0:
-			self.updateFriendList()
+		# if len(self.friendList) == 0:
+		self.updateFriendList()
 		numFriends = len(self.friendList)
 		friendIDX = random.randint(0,numFriends)
 		return self.friendList[friendIDX]
