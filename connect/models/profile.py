@@ -40,6 +40,10 @@ class Profile(models.Model):
 	# femaleLocationDictionary = {}
 	# locationSet = ()
 
+	def getFriendList_new(self):
+		friendships = Friendship.objects.filter(user=x)
+		
+
 	def authToken(self):
 		return UserAssociation.objects.get(user_id=self.user.id).token
 
@@ -354,6 +358,14 @@ class Profile(models.Model):
 	def rateFacebookMatch(self,match,rating):
 		fbPairRating = FacebookPairRating(facebookPairRater=self,friendFacebookID1=match[0]['id'],friendFacebookID2=match[1]['id'],rating=rating)
 		fbPairRating.save()
+
+	def getFriendsFromDatabase(self):
+		friendships =  list(Friendship.objects.filter(user=self).values_list('friend'))
+		friendshipList=[]
+		for friendship in friendships:
+			friendshipList.append(friendship[0])
+		return FacebookUser.objects.filter(facebookID__in=friendshipList)
+
 
 
 class ProfilePair(models.Model):
