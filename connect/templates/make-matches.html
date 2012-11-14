@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% load la_facebook_tags %}
+{% block content %}
+<section id="page-title" class="row">
+                    <div class="eight columns">
+                        <h2>Make Matches</h2>
+                    </div>
+    
+                    <div class="four columns">
+                        <span id="invite-link">Can't find a match? <a href="#"><strong>Invite more friends.</strong></a></span>
+                    </div>
+                    
+                    <hr />
+                </section>
+                
+                <section id="main" class="row">
+                    <div class="five columns first">
+                        <nav class="match-menu row">
+                            <select id="left-match-sex" class="match-sex">
+                                <option id="guys" value="Guys" selected="selected">Guys</option>
+                                <option id="girls" value="Girls">Girls</option>
+                            </select>
+                            
+                            <a href="#" id="left-match-lock" class="match-lock">Unlocked</a>
+                        </nav>
+                        
+                        <ol id="left-match-profiles" class="match-profiles profiles">
+                            <li>
+                                <a href="#">
+                                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
+                                    <span class="match-profile-details">
+                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
+                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ol>
+    
+                        <div id="left-match-search" class="profile-search seven columns centered">
+                            <input type="text" class="search-box" />
+                            <input type="submit" />
+                            
+                            <ul class="search-results">
+                                <li>
+                                    <a href="#">
+                                        <span class="search-thumb" style="background-image: url(/assets/images/brian.jpg);"></span>
+                                        <strong>Mark Twain</strong>
+                                    </a>
+                                </li>
+                                
+                                <li>
+                                    <a href="#">
+                                        <span class="search-thumb" style="background-image: url(/assets/images/betty.jpg);"></span>
+                                        <strong>Robert Frost</strong>
+                                    </a>
+                                </li>
+                                
+                                <li>
+                                    <a href="#">
+                                        <span class="search-thumb" style="background-image: url(/assets/images/brian.jpg);"></span>
+                                        <strong>Ayn Rand</strong>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+    
+                    <div class="two columns">
+                        <div id="randomize">
+                            <div id="hole">
+                                <a href="#" id="random-button" title="Random People">
+                                    <span id="rotate"></span>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div id="rating">
+                            <div id="rating-buttons">
+                                <div class="rating-button">
+                                    <a href="#" id="rating-down">Down</a>
+                                </div>
+                                
+                                <div class="rating-button">
+                                    <a href="#" id="rating-up" data-reveal-id="myModal">Up</a>
+                                </div>
+                            </div>
+                            
+                            <div id="reasons">
+                                <p class="title">Why?</p>
+                                
+                                <div id="reason-container">
+                                    <div id="radios">
+                                        <span class="six colums">
+                                            <input type="radio" name="is" id="he-is" checked="checked" value="as8f9743kcyt9y3kctckcog5tmyBSDg" />
+                                            <label for="he-is">He is</label>
+                                        </span>
+        
+                                        <span class="six colums">
+                                            <input type="radio" name="is" id="she-is" value="9sdfAvbWVRbt9jbgr9g35jb0qtjjb03b" />
+                                            <label for="she-is">She is</label>
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <span class="twelve columns">
+                                            <select id="reason-select">
+                                                <option selected="selected" value="Choose a reasion">Choose a reason</option>
+                                                <option value="He is in a relationship.">He is in a relationship.</option>
+                                                <option value="She is too far away.">She is too far away.</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <ul id="reason-list">
+                                        <li class="alert-box secondary">
+                                            <a href="#" class="close">&times;</a>
+                                            He is in a relationship.
+                                        </li>
+                                        <li class="alert-box secondary">
+                                            <a href="#" class="close">&times;</a>
+                                            She is too far away.
+                                        </li>
+                                    </ul>
+                                    
+                                    <div class="seven columns centered">
+                                        <input id="done-button" type="submit" value="Done" class="button" />
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div id="rating-success" class="alert-box success">
+                                Way to go!
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="five columns last">
+                        <nav class="match-menu row">
+                            <select id="right-match-sex" class="match-sex">
+                                <option id="guys" value="Guys">Guys</option>
+                                <option id="girls" value="Girls" selected="selected">Girls</option>
+                            </select>
+                            
+                            <a href="#" id="right-match-lock" class="match-lock">Unlocked</a>
+                        </nav>
+                        
+                        <ol id="right-match-profiles" class="match-profiles profiles">
+                            <li>
+                                <a href="#">
+                                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
+                                    <span class="match-profile-details">
+                                        <h3 id="right-profile-name" class="profile-name">Betty Draper</h3>
+                                        <span id="right-profile-location" class="profile-location">Lynnwood, WA</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ol>
+    
+                        <div id="left-match-search" class="profile-search seven columns centered">
+                            <input type="text" class="search-box" />
+                            <input type="submit" />
+                            
+                            <ul class="search-results">
+                                <li>
+                                    <a href="#">
+                                        <span class="search-thumb" style="background-image: url(/assets/images/brian.jpg);"></span>
+                                        <strong>Mark Twain</strong>
+                                    </a>
+                                </li>
+                                
+                                <li>
+                                    <a href="#">
+                                        <span class="search-thumb" style="background-image: url(/assets/images/betty.jpg);"></span>
+                                        <strong>Robert Frost</strong>
+                                    </a>
+                                </li>
+                                
+                                <li>
+                                    <a href="#">
+                                        <span class="search-thumb" style="background-image: url(/assets/images/brian.jpg);"></span>
+                                        <strong>Ayn Rand</strong>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <hr />
+                
+                <section id="meet-people-cta" class="row">
+                    <div class="eight columns">
+                        <h4>Meet People</h4>
+                        <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                        <a href="#" class="button">Get Started</a>
+                    </div>
+                    <div class="four columns">
+                        <img src="/assets/images/meet-people-cta-img.png" />
+                    </div>
+                </section>
+            </div>
+{% endblock %}
+{% block extrahtml %}
+    <div id="myModal" class="reveal-modal large">
+        <h4>Awesome! Why don't you introduce them?</h4>
+        <div class="row">
+            <div class="four columns">
+                <a href="#" class="title">
+                    Nudge <span class="match-name">Brian</span>
+                    <span class="introduce-thumb" style="background-image: url(/assets/images/brian.jpg);"></span>
+                </a>
+            </div>
+            <div class="four columns">
+                <a href="#" class="title">
+                    Nudge <span class="match-name">Betty</span>
+                    <span class="introduce-thumb" style="background-image: url(/assets/images/betty.jpg);"></span>
+                </a>
+            </div>
+            <div class="four columns">
+                <a href="#" class="title">
+                    Nudge Both
+                    <span class="introduce-thumb both right" style="background-image: url(/assets/images/betty.jpg);"></span>
+                    <span class="introduce-thumb both" style="background-image: url(/assets/images/brian.jpg);"></span>
+                </a>
+            </div>
+        </div>
+
+        <a class="close-reveal-modal"><small>No Thanks</small> &times;</a>
+    </div>
+{% endblock %}
+{% block extrascript %} 
+    <script>
+       /*
+          The token in this init function should pertain to the
+          current user, user session or something to identify the
+          current authenticated user   
+       */
+       Mutuality.init('kd85DSSKOAKGAB7wbBABTBRDdsagdgsG');   
+          
+       /*
+        * Would like to replace this with a custom view helper
+        * that prints out a <script> tag to match the current
+        * route if the JS file exists. Example:
+        * 
+        * <script src="javascripts/mutuality/make-matches.js"><//script>
+        *
+       */
+       (function($){
+          $.getScript('/assets/javascripts/initializers.js');
+       })(jQuery);
+    </script>
+{% endblock %}

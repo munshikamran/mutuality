@@ -1,96 +1,149 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Mutuality.com</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<!DOCTYPE html>
 
-    <!-- Le styles -->
-    <link href="/assets/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
-    </style>
-    <link href="/assets/css/bootstrap-responsive.css" rel="stylesheet">
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+<head>
+  <meta charset="utf-8" />
 
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="/assets/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/assets/ico/apple-touch-icon-57-precomposed.png">
-  </head>
-  <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">Mutuality.com</a>
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-                {% if user.is_authenticated %}
-                    {% if profile %}
-                        Welcome, {{ profile.name }}. <a href="{% url logout %}">Logout</a>
-                    {% endif %}
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>Mutuality &mdash; Make Matches</title>
+
+  <!-- Included CSS Files -->
+  <link rel="stylesheet" href="/assets/stylesheets/app.css">
+
+  <script src="/assets/javascripts/foundation/modernizr.foundation.js"></script>
+  <script type="text/javascript" src="//use.typekit.net/hys6mpw.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+</head>
+<body>
+  <header id="brand" class="wrapper">
+    <div class="row">
+      <div class="twelve columns">
+        <nav class="top-bar">
+          <ul>
+            <li class="name">
+              <h1>
+                <a href="#">Mutuality</a>
+              </h1>
+            </li>
+            <li class="toggle-topbar"><a href="#"></a></li>
+          </ul>
+          
+          <section id="nav">
+          {% if user.is_authenticated %}
+              {% if profile %}
+                <ul class="right">
+                  <li id="menu-make-matches" class="active"><a href="/makematches/" class="page-nav">Make Matches</a></li>
+                  <li id="menu-meet-people"><a href="/meet-people/" class="page-nav">Meet People</a></li>
+                  <li class="divider show-for-medium-and-up"></li>
+                  <li class="has-dropdown">
+                    <a href="/account/">
+                      <span class="profile-thumb" style="background-image: url(/assets/images/profile-thumb-temp.jpg);"></span>Hello, {{ profile.name }}!<span class="darr"></span>
+                    </a>
+                    <ul class="dropdown">
+                      <li id="menu-account"><a href="/account/">Account</a></li>
+                      <li id="menu-messages"><a href="/messages/">Messages</a></li>
+                      <li id="menu-logout"><a href="{% url logout %}">Log Out</a></li>
+                    </ul>
+                  </li>
+                </ul>
+                {% endif %}
                 {% else %}
                 {% endif %}
-            </p>
-            <ul class="nav">
-              <li class="active"><a href="/">Home</a></li>
-              <li><a href="/dashboard">Dashboard</a></li>
-              <li><a href=/profile/{{facebookID}}>Profile</a></li>
-              <li><a href="/messages">Messages</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
+            </section>
+        </nav>
       </div>
     </div>
-	{% block content %} 
-    <!-- Page content gets inserted here -->
-    {% endblock %}
-    <hr>
-    <footer>
-        <p>&copy; Mutuality 2012 | <a href="/fbinfo"> Facebook Debug Info </a></p>
-    </footer>
-    </div><!--/.fluid-container-->
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/assets/js/jquery.js"></script>
-    <script src="/assets/js/bootstrap-transition.js"></script>
-    <script src="/assets/js/bootstrap-alert.js"></script>
-    <script src="/assets/js/bootstrap-modal.js"></script>
-    <script src="/assets/js/bootstrap-dropdown.js"></script>
-    <script src="/assets/js/bootstrap-scrollspy.js"></script>
-    <script src="/assets/js/bootstrap-tab.js"></script>
-    <script src="/assets/js/bootstrap-tooltip.js"></script>
-    <script src="/assets/js/bootstrap-popover.js"></script>
-    <script src="/assets/js/bootstrap-button.js"></script>
-    <script src="/assets/js/bootstrap-collapse.js"></script>
-    <script src="/assets/js/bootstrap-carousel.js"></script>
-    <script src="/assets/js/bootstrap-typeahead.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript"></script>
-    <script src="/assets/js/jquery.form.pack.js"></script>
-    {% block extrascript %} 
+  </header>
+  
+  <div id="kamranadded" style="height:600px;">
+  <div class="row">
+    <div class="twelve columns">
+	     {% block content %} 
+          <!-- Page content gets inserted here -->
+        {% endblock %}
+    </div>
+  </div>
+</div>
+  
+  <footer id="footer">
+    <div class="row">
+      <div class="twelve columns">
+        <nav id="footer-nav" class="four columns">
+          <h5>Find Out More</h5>
+          <ul class="six columns">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">How It Works</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+          <ul class="six columns">
+            <li><a href="#">Our Blog</a></li>
+            <li><a href="/fbinfo">Facebook Info</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </nav>
+        
+        <nav id="footer-social" class="four columns">
+          <h5>Connect With Us</h5>
+          <ul class="six columns">
+            <li id="social-fb"><a href="#">Facebook</a></li>
+            <li id="social-tw"><a href="#">Twitter</a></li>
+            <li id="social-pin"><a href="#">Pinterest</a></li>
+          </ul>
+          <ul class="six columns">
+            <li id="social-rss"><a href="#">RSS</a></li>
+            <li id="social-email"><a href="#">Email</a></li>
+            <li id="social-contactus"><a href="#">Contact Us</a></li>
+          </ul>
+        </nav>
+        
+        <section id="footer-colophon" class="four columns">
+          <img src="/assets/images/footer-logo.png" id="footer-logo"/>
+          <p id="copyright">&copy; 2012 Mutuality LLC. All rights reserved.</p>
+          <nav id="legal">
+            <a href="#">Terms & Conditions</a>&nbsp;|&nbsp;<a href="#">Partners & Affiliates</a>
+          </nav>
+        </section>
+      </div>
+    </div>
+  </footer>
+  {% block extrahtml %} 
+    <!-- Extra html gets inserted here (like for modal dialogs, etc.) -->
+  {% endblock %}
+  <!-- Included JS Files (Uncompressed) -->
+  <script src="/assets/javascripts/foundation/jquery.js"></script>
+  <script src="/assets/javascripts/foundation/jquery.foundation.alerts.js"></script>
+  <script src="/assets/javascripts/foundation/jquery.foundation.reveal.js"></script>
+  <!--
+  <script src="javascripts/foundation/jquery.foundation.topbar.js"></script>
+  <script src="javascripts/foundation/jquery.placeholder.js"></script>
+  <script src="javascripts/foundation/jquery.cookie.js"></script>
+  <script src="javascripts/foundation/jquery.event.move.js"></script>
+  <script src="javascripts/foundation/jquery.event.swipe.js"></script>
+  <script src="javascripts/foundation/jquery.foundation.accordion.js"></script>
+  <script src="javascripts/foundation/jquery.foundation.buttons.js"></script>
+  <script src="javascripts/foundation/jquery.foundation.clearing.js"></script>
+  <script src="javascripts/foundation/jquery.foundation.forms.js"></script>
+  <script src="javascripts/foundation/jquery.foundation.joyride.js"></script>
+  <script src="javascripts/foundation/jquery.foundation.magellan.js"></script>
+  <script src="javascripts/foundation/jquery.foundation.mediaQueryToggle.js"></script>
+  <script src="javascripts/foundation/jquery.foundation.navigation.js"></script>
+  <script src="javascripts/foundation/jquery.foundation.orbit.js"></script>
+  <script src="javascripts/foundation/jquery.foundation.tabs.js"></script>
+  <script src="javascripts/foundation/jquery.foundation.tooltips.js"></script>
+-->
+  <!-- Application Javascript, safe to override -->
+    <script src="/assets/javascripts/foundation/app.js"></script>
+    <script src="/assets/javascripts/plugins.js"></script>
+    <script src="/assets/javascripts/mutuality.js"></script>
+    <script src="/assets/javascripts/initializers.js"></script>
+  {% block extrascript %} 
     <!-- Extra page scripts get inserted here -->
-    {% endblock %}
+  {% endblock %}
 
   </body>
 </html>

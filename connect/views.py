@@ -87,7 +87,7 @@ def profile(request,facebookid):
     return render_to_response('profile.html', context_dict)
 
 @login_required
-def dashboard(request):
+def makematches(request):
     context_dict = {}
     context_dict['info'] = fbinfo(request)
     if hasattr(request, 'user'):
@@ -102,7 +102,7 @@ def dashboard(request):
 
         except Profile.DoesNotExist:
             pass
-        html = render_to_string('dashboard.html', RequestContext(request, context_dict))
+        html = render_to_string('make-matches.html', RequestContext(request, context_dict))
         return HttpResponse(html)
 
 class LazyEncoder(simplejson.JSONEncoder):
@@ -151,4 +151,154 @@ def submitRating(request):
             "type": type,
         }, cls=LazyEncoder)
         return HttpResponse(result, mimetype='application/javascript')
+
+def friends_list(request):
+  if request.is_ajax():
+    message = {
+       "profiles" : {
+          "male" : [
+             {
+                "token" : "as8f9743kcyt9y3kctckcog5tmyBSDg",
+                "full_name": "Brian Griffin",
+                "dob": "1973-03-06",
+                "relationship_status": "single",
+                "city" : "Seattle",
+                "state" : "WA",
+                "image": "/assets/images/brian.jpg",
+                "lat": 47.587877,
+                "lng": -122.248457
+             },
+             {
+                "token" : "l3Skf743kLD95J7Dj49Hsog5tmyBSDg",
+                "full_name": "John Griffin",
+                "dob": "1976-09-03",
+                "relationship_status": "single",
+                "city" : "Seattle",
+                "state" : "WA",
+                "image": "/assets/images/john.jpg",
+                "lat": 47.587877,
+                "lng": -122.248457
+             }   
+          ],
+          "female" : [
+             {
+                "token" : "9sdfAvbWVRbt9jbgr9g35jb0qtjjb03b",
+                "full_name" : "Betty Draper",
+                "dob": "1976-10-16",
+                "relationship_status": "single",
+                "city" : "Lynnwood",
+                "state" : "WA",
+                "image" : "/assets/images/betty.jpg",
+                "lat": 47.604541,
+                "lng" : -122.547357
+             },
+             {
+                "token" : "lSyJ94VRbt9jbgr9g35jb0qtjjb03b",
+                "full_name" : "Susan Draper",
+                "dob": "1978-08-02",
+                "relationship_status": "single",
+                "city" : "Lynnwood",
+                "state" : "WA",
+                "image" : "/assets/images/susan.jpg",
+                "lat": 47.604541,
+                "lng" : -122.547357
+             }
+          ]
+       }
+    }
+  else:
+    message = "Invalid request"
+    
+  json = simplejson.dumps(message)
+  return HttpResponse(json, mimetype='application/json')
+
+def friends_list_male(request):
+    if request.is_ajax():
+        message = {
+           "profiles" : {
+              "male" : [
+                 {
+                    "token" : "as8f9743kcyt9y3kctckcog5tmyBSDg",
+                    "full_name": "Brian Griffin",
+                    "dob": "1973-03-06",
+                    "relationship_status": "single",
+                    "city" : "Seattle",
+                    "state" : "WA",
+                    "image": "/assets/images/brian.jpg",
+                    "lat": 47.587877,
+                    "lng": -122.248457
+                 },
+                 {
+                    "token" : "l3Skf743kLD95J7Dj49Hsog5tmyBSDg",
+                    "full_name": "John Griffin",
+                    "dob": "1976-09-03",
+                    "relationship_status": "single",
+                    "city" : "Seattle",
+                    "state" : "WA",
+                    "image": "/assets/images/john.jpg",
+                    "lat": 47.587877,
+                    "lng": -122.248457
+                 }   
+              ]
+           }
+        }
+    else:
+        message = "Invalid request"
+    json = simplejson.dumps(message)
+    return HttpResponse(json, mimetype='application/json')
+
+def friends_list_female(request):
+    if request.is_ajax():
+        message = {
+           "profiles" : {
+              "female" : [
+                 {
+                    "token" : "9sdfAvbWVRbt9jbgr9g35jb0qtjjb03b",
+                    "full_name" : "Betty Draper",
+                    "dob": "1976-10-16",
+                    "relationship_status": "single",
+                    "city" : "Lynnwood",
+                    "state" : "WA",
+                    "image" : "/assets/images/betty.jpg",
+                    "lat": 47.604541,
+                    "lng" : -122.547357
+                 },
+                 {
+                    "token" : "lSyJ94VRbt9jbgr9g35jb0qtjjb03b",
+                    "full_name" : "Susan Draper",
+                    "dob": "1978-08-02",
+                    "relationship_status": "single",
+                    "city" : "Lynnwood",
+                    "state" : "WA",
+                    "image" : "/assets/images/susan.jpg",
+                    "lat": 47.604541,
+                    "lng" : -122.547357
+                 }
+              ]
+           }
+        }
+    else:
+        message = "Invalid request"
+    json = simplejson.dumps(message)
+    return HttpResponse(json, mimetype='application/json')
+
+def get_profile(request):
+  if request.is_ajax():
+    message =    { "profile" : {
+      "token" : "vB8flDHD3IAS933kctckcog5tmyBSDg",
+      "full_name": "Craig Hoover",
+      "dob": "1975-03-06",
+      "relationship_status": "married",
+      "city" : "Gaithersburg",
+      "state" : "MD",
+      "image": "mutuality/html/images/craig.jpg",
+      "lat": 47.587877,
+      "lng": -122.248457
+        }
+    }
+  else:
+    message = "Invalid request"
+    
+  json = simplejson.dumps(message)
+  return HttpResponse(json, mimetype='application/json')
 

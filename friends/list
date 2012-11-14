@@ -1,0 +1,52 @@
+{
+   "profiles" : {
+      "male" : [
+         {
+            "token" : "as8f9743kcyt9y3kctckcog5tmyBSDg",
+            "full_name": "Brian Griffin",
+            "dob": "1973-03-06",
+            "relationship_status": "single",
+            "city" : "Seattle",
+            "state" : "WA",
+            "image": "/assets/images/brian.jpg",
+            "lat": 47.587877,
+            "lng": -122.248457
+         },
+         {
+            "token" : "l3Skf743kLD95J7Dj49Hsog5tmyBSDg",
+            "full_name": "John Griffin",
+            "dob": "1976-09-03",
+            "relationship_status": "single",
+            "city" : "Seattle",
+            "state" : "WA",
+            "image": "/assets/images/john.jpg",
+            "lat": 47.587877,
+            "lng": -122.248457
+         }   
+      ],
+      "female" : [
+         {
+            "token" : "9sdfAvbWVRbt9jbgr9g35jb0qtjjb03b",
+            "full_name" : "Betty Draper",
+            "dob": "1976-10-16",
+            "relationship_status": "single",
+            "city" : "Lynnwood",
+            "state" : "WA",
+            "image" : "/assets/images/betty.jpg",
+            "lat": 47.604541,
+            "lng" : -122.547357
+         },
+         {
+            "token" : "lSyJ94VRbt9jbgr9g35jb0qtjjb03b",
+            "full_name" : "Susan Draper",
+            "dob": "1978-08-02",
+            "relationship_status": "single",
+            "city" : "Lynnwood",
+            "state" : "WA",
+            "image" : "/assets/images/susan.jpg",
+            "lat": 47.604541,
+            "lng" : -122.547357
+         }
+      ]
+   }
+}
