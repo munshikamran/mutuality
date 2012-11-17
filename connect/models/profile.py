@@ -168,7 +168,7 @@ class Profile(models.Model):
 		now = datetime.now()
 		yesterday = now - timedelta(days=1)
 		# if self.friendList == '' or self.friendListLastUpdate < yesterday:
-		if True:
+		if False:
 			graph = facebook.GraphAPI(self.authToken())
 			fields = ['name','location','picture','gender','birthday','relationship_status']
 			kwargs = {"fields": fields}

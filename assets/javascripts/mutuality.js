@@ -227,7 +227,7 @@ var Mutuality = (function($){
          //  /friends/matches/female?token=[token]
          //  /friends/matches/male?token=[token]         
          //
-         this.__post('friends/matches/'+gender, {token: token }, function(response){
+         this.__post('friends/matches/'+gender, {token: token}, function(response){
 
             if(response.hasOwnProperty('profiles'))
             {

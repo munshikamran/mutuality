@@ -283,7 +283,7 @@ def friends_list_female(request):
     return HttpResponse(json, mimetype='application/json')
 
 def get_profile(request):
-  if request.is_ajax():
+  if True:
     message =    { "profile" : {
       "token" : "vB8flDHD3IAS933kctckcog5tmyBSDg",
       "full_name": "Craig Hoover",
