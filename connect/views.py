@@ -55,7 +55,7 @@ def index(request):
             if request.user.is_authenticated():
                 profile = request.user.get_profile()
                 context_dict['profile'] = profile
-                context_dict['facebookID'] = profile.facebookID()
+                context_dict['facebookID'] = profile.facebookID
         except Profile.DoesNotExist:
             pass
     return render_to_response('index.html', context_dict)
@@ -96,7 +96,7 @@ def makematches(request):
             profile = request.user.get_profile()
             context_dict['profile'] = profile
             context_dict['profile_pic'] = profile.imageURL()
-            context_dict['facebookID'] = profile.facebookID()
+            context_dict['facebookID'] = profile.facebookID
             slotMachine = SlotMachine(profile)
             request.session['slotMachine'] = slotMachine
 

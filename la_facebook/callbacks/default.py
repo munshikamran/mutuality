@@ -84,13 +84,20 @@ class DefaultFacebookCallback(BaseFacebookCallback):
                     ": setting session expiration to: %s" % token.expires)
             request.session.set_expiry(token.expires)
 
-    def update_profile_from_graph(self, request, access, token, profile):
+    def update_profile_from_graph(self, request, access, token, user):
         user_data = self.fetch_user_data(request, access, token)
+        profile_model = get_model(*settings.AUTH_PROFILE_MODULE.split('.'))
+        profile, created = profile_model.objects.get_or_create(
+            user = user,
+            facebookID = user_data['id']
+        )
         for k, v in user_data.items():
             if k !='id' and hasattr(profile, k):
                 setattr(profile, k, v)
                 logger.debug("DefaultFacebookCallback.update_profile_from_graph"\
                         ": updating profile %s to %s" % (k,v))
+            if k == 'id' and hasattr(profile, 'facebookID'):
+                setattr(profile, 'facebookID', v)
         return profile
 
     def create_profile(self, request, access, token, user):
@@ -98,10 +105,10 @@ class DefaultFacebookCallback(BaseFacebookCallback):
         if hasattr(settings, 'AUTH_PROFILE_MODULE'):
             profile_model = get_model(*settings.AUTH_PROFILE_MODULE.split('.'))
 
-            profile, created = profile_model.objects.get_or_create(
-              user = user,
-            )
-            profile = self.update_profile_from_graph(request, access, token, profile)
+#            profile, created = profile_model.objects.get_or_create(
+#              user = user,
+#            )
+            profile = self.update_profile_from_graph(request, access, token, user)
             profile.save()
 
         else:

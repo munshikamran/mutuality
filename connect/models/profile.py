@@ -16,6 +16,8 @@ from friendship import Friendship
 
 # Create your models here.
 class Profile(models.Model):
+
+	facebookID = models.CharField(max_length=255,primary_key=True)
 	user = models.ForeignKey(User)
 	bio = models.TextField()
 	name = models.CharField(max_length=255)
@@ -42,13 +44,13 @@ class Profile(models.Model):
 
 	def getFriendList_new(self):
 		friendships = Friendship.objects.filter(user=x)
-		
+
 
 	def authToken(self):
 		return UserAssociation.objects.get(user_id=self.user.id).token
 
-	def facebookID(self):
-		return UserAssociation.objects.get(user_id=self.user.id).identifier
+#	def facebookID(self):
+#		return UserAssociation.objects.get(user_id=self.user.id).identifier
 
 	def mutualFriends(self,otherProfile):
 		graph = facebook.GraphAPI(self.authToken())
@@ -57,7 +59,7 @@ class Profile(models.Model):
 
 	def imageURL(self,type='normal'):
 		url = 'http://graph.facebook.com/%s/picture?type=%s'
-		return url % (self.facebookID(), type)
+		return url % (self.facebookID, type)
 
 	def distanceToOther(self,otherProfile):
 		g = geocoders.Google()
@@ -127,9 +129,9 @@ class Profile(models.Model):
 		body = messageBody
 		message = Message(sender = sender, recipient = recipient,body = body)
 		message.save()
-    
-    # FACEBOOK MESSAGING BETWEEN FRIENDS
-    # https://developers.facebook.com/docs/reference/dialogs/send/
+
+	# FACEBOOK MESSAGING BETWEEN FRIENDS
+	# https://developers.facebook.com/docs/reference/dialogs/send/
 	def getMessageDialogueURLForFriend(self,friend,messageBody):
 		urlRoot = 'https://www.facebook.com/dialog/send?'
 		prop = {}
@@ -168,7 +170,7 @@ class Profile(models.Model):
 		now = datetime.now()
 		yesterday = now - timedelta(days=1)
 		# if self.friendList == '' or self.friendListLastUpdate < yesterday:
-		if False:
+		if True:
 			graph = facebook.GraphAPI(self.authToken())
 			fields = ['name','location','picture','gender','birthday','relationship_status']
 			kwargs = {"fields": fields}
@@ -374,7 +376,7 @@ class ProfilePair(models.Model):
 	mutualFriendCount = models.IntegerField(default=0)
 	distance = models.FloatField(default =float('inf'))
 	matchScore = models.FloatField(default=0)
-	
+
 	def computeMatchScore(self):
 		self.matchScore =  self.mutualFriendCount/(self.distance + 1)
 
