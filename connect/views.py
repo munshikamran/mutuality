@@ -153,7 +153,7 @@ def submitRating(request):
         return HttpResponse(result, mimetype='application/javascript')
 
 def friends_list(request):
-  if request.is_ajax():
+  if True:
     message = {
        "profiles" : {
           "male" : [
