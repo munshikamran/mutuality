@@ -159,7 +159,7 @@ var Mutuality = (function($){
          if(!this.token) return;
          var self = this;
          
-         this.__post('/profiles/get', {token: this.token}, function(response){
+         this.__post('profiles/get', {token: this.token}, function(response){
             
             if(response.hasOwnProperty('profile'))
             {
