@@ -230,7 +230,7 @@
         <a class="close-reveal-modal"><small>No Thanks</small> &times;</a>
     </div>
 {% endblock %}
-{% block extrascript %} 
+{% block extrascript %}
     <script>
        /*
           The token in this init function should pertain to the
@@ -248,7 +248,9 @@
         *
        */
        (function($){
-          $.getScript('/assets/javascripts/initializers.js');
+           $.getScript('/assets/javascripts/make-matches.js').fail(function(xhr, settings, exception){
+               console.log(exception);
+           });
        })(jQuery);
     </script>
 {% endblock %}

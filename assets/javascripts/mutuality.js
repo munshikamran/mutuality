@@ -1,4 +1,4 @@
-// 
+//
 //  mutuality.js
 //  Mutuality Main Library
 //  
