@@ -91,13 +91,14 @@ class DefaultFacebookCallback(BaseFacebookCallback):
             user = user,
             facebookID = user_data['id']
         )
-        for k, v in user_data.items():
-            if k !='id' and hasattr(profile, k):
-                setattr(profile, k, v)
-                logger.debug("DefaultFacebookCallback.update_profile_from_graph"\
-                        ": updating profile %s to %s" % (k,v))
-            if k == 'id' and hasattr(profile, 'facebookID'):
-                setattr(profile, 'facebookID', v)
+        profile.updateUsingFacebookDictionary(user_data)
+#        for k, v in user_data.items():
+#            if k !='id' and hasattr(profile, k):
+#                setattr(profile, k, v)
+#                logger.debug("DefaultFacebookCallback.update_profile_from_graph"\
+#                        ": updating profile %s to %s" % (k,v))
+#            if k == 'id' and hasattr(profile, 'facebookID'):
+#                setattr(profile, 'facebookID', v)
         return profile
 
     def create_profile(self, request, access, token, user):

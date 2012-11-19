@@ -18,7 +18,16 @@ class FacebookUser( models.Model ):
     date_created = models.DateTimeField( "Date Created", auto_now_add=True )
     date_updated = models.DateTimeField( "Date Updated", auto_now=True )
 
+    class Meta:
+        app_label = 'connect'
+
+    def __unicode__(self):
+            return "%s  %s" % ( self.name, self.facebookID)
+
     def updateUsingFacebookDictionary(self,fbDictionary):
+        nameKey = 'name'
+        if nameKey in fbDictionary.keys():
+            self.name = fbDictionary[nameKey]
     	# update gender
         genderKey = 'gender'
     	if genderKey in fbDictionary.keys():
@@ -39,7 +48,6 @@ class FacebookUser( models.Model ):
     	locationKey = 'location'
     	if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
     		self.location = fbDictionary[locationKey]['name']
-    		print self.location
     		state = fbDictionary[locationKey]['name'].split(', ')[-1]
     		self.state = state
     	# update relationship status
@@ -48,12 +56,7 @@ class FacebookUser( models.Model ):
     		self.relationshipStatus = fbDictionary[relationshipStatusKey]
     	# save
     	self.save()
-    
-    class Meta:
-        app_label = 'connect'
 
-    def __unicode__(self):
-        return "%s  %s" % ( self.name, self.facebookID)
 
 
 
