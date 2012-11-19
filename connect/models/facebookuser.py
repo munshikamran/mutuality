@@ -9,8 +9,8 @@ class FacebookUser( models.Model ):
     #id
     facebookID = models.CharField(max_length=255,primary_key=True)
     name = models.CharField(max_length=255)
-    age = models.IntegerField(null=True)
-    birthday = models.CharField(max_length =255,null=True)
+    birthdayString = models.CharField(max_length =255,null=True)
+    birthdayDate = models.DateTimeField(null=True)
     location = models.CharField(max_length=255,null=True) #can be a location from facebook or a zipcode
     state = models.CharField(max_length=255,null=True)
     gender = models.CharField(max_length=6,choices=GENDER.ENUM,null=True)
@@ -20,7 +20,7 @@ class FacebookUser( models.Model ):
 
     def updateUsingFacebookDictionary(self,fbDictionary):
     	# update gender
-    	genderKey = 'gender'
+        genderKey = 'gender'
     	if genderKey in fbDictionary.keys():
     		gender = fbDictionary[genderKey]
     		# store as 'm' or 'f' not as 'male' or 'female'
@@ -30,13 +30,10 @@ class FacebookUser( models.Model ):
     	birthdayKey = 'birthday'
     	if birthdayKey in fbDictionary.keys():
     		bday = fbDictionary[birthdayKey].split('/')
-    		self.birthday = bday
+    		self.birthdayString = bday
     		# birthday must include year for us to calculate age
     		if len(bday)==3:
-				birthdate = datetime(int(bday[2]),int(bday[0]),int(bday[1]))
-				now = datetime.now()
-				age = (now-birthdate).days/365.25
-				self.age = age
+				self.birthdayDate = datetime(int(bday[2]),int(bday[0]),int(bday[1]))
 
     	# update location
     	locationKey = 'location'
