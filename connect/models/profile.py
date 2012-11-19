@@ -69,10 +69,6 @@ class Profile(models.Model):
 
 		self.save()
 
-	def getFriendList_new(self):
-		friendships = Friendship.objects.filter(user=self)
-		return friendships
-
 	def authToken(self):
 		return UserAssociation.objects.get(user_id=self.user.id).token
 
