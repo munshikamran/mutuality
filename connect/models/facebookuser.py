@@ -1,19 +1,9 @@
-from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Q
-import settings
-from la_facebook.models import UserAssociation
-from messages.models import Message
-import facebook	
-from geopy import geocoders
-from geopy import distance
-import random
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from common.enums import RELATIONSHIP_STATUS
 from common.enums import GENDER
 
-# Create your models here.
 class FacebookUser( models.Model ):
     
     #id
@@ -31,14 +21,14 @@ class FacebookUser( models.Model ):
     def updateUsingFacebookDictionary(self,fbDictionary):
     	# update gender
     	genderKey = 'gender'
-    	if (genderKey in fbDictionary.keys()):
+    	if genderKey in fbDictionary.keys():
     		gender = fbDictionary[genderKey]
     		# store as 'm' or 'f' not as 'male' or 'female'
     		self.gender = gender
 
     	# update age
     	birthdayKey = 'birthday'
-    	if (birthdayKey in fbDictionary.keys()):
+    	if birthdayKey in fbDictionary.keys():
     		bday = fbDictionary[birthdayKey].split('/')
     		self.birthday = bday
     		# birthday must include year for us to calculate age
@@ -50,14 +40,14 @@ class FacebookUser( models.Model ):
 
     	# update location
     	locationKey = 'location'
-    	if (locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None)):
+    	if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
     		self.location = fbDictionary[locationKey]['name']
     		print self.location
     		state = fbDictionary[locationKey]['name'].split(', ')[-1]
     		self.state = state
     	# update relationship status
     	relationshipStatusKey = 'relationship_status'
-    	if (relationshipStatusKey in fbDictionary.keys()):
+    	if relationshipStatusKey in fbDictionary.keys():
     		self.relationshipStatus = fbDictionary[relationshipStatusKey]
     	# save
     	self.save()
