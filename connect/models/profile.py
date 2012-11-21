@@ -9,10 +9,12 @@ from geopy import geocoders
 from geopy import distance
 import random
 from datetime import datetime, timedelta
-from picklefield.fields import PickledObjectField
 
 from facebookuser import FacebookUser
 from friendship import Friendship
+
+from common.enums import RELATIONSHIP_STATUS
+from common.enums import GENDER
 
 # Create your models here.
 class Profile(models.Model):
@@ -21,30 +23,51 @@ class Profile(models.Model):
 	user = models.ForeignKey(User)
 	bio = models.TextField()
 	name = models.CharField(max_length=255)
-	age = models.IntegerField(default=-1)
-	birthday = models.CharField(max_length =255, default='')
-	location = models.CharField(max_length=255,default='') #can be a location from facebook or a zipcode
-	gender = models.CharField(max_length=6, default='')
-	single = models.BooleanField(default=False)
-	interestedInMen = models.BooleanField(default=False)
-	interestedInWomen = models.BooleanField(default=False)
-	lookingForFriends = models.BooleanField(default=True)
-	friendList = PickledObjectField(default='')
-	friendListLastUpdate = models.DateTimeField(null=True, blank=True)
+	birthdayString = models.CharField(max_length =255,null=True)
+	birthdayDate = models.DateTimeField(null=True)
+	location = models.CharField(max_length=255,null=True) #can be a location from facebook or a zipcode
+	state = models.CharField(max_length=255,null=True)
+	gender = models.CharField(max_length=6,choices=GENDER.ENUM,null=True)
+	relationshipStatus = models.CharField(max_length=255,choices=RELATIONSHIP_STATUS.ENUM,null=True)
+	date_created = models.DateTimeField( "Date Created", auto_now_add=True )
+	date_updated = models.DateTimeField( "Date Updated", auto_now=True )
 
 	class Meta:
 		app_label = 'connect'
 
-	# fields we don't store in the database
-	# femaleFriendList = []
-	# maleFriendList = []
-	# maleLocationDictionary = {}
-	# femaleLocationDictionary = {}
-	# locationSet = ()
 
-	def getFriendList_new(self):
-		friendships = Friendship.objects.filter(user=x)
+	def updateUsingFacebookDictionary(self,fbDictionary):
+		nameKey = 'name'
+		if nameKey in fbDictionary.keys():
+			  self.name = fbDictionary[nameKey]
+		# update gender
+		genderKey = 'gender'
+		if genderKey in fbDictionary.keys():
+			gender = fbDictionary[genderKey]
+			# store as 'm' or 'f' not as 'male' or 'female'
+			self.gender = gender
 
+	# update age
+		birthdayKey = 'birthday'
+		if birthdayKey in fbDictionary.keys():
+			bday = fbDictionary[birthdayKey].split('/')
+			self.birthdayString = bday
+			# birthday must include year for us to calculate age
+			if len(bday)==3:
+				self.birthdayDate = datetime(int(bday[2]),int(bday[0]),int(bday[1]))
+
+		# update location
+		locationKey = 'location'
+		if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
+			self.location = fbDictionary[locationKey]['name']
+			state = fbDictionary[locationKey]['name'].split(', ')[-1]
+			self.state = state
+		# update relationship status
+		relationshipStatusKey = 'relationship_status'
+		if relationshipStatusKey in fbDictionary.keys():
+			self.relationshipStatus = fbDictionary[relationshipStatusKey]
+
+		self.save()
 
 	def authToken(self):
 		return UserAssociation.objects.get(user_id=self.user.id).token
@@ -73,22 +96,6 @@ class Profile(models.Model):
 		graph = facebook.GraphAPI(self.authToken())
 		kwargs = {"fields": "location"}
 		return graph.get_object("me",**kwargs)['location']['name']
-
-	def updateInfoUsingFacebook(self):
-		graph = facebook.GraphAPI(self.authToken())
-		fields = ['location','birthday','interested_in','gender']
-		kwargs = {"fields": fields}
-		dictInfo = graph.get_object("me",**kwargs)
-		if 'location' in dictInfo.keys():
-			self.location = dictInfo['location']['name']
-		if 'birthday' in dictInfo.keys():
-			self.birthday = dictInfo['birthday']
-		if 'interested_in' in dictInfo.keys():
-			print 'interested_in needs to be completed'
-			print dictInfo['interested_in']
-		if 'gender' in dictInfo.keys():
-			self.gender = dictInfo['gender']
-		self.save()
 
 
 	# MESSAGE THREADS
@@ -224,60 +231,6 @@ class Profile(models.Model):
 			self.friendListLastUpdate = now
 			self.save()
 
-	# def updateGenderFriendLists(self):
-	# 	if len(self.friendList) == 0:
-	# 		self.updateFriendList()
-	# 	for friend in self.friendList:
-	# 		if 'gender' in friend.keys():
-	# 			if friend['gender'] == 'female':
-	# 				self.femaleFriendList.append(friend)
-	# 			else:
-	# 				self.maleFriendList.append(friend)
-
-	# def updateLocationDictionaries(self):
-	# 	if len(self.femaleFriendList) == 0 and len(self.maleFriendList) == 0:
-	# 		self.updateGenderFriendLists()
-	# 	for girl in self.femaleFriendList:
-	# 		if 'location' in girl.keys():
-	# 			locationName = girl['location']['name']
-	# 			if not locationName in self.femaleLocationDictionary.keys():
-	# 				self.femaleLocationDictionary[locationName] = []
-	# 			self.femaleLocationDictionary[locationName].append(girl)
-	# 	for guy in self.maleFriendList:
-	# 		if 'location' in guy.keys():
-	# 			locationName = guy['location']['name']
-	# 			if not locationName in self.maleLocationDictionary.keys():
-	# 				self.maleLocationDictionary[locationName] = []
-	# 			self.maleLocationDictionary[locationName].append(guy)
-
-	# def getRandomMatch(self):
-	# 	if len(self.femaleFriendList) == 0 and len(self.maleFriendList) == 0:
-	# 		self.updateGenderFriendLists()
-	# 	numGirls = len(self.femaleFriendList)
-	# 	numGuys = len(self.maleFriendList)
-	# 	girlIDX = random.randint(0,numGirls-1)
-	# 	guyIDX = random.randint(0,numGuys-1)
-	# 	girl = self.femaleFriendList[girlIDX]
-	# 	guy = self.maleFriendList[guyIDX]
-	# 	print guy['name'] + ' and ' + girl['name'] + ' sitting in a tree'
-
-	# def getRandomLocationMatch(self):
-	# 	if len(self.maleLocationDictionary.keys()) == 0 and len(self.femaleLocationDictionary) == 0:
-	# 		self.updateLocationDictionaries
-	# 	if len(self.locationSet) == 0:
-	# 		self.locationSet = set(self.maleLocationDictionary.keys()).intersection(set(self.femaleLocationDictionary.keys()))
-	# 	#get random location
-	# 	location = random.sample(self.locationSet,1)[0]
-	# 	guys = self.maleLocationDictionary[location]
-	# 	numGuys = len(guys)
-	# 	guyIDX = random.randint(0,numGuys-1)
-	# 	guy = guys[guyIDX]
-	# 	girls = self.femaleLocationDictionary[location]
-	# 	numGirls = len(girls)
-	# 	girlIDX = random.randint(0,numGirls-1)
-	# 	girl = girls[girlIDX]
-	# 	matchFound = True
-	# 	print guy['name'] + ' and ' + girl['name'] + ' from ' + str(location)
 
 	def getRandomFriend(self):
 		# if len(self.friendList) == 0:
