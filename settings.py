@@ -135,10 +135,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'notification',
     'connect',
     'la_facebook',
     'messages',
+    'rest_framework',
 )
 
 try:
