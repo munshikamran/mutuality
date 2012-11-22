@@ -3,7 +3,6 @@ from django.contrib import admin
 admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^', include('connect.urls')),
-    url(r'^api/', include('REST.urls')),
     url(r"^la_facebook/", include("la_facebook.urls")),
     (r'^admin/', include(admin.site.urls)),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name="login"),
