@@ -1,9 +1,10 @@
 from connect.models import Profile,Friendship,FacebookUser
 from getFriendList import GetFriendList
-from connect.classes import FriendMatch
+#from connect.classes import FriendMatch
 import random
 import time
 
+"""
 def GetNewMatch(profile,gender1,gender2):
     person1 = getRandomFriend(profile,gender1)
     friendMatch = GetNewMatchIncludingPerson(profile,person1,gender2)
@@ -17,6 +18,7 @@ def GetNewMatchIncludingPerson(profile,person,genderOtherPerson):
     friendList = getPotentialsForPerson(profile,person,genderOtherPerson)
     otherPerson = randomElementFromList(friendList)
     return FriendMatch(person,otherPerson)
+"""
 
 #helper functions
 def getRandomFriend(profile,gender):

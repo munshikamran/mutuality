@@ -44,7 +44,6 @@ def fbinfo(request):
 def index(request):
     context_dict = {}
     context_dict['request'] = request
-    print request
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
         print 

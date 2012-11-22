@@ -13,11 +13,12 @@ class GetFriendList(APIView):
     def get_object(self, pk):
         try:
             profile = Profile.objects.get(facebookID=pk)
-            return GetFriendList(profile)
+            list = GetFriendList(profile)
+            return list
         except Profile.DoesNotExist:
             raise Http404
 
-    def get(self, request, format=None):
+    def post(self, request, format=None):
         friend_list = self.get_object(request.DATA['token'])
         serializer = ProfileSerializer(friend_list)
         return Response(serializer.data)

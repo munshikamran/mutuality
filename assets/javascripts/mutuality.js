@@ -160,7 +160,7 @@ var Mutuality = (function($){
          var self = this;
          var url = 'api/getProfile/';
          
-         this.__get(url, {token: this.token}, function(response){
+         this.__post(url, {token: this.token}, function(response){
             
             if(response.hasOwnProperty('profile'))
             {
