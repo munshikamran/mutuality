@@ -3,6 +3,7 @@ from connect.views import *
 
 urlpatterns = patterns('Mutuality.connect.views',
     url(r'^/?$', "index", name="index"),
+    url(r'^api/', "index", name="api"),
     url(r'^profile/$', "profile", name="profile"),
     url(r'^profile/(\d+)/$', "profile", name="profile"),
     url(r'^makematches/?$', "makematches", name="makematches"),

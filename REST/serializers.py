@@ -4,4 +4,4 @@ from Mutuality.connect.models.profile import Profile
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('facebookID', 'user', 'bio', 'name', 'age', 'birthday', 'location', 'gender')
+        fields = ('facebookID', 'user', 'bio')

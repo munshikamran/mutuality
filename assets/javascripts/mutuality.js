@@ -158,9 +158,9 @@ var Mutuality = (function($){
       {
          if(!this.token) return;
          var self = this;
-         var url = 'api/getProfile';
+         var url = 'api/getProfile/';
          
-         this.__post(url, {token: this.token}, function(response){
+         this.__get(url, {token: this.token}, function(response){
             
             if(response.hasOwnProperty('profile'))
             {
@@ -189,7 +189,7 @@ var Mutuality = (function($){
          //  /friends/list/male(female)?token=[token]
          
          var gender = gender || null;         
-         var url = gender  ? 'friends/list_'+gender : 'friends/list';    
+         var url = 'api/getFriendList/';
          
          //
          // optimial RESTful URLs:
