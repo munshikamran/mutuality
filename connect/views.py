@@ -93,11 +93,26 @@ def makematches(request):
             context_dict['profile'] = profile
             context_dict['profile_pic'] = profile.imageURL()
             context_dict['facebookID'] = profile.facebookID
-            #slotMachine = SlotMachine(profile)
-            #request.session['slotMachine'] = slotMachine
 
         except Profile.DoesNotExist:
             pass
         html = render_to_string('make-matches.html', RequestContext(request, context_dict))
+        return HttpResponse(html)
+
+@login_required
+def meetpeople(request):
+    context_dict = {}
+    context_dict['info'] = fbinfo(request)
+    if hasattr(request, 'user'):
+        context_dict['user'] = request.user
+        try:
+            profile = request.user.get_profile()
+            context_dict['profile'] = profile
+            context_dict['profile_pic'] = profile.imageURL()
+            context_dict['facebookID'] = profile.facebookID
+
+        except Profile.DoesNotExist:
+            pass
+        html = render_to_string('meet-people.html', RequestContext(request, context_dict))
         return HttpResponse(html)
 

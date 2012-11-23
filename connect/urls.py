@@ -7,6 +7,7 @@ urlpatterns = patterns('Mutuality.connect.views',
     url(r'^profile/$', "profile", name="profile"),
     url(r'^profile/(\d+)/$', "profile", name="profile"),
     url(r'^makematches/?$', "makematches", name="makematches"),
+    url(r'^meetpeople/?$', "meetpeople", name="meetpeople"),
     url(r'^fbinfo/?$', "fbinfo", name="fbinfo"),
     url(r'^register/$', register, name="register")
 )

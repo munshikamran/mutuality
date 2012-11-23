@@ -183,27 +183,8 @@ var Mutuality = (function($){
       {
          if(!this.token) return;
          var self = this;
-         
-         // underscore used as you can't name a file and folder
-         // the same name.  optimally the url should be:
-         //  /friends/list/male(female)?token=[token]
-         
-         var gender = gender || null;         
          var url = 'api/getFriendList/';
-         
-         //
-         // optimial RESTful URLs:
-         //
-         //  /[token]/friends/list - get all friends
-         //  /[token]/friends/list/male
-         //  /[token]/friends/list/female
-         //
-         // acceptable structure
-         //
-         //  /friends/list?token=[token]
-         //  /friends/list/male?token=[token]
-         //  /friends/list/female?token=[token]
-         //
+
          this.__post(url, {token: this.token}, function(response){
             
             if(response.hasOwnProperty('profiles'))
@@ -218,29 +199,14 @@ var Mutuality = (function($){
             }
          });         
       },
-      loadFriendMatches: function( token, gender , success)
+      loadNewMatch: function ( gender1, gender2, success )
       {
-         if( !token || !gender ) return;
-         var self = this;
-         
-         // make request to find friend matches by selected token
-         //
-         //  /friends/matches/female?token=[token]
-         //  /friends/matches/male?token=[token]         
-         //
-         this.__post('friends/matches/'+gender, {token: token}, function(response){
+          if (!this.token || !gender1 || !gender2) return;
+          var self = this;
 
-            if(response.hasOwnProperty('profiles'))
-            {
-               // cache our results by token
-               // Mutuality.cache.matches[selected] = response.profiles;
-               if(success instanceof Function) success.call( self, response.profiles );
-            }
-            else if (response.hasOwnProperty('notice'))
-            {
-               alert(response.notice);
-            }      
-         });
+          this.__post('api/getNewMatch/', {token: this.token, gender1: gender1, gender2: gender2}, function(response){
+            if(success instanceof Function) success.call( self, response );
+          });
       },
       // get local cached friend profile by token and (optional) gender
       getFriendProfile : function( token, gender )

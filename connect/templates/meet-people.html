@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load la_facebook_tags %}
+{% block content %}
+    <section id="page-title" class="row">
+        <div class="eight columns">
+            <h2>Meet People</h2>
+        </div>
+
+        <div class="four columns">
+            <span id="invite-link">Can't find a match? <a href="#"><strong>Invite more friends.</strong></a></span>
+        </div>
+
+        <hr />
+    </section>
+
+    <section id="main" class="row">
+        <aside id="user-profile" class="three columns first">
+            <h5>Profile</h5>
+
+            <ul id="profile-stats" class="menu">
+                <li id="profile-sex">Male</li>
+                <li id="profile-status">Single</li>
+                <li id="profile-dob">April 12, 2981</li>
+            </ul>
+
+            <h5>Get Introduced</h5>
+
+            <ul id="get-introduced">
+                <li><a href="#"><img src="/assets/images/betty.jpg" /></a></li>
+                <li><a href="#"><img src="/assets/images/brian.jpg" /></a></li>
+                <li><a href="#"><img src="/assets/images/betty.jpg" /></a></li>
+                <li><a href="#"><img src="/assets/images/brian.jpg" /></a></li>
+                <li><a href="#"><img src="/assets/images/betty.jpg" /></a></li>
+            </ul>
+
+            <ul id="alt-actions" class="menu">
+                <li id="introduce"><a href="#">Introduce Yourself</a></li>
+                <li id="add-fav"><a href="#">Add to Favorites</a></li>
+                <li id="view-fb"><a href="#">View Facebook Profile</a></li>
+            </ul>
+        </aside>
+
+        <div class="eight columns last">
+            <nav class="meet-menu row">
+                <select id="fav-filter">
+                    <option id="all" value="All" selected="selected">All</option>
+                    <option id="fav" value="Favorites">Favorites</option>
+                </select>
+
+                <div id="pager-buttons">
+                    <div class="pager-button">
+                        <a href="#" id="page-prev">Down</a>
+                    </div>
+
+                    <div class="pager-button">
+                        <a href="#" id="page-next">Up</a>
+                    </div>
+                </div>
+
+            </nav>
+
+            <ol id="meet-profiles" class="profiles">
+                <li class="meet-profile">
+                    <a href="#" class="loaded">
+                        <img src="/assets/images/brian.jpg" />
+                                    <span class="match-profile-details">
+                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
+                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
+                                    </span>
+                    </a>
+                </li>
+
+                <li class="meet-profile active">
+                    <a href="#" class="loaded">
+                        <img src="/assets/images/brian.jpg" />
+                                    <span class="match-profile-details">
+                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
+                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
+                                    </span>
+                    </a>
+                </li>
+
+                <li class="meet-profile">
+                    <a href="#" class="loaded">
+                        <img src="/assets/images/brian.jpg" />
+                                    <span class="match-profile-details">
+                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
+                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
+                                    </span>
+                    </a>
+                </li>
+
+                <li class="meet-profile">
+                    <a href="#" class="loaded">
+                        <img src="/assets/images/brian.jpg" />
+                                    <span class="match-profile-details">
+                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
+                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
+                                    </span>
+                    </a>
+                </li>
+
+                <li class="meet-profile">
+                    <a href="#" class="loaded">
+                        <img src="/assets/images/brian.jpg" />
+                                    <span class="match-profile-details">
+                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
+                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
+                                    </span>
+                    </a>
+                </li>
+
+                <li class="meet-profile">
+                    <a href="#" class="loaded">
+                        <img src="/assets/images/brian.jpg" />
+                                    <span class="match-profile-details">
+                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
+                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
+                                    </span>
+                    </a>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <hr />
+
+    <section id="meet-people-cta" class="row">
+        <div class="eight columns">
+            <h4>Make Matches</h4>
+            <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+            <a href="#" class="button">Get Started</a>
+        </div>
+        <div class="four columns">
+            <img src="/assets/images/meet-people-cta-img.png" />
+        </div>
+    </section>
+
+    </div>
+    </div>
+    </div>
+{% endblock %}
+{% block extrascript %}
+    <script>
+        (function($){
+            $.getScript('/assets/javascripts/meet-people.js').fail(function(xhr, settings, exception){
+                console.log(exception);
+            });
+        })(jQuery);
+    </script>
+{% endblock %}

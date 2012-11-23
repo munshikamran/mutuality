@@ -1,7 +1,6 @@
 from connect.models import Profile,Friendship,FacebookUser
 
 def GetFriendList(profile):
-    print "hello world"
     friendships = list(Friendship.objects.filter(user=profile).values_list('friend'))
     friendIDList = []
     for friendship in friendships:

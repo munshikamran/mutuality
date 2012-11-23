@@ -11,7 +11,6 @@ import random
 
 # Create your models here.
 class Friendship( models.Model ):
-    
     #id
     user = models.ForeignKey('Profile', related_name="friend_to" )
     friend = models.ForeignKey(FacebookUser, related_name="friend_from")
