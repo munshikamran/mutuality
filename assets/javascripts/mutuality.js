@@ -179,21 +179,18 @@ var Mutuality = (function($){
          return this.cache.profile.hasOwnProperty('token') ? true : false;
       },
       // get a list of friends for the current user
-      loadFriendsList: function( gender , success )
+      loadFriendsList: function( success )
       {
          if(!this.token) return;
          var self = this;
          var url = 'api/getFriendList/';
 
          this.__post(url, {token: this.token}, function(response){
-            
-            if(response.hasOwnProperty('profiles'))
-            {
-               // Mutuality.cache.friends = response.profiles;               
-               if(success instanceof Function) success.call(self, response.profiles);   
- 
-            }
-            else if (response.hasOwnProperty('notice'))
+
+            Mutuality.cache.friends = response;
+            if(success instanceof Function) success.call(self, response);
+
+            if (response.hasOwnProperty('notice'))
             {
                alert(response.notice);
             }
@@ -208,33 +205,7 @@ var Mutuality = (function($){
             if(success instanceof Function) success.call( self, response );
           });
       },
-      // get local cached friend profile by token and (optional) gender
-      getFriendProfile : function( token, gender )
-      {
-         var self = this;
-         var found = null;
-         var genders = gender ? [gender] : ['male','female'];
 
-         for(var i=0, len = genders.length;i<len;i++){
-         
-            var gender = genders[i];
-         
-            if(self.cache.friends.hasOwnProperty(gender))
-            {
-               var list = self.cache.friends[gender];
-               
-               for(var j = 0, len = list.length; j<len; j++)
-               {
-                  if(token === list[j].token)
-                  {
-                     found = list[j];
-                     break;
-                  }
-               }
-            }
-         }   
-         return found;      
-      },
       // rate a friend. reason is an ID of reasons
       // if not specified or 0, rating is positive
       rateFriend: function( matchToken, rateToken, reason, success )
@@ -255,30 +226,7 @@ var Mutuality = (function($){
               alert(response.notice);
            }
         });
-      },
-      // add token for locked friend to locked array
-      lockFriend: function( token )
-      {
-         var found = this.cache.locked.indexOf( token ); 
-         if(found == -1)
-         {
-            this.cache.locked.push( token );
-         }
-      },
-      // remove token for locked friend from locked array
-      unlockFriend: function( token )
-      {
-         var found =  this.cache.locked.indexOf( token );
-         if(found > -1)
-         {
-            delete(this.cache.locked[ found ]);
-         }
-      },
-      // test if friend is locked
-      friendLocked: function( token )
-      {
-         return this.cache.locked.indexOf( token ) > -1  ? true : false;
-      }       
+      }
    };
    return module;
 })(jQuery);

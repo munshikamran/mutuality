@@ -151,19 +151,49 @@
 	   var exclude = Mutuality.cache.current[0];
 	   matchGender.call(this, e, 'right', exclude);	   
 	});
-	
-	// Thumbs up modal
-	/* Is this used???????????
-	$("#buttonForModal").click(function() {
-		$("#myModal").reveal();
-	});
-	*/
 
-	
+    // Put in the search results into the DOM with actual search data
+    var populateSearchResults = function(matches, parentID){
+        $("#" + parentID +" .search-results li span").each(function(i){
+            console.log(matches.length);
+            if(i < matches.length){
+                var imgURL = "https://graph.facebook.com/" + matches[i][0].facebookID + "/picture";
+                $(this).css('display', '');
+                $(this).css('background-image', 'url('+imgURL+')');
+            }
+            else{
+                $(this).css('display', 'none');
+            }
+        });
+        $("#" + parentID +" .search-results li strong").each(function(i){
+            if(i < matches.length){
+                $(this).css('display', '');
+                $(this).text(matches[i][0].name);
+            }
+            else{
+                $(this).css('display', 'none');
+            }
+        });
+    }
 	// Search input on Make Matches
 	$(".search-box").keyup( function() {
-		$(this).siblings(".search-results").fadeIn(200);
+        parentID = $(this).parent().attr('id');
+        searchText = $("#" + parentID + " .search-box").val();
+        var matches = new Array();
+        var rg = new RegExp(searchText,'i');
+        if(Mutuality.cache.friends != null){
+            $(Mutuality.cache.friends).each(function(){
+                if($.trim($(this)[0].name).search(rg) != -1) {
+                    if(matches.length < 3){
+                        matches.push($(this));
+                    }
+                }
+            });
+            populateSearchResults(matches, parentID);
+            $(this).siblings(".search-results").fadeIn(200);
+        }
 	});
+    
 	$(".search-box").focusout( function() {
 		$(this).siblings(".search-results").fadeOut(200);
 	});
@@ -185,7 +215,9 @@
             $('#reason-container input:eq(1)').val( rightPerson.facebookID );
 
             // write all values to their elements
-            // $('img', leftFriend).hide().attr('src', leftPerson.image).parents('a').addClass('loaded');
+            var urlBase = "https://graph.facebook.com/"
+            leftPerson.image = urlBase + leftPerson.facebookID + "/picture?width=350&height=350";
+            $('img', leftFriend).hide().attr('src', leftPerson.image).parents('a').addClass('loaded');
             $('.profile-name', leftFriend).text( leftPerson.name );
             if (leftPerson.location) {
                 $('.profile-location', leftFriend).text( leftPerson.location );
@@ -194,7 +226,8 @@
                 $('.profile-location', leftFriend).text("");
             }
 
-           // $('img', rightFriend).hide().attr('src', rightPerson.image).parents('a').addClass('loaded');
+           rightPerson.image = urlBase + rightPerson.facebookID + "/picture?width=350&height=350";
+           $('img', rightFriend).hide().attr('src', rightPerson.image).parents('a').addClass('loaded');
             $('.profile-name', rightFriend).text( rightPerson.name );
             if (rightPerson.location) {
                 $('.profile-location', rightFriend).text( rightPerson.location );
@@ -211,10 +244,7 @@
 
    // Load friends via AJAX and populate the left and right
    // sides with a random match.
-   Mutuality.loadFriendsList(null, function(friends){
-
-     Mutuality.cache.friends = friends; // Store the friends list for use later
-   });
+   Mutuality.loadFriendsList(null, function(){});
 
    // Load initial match on the page
    Mutuality.loadNewMatch('male', 'female', matchSuccess);
