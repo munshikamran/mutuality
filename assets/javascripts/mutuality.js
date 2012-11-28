@@ -160,7 +160,7 @@ var Mutuality = (function($){
          var self = this;
          var url = 'api/getProfile/';
          
-         this.__get(url, {token: this.token}, function(response){
+         this.__post(url, {token: this.token}, function(response){
             
             if(response.hasOwnProperty('profile'))
             {
@@ -179,96 +179,33 @@ var Mutuality = (function($){
          return this.cache.profile.hasOwnProperty('token') ? true : false;
       },
       // get a list of friends for the current user
-      loadFriendsList: function( gender , success )
+      loadFriendsList: function( success )
       {
          if(!this.token) return;
          var self = this;
-         
-         // underscore used as you can't name a file and folder
-         // the same name.  optimally the url should be:
-         //  /friends/list/male(female)?token=[token]
-         
-         var gender = gender || null;         
          var url = 'api/getFriendList/';
-         
-         //
-         // optimial RESTful URLs:
-         //
-         //  /[token]/friends/list - get all friends
-         //  /[token]/friends/list/male
-         //  /[token]/friends/list/female
-         //
-         // acceptable structure
-         //
-         //  /friends/list?token=[token]
-         //  /friends/list/male?token=[token]
-         //  /friends/list/female?token=[token]
-         //
+
          this.__post(url, {token: this.token}, function(response){
-            
-            if(response.hasOwnProperty('profiles'))
-            {
-               // Mutuality.cache.friends = response.profiles;               
-               if(success instanceof Function) success.call(self, response.profiles);   
- 
-            }
-            else if (response.hasOwnProperty('notice'))
+
+            Mutuality.cache.friends = response;
+            if(success instanceof Function) success.call(self, response);
+
+            if (response.hasOwnProperty('notice'))
             {
                alert(response.notice);
             }
          });         
       },
-      loadFriendMatches: function( token, gender , success)
+      loadNewMatch: function ( gender1, gender2, success )
       {
-         if( !token || !gender ) return;
-         var self = this;
-         
-         // make request to find friend matches by selected token
-         //
-         //  /friends/matches/female?token=[token]
-         //  /friends/matches/male?token=[token]         
-         //
-         this.__post('friends/matches/'+gender, {token: token}, function(response){
+          if (!this.token || !gender1 || !gender2) return;
+          var self = this;
 
-            if(response.hasOwnProperty('profiles'))
-            {
-               // cache our results by token
-               // Mutuality.cache.matches[selected] = response.profiles;
-               if(success instanceof Function) success.call( self, response.profiles );
-            }
-            else if (response.hasOwnProperty('notice'))
-            {
-               alert(response.notice);
-            }      
-         });
+          this.__post('api/getNewMatch/', {token: this.token, gender1: gender1, gender2: gender2}, function(response){
+            if(success instanceof Function) success.call( self, response );
+          });
       },
-      // get local cached friend profile by token and (optional) gender
-      getFriendProfile : function( token, gender )
-      {
-         var self = this;
-         var found = null;
-         var genders = gender ? [gender] : ['male','female'];
 
-         for(var i=0, len = genders.length;i<len;i++){
-         
-            var gender = genders[i];
-         
-            if(self.cache.friends.hasOwnProperty(gender))
-            {
-               var list = self.cache.friends[gender];
-               
-               for(var j = 0, len = list.length; j<len; j++)
-               {
-                  if(token === list[j].token)
-                  {
-                     found = list[j];
-                     break;
-                  }
-               }
-            }
-         }   
-         return found;      
-      },
       // rate a friend. reason is an ID of reasons
       // if not specified or 0, rating is positive
       rateFriend: function( matchToken, rateToken, reason, success )
@@ -289,30 +226,7 @@ var Mutuality = (function($){
               alert(response.notice);
            }
         });
-      },
-      // add token for locked friend to locked array
-      lockFriend: function( token )
-      {
-         var found = this.cache.locked.indexOf( token ); 
-         if(found == -1)
-         {
-            this.cache.locked.push( token );
-         }
-      },
-      // remove token for locked friend from locked array
-      unlockFriend: function( token )
-      {
-         var found =  this.cache.locked.indexOf( token );
-         if(found > -1)
-         {
-            delete(this.cache.locked[ found ]);
-         }
-      },
-      // test if friend is locked
-      friendLocked: function( token )
-      {
-         return this.cache.locked.indexOf( token ) > -1  ? true : false;
-      }       
+      }
    };
    return module;
 })(jQuery);

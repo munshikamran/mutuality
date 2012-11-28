@@ -1,8 +1,6 @@
-from connect.models import Profile,Friendship,FacebookUser
 from getFriendList import GetFriendList
 from connect.classes import FriendMatch
 import random
-import time
 
 def GetNewMatch(profile,gender1,gender2):
     person1 = getRandomFriend(profile,gender1)

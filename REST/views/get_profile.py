@@ -3,7 +3,6 @@ from Mutuality.connect.models import Profile
 from REST.serializers import ProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 
 class GetProfile(APIView):
     """
@@ -15,7 +14,7 @@ class GetProfile(APIView):
         except Profile.DoesNotExist:
             raise Http404
 
-    def get(self, request, format=None):
+    def post(self, request, format=None):
         profile = self.get_object(request.DATA['token'])
         serializer = ProfileSerializer(profile)
         return Response(serializer.data)

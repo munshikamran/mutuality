@@ -9,7 +9,7 @@
   <!-- Set the viewport width to device width for mobile -->
   <meta name="viewport" content="width=device-width" />
 
-  <title>Mutuality &mdash; Make Matches</title>
+  <title>{% block title %} Mutuality -  {% endblock %}</title>
 
   <!-- Included CSS Files -->
   <link rel="stylesheet" href="/assets/stylesheets/app.css">
@@ -38,11 +38,11 @@
               {% if profile %}
                 <ul class="right">
                   <li id="menu-make-matches" class="active"><a href="/makematches/" class="page-nav">Make Matches</a></li>
-                  <li id="menu-meet-people"><a href="/meet-people/" class="page-nav">Meet People</a></li>
+                  <li id="menu-meet-people"><a href="/meetpeople/" class="page-nav">Meet People</a></li>
                   <li class="divider show-for-medium-and-up"></li>
                   <li class="has-dropdown">
                     <a href="/account/">
-                      <span class="profile-thumb" style="background-image: url(/assets/images/profile-thumb-temp.jpg);"></span>Hello, {{ profile.name }}!<span class="darr"></span>
+                      <span class="profile-thumb" style="background-image: urL(https://graph.facebook.com/{{ profile.facebookID }}/picture)"></span>Hello, {{ profile.name }}!<span class="darr"></span>
                     </a>
                     <ul class="dropdown">
                       <li id="menu-account"><a href="/account/">Account</a></li>

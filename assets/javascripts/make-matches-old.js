@@ -151,103 +151,61 @@
 	   var exclude = Mutuality.cache.current[0];
 	   matchGender.call(this, e, 'right', exclude);	   
 	});
+	
+	// Thumbs up modal
+	/* Is this used???????????
+	$("#buttonForModal").click(function() {
+		$("#myModal").reveal();
+	});
+	*/
 
-    // Put in the search results into the DOM with actual search data
-    var populateSearchResults = function(matches, parentID){
-        $("#" + parentID +" .search-results li span").each(function(i){
-            console.log(matches.length);
-            if(i < matches.length){
-                var imgURL = "https://graph.facebook.com/" + matches[i][0].facebookID + "/picture";
-                $(this).css('display', '');
-                $(this).css('background-image', 'url('+imgURL+')');
-            }
-            else{
-                $(this).css('display', 'none');
-            }
-        });
-        $("#" + parentID +" .search-results li strong").each(function(i){
-            if(i < matches.length){
-                $(this).css('display', '');
-                $(this).text(matches[i][0].name);
-            }
-            else{
-                $(this).css('display', 'none');
-            }
-        });
-    }
+	
 	// Search input on Make Matches
 	$(".search-box").keyup( function() {
-        parentID = $(this).parent().attr('id');
-        searchText = $("#" + parentID + " .search-box").val();
-        var matches = new Array();
-        var rg = new RegExp(searchText,'i');
-        if(Mutuality.cache.friends != null){
-            $(Mutuality.cache.friends).each(function(){
-                if($.trim($(this)[0].name).search(rg) != -1) {
-                    if(matches.length < 3){
-                        matches.push($(this));
-                    }
-                }
-            });
-            populateSearchResults(matches, parentID);
-            $(this).siblings(".search-results").fadeIn(200);
-        }
+		$(this).siblings(".search-results").fadeIn(200);
 	});
-    
 	$(".search-box").focusout( function() {
 		$(this).siblings(".search-results").fadeOut(200);
 	});
 
-    $('#random-button').bind('click', function(e){
-        Mutuality.loadNewMatch('male', 'female', matchSuccess);
-    });
+	
+   // load friends in via Ajax and populate the left and right
+   // sides with a random friend. I assume random as the first
+   // load will contain all friends
+   Mutuality.loadFriendsList(null, function(friends){
 
-    // After a successful match, load the data into the UI
-    var matchSuccess = function(match){
-        var leftFriend   = $('#left-match-profiles');
-        var rightFriend  = $('#right-match-profiles');
-        if (match.length == 2) {
-            var leftPerson = match[0];
-            var rightPerson = match[1];
-            Mutuality.cache.current = [leftPerson, rightPerson];
+     Mutuality.cache.friends = friends;
 
-            $('#reason-container input:eq(0)').val( leftPerson.facebookID );
-            $('#reason-container input:eq(1)').val( rightPerson.facebookID );
-
-            // write all values to their elements
-            var urlBase = "https://graph.facebook.com/"
-            leftPerson.image = urlBase + leftPerson.facebookID + "/picture?width=350&height=350";
-            $('img', leftFriend).hide().attr('src', leftPerson.image).parents('a').addClass('loaded');
-            $('.profile-name', leftFriend).text( leftPerson.name );
-            if (leftPerson.location) {
-                $('.profile-location', leftFriend).text( leftPerson.location );
-            }
-            else {
-                $('.profile-location', leftFriend).text("");
-            }
-
-           rightPerson.image = urlBase + rightPerson.facebookID + "/picture?width=350&height=350";
-           $('img', rightFriend).hide().attr('src', rightPerson.image).parents('a').addClass('loaded');
-            $('.profile-name', rightFriend).text( rightPerson.name );
-            if (rightPerson.location) {
-                $('.profile-location', rightFriend).text( rightPerson.location );
-            }
-            else {
-                $('.profile-location', rightFriend).text("");
-            }
-
-            $('img', leftFriend).fadeIn(400);
-            $('img', rightFriend).fadeIn(400);
-        }
-
-    };
-
-   // Load friends via AJAX and populate the left and right
-   // sides with a random match.
-   Mutuality.loadFriendsList(null, function(){});
-
-   // Load initial match on the page
-   Mutuality.loadNewMatch('male', 'female', matchSuccess);
-
-
+     var leftList   = $('#left-match-profiles');
+     var rightList  = $('#right-match-profiles');     
+     var leftArray  = friends.male;
+     var rightArray = friends.female;
+     
+     // yank a random male and female friend
+     var leftRand  = leftArray[Math.floor(Math.random() * leftArray.length)];
+     var rightRand = rightArray[Math.floor(Math.random() * rightArray.length)];
+     
+     var leftFriend  = $('li', leftList);
+     var rightFriend = $('li', rightList);
+     
+     // write current visible friends to cache and store as
+     // values for thumb inputs
+     Mutuality.cache.current = [ leftRand.token, rightRand.token ];
+     
+     $('#reason-container input:eq(0)').val( leftRand.token );
+     $('#reason-container input:eq(1)').val( rightRand.token ); 
+     
+     // write all values to their elements     
+     $('img', leftFriend).hide().attr('src', leftRand.image).parents('a').addClass('loaded');
+     $('.profile-name', leftFriend).text( leftRand.full_name );
+     $('.profile-location', leftFriend).text( leftRand.city+', '+leftRand.state );
+     
+     $('img', rightFriend).hide().attr('src', rightRand.image).parents('a').addClass('loaded');    
+     $('.profile-name', rightFriend).text( rightRand.full_name );  
+     $('.profile-location', rightFriend).text( rightRand.city+', '+rightRand.state );
+     
+     $('img', leftFriend).fadeIn(400);
+     $('img', rightFriend).fadeIn(400);     
+   });
+	
 })(jQuery);
