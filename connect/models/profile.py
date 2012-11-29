@@ -1,11 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-import random
-from datetime import datetime, timedelta
-
-from facebookuser import FacebookUser
-from friendship import Friendship
-
+from datetime import datetime
 from common.enums import RELATIONSHIP_STATUS
 from common.enums import GENDER
 
@@ -65,40 +60,3 @@ class Profile(models.Model):
 	def imageURL(self,type='normal'):
 		url = 'http://graph.facebook.com/%s/picture?type=%s'
 		return url % (self.facebookID, type)
-
-
-	def rateFacebookMatch(self,match,rating):
-		fbPairRating = FacebookPairRating(facebookPairRater=self,friendFacebookID1=match[0]['id'],friendFacebookID2=match[1]['id'],rating=rating)
-		fbPairRating.save()
-
-	def getFriendsFromDatabase(self):
-		friendships =  list(Friendship.objects.filter(user=self).values_list('friend'))
-		friendshipList=[]
-		for friendship in friendships:
-			friendshipList.append(friendship[0])
-		return FacebookUser.objects.filter(facebookID__in=friendshipList)
-
-
-
-class ProfilePair(models.Model):
-	profile1 = models.ForeignKey(Profile, related_name='profile1')
-	profile2 = models.ForeignKey(Profile, related_name='profile2')
-	mutualFriendCount = models.IntegerField(default=0)
-	distance = models.FloatField(default =float('inf'))
-	matchScore = models.FloatField(default=0)
-
-	def computeMatchScore(self):
-		self.matchScore =  self.mutualFriendCount/(self.distance + 1)
-
-
-class ProfilePairRating(models.Model):
-	profilePairRater = models.ForeignKey(Profile, related_name='profilePairRater')
-	ratingProfile1 = models.ForeignKey(Profile, related_name='ratingProfile1')
-	ratingProfile2 = models.ForeignKey(Profile, related_name='ratingProfile2')
-	rating = models.IntegerField(default=0)
-
-class FacebookPairRating(models.Model):
-	facebookPairRater = models.ForeignKey(Profile, related_name='facebookPairRater')
-	friendFacebookID1 = models.CharField(max_length=255)
-	friendFacebookID2 = models.CharField(max_length=255)
-	rating = models.IntegerField(default=0)
