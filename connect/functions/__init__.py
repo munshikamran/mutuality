@@ -1,3 +1,5 @@
 from getFriendList import GetFriendList
 from getMutualFriendList import GetMutualFriendList
 from getMatches import GetNewMatch
+from getMessages import GetRecentMessages, GetMessageThreadWithOther
+from sendMessage import SendMessageToOtherProfile
