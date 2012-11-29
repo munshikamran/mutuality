@@ -4,7 +4,6 @@ from datetime import datetime
 from common.enums import RELATIONSHIP_STATUS
 from common.enums import GENDER
 
-# Create your models here.
 class Profile(models.Model):
 
 	facebookID = models.CharField(max_length=255,primary_key=True)

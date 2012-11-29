@@ -1,13 +1,5 @@
-from django.contrib.auth.models import User
 from django.db import models
-# from profile import Profile
 from facebookuser import FacebookUser
-from django.db.models import Q
-import settings
-from la_facebook.models import UserAssociation
-from messages.models import Message
-import facebook	
-import random
 
 # Create your models here.
 class Friendship( models.Model ):

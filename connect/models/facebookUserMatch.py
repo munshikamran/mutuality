@@ -3,7 +3,6 @@ from profile import Profile
 from facebookuser import FacebookUser
 
 
-# Create your models here.
 class FacebookUserMatch( models.Model ):
     profile = models.ForeignKey(Profile)
     facebookUser1 = models.ForeignKey(FacebookUser, related_name="match_facebookUser1")
