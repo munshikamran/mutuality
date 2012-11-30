@@ -1,5 +1,6 @@
 from getFriendList import GetFriendList
 from connect.classes import FriendMatch
+from connect.models import FacebookUser
 import random
 
 def GetNewMatch(profile,gender1,gender2):
@@ -7,7 +8,8 @@ def GetNewMatch(profile,gender1,gender2):
     friendMatch = GetNewMatchIncludingPerson(profile,person1,gender2)
     return friendMatch
 
-def GetNewMatchIncludingPerson(profile,person,genderOtherPerson):
+def GetNewMatchIncludingPerson(profile,personID,genderOtherPerson):
+    person = FacebookUser.objects.get(facebookID=personID)
     friendsInSameState = getPotentialsForPersonInSameState(profile,person,genderOtherPerson)
     if friendsInSameState.exists():
         otherPerson = randomElementFromList(friendsInSameState)
