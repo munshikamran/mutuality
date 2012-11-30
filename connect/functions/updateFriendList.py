@@ -3,11 +3,14 @@ from getProfileAuthToken import GetProfileAuthToken
 import facebook
 
 def UpdateFriendList(profile):
-    friendListData = getFriendListFromFacebook(profile)
-    for friend in friendListData:
-        facebookUser = createOrUpdateFacebookUser(friend)
-        friendship = createOrUpdateFriendShip(profile,facebookUser)
-
+    try:
+        friendListData = getFriendListFromFacebook(profile)
+        for friend in friendListData:
+            facebookUser = createOrUpdateFacebookUser(friend)
+            friendship = createOrUpdateFriendShip(profile,facebookUser)
+        return True
+    except:
+        return False
 
 def getFriendListFromFacebook(profile):
     graph = facebook.GraphAPI(GetProfileAuthToken(profile))

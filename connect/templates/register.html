@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 {% block content %}
     <h1>A bit more information for Mutuality</h1>
@@ -23,6 +22,12 @@
 	        height="350">
 	</iframe>
 	</div>
+{% endblock %}
+{% block extrascript %}
+    <script>
+        Mutuality.init('{{ profile.facebookID }}', '../');
+        Mutuality.updateFriendList(function(){});
+    </script>
 {% endblock %}
 
 

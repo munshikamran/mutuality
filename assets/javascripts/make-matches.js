@@ -121,31 +121,39 @@
 	
 	$('#left-match-lock').bind('click', function(e){
 	   e.preventDefault();
-	   Mutuality.lockLeft();
-	   matchLock.call(this,e);
+       if(!Mutuality.cache.rightSlotLocked){
+        Mutuality.lockLeft();
+	    matchLock.call(this,e);
+       }
+       else{
+        Mutuality.lockRight();
+        Mutuality.lockLeft();
+        matchLock.call(this,e);
+        matchLock.call($('#right-match-lock'),e);
+       }
 	});
 	
 	$('#right-match-lock').bind('click', function(e){
 	   e.preventDefault();
-       Mutuality.lockRight();
-	   matchLock.call(this,e);
+       if(!Mutuality.cache.leftSlotLocked){
+        Mutuality.lockRight();
+	    matchLock.call(this,e);
+       }
+       else{
+        Mutuality.lockRight();
+        Mutuality.lockLeft();
+        matchLock.call(this,e);
+        matchLock.call($('#left-match-lock'),e);
+       }
 	});
 	
 	
 	$('#left-match-sex').bind('change', function(e){
-	   
-	   // passing the index of the opposite side
-	   // to exclude them from the list
-	   var exclude = Mutuality.cache.current[1];
-	   matchGender.call(this, e, 'left', exclude);	   
+
 	});
 	
 	$('#right-match-sex').bind('change', function(e){
-	   
-	   // passing the index of the opposite side
-	   // to exclude them from the list
-	   var exclude = Mutuality.cache.current[0];
-	   matchGender.call(this, e, 'right', exclude);	   
+
 	});
 
     // Put in the search results into the DOM with actual search data
@@ -196,8 +204,8 @@
 
     // When the spin button is clicked, load a new match!
     $('#random-button').bind('click', function(e){
-        var leftSex = $("#left-match-sex").val() == "guys" ? 'male' : 'female';
-        var rightSex = $("#right-match-sex").val() == "guys" ? 'male' : 'female';
+        var leftSex = $("#left-match-sex").val() == "Guys" ? 'male' : 'female';
+        var rightSex = $("#right-match-sex").val() == "Guys" ? 'male' : 'female';
         Mutuality.loadNewMatch(leftSex, rightSex, matchSuccess);
     });
 

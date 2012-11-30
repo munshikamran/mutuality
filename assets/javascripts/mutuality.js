@@ -191,6 +191,14 @@ var Mutuality = (function($){
             }
          });         
       },
+      // Update users friend list in the mutuality backend
+      updateFriendList: function ( success )
+      {
+          var self = this;
+          this.__post('api/updateFriendList/', {token: this.token }, function(response){
+              if(success instanceof Function) success.call( self, response );
+          });
+      },
       // Load a new match for the current user
       loadNewMatch: function ( leftSlotGender, rightSlotGender, success )
       {

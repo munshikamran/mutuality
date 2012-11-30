@@ -5,7 +5,7 @@ import random
 
 def GetNewMatch(profile,gender1,gender2):
     person1 = getRandomFriend(profile,gender1)
-    friendMatch = GetNewMatchIncludingPerson(profile,person1,gender2)
+    friendMatch = GetNewMatchIncludingPerson(profile,person1.facebookID,gender2)
     return friendMatch
 
 def GetNewMatchIncludingPerson(profile,personID,genderOtherPerson):
