@@ -1,9 +1,13 @@
 from django.db import models
+from facebookuser import FacebookUser
 from facebookUserMatch import FacebookUserMatch
+from common.enums import MATCH_REASONS
 
-class FacebookUserReason( models.Model ):
+class FacebookUserMatchReason( models.Model ):
     match = models.ForeignKey(FacebookUserMatch)
-    reason = models.CharField(max_length=255)
+    subject = models.ForeignKey(FacebookUser, related_name="reason_subject")
+    object = models.ForeignKey(FacebookUser, related_name="reason_object")
+    reason = models.CharField(max_length=255,choices=MATCH_REASONS.ENUM)
 
     class Meta:
         app_label = 'connect'
