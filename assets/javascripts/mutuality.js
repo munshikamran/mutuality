@@ -1,24 +1,20 @@
 //
 //  mutuality.js
 //  Mutuality Main Library
-//  
-//  Created by Craig Hoover obo Lee Peterson
-//  Copyright 2012 Mutuality LLC. All rights reserved.
-// 
-
-   ///////////////////////////////////////
- // Utility functions and preloads
 //
 
+///////////////////////////////////////
+// Utility functions
+///////////////////////////////////////
 
-// add method to number for rad lookup
+// Add method to Number for radian lookup
 if (typeof(Number.prototype.toRad) === "undefined") {
    Number.prototype.toRad = function() {
       return this * Math.PI / 180;
    }
 }
 
-// window.console override for older browsers
+// Window.console override for older browsers
 if(!window.console)
 {
    var __console = function(){
@@ -31,7 +27,7 @@ if(!window.console)
    window.console = new __console();
 }
 
-// setup getCookie function if not exists
+// Setup getCookie function if not exists
 if(typeof getCookie != 'function')
 {
    function getCookie(name) 
@@ -54,7 +50,7 @@ if(typeof getCookie != 'function')
    }
 }
 
-// indexOf method for searching arrays
+// Adding indexOf method for searching arrays
 if (!Array.prototype.indexOf)
 {
   Array.prototype.indexOf = function(elt /*, from*/)
@@ -78,19 +74,18 @@ if (!Array.prototype.indexOf)
   };
 }
 
-
-   ///////////////////////////////////////
- // Main object
-//
+///////////////////////////////////////
+// The main Mutuality object
+///////////////////////////////////////
 var Mutuality = (function($){
    
-   // default dataType for jQuery Ajax calls
+   // The default dataType for jQuery AJAX calls
    $.ajaxSetup({  dataType: 'json' });
    
    var module = 
    {
       basePath : '',
-      cache: { current: [], profile: {}, friends: {}, matches: {}, locked: [] },
+      cache: { current: ["", ""], profile: {}, friends: {}, leftSlotLocked: false, rightSlotLocked: false },
       history : [],
       token : null,
       init: function( token, basePath, success )
@@ -107,7 +102,7 @@ var Mutuality = (function($){
             self = null;
          });
       },
-      // private "style" methods for making requests
+      // Private methods for making various requests
       __post: function(url, params, onSuccess, onError)
       {
          this.__makeRequest('POST', url, params, onSuccess, onError);
@@ -149,11 +144,8 @@ var Mutuality = (function($){
             error      : onError || this.__onError
          });
       },
-      // get current user profile by token
-      // obviously, the server side will need to make sure that
-      // there is an ACL to make sure the current user can't load
-      // the profile of another user - perhaps a comparison of the
-      // session user token vs what is posted
+      // Get current user profile by token
+      // TODO: Security - make sure other user profile cannot be loaded
       loadProfile: function( token, success )
       {
          if(!this.token) return;
@@ -162,10 +154,10 @@ var Mutuality = (function($){
          
          this.__post(url, {token: this.token}, function(response){
             
-            if(response.hasOwnProperty('profile'))
+            if(response.hasOwnProperty('facebookID'))
             {
-               // Mutuality.cache.profile = response.profile;    
-               if(success instanceof Function) success.call(self, response.profile);
+               Mutuality.cache.profile = response;
+               if(success instanceof Function) success.call(self, response);
             }
             else if (response.hasOwnProperty('notice'))
             {
@@ -173,12 +165,15 @@ var Mutuality = (function($){
             }             
          });
       },
-      // check to see if user profile is loaded
+      // Check to see if user profile is loaded
       profileLoaded: function()
       {
-         return this.cache.profile.hasOwnProperty('token') ? true : false;
+         return this.cache.profile.hasOwnProperty('facebookID') ? true : false;
       },
-      // get a list of friends for the current user
+      getProfilePictureURL: function(facebookID){
+          return "https://graph.facebook.com/"  + facebookID + "/picture?width=350&height=350"
+      },
+      // Get the list of facebook friends for the current user
       loadFriendsList: function( success )
       {
          if(!this.token) return;
@@ -196,17 +191,25 @@ var Mutuality = (function($){
             }
          });         
       },
-      loadNewMatch: function ( gender1, gender2, success )
+      // Load a new match for the current user
+      loadNewMatch: function ( leftSlotGender, rightSlotGender, success )
       {
-          if (!this.token || !gender1 || !gender2) return;
+          if (!this.token || !leftSlotGender || !rightSlotGender) return;
           var self = this;
-
-          this.__post('api/getNewMatch/', {token: this.token, gender1: gender1, gender2: gender2}, function(response){
+          this.__post('api/getNewMatch/', {token: this.token, leftSlotGender: leftSlotGender, rightSlotGender: rightSlotGender, leftSlotLocked: this.cache.leftSlotLocked, rightSlotLocked: this.cache.rightSlotLocked, leftSlotID: this.cache.current[0], rightSlotID: this.cache.current[1]}, function(response){
             if(success instanceof Function) success.call( self, response );
           });
       },
-
-      // rate a friend. reason is an ID of reasons
+      // Lock/unlock the left slot
+      lockLeft: function(){
+        this.cache.leftSlotLocked = !this.cache.leftSlotLocked;
+      },
+      // Lock/unlock the right slot
+      lockRight: function(){
+           this.cache.rightSlotLocked = !this.cache.rightSlotLocked;
+      },
+      // Rate a match.
+      // reason is an ID of reasons
       // if not specified or 0, rating is positive
       rateFriend: function( matchToken, rateToken, reason, success )
       {
