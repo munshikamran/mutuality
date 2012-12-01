@@ -170,8 +170,13 @@ var Mutuality = (function($){
       {
          return this.cache.profile.hasOwnProperty('facebookID') ? true : false;
       },
-      getProfilePictureURL: function(facebookID){
-          return "https://graph.facebook.com/"  + facebookID + "/picture?width=350&height=350"
+      getProfilePictureURL: function(facebookID, width, height){
+          if (!width || !height){
+            return "https://graph.facebook.com/"  + facebookID + "/picture";
+          }
+          else{
+            return "https://graph.facebook.com/"  + facebookID + "/picture?width=" + width + "&height=" + height;
+          }
       },
       // Get the list of facebook friends for the current user
       loadFriendsList: function( success )

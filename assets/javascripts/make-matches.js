@@ -118,7 +118,8 @@
 			});
 		});
 	});
-	
+
+    // Left lock button pressed
 	$('#left-match-lock').bind('click', function(e){
 	   e.preventDefault();
        if(!Mutuality.cache.rightSlotLocked){
@@ -132,7 +133,8 @@
         matchLock.call($('#right-match-lock'),e);
        }
 	});
-	
+
+    // Right lock button pressed
 	$('#right-match-lock').bind('click', function(e){
 	   e.preventDefault();
        if(!Mutuality.cache.leftSlotLocked){
@@ -159,11 +161,9 @@
     // Put in the search results into the DOM with actual search data
     var populateSearchResults = function(matches, parentID){
         $("#" + parentID +" .search-results li span").each(function(i){
-            console.log(matches.length);
             if(i < matches.length){
-                var imgURL = "https://graph.facebook.com/" + matches[i][0].facebookID + "/picture";
                 $(this).css('display', '');
-                $(this).css('background-image', 'url('+imgURL+')');
+                $(this).css('background-image', 'url('+Mutuality.getProfilePictureURL(matches[i][0].facebookID)+')');
             }
             else{
                 $(this).css('display', 'none');
@@ -181,13 +181,17 @@
     }
 	// Search input on Make Matches
 	$(".search-box").keyup( function() {
-        parentID = $(this).parent().attr('id');
-        searchText = $("#" + parentID + " .search-box").val();
+        var parentID = $(this).parent().attr('id');
+        var searchText = $("#" + parentID + " .search-box").val();
+        var dropDownSex = $("#left-match-sex").val() == "Guys" ? "male" : "female";
+        if (parentID.indexOf("right") != -1){
+            dropDownSex = $("#right-match-sex").val() == "Guys" ? "male" : "female";
+        }
         var matches = new Array();
         var rg = new RegExp(searchText,'i');
         if(Mutuality.cache.friends != null){
             $(Mutuality.cache.friends).each(function(){
-                if($.trim($(this)[0].name).search(rg) != -1) {
+                if($.trim($(this)[0].name).search(rg) != -1 && $(this)[0].gender == dropDownSex) {
                     if(matches.length < 3){
                         matches.push($(this));
                     }
@@ -223,7 +227,7 @@
 
             // write all values to their elements
 
-            leftPerson.image = Mutuality.getProfilePictureURL(leftPerson.facebookID);
+            leftPerson.image = Mutuality.getProfilePictureURL(leftPerson.facebookID, 350, 350);
             $('img', leftFriend).hide().attr('src', leftPerson.image).parents('a').addClass('loaded');
             $('.profile-name', leftFriend).text( leftPerson.name );
             if (leftPerson.location) {
@@ -233,7 +237,7 @@
                 $('.profile-location', leftFriend).text("");
             }
 
-           rightPerson.image = Mutuality.getProfilePictureURL(rightPerson.facebookID);
+           rightPerson.image = Mutuality.getProfilePictureURL(rightPerson.facebookID, 350, 350);
            $('img', rightFriend).hide().attr('src', rightPerson.image).parents('a').addClass('loaded');
             $('.profile-name', rightFriend).text( rightPerson.name );
             if (rightPerson.location) {
