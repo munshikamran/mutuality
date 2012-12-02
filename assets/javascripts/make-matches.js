@@ -173,6 +173,9 @@
             if(i < matches.length){
                 $(this).css('display', '');
                 $(this).text(matches[i][0].name);
+                $(this).data('facebookID', { facebookID: matches[i][0].facebookID });
+                $(this).data('name', { name: matches[i][0].name });
+                $(this).data('location', { location: matches[i][0].location });
             }
             else{
                 $(this).css('display', 'none');
@@ -201,6 +204,37 @@
             $(this).siblings(".search-results").fadeIn(200);
         }
 	});
+
+    $(".search-results li strong").bind('click', function(e) {
+        console.log($(this));
+        var parentID = $(this).parents("div").attr('id');
+        console.log(parentID);
+        var side = parentID.indexOf("right") != -1 ? "right" : "left";
+        var name = $(this).data('name')['name'];
+        var facebookID = $(this).data('facebookID')['facebookID'];
+        var location = $(this).data('location')['location'];
+        var imgURL = Mutuality.getProfilePictureURL(facebookID, 350, 350);
+
+        var friend = $('#'+side+'-match-profiles');
+
+        $('img', friend).hide().attr('src', imgURL).parents('a').addClass('loaded');
+        $('.profile-name', friend).text( name );
+        if (location) {
+            $('.profile-location', friend).text( location );
+        }
+        else {
+            $('.profile-location', friend).text("");
+        }
+        $('img', friend).fadeIn(400);
+
+        if(side == "right"){
+            Mutuality.cache.current[1] = facebookID;
+        }
+        else{
+            Mutuality.cache.current[0] = facebookID
+        }
+
+    });
 
 	$(".search-box").focusout( function() {
 		$(this).siblings(".search-results").fadeOut(200);
