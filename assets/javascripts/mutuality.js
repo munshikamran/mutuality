@@ -196,12 +196,26 @@ var Mutuality = (function($){
             }
          });         
       },
+      // Get the rest of the information about a friend from his/her facebookID
+      getFriendProfile: function ( facebookID ){
+          for (i = 0; i<Mutuality.cache.friends.length;i++){
+              if (Mutuality.cache.friends[i].facebookID == facebookID){
+                  return Mutuality.cache.friends[i];
+              }
+          }
+      },
       // Update users friend list in the mutuality backend
       updateFriendList: function ( success )
       {
           var self = this;
           this.__post('api/updateFriendList/', {token: this.token }, function(response){
-              if(success instanceof Function) success.call( self, response );
+              if (response == true){
+                  if(success instanceof Function) success.call(self);
+              }
+              else if (response.hasOwnProperty('notice'))
+              {
+                  alert(response.notice);
+              }
           });
       },
       // Load a new match for the current user
@@ -219,18 +233,30 @@ var Mutuality = (function($){
       },
       // Lock/unlock the right slot
       lockRight: function(){
-           this.cache.rightSlotLocked = !this.cache.rightSlotLocked;
+        this.cache.rightSlotLocked = !this.cache.rightSlotLocked;
+      },
+      rateMatchThumbsUp: function ( success ) {
+        var self = this;
+        self.__post('api/rateThumbsUp/', { token: this.token, leftSlotFacebookID: this.cache.current[0], rightSlotFacebookID: this.cache.current[1] } , function (response){
+            if (response == true){
+                if(success instanceof Function) success.call(self);
+            }
+            else if (response.hasOwnProperty('notice'))
+            {
+                alert(response.notice);
+            }
+         });
+
       },
       // Rate a match.
       // reason is an ID of reasons
       // if not specified or 0, rating is positive
       rateFriend: function( matchToken, rateToken, reason, success )
       {
-        var self = this; 
-        var reason = reason || 0;
-        if( !matchToken || !rateToken ) return;
+        var self = this;
+        if(success instanceof Function) success.call(self);
         
-        self.__post('/friends/rate', { matchToken: matchToken, rateToken: rateToken, reason: reason}, function( response ){
+        /*self.__post('friends/rate', { matchToken: matchToken, rateToken: rateToken, reason: reason}, function( response ){
            
            if(response.hasOwnProperty('profiles'))
            {
@@ -241,7 +267,7 @@ var Mutuality = (function($){
            {
               alert(response.notice);
            }
-        });
+        });*/
       }
    };
    return module;

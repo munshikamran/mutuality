@@ -1,36 +1,33 @@
 (function($){
    
    var thumbRate = function(e, thumbsUp)
-   {      
-	   var rateToken  = $('input[name=is]:checked').val();
-	   var matchToken = $('input[name=is]:not(:checked)').val();
-	   var reason     = $('#reason-select').val();
+   {
+       if(thumbsUp)
+       {
+           Mutuality.rateMatchThumbsUp(function(){
+               var leftFriend  = Mutuality.getFriendProfile( Mutuality.cache.current[0] );
+               var rightFriend = Mutuality.getFriendProfile( Mutuality.cache.current[1] );
+               var leftimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[0], 165, 165);
+               var rightimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[1], 165, 165);
 
-	   // make request to rate friend
-	   // backed should take the rateToken which is for the
-	   // selected friend and remove from the current list
-	   // of matches for the matchToken friend if request is thumbsDown
-	   Mutuality.rateFriend( matchToken, rateToken, reason, function(){
-	      
-	      var leftFriend  = Mutuality.getFriendProfile( Mutuality.cache.current[0] );
-	      var rightFriend = Mutuality.getFriendProfile( Mutuality.cache.current[1] );
+               $('#nudge-left .match-name').text( leftFriend.name );
+               $('#nudge-left .introduce-thumb').css({backgroundImage: 'url('+leftimgURL+')'});
 
-	      if(thumbsUp)
-	      {
-	         $('#nudge-left .match-name').text( leftFriend.full_name.split(/\s/).shift() );
-	         $('#nudge-left .introduce-thumb').css({backgroundImage: 'url('+leftFriend.image+')'});
-	         
-	         $('#nudge-right .match-name').text( rightFriend.full_name.split(/\s/).shift() );
-	         $('#nudge-right .introduce-thumb').css({backgroundImage: 'url('+rightFriend.image+')'});
-	         
-	         $('#nudge-both .introduce-thumb:eq(1)').css({backgroundImage: 'url('+leftFriend.image+')'});
-	         $('#nudge-both .introduce-thumb:eq(0)').css({backgroundImage: 'url('+rightFriend.image+')'});
-	      }
-	      else
-	      {
-	         
-         }	      
-	   });
+               $('#nudge-right .match-name').text( rightFriend.name );
+               $('#nudge-right .introduce-thumb').css({backgroundImage: 'url('+rightimgURL+')'});
+
+               $('#nudge-both .introduce-thumb:eq(1)').css({backgroundImage: 'url('+leftimgURL+')'});
+               $('#nudge-both .introduce-thumb:eq(0)').css({backgroundImage: 'url('+rightimgURL+')'});
+           });
+       }
+       else {
+           var rateToken  = $('input[name=is]:checked').val();
+           var matchToken = $('input[name=is]:not(:checked)').val();
+           var reason     = $('#reason-select').val();
+           Mutuality.rateFriend( matchToken, rateToken, reason, function(){
+           });
+       }
+
    };   
    
    
@@ -41,56 +38,6 @@
 		return false;      
    }
    
-   var matchGender = function(e, side, exclude)
-   {
-      var exclude = exclude || '';
-	  var gender = $(this).val() == 'Guys' ? 'male' : 'female';
-
-	   // load gender matches
-	   Mutuality.loadFriendsList( gender, function( friends ){
-	      
-         var list   = $('#'+side+'-match-profiles');
-         var listArray  = friends[gender];
-         var found = null;
-
-         // remove exclusion from list
-         // "Jane" can't date "Jane"
-         for(var i=0,len = listArray.length;i<len;i++)
-         {
-            if(listArray[i].token == exclude)
-            {
-               listArray.splice( i, 1 );
-               break;
-            }
-         }
-
-         // yank a random friend
-         var listRand  = listArray[Math.floor(Math.random() * listArray.length)];
-         var listFriend  = $('li', list);
-
-         // write current visible friends to cache and store as
-         // values for thumb inputs
-         
-         if(side == 'left') 
-         {
-            Mutuality.cache.current[0] = listRand.token;
-            $('#reason-container input:eq(0)').val( listRand.token );
-         }
-         else
-         {
-            Mutuality.cache.current[1] = listRand.token;
-            $('#reason-container input:eq(1)').val( listRand.token );            
-         }
-
-         // write all values to their elements     
-         $('img', listFriend).hide().attr('src', listRand.image).parents('a').addClass('loaded');
-         $('.profile-name', listFriend).text( listRand.full_name );
-         $('.profile-location', listFriend).text( listRand.city+', '+listRand.state );
-
-         $('img', listFriend).fadeIn(750);
-	   });
-   }
-   
 	// thumbs up
 	$("#rating-down").bind('click', function(e) {	   
 	   e.preventDefault();
@@ -99,7 +46,7 @@
 		});
 	});
 	
-	// thumbs down
+	// thumbs up
 	$('#rating-up').bind('click', function(e){
 	   e.preventDefault();
 	   thumbRate.call(this,e, true);	   
@@ -151,6 +98,7 @@
 	
 	
 	$('#left-match-sex').bind('change', function(e){
+        Mutuality.
 
 	});
 	
@@ -182,6 +130,7 @@
             }
         });
     }
+
 	// Search input on Make Matches
 	$(".search-box").keyup( function() {
         var parentID = $(this).parent().attr('id');

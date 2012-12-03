@@ -1,4 +1,3 @@
-from connect.models import Profile,Friendship,FacebookUser
 from getFriendList import GetFriendList
 
 def GetMutualFriendList(profile1,profile2):
