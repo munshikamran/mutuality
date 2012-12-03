@@ -5,7 +5,7 @@ from getFriendList import GetFriendIDs
 
 def GetFriendsOfFriends(profile):
     friendIDs = GetFriendIDs(profile)
-    friendshipsOfFriends = list(Friendship.objects.filter(user__in=friendIDs).values_list('friend'))
+    friendshipsOfFriends = list(Friendship.objects.filter(user__in=friendIDs).exclude(friend=profile).values_list('friend'))
     friendsOfFriendsIDs = []
     for friendship in friendshipsOfFriends:
         friendsOfFriendsIDs.append(friendship[0])
