@@ -1,6 +1,7 @@
 from connect.models import FacebookUser
 from connect.models import FacebookUserMatch
 from connect.models import FacebookUserMatchRating
+from connect.models import FacebookUserMatchReason
 from django.db.models import Q
 
 def RateThumbsUp(profile,facebookUserID1,facebookUserID2):
@@ -14,6 +15,29 @@ def RateThumbsUp(profile,facebookUserID1,facebookUserID2):
         return True
     except:
         return False
+
+
+#reasons is a list of MatchRatingReason objects (see connect.classes.matchRatingReason)
+def RateThumbsDown(profile, facebookUserID1, facebookUserID2,reasons):
+    facebookUser1 = FacebookUser.objects.get(facebookID = facebookUserID1)
+    facebookUser2 = FacebookUser.objects.get(facebookID = facebookUserID2)
+    match = getOrCreateMatchWithUsers(profile,facebookUser1,facebookUser2)
+    newRating, created = FacebookUserMatchRating.objects.get_or_create(match = match)
+    newRating.thumbsUp = False
+    newRating.save()
+    createMatchReasons(match,reasons)
+
+def createMatchReasons(facebookUserMatch,reasons):
+    for reason in reasons:
+        subject = facebookUserMatch.facebookUser1
+        object = facebookUserMatch.facebookUser2
+        if (facebookUserMatch.facebookUser1.facebookID == reason.object):
+            subject = facebookUserMatch.facebookUser2
+            object = facebookUserMatch.facebookUser1
+        ratingReason, created = FacebookUserMatchReason.objects.get_or_create(match = facebookUserMatch,subject=subject,object=object,reason=reason.reason)
+        ratingReason.save()
+
+
 
 
 def getOrCreateMatchWithUsers(profile,facebookUser1,facebookUser2):

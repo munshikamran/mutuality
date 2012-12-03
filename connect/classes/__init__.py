@@ -1,1 +1,2 @@
 from friendMatch import FriendMatch
+from matchRatingReason import MatchRatingReason
