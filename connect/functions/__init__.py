@@ -6,3 +6,4 @@ from sendMessage import SendMessageToOtherProfile
 from updateFriendList import UpdateFriendList
 from rateMatch import RateThumbsUp, RateThumbsDown
 from getFriendsOfFriends import GetFriendsOfFriends
+from getFacebookSendDialogue import GetFacebookSendDialogue
