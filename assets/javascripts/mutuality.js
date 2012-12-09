@@ -178,6 +178,13 @@ var Mutuality = (function($){
             return "https://graph.facebook.com/"  + facebookID + "/picture?width=" + width + "&height=" + height;
           }
       },
+      getFacebookPageURL: function(facebookID){
+        return "window.open('http://facebook.com/" + facebookID +"'); return false;";
+      },
+      getSendNudgeURL: function(facebookID, userID, name, link, redirect){
+          var sendURLFormat = "https://www.facebook.com/dialog/send?app_id=475217095841801&name=" + name + "&link="+ link + "&redirect_uri=" + redirect + "&to=" + userID;
+          return "window.open('" + sendURLFormat +"'); return false;";
+       },
       // Get the list of facebook friends for the current user
       loadFriendsList: function( success )
       {
@@ -219,11 +226,12 @@ var Mutuality = (function($){
           });
       },
       // Load a new match for the current user
-      loadNewMatch: function ( leftSlotGender, rightSlotGender, success )
+      loadNewMatch: function ( leftSlotGender, rightSlotGender, leftLock, rightLock, success )
       {
           if (!this.token || !leftSlotGender || !rightSlotGender) return;
+
           var self = this;
-          this.__post('api/getNewMatch/', {token: this.token, leftSlotGender: leftSlotGender, rightSlotGender: rightSlotGender, leftSlotLocked: this.cache.leftSlotLocked, rightSlotLocked: this.cache.rightSlotLocked, leftSlotID: this.cache.current[0], rightSlotID: this.cache.current[1]}, function(response){
+          this.__post('api/getNewMatch/', {token: this.token, leftSlotGender: leftSlotGender, rightSlotGender: rightSlotGender, leftSlotLocked: leftLock, rightSlotLocked: rightLock, leftSlotID: this.cache.current[0], rightSlotID: this.cache.current[1]}, function(response){
             if(success instanceof Function) success.call( self, response );
           });
       },
@@ -241,33 +249,28 @@ var Mutuality = (function($){
             if (response == true){
                 if(success instanceof Function) success.call(self);
             }
-            else if (response.hasOwnProperty('notice'))
+            else
             {
-                alert(response.notice);
+                alert("Something went wrong.");
             }
          });
 
       },
-      // Rate a match.
-      // reason is an ID of reasons
-      // if not specified or 0, rating is positive
-      rateFriend: function( matchToken, rateToken, reason, success )
+      rateMatchThumbsDown: function( reasons, success )
       {
         var self = this;
-        if(success instanceof Function) success.call(self);
         
-        /*self.__post('friends/rate', { matchToken: matchToken, rateToken: rateToken, reason: reason}, function( response ){
+        self.__post('api/rateThumbsDown/', { token: this.token, leftSlotFacebookID: this.cache.current[0], rightSlotFacebookID: this.cache.current[1], reasons: reasons, numReasons: reasons.length}, function( response ){
            
-           if(response.hasOwnProperty('profiles'))
+           if(response == true)
            {
-              // Mutuality.cache.matches[matchToken] = response.profiles;
               if(success instanceof Function) success.call(self, response.profiles);
            }
-           else if (response.hasOwnProperty('notice'))
+           else
            {
-              alert(response.notice);
+              alert("Something went wrong.");
            }
-        });*/
+        });
       }
    };
    return module;

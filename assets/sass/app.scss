@@ -1,33 +1,9 @@
 // You custom settings file to override Foundation defaults
 @import "settings";
 
-// Import specific parts of Foundation by commenting the import "foundation"
-// and uncommenting what you want below. You must uncomment the following if customizing
-@import "compass/css3";
-@import "foundation/settings";
-@import "foundation/functions/all";
+@import "foundation";
 
-// Control which mixins you have access too
-@import "foundation/mixins/clearfix";
-@import "foundation/mixins/css-triangle";
-@import "foundation/mixins/font-size";
 
-// Must include next two for semantic grid to work
-@import "foundation/mixins/respond-to";
-@import "foundation/mixins/semantic-grid";
-
-@import "modular-scale";
-@import "foundation/common/globals";
-
-// Must include the grid for any responsiveness
-@import "foundation/components/grid";
-
-// Control which common styles get compiled
-@import "foundation/common/typography";
-@import "foundation/components/modules/topbar";
-@import "foundation/components/modules/reveal";
-
-$experimental-support-for-svg: true;
 
 // ----------------------------------------
 
@@ -36,12 +12,13 @@ body { background: url(../images/body-bg.jpg); }
 
 h3, h4 { font-size: 24px; font-weight: 400; color: $txtColor; }
 
-.button { display: inline-block; padding: 12px 14px; border: 1px solid $white; font-size: 18px; font-weight: 700; color: $txtColor;
+.button { display: inline-block; padding: 12px 14px; border: 1px solid #ddd; font-size: 18px; font-weight: 700; color: $mainColor;
 
-	@include text-shadow(0px 1px 0px $white);
+	@include text-shadow(0px 2px 0px $white);
 	@include border-radius(5px);
 	@include box-shadow( rgba(204, 204, 204, 1) 0px 2px 2px);
 	@include filter-gradient(#ffffff, #e5e5e5, vertical);
+	$experimental-support-for-svg: true;
 	@include background-image(linear-gradient(top, 
 		rgba(255,255,255,1) 0%,
 		rgba(229,229,229,1) 100%)
@@ -51,8 +28,80 @@ h3, h4 { font-size: 24px; font-weight: 400; color: $txtColor; }
 	}
 }
 
-.menu { list-style: none; margin: 1em 0; }
-.menu li { padding: 4px 0; }
+.tooltip { border-top: 1px solid #7ac3ed; border-bottom: 1px solid #056ba6; font-weight: 700; @include text-shadow(0px 1px 0px #056ba6);
+	
+	background-color: rgb(56,166,230);
+	@include filter-gradient(#38a6e6, #158dd3, vertical);
+	$experimental-support-for-svg: true;
+	@include background-image(linear-gradient(top,  rgba(56,166,230,1) 0%,rgba(21,141,211,1) 100%));
+}
+.has-tip:hover { border: none; }
+.tooltip.tip-top > .nub { border-color: #056ba6 transparent transparent transparent; }
+
+// Clearfix
+.cf:after { 
+	content: "";
+	display: table;
+	clear: both;
+}
+
+// Form elements
+//input[type=radio]{ height: 15px; width: 15px; margin: 1px; -webkit-appearance: none; position: relative; top: 3px; border: 1px solid $white; 
+	
+//	@include border-radius(8px);
+//	@include box-shadow( rgba(204, 204, 204, 1) 0px 1px 1px);
+//	@include filter-gradient(#ffffff, #e5e5e5, vertical);
+//	$experimental-support-for-svg: true;
+//	@include background-image(linear-gradient(top, 
+//		rgba(255,255,255,1) 0%,
+//		rgba(229,229,229,1) 100%)
+//	);
+//}
+//input[type=radio]:checked { 
+	// background: $white $spriteURL -6px -314px no-repeat; 
+//}
+form.custom div.custom.dropdown.open ul,
+form.custom div.custom.dropdown { 
+	// -webkit-appearance: none;  padding: 5px 25px 5px 7px; 
+	font-size: 14px; font-weight: 700; color: $mainColor; text-shadow: 0px 2px 0px #fff; filter: dropshadow(color=#fff, offx=0, offy=2); float:  left; border: 1px solid #ddd; height: 34px;
+	// cursor: pointer; 
+	
+	//background: url(../images/select-bg.png) right center no-repeat;
+	
+	@include text-shadow(0px 2px 0px $white);
+	@include border-radius(5px);
+	@include box-shadow( rgba(204, 204, 204, 1) 0px 2px 2px);
+	@include filter-gradient(#ffffff, #e5e5e5, vertical);
+	$experimental-support-for-svg: true;
+	@include background-image(linear-gradient(top, 
+		rgba(255,255,255,1) 0%,
+		rgba(229,229,229,1) 100%)
+	);
+	&:hover{
+		color: #666;
+	}
+
+}
+form.custom div.custom.dropdown { margin: 2px 0; }
+form.custom div.custom.dropdown a.current { background: none;border: none;color: $mainColor;font-size: 1.2em;line-height: 32px;padding-left: 10px; }
+form.custom div.custom.dropdown a.selector { border: 0; height: 34px; }
+form.custom div.custom.dropdown.open ul { top: -3px; left: -3px; height: auto; border: 1px solid #ddd; overflow-y: hidden; padding: 2px;
+	
+	@include box-shadow( rgba(204, 204, 204, .5) 0px 3px 5px);
+}
+form.custom div.custom.dropdown ul li { border: none;color: $mainColor;font-size: 1.2em;line-height: 29px;padding-left: 10px; text-shadow: 0px 2px 0px #fff; filter: dropshadow(color=#fff, offx=0, offy=2); height: 34px;
+
+	
+
+}
+form.custom div.custom.dropdown ul li:hover,
+form.custom div.custom.dropdown ul li.selected,
+form.custom div.custom.dropdown ul li.selected:hover { background: none; color: $txtColor; }
+form.custom div.custom.dropdown ul li:hover,
+form.custom div.custom.dropdown ul li.selected:hover { background: none !important; }
+
+.menu { list-style: none; margin: 0 0 1em; }
+.menu li { padding: 3px 0; }
 .menu a { font-size: 14px; }
 
 
@@ -92,6 +141,7 @@ h3, h4 { font-size: 24px; font-weight: 400; color: $txtColor; }
 	@include border-radius(5px);
 	@include box-shadow( rgba(204, 204, 204, 1) 0px 2px 2px);
 	@include filter-gradient(#ffffff, #e5e5e5, vertical);
+	$experimental-support-for-svg: true;
 	@include background-image(
 		linear-gradient(
 			top, 
@@ -135,21 +185,29 @@ h3, h4 { font-size: 24px; font-weight: 400; color: $txtColor; }
 
 // Main
 #main { margin: 0; }
-#main > .first { padding-left: 0; }
-#main > .last { padding-right: 0; }
-#main .two.columns { padding: 0; }
+#main > .first { padding-left: 0; padding-right: 0; width: 40%; }
+#main > .last { padding-right: 0; padding-left: 0; width: 40%; }
+#main .two.columns { padding: 0; width: 20%; }
 
 
 // Match Menu
-.match-menu { margin: 0; padding: 0 16px; }
-.match-menu a { display: inline-block; margin-top: 10px; padding: 6px 4px 0 25px; float: right; color: $txtColor; text-decoration: underline; font-weight: 700; background: $spriteURL 0 -234px no-repeat; }
 
-.match-menu .locked { background-position: 0 -260px; }
 
+#left-profile .loader { float: left; }
+#right-profile .loader { float: right; }
+
+.match-menu { margin: 0 0 10px !important; padding: 0 !important; }
+.match-lock { display: inline-block; margin-top: 10px; padding: 6px 4px 0 25px; float: right; color: $txtColor; text-decoration: underline; font-weight: 700; background: $spriteURL 0 -234px no-repeat; }
+
+.match-lock.locked { background-position: 0 -260px; }
+
+#left-match-lock { margin-right: 16px; }
+
+#right-match-sex { margin-left: 19px; }
 
 // Profile Pic
-.profiles { list-style: none; margin: 10px 0 13px; }
-.profiles li { width: 368px; margin: 0 auto; padding: 0; border: 1px solid #ccc;   background:$white;	
+.profiles { list-style: none; margin: 0 0 15px; }
+.profiles li { width: 368px; margin: 0; padding: 0; border: 1px solid #ccc;   background:$white;	
 
 	@include box-shadow( rgba(0, 0, 0, 0.2) 0px 2px 5px);
 	@include border-radius(8px);
@@ -162,6 +220,7 @@ h3, h4 { font-size: 24px; font-weight: 400; color: $txtColor; }
 .profiles a > span { position: absolute; width: 346px; top: 10px; left: 10px; 	
 
 	@include filter-gradient(#ffffff, #ffffff, vertical);
+	$experimental-support-for-svg: true;
 	@include background-image(
 		linear-gradient(
 			top,
@@ -170,9 +229,14 @@ h3, h4 { font-size: 24px; font-weight: 400; color: $txtColor; }
 		)
 	);
 }
-.profiles a > span h3 { display: inline-block; float: left; margin: 15px 0 25px 15px; color: #222; }
-.profiles a > span span { display: inline-block; float: right; margin: 18px 15px 0 0; padding-left: 25px; color: #222; background: $spriteURL 0 -286px no-repeat; }
+.profiles a > span h3 { display: inline-block; float: left; margin: 15px 0 25px; color: #222; white-space: pre; overflow: hidden; max-width: 86%; }
+.profile-location { display: inline-block; float: left; margin: 15px 5px 0 5px; padding-left: 25px; color: #222; background: $spriteURL 0 -287px no-repeat; width: 24px; height: 24px; border-bottom: none; }
 
+body#meet-people .profiles a > span h3 { margin-left: 15px; }
+
+#add-to-fav { display: block;width: 17px;height: 16px;margin: 17px 12px;text-indent: -999em;background: url(../images/fav.png) 0 0 no-repeat;float: right; }
+#add-to-fav:hover,
+#add-to-fav.active { background-position: 0 -16px; }
 
 // Profile Search
 .profile-search { position: relative; }
@@ -193,11 +257,12 @@ h3, h4 { font-size: 24px; font-weight: 400; color: $txtColor; }
 	}
 }
 .profile-search input[type=submit] { visibility: hidden; height: 0; position: absolute; }
-.search-results { display: none; height: auto; max-height: 200px; width: 86%; margin: 0; padding-top: 0; border: 1px solid $white; position: absolute; top: 100%; z-index: 3; list-style: none; 
+.search-results { display: none; height: auto; max-height: 200px; width: 86%; margin: 0; padding-top: 0; border: 1px solid #ddd; position: absolute; top: 101%; z-index: 3; list-style: none; @include text-shadow(0px 2px 0px #fff);
 
 	@include border-radius(5px);
 	@include box-shadow( rgba(204, 204, 204, 1) 0px 2px 2px);
 	@include filter-gradient(#ffffff, #e5e5e5, vertical);
+	$experimental-support-for-svg: true;
 	@include background-image(linear-gradient(top, 
 		rgba(255,255,255,1) 0%,
 		rgba(229,229,229,1) 100%)
@@ -212,13 +277,13 @@ h3, h4 { font-size: 24px; font-weight: 400; color: $txtColor; }
 	}
 	&:last-child { border-bottom-width: 0; }
 }
-.search-results a { display: block; padding: 5px 8px; line-height: 0; }
-.search-thumb { display: inline-block; width: 40px; height: 40px; margin-right: 5px; background-position: 50%; background-size: cover; 
+.search-results a { display: block; padding: 5px 8px; line-height: 0; height: 52px; }
+.search-thumb { display: inline-block; width: 40px; height: 40px; float: left; margin-right: 10px; 
 	
 	@include border-radius(5px);
 	@include box-shadow( rgba(0, 0, 0, 0.4) 0 1px 2px);
 }
-.search-results strong { position: relative; top: -15px; }
+.search-results strong { position: relative; line-height: 1em; display: inline-block; max-width: 70%; margin-top: 8px; white-space: pre-wrap; }
 input[type=text]:focus + .search-results { display: block; }
 
 
@@ -241,6 +306,7 @@ input[type=text]:focus + .search-results { display: block; }
 	@include border-radius(25px);
 	@include single-transition(all, 100ms);
 	@include filter-gradient(#65d3e1, #2da1c8, horizontal);
+	$experimental-support-for-svg: true;
 	@include background-image(
 		radial-gradient(
 			center, 
@@ -283,23 +349,25 @@ input[type=text]:focus + .search-results { display: block; }
 
 
 // Rating	
-#rating-buttons { width: 65%; margin: 0 auto; clear: both; }
+#rating-buttons { width: 55%; margin: 0 auto; clear: both; }
 
-.rating-button { width: 49.5%; float: left; border: 1px solid $white; 
+.rating-button { width: 49.5%; float: left; border: 1px solid #ddd; 
 
 	@include box-shadow( rgba(204, 204, 204, 1) 0px 2px 2px);
 	@include filter-gradient(#ffffff, #e5e5e5, vertical);
+	$experimental-support-for-svg: true;
 	@include background-image(linear-gradient(top, 
 		rgba(255,255,255,1) 0%,
 		rgba(229,229,229,1) 100%)
 	);
 	
-	&:first-child { border-radius: 5px 0 0 5px; margin-right: 1px;
+	&:first-child { border-radius: 5px 0 0 5px; // margin-right: 1px;
 
 		&:focus,
 		&:active { border-color: #a31b12;
 			
 			@include filter-gradient(#e5e5e5, #ffffff, vertical);
+			$experimental-support-for-svg: true;
 			@include background-image(linear-gradient(top, 
 				rgba(198,61,52,1) 0%,
 				rgba(163,25,16,1) 100%)
@@ -313,6 +381,7 @@ input[type=text]:focus + .search-results { display: block; }
 		&:active { border-color: #569334;
 			
 			@include filter-gradient(#e5e5e5, #ffffff, vertical);
+			$experimental-support-for-svg: true;
 			@include background-image(linear-gradient(top, 
 				rgba(86,147,52,1) 0%,
 				rgba(130,191,97,1) 100%)
@@ -322,6 +391,7 @@ input[type=text]:focus + .search-results { display: block; }
 	
 	&:hover {
 		@include filter-gradient(#e5e5e5, #ffffff, vertical);
+		$experimental-support-for-svg: true;
 		@include background-image(linear-gradient(top, 
 			rgba(229,229,229,1) 0%,
 			rgba(255,255,255,1) 100%)
@@ -363,13 +433,45 @@ input[type=text]:focus + .search-results { display: block; }
 		rgba(255, 255, 255, 0.9) 0px 2px 1px
 	);
 }
+#reason-container form { margin-bottom: 0; }
 
-#radios { margin: 0 0 10px 0; }
-#radios label { font-weight: 700; margin-right: 5px; }
-#radios input[type=radio] { }
+// #radios { margin: 0 0 10px 0; }
+// #radios label { font-weight: 700; margin-right: 5px; }
+// #radios input[type=radio] { }
 
-#reason-container select { max-width: 95%; font-size: 12px; }
-#reason-container option { }
+// #reason-container select { max-width: 95%; font-size: 12px; }
+// #reason-container option { }
+
+#radios > div { float: left; height: 28px; }
+// #radios input[type=radio] { float: left; }
+#radios label { line-height: 16px; font-weight: 700; }
+
+
+#radios.custom span.custom.radio.checked::before {
+	background-color: transparent;
+
+	@include filter-gradient(#65d3e1, #2da1c8, horizontal);
+	$experimental-support-for-svg: true;
+	@include background-image(
+		radial-gradient(
+			center, 
+			ellipse cover, 
+			rgba(101,211,225,1) 0%,
+			rgba(45,161,200,1) 100%
+		)
+	);
+}
+
+#reason-select.custom.dropdown.open ul { padding: 1px; }
+
+#reason-select.custom.dropdown,
+#reason-select.custom.dropdown li, 
+#reason-select.custom.dropdown a.current { height: 26px; line-height: 25px; }
+
+#reason-select.custom.dropdown a.current,
+#reason-select li { font-size: .8em; max-width: 93%; }
+
+#reason-select.custom.dropdown a.selector { height: 26px; }
 
 #reason-list { list-style: none; margin: 10px 0 0; }
 #reason-list li { font-size: 14px; line-height: 1.3em; margin: 5px 0; }
@@ -388,51 +490,62 @@ input[type=text]:focus + .search-results { display: block; }
 // Meet People
 #fav-filter { }
 
-#user-profile h5 { color: $txtColor; font-weight: 700; margin-top: 25px; }
+#user-profile { width: 25% !important; background-color: #fefefe; border: 1px solid #eee; @include box-shadow( rgba(0, 0, 0, 0.2) 0 1px 4px); }
+#user-profile > ul { margin: 0 0 5px; padding: 5px 12px; border-bottom: 1px solid #eee; }
+#user-profile h5 { color: $txtColor; font-weight: 700; margin-bottom: 0; padding: 5px 9px; }
 #user-profile a {  color: $txtColor; font-weight: 700; text-decoration: underline; }
 
+#main #carousel { width: 66.66667%; }
+
 #profile-stats li,
-#alt-actions li {  padding-left: 20px; background-image: $spriteURL;  background-repeat: no-repeat; }
+#alt-actions li { padding-left: 20px; background-image: $spriteURL;  background-repeat: no-repeat;  }
 
 #profile-sex { background-position: -5px 2px; }
-#profile-status { background-position: -5px -21px; }
-#profile-dob { background-position: -5px -48px; }
+#profile-status { background-position: -5px -22px; }
+#profile-dob { background-position: -6px -50px; }
+#profile-location { background-position: -5px -284px; }
 
 #get-introduced { list-style: none; margin: 0; overflow: hidden; }
-#get-introduced li { width: 65px; height: 65px; float: left; margin: 0 10px 10px 0; border: 1px solid #ccc; background: $white; 
+#get-introduced li { display: block;clear: both; overflow: hidden; margin: 5px 0; }
+#get-introduced a { display: block; position: relative; padding: 3px; font-weight: 700; line-height: 2.4em; }
+#get-introduced img { width: 35px; @include border-radius(50%); float: left; margin: 0 10px 0 0; background: $white; 
 	
-	@include border-radius(3px);
-	@include box-shadow( rgba(0, 0, 0, 0.3) 0 1px 2px);
+	@include border-radius(50%);
+	@include box-shadow( rgba(0, 0, 0, 0.3) 0 1px 5px); 
 }
-#get-introduced a { display: block; position: relative; padding: 4px; font-weight: 700; }
-#get-introduced img { width: 60px; }
 
 #introduce { background-position: -5px -153px; }
 #add-fav { background-position: -5px -179px; }
 #view-fb { background-position: -5px -203px; }
 
-
+#alt-actions li {  background-color: #e9e9e9; display: inline-block; border-radius: 15px; padding-left: 30px; padding-right: 15px; margin-bottom: 10px; border: 1px solid #DDD; color: #4096B6; text-shadow: 0px 2px 0px white; }
+#alt-actions a { text-decoration: none; }
+#introduce { background-position: 3px -153px; }
+#view-fb { background-position: 3px -205px; }
+#alt-actions li:hover { background-color: #fff; }
 
 // Meet People
 #fav-filter { }
 
 #pager-buttons { width: 80px; float: right; }
 
-.pager-button { width: 49%; float: left; border: 1px solid $white; 
+.pager-button { width: 49%; float: left; border: 1px solid #ddd; 
 
 	@include box-shadow( rgba(204, 204, 204, 1) 0px 2px 2px);
 	@include filter-gradient(#ffffff, #e5e5e5, vertical);
+	$experimental-support-for-svg: true;
 	@include background-image(linear-gradient(top, 
 		rgba(255,255,255,1) 0%,
 		rgba(229,229,229,1) 100%)
 	);
-
-	&:first-child { border-radius: 5px 0 0 5px; margin-right: 1px;
+	
+	&:first-child { border-radius: 5px 0 0 5px; 
 
 		&:focus,
 		&:active { border-color: #ccc;
 			
 			@include filter-gradient(#e5e5e5, #ffffff, vertical);
+			$experimental-support-for-svg: true;
 			@include background-image(linear-gradient(top, 
 				rgba(229,229,229,1) 0%,
 				rgba(255,255,255,1) 100%)
@@ -446,6 +559,7 @@ input[type=text]:focus + .search-results { display: block; }
 		&:active { border-color: #ccc;
 			
 			@include filter-gradient(#e5e5e5, #ffffff, vertical);
+			$experimental-support-for-svg: true;
 			@include background-image(linear-gradient(top, 
 				rgba(229,229,229,1) 0%,
 				rgba(255,255,255,1) 100%)
@@ -455,12 +569,14 @@ input[type=text]:focus + .search-results { display: block; }
 	
 	&:hover {
 		@include filter-gradient(#e5e5e5, #ffffff, vertical);
+		$experimental-support-for-svg: true;
 		@include background-image(linear-gradient(top, 
 			rgba(229,229,229,1) 0%,
 			rgba(255,255,255,1) 100%)
 		);
 	}
 }
+
 .pager-button a { display: block; padding: 10px 11px; text-indent: -999em; background: $spriteURL 5px -950px no-repeat; }
 
 #page-prev { background-position: 3px -940px; }
@@ -469,7 +585,6 @@ input[type=text]:focus + .search-results { display: block; }
 #meet-profiles { visibility:hidden; }
 
 .meet-profile { background: #fff; cursor: pointer; position: relative; float: left; border: 10px solid #fff; text-align: left; text-transform: none; -webkit-backface-visibility: hidden; }
-.meet-profile a { padding: 7px; }
 .meet-profile img {
 	//opacity: 0.3;
 	//width: 320px;
@@ -537,20 +652,29 @@ input[type=text]:focus + .search-results { display: block; }
 }
 
 
-// Form elements
-input[type=radio]{ height: 15px; width: 15px; margin: 1px; -webkit-appearance: none; position: relative; top: 3px; border: 1px solid $white; 
-	
-	@include border-radius(8px);
-	@include box-shadow( rgba(204, 204, 204, 1) 0px 1px 1px);
-	@include filter-gradient(#ffffff, #e5e5e5, vertical);
-	@include background-image(linear-gradient(top, 
-		rgba(255,255,255,1) 0%,
-		rgba(229,229,229,1) 100%)
-	);
-}
-input[type=radio]:checked { background: $white $spriteURL -6px -314px no-repeat; }
-select { -webkit-appearance: none; border: 1px solid $white; padding: 5px 25px 5px 7px; font-size: 14px; font-weight: 700; color: $txtColor; text-shadow: 0px 1px 0px #fff; filter: dropshadow(color=#fff, offx=0, offy=1); cursor: pointer; background: url(../images/select-bg.png) right center no-repeat; 
-	
-	@include border-radius(5px);
-	@include box-shadow( rgba(204, 204, 204, 1) 0px 2px 2px);
-}
+// Plugins
+.tipsy { font-size: 10px; position: absolute; padding: 5px; z-index: 100000; }
+  .tipsy-inner { background-color: #000; color: #FFF; max-width: 200px; padding: 5px 8px 4px 8px; text-align: center; }
+
+  /* Rounded corners */
+  .tipsy-inner { border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
+  
+  /* Uncomment for shadow */
+  /*.tipsy-inner { box-shadow: 0 0 5px #000000; -webkit-box-shadow: 0 0 5px #000000; -moz-box-shadow: 0 0 5px #000000; }*/
+  
+  .tipsy-arrow { position: absolute; width: 0; height: 0; line-height: 0; border: 5px dashed #000; }
+  
+  /* Rules to colour arrows */
+  .tipsy-arrow-n { border-bottom-color: #000; }
+  .tipsy-arrow-s { border-top-color: #000; }
+  .tipsy-arrow-e { border-left-color: #000; }
+  .tipsy-arrow-w { border-right-color: #000; }
+  
+	.tipsy-n .tipsy-arrow { top: 0px; left: 50%; margin-left: -5px; border-bottom-style: solid; border-top: none; border-left-color: transparent; border-right-color: transparent; }
+    .tipsy-nw .tipsy-arrow { top: 0; left: 10px; border-bottom-style: solid; border-top: none; border-left-color: transparent; border-right-color: transparent;}
+    .tipsy-ne .tipsy-arrow { top: 0; right: 10px; border-bottom-style: solid; border-top: none;  border-left-color: transparent; border-right-color: transparent;}
+  .tipsy-s .tipsy-arrow { bottom: 0; left: 50%; margin-left: -5px; border-top-style: solid; border-bottom: none;  border-left-color: transparent; border-right-color: transparent; }
+    .tipsy-sw .tipsy-arrow { bottom: 0; left: 10px; border-top-style: solid; border-bottom: none;  border-left-color: transparent; border-right-color: transparent; }
+    .tipsy-se .tipsy-arrow { bottom: 0; right: 10px; border-top-style: solid; border-bottom: none; border-left-color: transparent; border-right-color: transparent; }
+  .tipsy-e .tipsy-arrow { right: 0; top: 50%; margin-top: -5px; border-left-style: solid; border-right: none; border-top-color: transparent; border-bottom-color: transparent; }
+  .tipsy-w .tipsy-arrow { left: 0; top: 50%; margin-top: -5px; border-right-style: solid; border-left: none; border-top-color: transparent; border-bottom-color: transparent; }

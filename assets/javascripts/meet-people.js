@@ -2,15 +2,15 @@
 // Meet People carousel
 (function($) {
    
-   var _center = { scale: 1, left:0, marginTop: 0, opacity: 1 	};
-   var _left   = { scale: .85, marginTop: 10, left: 215, opacity: 0.3 };
-   var _right  = { scale: .85, left: -215, marginTop: 10, opacity: 0.3 };	
+   var _center = { scale: 1, left:0, marginTop: 0, left:-30, opacity: 1 	};
+   var _left   = { scale: .85, marginTop: 10, left: 185, opacity: 0.3 };
+   var _right  = { scale: .85, left: -235, marginTop: 10, opacity: 0.3 };	
    var _blur   = { filter : 'blur(3px)', webkitFilter: 'blur(3px)', mozFilter : 'blur(3px)', filter: 'url(/stylesheets/blur.svg#blur)' };	
    var _noblur = { filter: 'none', webkitFilter: 'none', mozFilter: 'none' }
 	
 	$('#meet-profiles').carouFredSel({
 		auto : false,
-		width: 647,
+		width: 632,
 		height: 400,
 		align: 'center',
 		prev: "#page-prev",

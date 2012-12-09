@@ -18,14 +18,18 @@ def RateThumbsUp(profile,facebookUserID1,facebookUserID2):
 
 
 #reasons is a list of MatchRatingReason objects (see connect.classes.matchRatingReason)
-def RateThumbsDown(profile, facebookUserID1, facebookUserID2,reasons):
-    facebookUser1 = FacebookUser.objects.get(facebookID = facebookUserID1)
-    facebookUser2 = FacebookUser.objects.get(facebookID = facebookUserID2)
-    match = getOrCreateMatchWithUsers(profile,facebookUser1,facebookUser2)
-    newRating, created = FacebookUserMatchRating.objects.get_or_create(match = match)
-    newRating.thumbsUp = False
-    newRating.save()
-    createMatchReasons(match,reasons)
+def RateThumbsDown(profile, facebookUserID1, facebookUserID2, reasons):
+    try:
+        facebookUser1 = FacebookUser.objects.get(facebookID = facebookUserID1)
+        facebookUser2 = FacebookUser.objects.get(facebookID = facebookUserID2)
+        match = getOrCreateMatchWithUsers(profile,facebookUser1,facebookUser2)
+        newRating, created = FacebookUserMatchRating.objects.get_or_create(match = match)
+        newRating.thumbsUp = False
+        newRating.save()
+        createMatchReasons(match,reasons)
+        return True
+    except:
+        return False
 
 def createMatchReasons(facebookUserMatch,reasons):
     for reason in reasons:

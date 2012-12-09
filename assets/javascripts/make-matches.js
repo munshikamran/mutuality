@@ -9,28 +9,48 @@
                var rightFriend = Mutuality.getFriendProfile( Mutuality.cache.current[1] );
                var leftimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[0], 165, 165);
                var rightimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[1], 165, 165);
+               var leftNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, leftFriend.facebookID, "I think you would like this person. Meet them!", "mutuality.com", "localhost:8000/makematches");
+               var rightNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, rightFriend.facebookID, "I think you would like this person. Meet them!", "mutuality.com", "localhost:8000/makematches")
 
                $('#nudge-left .match-name').text( leftFriend.name );
                $('#nudge-left .introduce-thumb').css({backgroundImage: 'url('+leftimgURL+')'});
+               $('#nudge-left .introduce-thumb').attr('onclick', leftNudgeURL);
 
                $('#nudge-right .match-name').text( rightFriend.name );
                $('#nudge-right .introduce-thumb').css({backgroundImage: 'url('+rightimgURL+')'});
+               $('#nudge-right .introduce-thumb').attr('onclick', rightNudgeURL);
 
                $('#nudge-both .introduce-thumb:eq(1)').css({backgroundImage: 'url('+leftimgURL+')'});
                $('#nudge-both .introduce-thumb:eq(0)').css({backgroundImage: 'url('+rightimgURL+')'});
            });
        }
        else {
-           var rateToken  = $('input[name=is]:checked').val();
-           var matchToken = $('input[name=is]:not(:checked)').val();
-           var reason     = $('#reason-select').val();
-           Mutuality.rateFriend( matchToken, rateToken, reason, function(){
+           var reason = $('#reason-select').val();
+           // TODO: Actually get the right subject and object of the match and handle multiple reasons
+           var subject  = Mutuality.cache.current[0];
+           var object = Mutuality.cache.current[0];
+           var reasons = new Array();
+           if(reason == "Too far away."){
+               reasons.push({enum: "TOO_FAR", subject: subject, object: object});
+           }
+           if(reason == "Too crazy."){
+               reasons.push({enum: "TOO_CRAZY", subject: subject, object: object});
+           }
+
+           console.log(reasons);
+           Mutuality.rateMatchThumbsDown(reasons, function(){
+               $("#reasons").fadeOut(200, function() {
+                   $("#rating-success").fadeIn(200, function() {
+                       $("#rating-success").delay(2000).fadeOut(200, function() {
+                           $("#rating-buttons").fadeIn(200);
+                       });
+                   });
+               });
            });
        }
 
    };   
-   
-   
+
    var matchLock = function(e)
    {
 		var text = $(this).text() == "Unlocked" ? "Locked" : "Unlocked";
@@ -38,11 +58,17 @@
 		return false;      
    }
    
-	// thumbs up
+	// thumbs down
 	$("#rating-down").bind('click', function(e) {	   
 	   e.preventDefault();
 		$("#rating-buttons").fadeOut(200, function() {
+            $("#random-button").fadeOut(200);
 			$("#reasons").fadeIn(200);
+            var leftName = Mutuality.getFriendProfile(Mutuality.cache.current[0]).name;
+            var rightName = Mutuality.getFriendProfile(Mutuality.cache.current[1]).name;
+            $("#left-radio-label").text(leftName.split(" ")[0] +  " is");
+            $("#right-radio-label").text(rightName.split(" ")[0] + " is");
+            $("#reason-list").fadeOut(10);
 		});
 	});
 	
@@ -56,14 +82,7 @@
 	$("#done-button").bind('click', function(e) {
 	   e.preventDefault();
 	   thumbRate.call(this,e, false);
-		
-		$("#reasons").fadeOut(200, function() {
-			$("#rating-success").fadeIn(200, function() {
-				$("#rating-success").delay(2000).fadeOut(200, function() {
-					$("#rating-buttons").fadeIn(200);
-				});
-			});
-		});
+       $("#random-button").fadeIn(200);
 	});
 
     // Left lock button pressed
@@ -98,20 +117,31 @@
 	
 	
 	$('#left-match-sex').bind('change', function(e){
-        Mutuality.
-
+        if(Mutuality.cache.leftSlotLocked){
+            Mutuality.lockLeft();
+            matchLock.call($('#left-match-lock'),e);
+        }
+        var leftSex = $("#left-match-sex").val() == "Guys" ? 'male' : 'female';
+        var rightSex = $("#right-match-sex").val() == "Guys" ? 'male' : 'female';
+        Mutuality.loadNewMatch(leftSex, rightSex, Mutuality.cache.leftSlotLocked, true, matchSuccess);
 	});
 	
 	$('#right-match-sex').bind('change', function(e){
-
+        if(Mutuality.cache.rightSlotLocked){
+            Mutuality.lockRight();
+            matchLock.call($('#right-match-lock'),e);
+        }
+        var leftSex = $("#left-match-sex").val() == "Guys" ? 'male' : 'female';
+        var rightSex = $("#right-match-sex").val() == "Guys" ? 'male' : 'female';
+        Mutuality.loadNewMatch(leftSex, rightSex, true, Mutuality.cache.rightSlotLocked, matchSuccess);
 	});
 
     // Put in the search results into the DOM with actual search data
     var populateSearchResults = function(matches, parentID){
-        $("#" + parentID +" .search-results li span").each(function(i){
+        $("#" + parentID +" .search-results li img").each(function(i){
             if(i < matches.length){
                 $(this).css('display', '');
-                $(this).css('background-image', 'url('+Mutuality.getProfilePictureURL(matches[i][0].facebookID)+')');
+                $(this).attr('src', Mutuality.getProfilePictureURL(matches[i][0].facebookID));
             }
             else{
                 $(this).css('display', 'none');
@@ -169,10 +199,10 @@
         $('img', friend).hide().attr('src', imgURL).parents('a').addClass('loaded');
         $('.profile-name', friend).text( name );
         if (location) {
-            $('.profile-location', friend).text( location );
+            $('.profile-location', friend).attr( 'title', location );
         }
         else {
-            $('.profile-location', friend).text("");
+            $('.profile-location', friend).removeAttr( 'title');
         }
         $('img', friend).fadeIn(400);
 
@@ -193,7 +223,7 @@
     $('#random-button').bind('click', function(e){
         var leftSex = $("#left-match-sex").val() == "Guys" ? 'male' : 'female';
         var rightSex = $("#right-match-sex").val() == "Guys" ? 'male' : 'female';
-        Mutuality.loadNewMatch(leftSex, rightSex, matchSuccess);
+        Mutuality.loadNewMatch(leftSex, rightSex, Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
     });
 
     // After AJAX call for new match, load the data into the UI
@@ -203,35 +233,45 @@
         if (match.length == 2) {
             var leftPerson = match[0];
             var rightPerson = match[1];
+            var leftChanged = leftPerson.facebookID !== Mutuality.cache.current[0];
+            var rightChanged = rightPerson.facebookID !== Mutuality.cache.current[1];
+
             Mutuality.cache.current = [leftPerson.facebookID, rightPerson.facebookID];
 
             $('#reason-container input:eq(0)').val( leftPerson.facebookID );
             $('#reason-container input:eq(1)').val( rightPerson.facebookID );
 
             // write all values to their elements
+            if (leftChanged){
+                leftPerson.image = Mutuality.getProfilePictureURL(leftPerson.facebookID, 350, 350);
+                $('img', leftFriend).hide().attr('src', leftPerson.image).parents('a').addClass('loaded');
+                $('.profile-name', leftFriend).text( leftPerson.name );
+                $('.profile-name', leftFriend).attr( 'onclick', Mutuality.getFacebookPageURL(leftPerson.facebookID) );
+                if (leftPerson.location) {
+                    $('.profile-location', leftFriend).attr( 'title', leftPerson.location );
+                }
+                else {
+                    $('.profile-location', leftFriend).removeAttr('title');
+                }
 
-            leftPerson.image = Mutuality.getProfilePictureURL(leftPerson.facebookID, 350, 350);
-            $('img', leftFriend).hide().attr('src', leftPerson.image).parents('a').addClass('loaded');
-            $('.profile-name', leftFriend).text( leftPerson.name );
-            if (leftPerson.location) {
-                $('.profile-location', leftFriend).text( leftPerson.location );
-            }
-            else {
-                $('.profile-location', leftFriend).text("");
-            }
-
-           rightPerson.image = Mutuality.getProfilePictureURL(rightPerson.facebookID, 350, 350);
-           $('img', rightFriend).hide().attr('src', rightPerson.image).parents('a').addClass('loaded');
-            $('.profile-name', rightFriend).text( rightPerson.name );
-            if (rightPerson.location) {
-                $('.profile-location', rightFriend).text( rightPerson.location );
-            }
-            else {
-                $('.profile-location', rightFriend).text("");
+                $('img', leftFriend).fadeIn(400);
             }
 
-            $('img', leftFriend).fadeIn(400);
-            $('img', rightFriend).fadeIn(400);
+           if (rightChanged){
+               rightPerson.image = Mutuality.getProfilePictureURL(rightPerson.facebookID, 350, 350);
+               $('img', rightFriend).hide().attr('src', rightPerson.image).parents('a').addClass('loaded');
+               $('.profile-name', rightFriend).text( rightPerson.name );
+               $('.profile-name', rightFriend).attr( 'onclick', Mutuality.getFacebookPageURL(rightPerson.facebookID) );
+                if (rightPerson.location) {
+                    $('.profile-location', rightFriend).attr( 'title', rightPerson.location );
+                }
+                else {
+                    $('.profile-location', rightFriend).removeAttr('title');
+                }
+
+               $('img', rightFriend).fadeIn(400);
+           }
+
         }
 
     };
@@ -239,7 +279,7 @@
    // Load friends via AJAX and populate the left and right
    // slots with a random match.
    Mutuality.loadFriendsList(null, function(){});
-   Mutuality.loadNewMatch('male', 'female', matchSuccess);
+   Mutuality.loadNewMatch('male', 'female', Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
 
 
 })(jQuery);
