@@ -1,5 +1,5 @@
 (function($){
-   
+
    var thumbRate = function(e, thumbsUp)
    {
        if(thumbsUp)
@@ -9,8 +9,8 @@
                var rightFriend = Mutuality.getFriendProfile( Mutuality.cache.current[1] );
                var leftimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[0], 165, 165);
                var rightimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[1], 165, 165);
-               var leftNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, leftFriend.facebookID, "I think you would like this person. Meet them!", "mutuality.com", "localhost:8000/makematches");
-               var rightNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, rightFriend.facebookID, "I think you would like this person. Meet them!", "mutuality.com", "localhost:8000/makematches")
+               var leftNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, leftFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "mutuality.com", "http://localhost:8000/makematches");
+               var rightNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, rightFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "mutuality.com", "http://localhost:8000/makematches");
 
                $('#nudge-left .match-name').text( leftFriend.name );
                $('#nudge-left .introduce-thumb').css({backgroundImage: 'url('+leftimgURL+')'});
@@ -25,17 +25,25 @@
            });
        }
        else {
-           var reason = $('#reason-select').val();
-           // TODO: Actually get the right subject and object of the match and handle multiple reasons
-           var subject  = Mutuality.cache.current[0];
-           var object = Mutuality.cache.current[0];
            var reasons = new Array();
-           if(reason == "Too far away."){
-               reasons.push({enum: "TOO_FAR", subject: subject, object: object});
-           }
-           if(reason == "Too crazy."){
-               reasons.push({enum: "TOO_CRAZY", subject: subject, object: object});
-           }
+           // TODO: Actually get the right subject and object of the match (with radio button vals)
+           var subject  = Mutuality.cache.current[0];
+           var object = Mutuality.cache.current[1];
+           console.log($('#reason-list li'));
+
+           $('#reason-list li').each(function() {
+               var reason = $(this).context.childNodes[1].nodeValue.trim();
+               console.log(reason);
+               if(reason == "Too far away."){
+                   reasons.push({enum: "TOO_FAR", subject: subject, object: object});
+               }
+               if(reason == "Too crazy."){
+                   reasons.push({enum: "TOO_CRAZY", subject: subject, object: object});
+               }
+               if(reason == "Too smart."){
+                   reasons.push({enum: "TOO_SMART", subject: subject, object: object});
+               }
+           });
 
            console.log(reasons);
            Mutuality.rateMatchThumbsDown(reasons, function(){
@@ -49,7 +57,23 @@
            });
        }
 
-   };   
+   };
+
+   $('#reason-select').bind('change', function (e){
+       var currentReason = e.currentTarget.value;
+       var isFound = false;
+       $('#reason-list li').each(function() {
+           var alreadyIncludedReason = $(this).context.childNodes[1].nodeValue.trim();
+           if (alreadyIncludedReason.indexOf(currentReason) !== -1){
+            isFound = true;
+            }
+       });
+       console.log(isFound);
+       if (!isFound){
+        var htmlSnippet = '<li id="reason" class="alert-box secondary"><a href="#" class="close"> </a> ' + currentReason +' </li>'
+        $("#reason-list").append(htmlSnippet);
+       }
+   });
 
    var matchLock = function(e)
    {
@@ -68,7 +92,6 @@
             var rightName = Mutuality.getFriendProfile(Mutuality.cache.current[1]).name;
             $("#left-radio-label").text(leftName.split(" ")[0] +  " is");
             $("#right-radio-label").text(rightName.split(" ")[0] + " is");
-            $("#reason-list").fadeOut(10);
 		});
 	});
 	
