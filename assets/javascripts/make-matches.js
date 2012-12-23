@@ -29,7 +29,7 @@
            // TODO: Actually get the right subject and object of the match (with radio button vals)
            var subject  = Mutuality.cache.current[0];
            var object = Mutuality.cache.current[1];
-           console.log($('#reason-list li'));
+           console.log($('#he-is').val());
 
            $('#reason-list li').each(function() {
                var reason = $(this).context.childNodes[1].nodeValue.trim();
@@ -43,9 +43,11 @@
                if(reason == "Too smart."){
                    reasons.push({enum: "TOO_SMART", subject: subject, object: object});
                }
+               if(reason == "Too sexy."){
+                   reasons.push({enum: "TOO_SEXY", subject: subject, object: object});
+               }
            });
 
-           console.log(reasons);
            Mutuality.rateMatchThumbsDown(reasons, function(){
                $("#reasons").fadeOut(200, function() {
                    $("#rating-success").fadeIn(200, function() {
@@ -86,7 +88,7 @@
 	$("#rating-down").bind('click', function(e) {	   
 	   e.preventDefault();
 		$("#rating-buttons").fadeOut(200, function() {
-            $("#random-button").fadeOut(200);
+            $("#random-button").attr('class', 'disabled');
 			$("#reasons").fadeIn(200);
             var leftName = Mutuality.getFriendProfile(Mutuality.cache.current[0]).name;
             var rightName = Mutuality.getFriendProfile(Mutuality.cache.current[1]).name;
@@ -105,7 +107,7 @@
 	$("#done-button").bind('click', function(e) {
 	   e.preventDefault();
 	   thumbRate.call(this,e, false);
-       $("#random-button").fadeIn(200);
+       $("#random-button").attr('class', '');
 	});
 
     // Left lock button pressed
@@ -244,9 +246,11 @@
 
     // When the spin button is clicked, load a new match!
     $('#random-button').bind('click', function(e){
-        var leftSex = $("#left-match-sex").val() == "Guys" ? 'male' : 'female';
-        var rightSex = $("#right-match-sex").val() == "Guys" ? 'male' : 'female';
-        Mutuality.loadNewMatch(leftSex, rightSex, Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
+        if ($(this).attr('class') !== "disabled"){
+            var leftSex = $("#left-match-sex").val() == "Guys" ? 'male' : 'female';
+            var rightSex = $("#right-match-sex").val() == "Guys" ? 'male' : 'female';
+            Mutuality.loadNewMatch(leftSex, rightSex, Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
+        }
     });
 
     // After AJAX call for new match, load the data into the UI
