@@ -71,7 +71,7 @@
             }
        });
        console.log(isFound);
-       if (!isFound){
+       if (!isFound && currentReason != ""){
         var htmlSnippet = '<li id="reason" class="alert-box secondary"><a href="#" class="close"> </a> ' + currentReason +' </li>'
         $("#reason-list").append(htmlSnippet);
        }
@@ -108,6 +108,8 @@
 	   e.preventDefault();
 	   thumbRate.call(this,e, false);
        $("#random-button").attr('class', '');
+       $("#reason-list li").remove();
+
 	});
 
     // Left lock button pressed
