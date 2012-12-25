@@ -1,6 +1,5 @@
 from connect.models import Friendship
 from connect.models import FacebookUser
-
 from getFriendList import GetFriendIDs
 
 def GetFriendsOfFriends(profile):

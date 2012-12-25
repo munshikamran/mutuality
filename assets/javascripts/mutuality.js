@@ -102,7 +102,7 @@ var Mutuality = (function($){
             self = null;
          });
       },
-      // Private methods for making various requests
+      /* Private methods for making various requests */
       __post: function(url, params, onSuccess, onError)
       {
          this.__makeRequest('POST', url, params, onSuccess, onError);
@@ -144,6 +144,7 @@ var Mutuality = (function($){
             error      : onError || this.__onError
          });
       },
+      /* End of private methods */
       // Get current user profile by token
       // TODO: Security - make sure other user profile cannot be loaded
       loadProfile: function( token, success )
@@ -170,6 +171,7 @@ var Mutuality = (function($){
       {
          return this.cache.profile.hasOwnProperty('facebookID') ? true : false;
       },
+      // Get the img url for the profile picture of a given width/height for a particular facebook ID
       getProfilePictureURL: function(facebookID, width, height){
           if (!width || !height){
             return "https://graph.facebook.com/"  + facebookID + "/picture";
@@ -178,9 +180,11 @@ var Mutuality = (function($){
             return "https://graph.facebook.com/"  + facebookID + "/picture?width=" + width + "&height=" + height;
           }
       },
+      // Get the facebook url for a particular facebook ID
       getFacebookPageURL: function(facebookID){
         return "window.open('http://facebook.com/" + facebookID +"'); return false;";
       },
+      // Get the url to pop open a fb message dialog
       getSendNudgeURL: function(facebookID, userID, name, link, redirect){
           var sendURLFormat = "https://www.facebook.com/dialog/send?app_id=475217095841801&name=" + name + "&link="+ link + "&redirect_uri=" + redirect + "&to=" + userID;
           return "window.open('" + sendURLFormat +"'); return false;";
@@ -219,9 +223,9 @@ var Mutuality = (function($){
               if (response == true){
                   if(success instanceof Function) success.call(self);
               }
-              else if (response.hasOwnProperty('notice'))
+              else
               {
-                  alert(response.notice);
+                  alert("Error: Couldn't update friend list.");
               }
           });
       },
@@ -232,8 +236,13 @@ var Mutuality = (function($){
 
           var self = this;
           this.__post('api/getNewMatch/', {token: this.token, leftSlotGender: leftSlotGender, rightSlotGender: rightSlotGender, leftSlotLocked: leftLock, rightSlotLocked: rightLock, leftSlotID: this.cache.current[0], rightSlotID: this.cache.current[1]}, function(response){
-            if(success instanceof Function) success.call( self, response );
-          });
+          if (response.length == 2){
+              if(success instanceof Function) success.call( self, response );
+          }
+          else{
+              alert("Error: Couldn't load a new match.");
+          }
+        });
       },
       // Lock/unlock the left slot
       lockLeft: function(){
@@ -243,6 +252,7 @@ var Mutuality = (function($){
       lockRight: function(){
         this.cache.rightSlotLocked = !this.cache.rightSlotLocked;
       },
+      // Submit a thumbs up rating
       rateMatchThumbsUp: function ( success ) {
         var self = this;
         self.__post('api/rateThumbsUp/', { token: this.token, leftSlotFacebookID: this.cache.current[0], rightSlotFacebookID: this.cache.current[1] } , function (response){
@@ -251,27 +261,43 @@ var Mutuality = (function($){
             }
             else
             {
-                alert("Something went wrong.");
+                alert("Error: Couldn't rate thumbs up.");
             }
          });
 
       },
+      // Submit a thumbs down rating
       rateMatchThumbsDown: function( reasons, success )
       {
         var self = this;
         
         self.__post('api/rateThumbsDown/', { token: this.token, leftSlotFacebookID: this.cache.current[0], rightSlotFacebookID: this.cache.current[1], reasons: reasons, numReasons: reasons.length}, function( response ){
-           
            if(response == true)
            {
               if(success instanceof Function) success.call(self, response.profiles);
            }
            else
            {
-              alert("Something went wrong.");
+              alert("Error: Couldn't rate thumbs down.");
            }
         });
-      }
+      },
+      // Get friends of friend
+      getFriendsOfFriends: function( success )
+      {
+           var self = this;
+
+           self.__post('api/getFriendsOfFriendsList/', { token: this.token }, function( response ){
+               if(response.length > 1)
+               {
+                   if(success instanceof Function) success.call(self, response);
+               }
+               else
+               {
+                   alert("Error: No friends of friends found.");
+               }
+           });
+       }
    };
    return module;
 })(jQuery);

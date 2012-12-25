@@ -305,10 +305,19 @@
 
     };
 
-   // Load friends via AJAX and populate the left and right
+    // After AJAX call for finding friends of friends, load random four images into meet people call to action
+    var friendsOfFriendsSuccess = function(friends){
+        friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
+        $('#four-images img').each(function(i) {
+            $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
+        });
+
+    };
+
+   // Load friendslist and friends of friends via AJAX and populate the left and right
    // slots with a random match.
    Mutuality.loadFriendsList(null, function(){});
+   Mutuality.getFriendsOfFriends(friendsOfFriendsSuccess);
    Mutuality.loadNewMatch('male', 'female', Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
-
 
 })(jQuery);
