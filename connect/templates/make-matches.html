@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load la_facebook_tags %}
-{% block title %} Make Matches  {% endblock %}
+{% block title %} Connect Friends  {% endblock %}
 {% block content %}
     <section id="page-title" class="row">
         <div class="eight columns">
-            <h2>Make Matches</h2>
+            <h2>Connect Friends</h2>
         </div>
 
         <div class="four columns">
-            <span id="invite-link">Can't find a match? <a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;" ><strong>Invite more friends.</strong></a></span>
+            <span id="invite-link">Funny match? <a href="#" onclick="" ><strong>Tell your friends!</strong></a></span>
         </div>
 
         <hr />
@@ -154,7 +154,7 @@
                 </div>
 
                 <div id="rating-success" class="alert-box success">
-                    Way to go!
+                    Thanks!
                 </div>
             </div>
         </div>
@@ -266,20 +266,6 @@
 {% endblock %}
 {% block extrascript %}
     <script>
-        FB.init({
-            appId  : '475217095841801',
-            frictionlessRequests: true
-        });
-
-        function sendRequestViaMultiFriendSelector() {
-            FB.ui({method: 'apprequests',
-                message: 'Mutuality is really cool! Check it out and help me grow my network!'
-            }, requestCallback);
-        }
-
-        function requestCallback(response) {
-            // Handle callback here
-        }
        /*
           The token in this init function should pertain to the
           current user, user session or something to identify the
@@ -300,5 +286,25 @@
                console.log(exception);
            });
        })(jQuery);
+
+
+       FB.init({
+           appId  : '475217095841801',
+           frictionlessRequests: true
+       });
+
+       function sendRequestViaMultiFriendSelector() {
+           var message = 'Mutuality is really fun! I just matched two people together that will make you laugh :)';
+           FB.ui({method: 'apprequests',
+               message: message
+           }, requestCallback);
+       }
+
+       function requestCallback(response) {
+           // Handle callback here
+       }
+
+       $("#invite-link a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");
+
     </script>
 {% endblock %}

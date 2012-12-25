@@ -38,7 +38,7 @@
           {% if user.is_authenticated %}
               {% if profile %}
                 <ul class="right">
-                  <li id="menu-make-matches" class="active"><a href="/makematches/" class="page-nav">Make Matches</a></li>
+                  <li id="menu-make-matches" class="active"><a href="/makematches/" class="page-nav">Connect Friends</a></li>
                   <li id="menu-meet-people"><a href="/meetpeople/" class="page-nav">Meet People</a></li>
                   <li class="divider show-for-medium-and-up"></li>
                   <li class="has-dropdown">
@@ -142,6 +142,15 @@
   <script src="/assets/javascripts/foundation/app.js"></script>
   <script src="/assets/javascripts/mutuality.js"></script>
   <script src="http://connect.facebook.net/en_US/all.js"></script>
+  <script type="text/javascript">
+    var _urq = _urq || [];
+    _urq.push(['initSite', '576e2861-518d-4c6b-8da5-097f7fec1e70']);
+    (function() {
+        var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
+        ur.src = 'http://sdscdn.userreport.com/userreport.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
+    })();
+  </script>
   {% block extrascript %} 
     <!-- Extra page scripts get inserted here -->
   {% endblock %}
