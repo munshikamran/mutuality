@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from la_facebook.models import UserAssociation
-from Mutuality.connect.models import Profile
+from connect.models import Profile
 
 def index(request):
     context_dict = {}
