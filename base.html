@@ -12,9 +12,9 @@
   <title>{% block title %}{% endblock %} - Mutuality</title>
 
   <!-- Included CSS Files -->
-  <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/app.css">
+  <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/app.css">
 
-  <script src="{{ STATIC_URL }}/javascripts/foundation/modernizr.foundation.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/modernizr.foundation.js"></script>
   <script type="text/javascript" src="//use.typekit.net/hys6mpw.js"></script>
   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
   
@@ -103,7 +103,7 @@
         </nav>
         
         <section id="footer-colophon" class="four columns">
-          <img src="{{ STATIC_URL }}/images/footer-logo.png" id="footer-logo"/>
+          <img src="{{ MEDIA_URL }}/images/footer-logo.png" id="footer-logo"/>
           <p id="copyright">&copy; 2012 Mutuality LLC. All rights reserved.</p>
           <nav id="legal">
             <a href="#">Terms & Conditions</a>&nbsp;|&nbsp;<a href="#">Partners & Affiliates</a>
@@ -116,11 +116,11 @@
     <!-- Extra html gets inserted here (like for modal dialogs, etc.) -->
   {% endblock %}
   <!-- Included JS Files (Uncompressed) -->
-  <script src="{{ STATIC_URL }}/javascripts/foundation/jquery.js"></script>
-  <script src="{{ STATIC_URL }}/javascripts/foundation/jquery.foundation.alerts.js"></script>
-  <script src="{{ STATIC_URL }}/javascripts/foundation/jquery.foundation.reveal.js"></script>
-  <script src="{{ STATIC_URL }}/javascripts/foundation/jquery.foundation.forms.js"></script>
-  <script src="{{ STATIC_URL }}/javascripts/foundation/jquery.foundation.tooltips.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.alerts.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.reveal.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.forms.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.tooltips.js"></script>
   <!--
       <script src="javascripts/foundation/jquery.foundation.topbar.js"></script>
       <script src="javascripts/foundation/jquery.placeholder.js"></script>
@@ -139,8 +139,8 @@
   -->
 
   <!-- Application Javascript, safe to override -->
-  <script src="{{ STATIC_URL }}/javascripts/foundation/app.js"></script>
-  <script src="{{ STATIC_URL }}/javascripts/mutuality.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/app.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/mutuality.js"></script>
   <script src="http://connect.facebook.net/en_US/all.js"></script>
   <script type="text/javascript">
     var _urq = _urq || [];

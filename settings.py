@@ -1,55 +1,42 @@
-# Django settings for fb_la_test project.
-import sys, os
-
-# We need the project's root in our Python Path. Let's add it
-test_project = os.path.dirname(__file__)
-test_directory = os.path.dirname(test_project)
-sys.path.append(test_directory)
-
-#add slot machine class to path
-sys.path.append(os.path.join(test_project,'slotMachine'))
-sys.path.append(os.path.join(test_project,'common'))
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+FORCE_SCRIPT_NAME = ""
+
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
-    ('Jeff Ames', 'jeffreymames@gmail.com'),
-    ('Kamran Munshi', 'kamranmunshi@gmail.com'),
-    
+	# ('Your Name', 'your_email@domain.com'),
 )
- 
+
 MANAGERS = ADMINS
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#        'NAME': 'dummy.db',                      # Or path to database file if using sqlite3.
-#        'USER': '',                      # Not used with sqlite3.
-#        'PASSWORD': '',                  # Not used with sqlite3.
-#        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-#        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-#    }
-#}
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'mutuality',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'redhat',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+       'NAME': 'dummy.db',                      # Or path to database file if using sqlite3.
+       'USER': '',                      # Not used with sqlite3.
+       'PASSWORD': '',                  # Not used with sqlite3.
+       'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+       'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+   }
 }
+
+# DATABASES = {
+    # 'default': {
+        # 'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        # 'NAME': 'mutuality',                      # Or path to database file if using sqlite3.
+        # 'USER': 'root',                      # Not used with sqlite3.
+        # 'PASSWORD': 'redhat',                  # Not used with sqlite3.
+        # 'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        # 'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+    # }
+# }
 
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
 TIME_ZONE = 'America/Chicago'
@@ -66,53 +53,29 @@ USE_I18N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'static')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/media/'
+MEDIA_URL = '/static'
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'hdik5*)66ahwns+q4ckb@7cehrq=n^e^^y23*sm(xn-f785b7b'
-
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-    'django.template.loaders.eggs.Loader',
-)
-
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-)
-
-ROOT_URLCONF = 'Mutuality.urls'
-
-TEMPLATE_DIR1 = os.path.join(os.path.dirname(__file__), '')
-
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    TEMPLATE_DIR1,
-    )
+# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
+# trailing slash.
+# Examples: "http://foo.com/media/", "/media/".
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+# ADMIN_MEDIA_PREFIX = '/admin/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.abspath(os.path.dirname(__file__)) + '/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
-# Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -120,33 +83,55 @@ STATICFILES_DIRS = (
     os.path.join(os.path.dirname(__file__), 'static'),
 )
 
-# List of finder classes that know how to find static files in
-# various locations.
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = 'hdik5*)66ahwns+q4ckb@7cehrq=n^e^^y23*sm(xn-f785b7b'
+AUTH_PROFILE_MODULE = 'connect.Profile'
+
+# AUTHENTICATION_BACKENDS = (
+	# 'accounts.auth.EmailBackend',
+	# 'django_facebook.auth_backends.FacebookBackend',
+# )
+
+# List of callables that know how to import templates from various sources.
+TEMPLATE_LOADERS = (
+	'django.template.loaders.filesystem.Loader',
+	'django.template.loaders.app_directories.Loader',
+)
+
+MIDDLEWARE_CLASSES = (
+	'django.middleware.common.CommonMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+)
+
+ROOT_URLCONF = 'Mutuality.urls'
+
+TEMPLATE_DIRS = (
+	os.path.join(os.path.dirname(__file__), ''),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.contrib.auth.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',
+	'django.contrib.auth.context_processors.auth',
+	'django.core.context_processors.debug',
+	'django.core.context_processors.i18n',
+	'django.core.context_processors.request',
+	'django.contrib.messages.context_processors.messages',
 )
 
 INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.admin',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    # Mutuality apps
-    'connect',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.sites',
+	'django.contrib.messages',
+	'django.contrib.admin',
+	'django.contrib.admindocs',
+	# NEEYAA RELATED APPLICATIONS
+	'connect',
     'la_facebook',
     'messages',
     'rest_framework',
