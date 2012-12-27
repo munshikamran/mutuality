@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from Mutuality.connect.models.profile import Profile
-from Mutuality.connect.models.friendship import Friendship
-from Mutuality.connect.models.facebookuser import FacebookUser
+from connect.models.profile import Profile
+from connect.models.friendship import Friendship
+from connect.models.facebookuser import FacebookUser
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:

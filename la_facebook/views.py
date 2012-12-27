@@ -10,7 +10,7 @@ import base64, hmac, hashlib
 import simplejson as json
 from django.conf import settings
 from la_facebook.models import UserAssociation
-from Mutuality.connect.models import Profile
+from connect.models import Profile
 
 def base64_url_decode(inp):
     padding_factor = (4 - len(inp) % 4) % 4

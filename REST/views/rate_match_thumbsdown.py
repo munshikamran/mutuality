@@ -1,5 +1,5 @@
 from django.http import Http404
-from Mutuality.connect.models import Profile
+from connect.models import Profile
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from connect.classes.matchRatingReason import MatchRatingReason
