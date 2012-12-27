@@ -1,7 +1,7 @@
 from django.conf.urls import *
 from connect.views import *
 
-urlpatterns = patterns('Mutuality.connect.views',
+urlpatterns = patterns('connect.views',
     url(r'^/?$', "index", name="index"),
     url(r'^api/', include( 'REST.urls' )),
     url(r'^makematches/?$', "makematches", name="makematches"),
