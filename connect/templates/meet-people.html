@@ -27,11 +27,11 @@
             <h5>Get Introduced</h5>
 
             <ul id="get-introduced">
-                <li><a href="#"><img src="{{ STATIC_URL }}/images/betty.jpg" /></a></li>
-                <li><a href="#"><img src="{{ STATIC_URL }}/images/brian.jpg" /></a></li>
-                <li><a href="#"><img src="{{ STATIC_URL }}/images/betty.jpg" /></a></li>
-                <li><a href="#"><img src="{{ STATIC_URL }}/images/brian.jpg" /></a></li>
-                <li><a href="#"><img src="{{ STATIC_URL }}/images/betty.jpg" /></a></li>
+                <li><a href="#"><img src="{{ STATIC_URL }}images/betty.jpg" /></a></li>
+                <li><a href="#"><img src="{{ STATIC_URL }}images/brian.jpg" /></a></li>
+                <li><a href="#"><img src="{{ STATIC_URL }}images/betty.jpg" /></a></li>
+                <li><a href="#"><img src="{{ STATIC_URL }}images/brian.jpg" /></a></li>
+                <li><a href="#"><img src="{{ STATIC_URL }}images/betty.jpg" /></a></li>
             </ul>
 
             <ul id="alt-actions" class="menu">
@@ -63,7 +63,7 @@
             <ol id="meet-profiles" class="profiles">
                 <li class="meet-profile">
                     <a href="#" class="loaded">
-                        <img src="{{ STATIC_URL }}/images/brian.jpg" />
+                        <img src="{{ STATIC_URL }}images/brian.jpg" />
                                     <span class="match-profile-details">
                                         <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
                                         <span id="left-profile-location" class="profile-location">Seattle, WA</span>
@@ -73,7 +73,7 @@
 
                 <li class="meet-profile active">
                     <a href="#" class="loaded">
-                        <img src="{{ STATIC_URL }}/images/brian.jpg" />
+                        <img src="{{ STATIC_URL }}images/brian.jpg" />
                                     <span class="match-profile-details">
                                         <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
                                         <span id="left-profile-location" class="profile-location">Seattle, WA</span>
@@ -83,7 +83,7 @@
 
                 <li class="meet-profile">
                     <a href="#" class="loaded">
-                        <img src="{{ STATIC_URL }}/images/brian.jpg" />
+                        <img src="{{ STATIC_URL }}images/brian.jpg" />
                                     <span class="match-profile-details">
                                         <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
                                         <span id="left-profile-location" class="profile-location">Seattle, WA</span>
@@ -93,7 +93,7 @@
 
                 <li class="meet-profile">
                     <a href="#" class="loaded">
-                        <img src="{{ STATIC_URL }}/images/brian.jpg" />
+                        <img src="{{ STATIC_URL }}images/brian.jpg" />
                                     <span class="match-profile-details">
                                         <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
                                         <span id="left-profile-location" class="profile-location">Seattle, WA</span>
@@ -103,7 +103,7 @@
 
                 <li class="meet-profile">
                     <a href="#" class="loaded">
-                        <img src="{{ STATIC_URL }}/images/brian.jpg" />
+                        <img src="{{ STATIC_URL }}images/brian.jpg" />
                                     <span class="match-profile-details">
                                         <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
                                         <span id="left-profile-location" class="profile-location">Seattle, WA</span>
@@ -113,7 +113,7 @@
 
                 <li class="meet-profile">
                     <a href="#" class="loaded">
-                        <img src="{{ STATIC_URL }}/images/brian.jpg" />
+                        <img src="{{ STATIC_URL }}images/brian.jpg" />
                                     <span class="match-profile-details">
                                         <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
                                         <span id="left-profile-location" class="profile-location">Seattle, WA</span>
@@ -133,7 +133,7 @@
             <a href="#" class="button">Get Started</a>
         </div>
         <div class="four columns">
-            <img src="{{ STATIC_URL }}/images/meet-people-cta-img.png" />
+            <img src="{{ STATIC_URL }}images/meet-people-cta-img.png" />
         </div>
     </section>
 
@@ -144,7 +144,7 @@
 {% block extrascript %}
     <script>
         (function($){
-            $.getScript('{{ STATIC_URL }}/javascripts/meet-people.js').fail(function(xhr, settings, exception){
+            $.getScript('{{ STATIC_URL }}javascripts/meet-people.js').fail(function(xhr, settings, exception){
                 console.log(exception);
             });
         })(jQuery);
