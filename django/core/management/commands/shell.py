@@ -8,14 +8,42 @@ class Command(NoArgsCommand):
             help='Tells Django to use plain Python, not IPython.'),
     )
     help = "Runs a Python interactive interpreter. Tries to use IPython, if it's available."
-
+    shells = ['ipython', 'bpython']
     requires_model_validation = False
+
+    def ipython(self):
+        try:
+            from IPython import embed
+            embed()
+        except ImportError:
+            # IPython < 0.11
+            # Explicitly pass an empty list as arguments, because otherwise
+            # IPython would use sys.argv from this script.
+            try:
+                from IPython.Shell import IPShell
+                shell = IPShell(argv=[])
+                shell.mainloop()
+            except ImportError:
+                # IPython not found at all, raise ImportError
+                raise
+
+    def bpython(self):
+        import bpython
+        bpython.embed()
+
+    def run_shell(self):
+        for shell in self.shells:
+            try:
+                return getattr(self, shell)()
+            except ImportError:
+                pass
+        raise ImportError
 
     def handle_noargs(self, **options):
         # XXX: (Temporary) workaround for ticket #1796: force early loading of all
         # models from installed apps.
         from django.db.models.loading import get_models
-        loaded_models = get_models()
+        get_models()
 
         use_plain = options.get('plain', False)
 
@@ -23,21 +51,7 @@ class Command(NoArgsCommand):
             if use_plain:
                 # Don't bother loading IPython, because the user wants plain Python.
                 raise ImportError
-            try:
-                from IPython.frontend.terminal.embed import TerminalInteractiveShell
-                shell = TerminalInteractiveShell()
-                shell.mainloop()
-            except ImportError:
-                # IPython < 0.11
-                # Explicitly pass an empty list as arguments, because otherwise
-                # IPython would use sys.argv from this script.
-                try:
-                    from IPython.Shell import IPShell
-                    shell = IPShell(argv=[])
-                    shell.mainloop()
-                except ImportError:
-                    # IPython not found at all, raise ImportError
-                    raise
+            self.run_shell()
         except ImportError:
             import code
             # Set up a dictionary to serve as the environment for the shell, so
@@ -57,12 +71,12 @@ class Command(NoArgsCommand):
 
             # We want to honor both $PYTHONSTARTUP and .pythonrc.py, so follow system
             # conventions and get $PYTHONSTARTUP first then import user.
-            if not use_plain: 
-                pythonrc = os.environ.get("PYTHONSTARTUP") 
-                if pythonrc and os.path.isfile(pythonrc): 
-                    try: 
-                        execfile(pythonrc) 
-                    except NameError: 
+            if not use_plain:
+                pythonrc = os.environ.get("PYTHONSTARTUP")
+                if pythonrc and os.path.isfile(pythonrc):
+                    try:
+                        execfile(pythonrc)
+                    except NameError:
                         pass
                 # This will import .pythonrc.py as a side-effect
                 import user

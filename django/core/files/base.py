@@ -101,6 +101,12 @@ class File(FileProxyMixin):
         if buffer_ is not None:
             yield buffer_
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, tb):
+        self.close()
+
     def open(self, mode=None):
         if not self.closed:
             self.seek(0)
@@ -116,9 +122,9 @@ class ContentFile(File):
     """
     A File-like object that takes just raw content, rather than an actual file.
     """
-    def __init__(self, content):
+    def __init__(self, content, name=None):
         content = content or ''
-        super(ContentFile, self).__init__(StringIO(content))
+        super(ContentFile, self).__init__(StringIO(content), name=name)
         self.size = len(content)
 
     def __str__(self):

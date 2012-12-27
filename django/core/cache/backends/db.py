@@ -1,13 +1,18 @@
 "Database cache backend."
-
-from django.core.cache.backends.base import BaseCache
-from django.db import connections, router, transaction, DatabaseError
-import base64, time
+import base64
+import time
 from datetime import datetime
+
 try:
     import cPickle as pickle
 except ImportError:
     import pickle
+
+from django.conf import settings
+from django.core.cache.backends.base import BaseCache
+from django.db import connections, router, transaction, DatabaseError
+from django.utils import timezone
+
 
 class Options(object):
     """A class that will quack like a Django model _meta class.
@@ -25,7 +30,7 @@ class Options(object):
         self.managed = True
         self.proxy = False
 
-class CacheClass(BaseCache):
+class BaseDatabaseCache(BaseCache):
     def __init__(self, table, params):
         BaseCache.__init__(self, params)
         self._table = table
@@ -34,42 +39,48 @@ class CacheClass(BaseCache):
             _meta = Options(table)
         self.cache_model_class = CacheEntry
 
-        max_entries = params.get('max_entries', 300)
-        try:
-            self._max_entries = int(max_entries)
-        except (ValueError, TypeError):
-            self._max_entries = 300
-        cull_frequency = params.get('cull_frequency', 3)
-        try:
-            self._cull_frequency = int(cull_frequency)
-        except (ValueError, TypeError):
-            self._cull_frequency = 3
+class DatabaseCache(BaseDatabaseCache):
 
-    def get(self, key, default=None):
+    # This class uses cursors provided by the database connection. This means
+    # it reads expiration values as aware or naive datetimes depending on the
+    # value of USE_TZ. They must be compared to aware or naive representations
+    # of "now" respectively.
+
+    # But it bypasses the ORM for write operations. As a consequence, aware
+    # datetimes aren't made naive for databases that don't support time zones.
+    # We work around this problem by always using naive datetimes when writing
+    # expiration values, in UTC when USE_TZ = True and in local time otherwise.
+
+    def get(self, key, default=None, version=None):
+        key = self.make_key(key, version=version)
         self.validate_key(key)
         db = router.db_for_read(self.cache_model_class)
         table = connections[db].ops.quote_name(self._table)
         cursor = connections[db].cursor()
 
-        cursor.execute("SELECT cache_key, value, expires FROM %s WHERE cache_key = %%s" % table, [key])
+        cursor.execute("SELECT cache_key, value, expires FROM %s "
+                       "WHERE cache_key = %%s" % table, [key])
         row = cursor.fetchone()
         if row is None:
             return default
-        now = datetime.now()
+        now = timezone.now()
         if row[2] < now:
             db = router.db_for_write(self.cache_model_class)
             cursor = connections[db].cursor()
-            cursor.execute("DELETE FROM %s WHERE cache_key = %%s" % table, [key])
+            cursor.execute("DELETE FROM %s "
+                           "WHERE cache_key = %%s" % table, [key])
             transaction.commit_unless_managed(using=db)
             return default
         value = connections[db].ops.process_clob(row[1])
         return pickle.loads(base64.decodestring(value))
 
-    def set(self, key, value, timeout=None):
+    def set(self, key, value, timeout=None, version=None):
+        key = self.make_key(key, version=version)
         self.validate_key(key)
         self._base_set('set', key, value, timeout)
 
-    def add(self, key, value, timeout=None):
+    def add(self, key, value, timeout=None, version=None):
+        key = self.make_key(key, version=version)
         self.validate_key(key)
         return self._base_set('add', key, value, timeout)
 
@@ -82,20 +93,29 @@ class CacheClass(BaseCache):
 
         cursor.execute("SELECT COUNT(*) FROM %s" % table)
         num = cursor.fetchone()[0]
-        now = datetime.now().replace(microsecond=0)
-        exp = datetime.fromtimestamp(time.time() + timeout).replace(microsecond=0)
+        now = timezone.now()
+        now = now.replace(microsecond=0)
+        if settings.USE_TZ:
+            exp = datetime.utcfromtimestamp(time.time() + timeout)
+        else:
+            exp = datetime.fromtimestamp(time.time() + timeout)
+        exp = exp.replace(microsecond=0)
         if num > self._max_entries:
             self._cull(db, cursor, now)
-        encoded = base64.encodestring(pickle.dumps(value, 2)).strip()
-        cursor.execute("SELECT cache_key, expires FROM %s WHERE cache_key = %%s" % table, [key])
+        pickled = pickle.dumps(value, pickle.HIGHEST_PROTOCOL)
+        encoded = base64.encodestring(pickled).strip()
+        cursor.execute("SELECT cache_key, expires FROM %s "
+                       "WHERE cache_key = %%s" % table, [key])
         try:
             result = cursor.fetchone()
             if result and (mode == 'set' or
                     (mode == 'add' and result[1] < now)):
-                cursor.execute("UPDATE %s SET value = %%s, expires = %%s WHERE cache_key = %%s" % table,
+                cursor.execute("UPDATE %s SET value = %%s, expires = %%s "
+                               "WHERE cache_key = %%s" % table,
                                [encoded, connections[db].ops.value_to_db_datetime(exp), key])
             else:
-                cursor.execute("INSERT INTO %s (cache_key, value, expires) VALUES (%%s, %%s, %%s)" % table,
+                cursor.execute("INSERT INTO %s (cache_key, value, expires) "
+                               "VALUES (%%s, %%s, %%s)" % table,
                                [key, encoded, connections[db].ops.value_to_db_datetime(exp)])
         except DatabaseError:
             # To be threadsafe, updates/inserts are allowed to fail silently
@@ -105,8 +125,10 @@ class CacheClass(BaseCache):
             transaction.commit_unless_managed(using=db)
             return True
 
-    def delete(self, key):
+    def delete(self, key, version=None):
+        key = self.make_key(key, version=version)
         self.validate_key(key)
+
         db = router.db_for_write(self.cache_model_class)
         table = connections[db].ops.quote_name(self._table)
         cursor = connections[db].cursor()
@@ -114,14 +136,21 @@ class CacheClass(BaseCache):
         cursor.execute("DELETE FROM %s WHERE cache_key = %%s" % table, [key])
         transaction.commit_unless_managed(using=db)
 
-    def has_key(self, key):
+    def has_key(self, key, version=None):
+        key = self.make_key(key, version=version)
         self.validate_key(key)
+
         db = router.db_for_read(self.cache_model_class)
         table = connections[db].ops.quote_name(self._table)
         cursor = connections[db].cursor()
 
-        now = datetime.now().replace(microsecond=0)
-        cursor.execute("SELECT cache_key FROM %s WHERE cache_key = %%s and expires > %%s" % table,
+        if settings.USE_TZ:
+            now = datetime.utcnow()
+        else:
+            now = datetime.now()
+        now = now.replace(microsecond=0)
+        cursor.execute("SELECT cache_key FROM %s "
+                       "WHERE cache_key = %%s and expires > %%s" % table,
                        [key, connections[db].ops.value_to_db_datetime(now)])
         return cursor.fetchone() is not None
 
@@ -129,17 +158,36 @@ class CacheClass(BaseCache):
         if self._cull_frequency == 0:
             self.clear()
         else:
+            # When USE_TZ is True, 'now' will be an aware datetime in UTC.
+            now = now.replace(tzinfo=None)
             table = connections[db].ops.quote_name(self._table)
             cursor.execute("DELETE FROM %s WHERE expires < %%s" % table,
                            [connections[db].ops.value_to_db_datetime(now)])
             cursor.execute("SELECT COUNT(*) FROM %s" % table)
             num = cursor.fetchone()[0]
             if num > self._max_entries:
-                cursor.execute("SELECT cache_key FROM %s ORDER BY cache_key LIMIT 1 OFFSET %%s" % table, [num / self._cull_frequency])
-                cursor.execute("DELETE FROM %s WHERE cache_key < %%s" % table, [cursor.fetchone()[0]])
+                cull_num = num / self._cull_frequency
+                if connections[db].vendor == 'oracle':
+                    # Oracle doesn't support LIMIT + OFFSET
+                    cursor.execute("""SELECT cache_key FROM
+(SELECT ROW_NUMBER() OVER (ORDER BY cache_key) AS counter, cache_key FROM %s)
+WHERE counter > %%s AND COUNTER <= %%s""" % table, [cull_num, cull_num + 1])
+                else:
+                    # This isn't standard SQL, it's likely to break
+                    # with some non officially supported databases
+                    cursor.execute("SELECT cache_key FROM %s "
+                                   "ORDER BY cache_key "
+                                   "LIMIT 1 OFFSET %%s" % table, [cull_num])
+                cursor.execute("DELETE FROM %s "
+                               "WHERE cache_key < %%s" % table,
+                               [cursor.fetchone()[0]])
 
     def clear(self):
         db = router.db_for_write(self.cache_model_class)
         table = connections[db].ops.quote_name(self._table)
         cursor = connections[db].cursor()
         cursor.execute('DELETE FROM %s' % table)
+
+# For backwards compatibility
+class CacheClass(DatabaseCache):
+    pass

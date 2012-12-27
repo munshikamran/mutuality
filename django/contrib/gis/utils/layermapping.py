@@ -7,15 +7,14 @@
    http://geodjango.org/docs/layermapping.html
 """
 import sys
-from datetime import date, datetime
 from decimal import Decimal
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import connections, DEFAULT_DB_ALIAS
 from django.contrib.gis.db.models import GeometryField
-from django.contrib.gis.gdal import CoordTransform, DataSource, \
-    OGRException, OGRGeometry, OGRGeomType, SpatialReference
-from django.contrib.gis.gdal.field import \
-    OFTDate, OFTDateTime, OFTInteger, OFTReal, OFTString, OFTTime
+from django.contrib.gis.gdal import (CoordTransform, DataSource,
+    OGRException, OGRGeometry, OGRGeomType, SpatialReference)
+from django.contrib.gis.gdal.field import (
+    OFTDate, OFTDateTime, OFTInteger, OFTReal, OFTString, OFTTime)
 from django.db import models, transaction
 from django.contrib.localflavor.us.models import USStateField
 
@@ -54,7 +53,7 @@ class LayerMapping(object):
         models.TextField : OFTString,
         models.URLField : OFTString,
         USStateField : OFTString,
-        models.XMLField : OFTString,
+        models.BigIntegerField : (OFTInteger, OFTReal, OFTString),
         models.SmallIntegerField : (OFTInteger, OFTReal, OFTString),
         models.PositiveSmallIntegerField : (OFTInteger, OFTReal, OFTString),
         }
@@ -132,9 +131,6 @@ class LayerMapping(object):
             self.transaction_mode = transaction_mode
         else:
             raise LayerMapError('Unrecognized transaction mode: %s' % transaction_mode)
-
-        if using is None:
-            pass
 
     #### Checking routines used during initialization ####
     def check_fid_range(self, fid_range):
@@ -292,7 +288,10 @@ class LayerMapping(object):
 
             if isinstance(model_field, GeometryField):
                 # Verify OGR geometry.
-                val = self.verify_geom(feat.geom, model_field)
+                try:
+                    val = self.verify_geom(feat.geom, model_field)
+                except OGRException:
+                    raise LayerMapError('Could not retrieve geometry from feature.')
             elif isinstance(model_field, models.base.ModelBase):
                 # The related _model_, not a field was passed in -- indicating
                 # another mapping for the related Model.
@@ -391,7 +390,7 @@ class LayerMapping(object):
 
         # Attempting to retrieve and return the related model.
         try:
-            return rel_model.objects.get(**fk_kwargs)
+            return rel_model.objects.using(self.using).get(**fk_kwargs)
         except ObjectDoesNotExist:
             raise MissingForeignKey('No ForeignKey %s model found with keyword arguments: %s' % (rel_model.__name__, fk_kwargs))
 
@@ -427,7 +426,7 @@ class LayerMapping(object):
         SpatialRefSys = self.spatial_backend.spatial_ref_sys()
         try:
             # Getting the target spatial reference system
-            target_srs = SpatialRefSys.objects.get(srid=self.geo_field.srid).srs
+            target_srs = SpatialRefSys.objects.using(self.using).get(srid=self.geo_field.srid).srs
 
             # Creating the CoordTransform object
             return CoordTransform(self.source_srs, target_srs)

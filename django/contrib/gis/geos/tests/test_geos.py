@@ -1,6 +1,9 @@
-import ctypes, random, unittest, sys
+import ctypes
+import random
+import unittest
 from django.contrib.gis.geos import *
 from django.contrib.gis.geos.base import gdal, numpy, GEOSBase
+from django.contrib.gis.geos.libgeos import GEOS_PREPARE
 from django.contrib.gis.geometry.test_data import TestDataMixin
 
 class GEOSTest(unittest.TestCase, TestDataMixin):
@@ -179,13 +182,14 @@ class GEOSTest(unittest.TestCase, TestDataMixin):
 
     def test01h_ewkt(self):
         "Testing EWKT."
-        srid = 32140
-        for p in self.geometries.polygons:
-            ewkt = 'SRID=%d;%s' % (srid, p.wkt)
-            poly = fromstr(ewkt)
-            self.assertEqual(srid, poly.srid)
-            self.assertEqual(srid, poly.shell.srid)
-            self.assertEqual(srid, fromstr(poly.ewkt).srid) # Checking export
+        srids = (-1, 32140)
+        for srid in srids:
+            for p in self.geometries.polygons:
+                ewkt = 'SRID=%d;%s' % (srid, p.wkt)
+                poly = fromstr(ewkt)
+                self.assertEqual(srid, poly.srid)
+                self.assertEqual(srid, poly.shell.srid)
+                self.assertEqual(srid, fromstr(poly.ewkt).srid) # Checking export
 
     def test01i_json(self):
         "Testing GeoJSON input/output (via GDAL)."
@@ -819,7 +823,7 @@ class GEOSTest(unittest.TestCase, TestDataMixin):
 
     def test22_copy(self):
         "Testing use with the Python `copy` module."
-        import django.utils.copycompat as copy
+        import copy
         poly = GEOSGeometry('POLYGON((0 0, 0 23, 23 23, 23 0, 0 0), (5 5, 5 10, 10 10, 10 5, 5 5))')
         cpy1 = copy.copy(poly)
         cpy2 = copy.deepcopy(poly)
@@ -850,6 +854,114 @@ class GEOSTest(unittest.TestCase, TestDataMixin):
         for p in (t1, t2, t3, k2):
             self.assertAlmostEqual(trans.x, p.x, prec)
             self.assertAlmostEqual(trans.y, p.y, prec)
+
+    def test23_transform_noop(self):
+        """ Testing `transform` method (SRID match) """
+        # transform() should no-op if source & dest SRIDs match,
+        # regardless of whether GDAL is available.
+        if gdal.HAS_GDAL:
+            g = GEOSGeometry('POINT (-104.609 38.255)', 4326)
+            gt = g.tuple
+            g.transform(4326)
+            self.assertEqual(g.tuple, gt)
+            self.assertEqual(g.srid, 4326)
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', 4326)
+            g1 = g.transform(4326, clone=True)
+            self.assertEqual(g1.tuple, g.tuple)
+            self.assertEqual(g1.srid, 4326)
+            self.assertTrue(g1 is not g, "Clone didn't happen")
+
+        old_has_gdal = gdal.HAS_GDAL
+        try:
+            gdal.HAS_GDAL = False
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', 4326)
+            gt = g.tuple
+            g.transform(4326)
+            self.assertEqual(g.tuple, gt)
+            self.assertEqual(g.srid, 4326)
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', 4326)
+            g1 = g.transform(4326, clone=True)
+            self.assertEqual(g1.tuple, g.tuple)
+            self.assertEqual(g1.srid, 4326)
+            self.assertTrue(g1 is not g, "Clone didn't happen")
+        finally:
+            gdal.HAS_GDAL = old_has_gdal
+
+    def test23_transform_nosrid(self):
+        """ Testing `transform` method (no SRID) """
+        # Raise a warning if SRID <0/None.
+        import warnings
+        print "\nBEGIN - expecting Warnings; safe to ignore.\n"
+
+        # Test for do-nothing behavior.
+        try:
+            # Keeping line-noise down by only printing the relevant
+            # warnings once.
+            warnings.simplefilter('once', UserWarning)
+            warnings.simplefilter('once', FutureWarning)
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', srid=None)
+            g.transform(2774)
+            self.assertEqual(g.tuple, (-104.609, 38.255))
+            self.assertEqual(g.srid, None)
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', srid=None)
+            g1 = g.transform(2774, clone=True)
+            self.assertTrue(g1 is None)
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', srid=-1)
+            g.transform(2774)
+            self.assertEqual(g.tuple, (-104.609, 38.255))
+            self.assertEqual(g.srid, -1)
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', srid=-1)
+            g1 = g.transform(2774, clone=True)
+            self.assertTrue(g1 is None)
+
+        finally:
+            warnings.simplefilter('default', UserWarning)
+            warnings.simplefilter('default', FutureWarning)
+
+        print "\nEND - expecting Warnings; safe to ignore.\n"
+
+
+        # test warning is raised
+        try:
+            warnings.simplefilter('error', FutureWarning)
+            warnings.simplefilter('ignore', UserWarning)
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', srid=None)
+            self.assertRaises(FutureWarning, g.transform, 2774)
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', srid=None)
+            self.assertRaises(FutureWarning, g.transform, 2774, clone=True)
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', srid=-1)
+            self.assertRaises(FutureWarning, g.transform, 2774)
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', srid=-1)
+            self.assertRaises(FutureWarning, g.transform, 2774, clone=True)
+        finally:
+            warnings.simplefilter('default', FutureWarning)
+            warnings.simplefilter('default', UserWarning)
+
+
+    def test23_transform_nogdal(self):
+        """ Testing `transform` method (GDAL not available) """
+        old_has_gdal = gdal.HAS_GDAL
+        try:
+            gdal.HAS_GDAL = False
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', 4326)
+            self.assertRaises(GEOSException, g.transform, 2774)
+
+            g = GEOSGeometry('POINT (-104.609 38.255)', 4326)
+            self.assertRaises(GEOSException, g.transform, 2774, clone=True)
+        finally:
+            gdal.HAS_GDAL = old_has_gdal
 
     def test24_extent(self):
         "Testing `extent` method."
@@ -916,6 +1028,38 @@ class GEOSTest(unittest.TestCase, TestDataMixin):
                       )
         for geom, merged in zip(ref_geoms, ref_merged):
             self.assertEqual(merged, geom.merged)
+
+    def test27_valid_reason(self):
+        "Testing IsValidReason support"
+        # Skipping tests if GEOS < v3.1.
+        if not GEOS_PREPARE: return
+
+        g = GEOSGeometry("POINT(0 0)")
+        self.assertTrue(g.valid)
+        self.assertTrue(isinstance(g.valid_reason, basestring))
+        self.assertEqual(g.valid_reason, "Valid Geometry")
+
+        print "\nBEGIN - expecting GEOS_NOTICE; safe to ignore.\n"
+
+        g = GEOSGeometry("LINESTRING(0 0, 0 0)")
+
+        self.assertTrue(not g.valid)
+        self.assertTrue(isinstance(g.valid_reason, basestring))
+        self.assertTrue(g.valid_reason.startswith("Too few points in geometry component"))
+
+        print "\nEND - expecting GEOS_NOTICE; safe to ignore.\n"
+
+    def test28_geos_version(self):
+        "Testing the GEOS version regular expression."
+        from django.contrib.gis.geos.libgeos import version_regex
+        versions = [ ('3.0.0rc4-CAPI-1.3.3', '3.0.0'),
+                     ('3.0.0-CAPI-1.4.1', '3.0.0'),
+                     ('3.4.0dev-CAPI-1.8.0', '3.4.0') ]
+        for v, expected in versions:
+            m = version_regex.match(v)
+            self.assertTrue(m)
+            self.assertEqual(m.group('version'), expected)
+
 
 def suite():
     s = unittest.TestSuite()

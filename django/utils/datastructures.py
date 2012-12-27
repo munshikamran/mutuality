@@ -1,7 +1,5 @@
+import copy
 from types import GeneratorType
-
-from django.utils.copycompat import deepcopy
-
 
 class MergeDict(object):
     """
@@ -77,6 +75,27 @@ class MergeDict(object):
         """Returns a copy of this object."""
         return self.__copy__()
 
+    def __str__(self):
+        '''
+        Returns something like
+
+            "{'key1': 'val1', 'key2': 'val2', 'key3': 'val3'}"
+
+        instead of the generic "<object meta-data>" inherited from object.
+        '''
+        return str(dict(self.items()))
+
+    def __repr__(self):
+        '''
+        Returns something like
+
+            MergeDict({'key1': 'val1', 'key2': 'val2'}, {'key3': 'val3'})
+
+        instead of generic "<object meta-data>" inherited from object.
+        '''
+        dictreprs = ', '.join(repr(d) for d in self.dicts)
+        return '%s(%s)' % (self.__class__.__name__, dictreprs)
+
 class SortedDict(dict):
     """
     A dictionary that keeps its keys in the order in which they're inserted.
@@ -106,7 +125,7 @@ class SortedDict(dict):
                     seen.add(key)
 
     def __deepcopy__(self, memo):
-        return self.__class__([(key, deepcopy(value, memo))
+        return self.__class__([(key, copy.deepcopy(value, memo))
                                for key, value in self.iteritems()])
 
     def __setitem__(self, key, value):
@@ -209,6 +228,10 @@ class MultiValueDict(dict):
     'Simon'
     >>> d.getlist('name')
     ['Adrian', 'Simon']
+    >>> d.getlist('doesnotexist')
+    []
+    >>> d.getlist('doesnotexist', ['Adrian', 'Simon'])
+    ['Adrian', 'Simon']
     >>> d.get('lastname', 'nonexistent')
     'nonexistent'
     >>> d.setlist('lastname', ['Holovaty', 'Willison'])
@@ -242,10 +265,12 @@ class MultiValueDict(dict):
         super(MultiValueDict, self).__setitem__(key, [value])
 
     def __copy__(self):
-        return self.__class__(super(MultiValueDict, self).items())
+        return self.__class__([
+            (k, v[:])
+            for k, v in self.lists()
+        ])
 
     def __deepcopy__(self, memo=None):
-        import django.utils.copycompat as copy
         if memo is None:
             memo = {}
         result = self.__class__()
@@ -279,15 +304,17 @@ class MultiValueDict(dict):
             return default
         return val
 
-    def getlist(self, key):
+    def getlist(self, key, default=None):
         """
         Returns the list of values for the passed key. If key doesn't exist,
-        then an empty list is returned.
+        then a default value is returned.
         """
         try:
             return super(MultiValueDict, self).__getitem__(key)
         except KeyError:
-            return []
+            if default is None:
+                return []
+            return default
 
     def setlist(self, key, list_):
         super(MultiValueDict, self).__setitem__(key, list_)
@@ -295,17 +322,20 @@ class MultiValueDict(dict):
     def setdefault(self, key, default=None):
         if key not in self:
             self[key] = default
+            return default
         return self[key]
 
-    def setlistdefault(self, key, default_list=()):
+    def setlistdefault(self, key, default_list=None):
         if key not in self:
+            if default_list is None:
+                default_list = []
             self.setlist(key, default_list)
+            return default_list
         return self.getlist(key)
 
     def appendlist(self, key, value):
         """Appends an item to the internal list associated with key."""
-        self.setlistdefault(key, [])
-        super(MultiValueDict, self).__setitem__(key, self.getlist(key) + [value])
+        self.setlistdefault(key).append(value)
 
     def items(self):
         """
@@ -340,8 +370,8 @@ class MultiValueDict(dict):
             yield self[key]
 
     def copy(self):
-        """Returns a copy of this object."""
-        return self.__deepcopy__()
+        """Returns a shallow copy of this object."""
+        return copy.copy(self)
 
     def update(self, *args, **kwargs):
         """
@@ -354,15 +384,21 @@ class MultiValueDict(dict):
             other_dict = args[0]
             if isinstance(other_dict, MultiValueDict):
                 for key, value_list in other_dict.lists():
-                    self.setlistdefault(key, []).extend(value_list)
+                    self.setlistdefault(key).extend(value_list)
             else:
                 try:
                     for key, value in other_dict.items():
-                        self.setlistdefault(key, []).append(value)
+                        self.setlistdefault(key).append(value)
                 except TypeError:
                     raise ValueError("MultiValueDict.update() takes either a MultiValueDict or dictionary")
         for key, value in kwargs.iteritems():
-            self.setlistdefault(key, []).append(value)
+            self.setlistdefault(key).append(value)
+
+    def dict(self):
+        """
+        Returns current object as a dict with singular values.
+        """
+        return dict((key, self[key]) for key in self)
 
 class DotExpandedDict(dict):
     """
@@ -470,4 +506,3 @@ class DictWrapper(dict):
         if use_func:
             return self.func(value)
         return value
-

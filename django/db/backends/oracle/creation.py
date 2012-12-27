@@ -1,4 +1,5 @@
-import sys, time
+import sys
+import time
 from django.db.backends.creation import BaseDatabaseCreation
 
 TEST_DATABASE_PREFIX = 'test_'
@@ -27,6 +28,7 @@ class DatabaseCreation(BaseDatabaseCreation):
         'IntegerField':                 'NUMBER(11)',
         'BigIntegerField':              'NUMBER(19)',
         'IPAddressField':               'VARCHAR2(15)',
+        'GenericIPAddressField':        'VARCHAR2(39)',
         'NullBooleanField':             'NUMBER(1) CHECK ((%(qn_column)s IN (0,1)) OR (%(qn_column)s IS NULL))',
         'OneToOneField':                'NUMBER(11)',
         'PositiveIntegerField':         'NUMBER(11) CHECK (%(qn_column)s >= 0)',
@@ -39,7 +41,6 @@ class DatabaseCreation(BaseDatabaseCreation):
     }
 
     def __init__(self, connection):
-        self.remember = {}
         super(DatabaseCreation, self).__init__(connection)
 
     def _create_test_db(self, verbosity=1, autoclobber=False):
@@ -57,13 +58,8 @@ class DatabaseCreation(BaseDatabaseCreation):
             'tblspace_temp': TEST_TBLSPACE_TMP,
         }
 
-        self.remember['user'] = self.connection.settings_dict['USER']
-        self.remember['passwd'] = self.connection.settings_dict['PASSWORD']
-
         cursor = self.connection.cursor()
         if self._test_database_create():
-            if verbosity >= 1:
-                print 'Creating test database...'
             try:
                 self._execute_test_db_creation(cursor, parameters, verbosity)
             except Exception, e:
@@ -73,10 +69,8 @@ class DatabaseCreation(BaseDatabaseCreation):
                 if autoclobber or confirm == 'yes':
                     try:
                         if verbosity >= 1:
-                            print "Destroying old test database..."
+                            print "Destroying old test database '%s'..." % self.connection.alias
                         self._execute_test_db_destruction(cursor, parameters, verbosity)
-                        if verbosity >= 1:
-                            print "Creating test database..."
                         self._execute_test_db_creation(cursor, parameters, verbosity)
                     except Exception, e:
                         sys.stderr.write("Got an error recreating the test database: %s\n" % e)
@@ -109,20 +103,12 @@ class DatabaseCreation(BaseDatabaseCreation):
                     print "Tests cancelled."
                     sys.exit(1)
 
-        self.connection.settings_dict['TEST_USER'] = self.connection.settings_dict["USER"] = TEST_USER
-        self.connection.settings_dict["PASSWORD"] = TEST_PASSWD
+        self.connection.settings_dict['SAVED_USER'] = self.connection.settings_dict['USER']
+        self.connection.settings_dict['SAVED_PASSWORD'] = self.connection.settings_dict['PASSWORD']
+        self.connection.settings_dict['TEST_USER'] = self.connection.settings_dict['USER'] = TEST_USER
+        self.connection.settings_dict['PASSWORD'] = TEST_PASSWD
 
         return self.connection.settings_dict['NAME']
-
-    def test_db_signature(self):
-        settings_dict = self.connection.settings_dict
-        return (
-            settings_dict['HOST'],
-            settings_dict['PORT'],
-            settings_dict['ENGINE'],
-            settings_dict['NAME'],
-            settings_dict['TEST_USER'],
-        )
 
     def _destroy_test_db(self, test_database_name, verbosity=1):
         """
@@ -135,8 +121,8 @@ class DatabaseCreation(BaseDatabaseCreation):
         TEST_TBLSPACE = self._test_database_tblspace()
         TEST_TBLSPACE_TMP = self._test_database_tblspace_tmp()
 
-        self.connection.settings_dict["USER"] = self.remember['user']
-        self.connection.settings_dict["PASSWORD"] = self.remember['passwd']
+        self.connection.settings_dict['USER'] = self.connection.settings_dict['SAVED_USER']
+        self.connection.settings_dict['PASSWORD'] = self.connection.settings_dict['SAVED_PASSWORD']
 
         parameters = {
             'dbname': TEST_NAME,
@@ -265,3 +251,24 @@ class DatabaseCreation(BaseDatabaseCreation):
         except KeyError:
             pass
         return name
+
+    def _get_test_db_name(self):
+        """
+        We need to return the 'production' DB name to get the test DB creation
+        machinery to work. This isn't a great deal in this case because DB
+        names as handled by Django haven't real counterparts in Oracle.
+        """
+        return self.connection.settings_dict['NAME']
+
+    def test_db_signature(self):
+        settings_dict = self.connection.settings_dict
+        return (
+            settings_dict['HOST'],
+            settings_dict['PORT'],
+            settings_dict['ENGINE'],
+            settings_dict['NAME'],
+            self._test_database_user(),
+        )
+
+    def set_autocommit(self):
+        self.connection.connection.autocommit = True

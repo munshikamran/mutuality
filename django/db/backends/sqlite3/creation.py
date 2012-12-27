@@ -20,6 +20,7 @@ class DatabaseCreation(BaseDatabaseCreation):
         'IntegerField':                 'integer',
         'BigIntegerField':              'bigint',
         'IPAddressField':               'char(15)',
+        'GenericIPAddressField':        'char(39)',
         'NullBooleanField':             'bool',
         'OneToOneField':                'integer',
         'PositiveIntegerField':         'integer unsigned',
@@ -38,19 +39,23 @@ class DatabaseCreation(BaseDatabaseCreation):
         "SQLite3 doesn't support constraints"
         return []
 
-    def _create_test_db(self, verbosity, autoclobber):
+    def _get_test_db_name(self):
         test_database_name = self.connection.settings_dict['TEST_NAME']
-        if test_database_name and test_database_name != ":memory:":
+        if test_database_name and test_database_name != ':memory:':
+            return test_database_name
+        return ':memory:'
+
+    def _create_test_db(self, verbosity, autoclobber):
+        test_database_name = self._get_test_db_name()
+        if test_database_name != ':memory:':
             # Erase the old test database
             if verbosity >= 1:
-                print "Destroying old test database..."
+                print "Destroying old test database '%s'..." % self.connection.alias
             if os.access(test_database_name, os.F_OK):
                 if not autoclobber:
                     confirm = raw_input("Type 'yes' if you would like to try deleting the test database '%s', or 'no' to cancel: " % test_database_name)
                 if autoclobber or confirm == 'yes':
                   try:
-                      if verbosity >= 1:
-                          print "Destroying old test database..."
                       os.remove(test_database_name)
                   except Exception, e:
                       sys.stderr.write("Got an error deleting the old test database: %s\n" % e)
@@ -58,13 +63,27 @@ class DatabaseCreation(BaseDatabaseCreation):
                 else:
                     print "Tests cancelled."
                     sys.exit(1)
-            if verbosity >= 1:
-                print "Creating test database..."
-        else:
-            test_database_name = ":memory:"
         return test_database_name
 
     def _destroy_test_db(self, test_database_name, verbosity):
         if test_database_name and test_database_name != ":memory:":
             # Remove the SQLite database file
             os.remove(test_database_name)
+
+    def set_autocommit(self):
+        self.connection.connection.isolation_level = None
+
+    def test_db_signature(self):
+        """
+        Returns a tuple that uniquely identifies a test database.
+
+        This takes into account the special cases of ":memory:" and "" for
+        SQLite since the databases will be distinct despite having the same
+        TEST_NAME. See http://www.sqlite.org/inmemorydb.html
+        """
+        settings_dict = self.connection.settings_dict
+        test_dbname = self._get_test_db_name()
+        sig = [self.connection.settings_dict['NAME']]
+        if test_dbname == ':memory:':
+            sig.append(self.connection.alias)
+        return tuple(sig)

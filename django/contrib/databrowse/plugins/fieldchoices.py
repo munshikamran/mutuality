@@ -53,7 +53,7 @@ class FieldChoicePlugin(DatabrowsePlugin):
         if url is None:
             return self.homepage_view(request)
         url_bits = url.split('/', 1)
-        if self.fields.has_key(url_bits[0]):
+        if url_bits[0] in self.fields:
             return self.field_view(request, self.fields[url_bits[0]], *url_bits[1:])
 
         raise http.Http404('The requested page does not exist.')
@@ -61,7 +61,7 @@ class FieldChoicePlugin(DatabrowsePlugin):
     def homepage_view(self, request):
         easy_model = EasyModel(self.site, self.model)
         field_list = self.fields.values()
-        field_list.sort(lambda x, y: cmp(x.verbose_name, y.verbose_name))
+        field_list.sort(key=lambda k: k.verbose_name)
         return render_to_response('databrowse/fieldchoice_homepage.html', {'root_url': self.site.root_url, 'model': easy_model, 'field_list': field_list})
 
     def field_view(self, request, field, value=None):

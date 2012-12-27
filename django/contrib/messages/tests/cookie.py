@@ -1,8 +1,9 @@
 from django.contrib.messages import constants
 from django.contrib.messages.tests.base import BaseTest
-from django.contrib.messages.storage.cookie import CookieStorage, \
-                                            MessageEncoder, MessageDecoder
+from django.contrib.messages.storage.cookie import (CookieStorage,
+    MessageEncoder, MessageDecoder)
 from django.contrib.messages.storage.base import Message
+from django.test.utils import override_settings
 from django.utils import simplejson as json
 
 
@@ -51,6 +52,31 @@ class CookieTest(BaseTest):
         # Test that the message actually contains what we expect.
         self.assertEqual(list(storage), example_messages)
 
+    def test_domain(self):
+        """
+        Ensure that CookieStorage honors SESSION_COOKIE_DOMAIN.
+        Refs #15618.
+        """
+        # Test before the messages have been consumed
+        storage = self.get_storage()
+        response = self.get_response()
+        storage.add(constants.INFO, 'test')
+        storage.update(response)
+        self.assertTrue('test' in response.cookies['messages'].value)
+        self.assertEqual(response.cookies['messages']['domain'], '.lawrence.com')
+        self.assertEqual(response.cookies['messages']['expires'], '')
+
+        # Test after the messages have been consumed
+        storage = self.get_storage()
+        response = self.get_response()
+        storage.add(constants.INFO, 'test')
+        for m in storage:
+            pass # Iterate through the storage to simulate consumption of messages.
+        storage.update(response)
+        self.assertEqual(response.cookies['messages'].value, '')
+        self.assertEqual(response.cookies['messages']['domain'], '.lawrence.com')
+        self.assertEqual(response.cookies['messages']['expires'], 'Thu, 01-Jan-1970 00:00:00 GMT')
+
     def test_get_bad_cookie(self):
         request = self.get_request()
         storage = self.storage_class(request)
@@ -83,7 +109,7 @@ class CookieTest(BaseTest):
         self.assertEqual(cookie_storing, 4)
 
         self.assertEqual(len(unstored_messages), 1)
-        self.assert_(unstored_messages[0].message == '0' * msg_size)
+        self.assertTrue(unstored_messages[0].message == '0' * msg_size)
 
     def test_json_encoder_decoder(self):
         """
@@ -104,3 +130,6 @@ class CookieTest(BaseTest):
         value = encoder.encode(messages)
         decoded_messages = json.loads(value, cls=MessageDecoder)
         self.assertEqual(messages, decoded_messages)
+
+CookieTest = override_settings(
+        SESSION_COOKIE_DOMAIN='.lawrence.com')(CookieTest)

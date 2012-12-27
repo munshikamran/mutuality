@@ -9,12 +9,14 @@ a list of all possible variables.
 import os
 import re
 import time     # Needed for Windows
+import warnings
 
 from django.conf import global_settings
-from django.utils.functional import LazyObject
+from django.utils.functional import LazyObject, empty
 from django.utils import importlib
 
 ENVIRONMENT_VARIABLE = "DJANGO_SETTINGS_MODULE"
+
 
 class LazySettings(LazyObject):
     """
@@ -45,21 +47,39 @@ class LazySettings(LazyObject):
         parameter sets where to retrieve any unspecified values from (its
         argument must support attribute access (__getattr__)).
         """
-        if self._wrapped != None:
+        if self._wrapped is not empty:
             raise RuntimeError('Settings already configured.')
         holder = UserSettingsHolder(default_settings)
         for name, value in options.items():
             setattr(holder, name, value)
         self._wrapped = holder
 
+    @property
     def configured(self):
         """
         Returns True if the settings have already been configured.
         """
-        return bool(self._wrapped)
-    configured = property(configured)
+        return self._wrapped is not empty
 
-class Settings(object):
+
+class BaseSettings(object):
+    """
+    Common logic for settings whether set by a module or by the user.
+    """
+    def __setattr__(self, name, value):
+        if name in ("MEDIA_URL", "STATIC_URL") and value and not value.endswith('/'):
+            warnings.warn("If set, %s must end with a slash" % name,
+                          DeprecationWarning)
+        elif name == "ADMIN_MEDIA_PREFIX":
+            warnings.warn("The ADMIN_MEDIA_PREFIX setting has been removed; "
+                          "use STATIC_URL instead.", DeprecationWarning)
+        elif name == "ALLOWED_INCLUDE_ROOTS" and isinstance(value, basestring):
+            raise ValueError("The ALLOWED_INCLUDE_ROOTS setting must be set "
+                "to a tuple, not a string.")
+        object.__setattr__(self, name, value)
+
+
+class Settings(BaseSettings):
     def __init__(self, settings_module):
         # update this dict from global settings (but only for ALL_CAPS settings)
         for setting in dir(global_settings):
@@ -72,7 +92,7 @@ class Settings(object):
         try:
             mod = importlib.import_module(self.SETTINGS_MODULE)
         except ImportError, e:
-            raise ImportError("Could not import settings '%s' (Is it on sys.path? Does it have syntax errors?): %s" % (self.SETTINGS_MODULE, e))
+            raise ImportError("Could not import settings '%s' (Is it on sys.path?): %s" % (self.SETTINGS_MODULE, e))
 
         # Settings that should be converted into tuples if they're mistakenly entered
         # as strings.
@@ -81,34 +101,41 @@ class Settings(object):
         for setting in dir(mod):
             if setting == setting.upper():
                 setting_value = getattr(mod, setting)
-                if setting in tuple_settings and type(setting_value) == str:
+                if setting in tuple_settings and \
+                        isinstance(setting_value, basestring):
                     setting_value = (setting_value,) # In case the user forgot the comma.
                 setattr(self, setting, setting_value)
 
-        # Expand entries in INSTALLED_APPS like "django.contrib.*" to a list
-        # of all those apps.
-        new_installed_apps = []
-        for app in self.INSTALLED_APPS:
-            if app.endswith('.*'):
-                app_mod = importlib.import_module(app[:-2])
-                appdir = os.path.dirname(app_mod.__file__)
-                app_subdirs = os.listdir(appdir)
-                app_subdirs.sort()
-                name_pattern = re.compile(r'[a-zA-Z]\w*')
-                for d in app_subdirs:
-                    if name_pattern.match(d) and os.path.isdir(os.path.join(appdir, d)):
-                        new_installed_apps.append('%s.%s' % (app[:-2], d))
-            else:
-                new_installed_apps.append(app)
-        self.INSTALLED_APPS = new_installed_apps
+        if not self.SECRET_KEY:
+            warnings.warn("The SECRET_KEY setting must not be empty.", DeprecationWarning)
 
-        if hasattr(time, 'tzset') and getattr(self, 'TIME_ZONE'):
+        if hasattr(time, 'tzset') and self.TIME_ZONE:
+            # When we can, attempt to validate the timezone. If we can't find
+            # this file, no check happens and it's harmless.
+            zoneinfo_root = '/usr/share/zoneinfo'
+            if (os.path.exists(zoneinfo_root) and not
+                    os.path.exists(os.path.join(zoneinfo_root, *(self.TIME_ZONE.split('/'))))):
+                raise ValueError("Incorrect timezone setting: %s" % self.TIME_ZONE)
             # Move the time zone info into os.environ. See ticket #2315 for why
             # we don't do this unconditionally (breaks Windows).
             os.environ['TZ'] = self.TIME_ZONE
             time.tzset()
 
-class UserSettingsHolder(object):
+        # Settings are configured, so we can set up the logger if required
+        if self.LOGGING_CONFIG:
+            # First find the logging configuration function ...
+            logging_config_path, logging_config_func_name = self.LOGGING_CONFIG.rsplit('.', 1)
+            logging_config_module = importlib.import_module(logging_config_path)
+            logging_config_func = getattr(logging_config_module, logging_config_func_name)
+
+            # Backwards-compatibility shim for #16288 fix
+            compat_patch_logging_config(self.LOGGING)
+
+            # ... then invoke it with the logging settings
+            logging_config_func(self.LOGGING)
+
+
+class UserSettingsHolder(BaseSettings):
     """
     Holder for user configured settings.
     """
@@ -134,3 +161,36 @@ class UserSettingsHolder(object):
 
 settings = LazySettings()
 
+
+
+def compat_patch_logging_config(logging_config):
+    """
+    Backwards-compatibility shim for #16288 fix. Takes initial value of
+    ``LOGGING`` setting and patches it in-place (issuing deprecation warning)
+    if "mail_admins" logging handler is configured but has no filters.
+
+    """
+    #  Shim only if LOGGING["handlers"]["mail_admins"] exists,
+    #  but has no "filters" key
+    if "filters" not in logging_config.get(
+        "handlers", {}).get(
+        "mail_admins", {"filters": []}):
+
+        warnings.warn(
+            "You have no filters defined on the 'mail_admins' logging "
+            "handler: adding implicit debug-false-only filter. "
+            "See http://docs.djangoproject.com/en/dev/releases/1.4/"
+            "#request-exceptions-are-now-always-logged",
+            PendingDeprecationWarning)
+
+        filter_name = "require_debug_false"
+
+        filters = logging_config.setdefault("filters", {})
+        while filter_name in filters:
+            filter_name = filter_name + "_"
+
+        filters[filter_name] = {
+            "()": "django.utils.log.RequireDebugFalse",
+        }
+
+        logging_config["handlers"]["mail_admins"]["filters"] = [filter_name]

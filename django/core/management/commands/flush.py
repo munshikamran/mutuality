@@ -9,7 +9,6 @@ from django.core.management.sql import sql_flush, emit_post_sync_signal
 from django.utils.importlib import import_module
 
 
-
 class Command(NoArgsCommand):
     option_list = NoArgsCommand.option_list + (
         make_option('--noinput', action='store_false', dest='interactive', default=True,
@@ -18,12 +17,15 @@ class Command(NoArgsCommand):
             default=DEFAULT_DB_ALIAS, help='Nominates a database to flush. '
                 'Defaults to the "default" database.'),
     )
-    help = "Executes ``sqlflush`` on the current database."
+    help = ('Returns the database to the state it was in immediately after '
+           'syncdb was executed. This means that all data will be removed '
+           'from the database, any post-synchronization handlers will be '
+           're-executed, and the initial_data fixture will be re-installed.')
 
     def handle_noargs(self, **options):
-        db = options.get('database', DEFAULT_DB_ALIAS)
+        db = options.get('database')
         connection = connections[db]
-        verbosity = int(options.get('verbosity', 1))
+        verbosity = int(options.get('verbosity'))
         interactive = options.get('interactive')
 
         self.style = no_style()
@@ -72,7 +74,7 @@ The full error: %s""" % (connection.settings_dict['NAME'], e))
                     m for m in models.get_models(app, include_auto_created=True)
                     if router.allow_syncdb(db, m)
                 ])
-            emit_post_sync_signal(all_models, verbosity, interactive, db)
+            emit_post_sync_signal(set(all_models), verbosity, interactive, db)
 
             # Reinstall the initial_data fixture.
             kwargs = options.copy()

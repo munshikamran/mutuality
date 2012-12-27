@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.backends import RemoteUserBackend
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.utils import timezone
 
 
 class RemoteUserTest(TestCase):
@@ -30,15 +31,15 @@ class RemoteUserTest(TestCase):
         num_users = User.objects.count()
 
         response = self.client.get('/remote_user/')
-        self.assert_(response.context['user'].is_anonymous())
+        self.assertTrue(response.context['user'].is_anonymous())
         self.assertEqual(User.objects.count(), num_users)
 
         response = self.client.get('/remote_user/', REMOTE_USER=None)
-        self.assert_(response.context['user'].is_anonymous())
+        self.assertTrue(response.context['user'].is_anonymous())
         self.assertEqual(User.objects.count(), num_users)
 
         response = self.client.get('/remote_user/', REMOTE_USER='')
-        self.assert_(response.context['user'].is_anonymous())
+        self.assertTrue(response.context['user'].is_anonymous())
         self.assertEqual(User.objects.count(), num_users)
 
     def test_unknown_user(self):
@@ -80,6 +81,8 @@ class RemoteUserTest(TestCase):
         user = User.objects.create(username='knownuser')
         # Set last_login to something so we can determine if it changes.
         default_login = datetime(2000, 1, 1)
+        if settings.USE_TZ:
+            default_login = default_login.replace(tzinfo=timezone.utc)
         user.last_login = default_login
         user.save()
 
@@ -115,7 +118,7 @@ class RemoteUserNoCreateTest(RemoteUserTest):
     def test_unknown_user(self):
         num_users = User.objects.count()
         response = self.client.get('/remote_user/', REMOTE_USER='newuser')
-        self.assert_(response.context['user'].is_anonymous())
+        self.assertTrue(response.context['user'].is_anonymous())
         self.assertEqual(User.objects.count(), num_users)
 
 
@@ -147,7 +150,7 @@ class RemoteUserCustomTest(RemoteUserTest):
 
     backend =\
         'django.contrib.auth.tests.remote_user.CustomRemoteUserBackend'
-    # REMOTE_USER strings with e-mail addresses for the custom backend to
+    # REMOTE_USER strings with email addresses for the custom backend to
     # clean.
     known_user = 'knownuser@example.com'
     known_user2 = 'knownuser2@example.com'

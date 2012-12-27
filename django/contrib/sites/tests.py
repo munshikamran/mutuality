@@ -15,10 +15,16 @@ class SitesFrameworkTests(TestCase):
     def tearDown(self):
         Site._meta.installed = self.old_Site_meta_installed
 
+    def test_save_another(self):
+        # Regression for #17415
+        # On some backends the sequence needs reset after save with explicit ID.
+        # Test that there is no sequence collisions by saving another site.
+        Site(domain="example2.com", name="example2.com").save()
+
     def test_site_manager(self):
         # Make sure that get_current() does not return a deleted Site object.
         s = Site.objects.get_current()
-        self.assert_(isinstance(s, Site))
+        self.assertTrue(isinstance(s, Site))
         s.delete()
         self.assertRaises(ObjectDoesNotExist, Site.objects.get_current)
 
@@ -41,7 +47,7 @@ class SitesFrameworkTests(TestCase):
             "SERVER_PORT": "80",
         }
         site = get_current_site(request)
-        self.assert_(isinstance(site, Site))
+        self.assertTrue(isinstance(site, Site))
         self.assertEqual(site.id, settings.SITE_ID)
 
         # Test that an exception is raised if the sites framework is installed
@@ -52,5 +58,5 @@ class SitesFrameworkTests(TestCase):
         # A RequestSite is returned if the sites framework is not installed
         Site._meta.installed = False
         site = get_current_site(request)
-        self.assert_(isinstance(site, RequestSite))
+        self.assertTrue(isinstance(site, RequestSite))
         self.assertEqual(site.name, u"example.com")

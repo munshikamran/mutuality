@@ -1,18 +1,21 @@
+from __future__ import absolute_import
+
 import re
+
 from django.db import connection
+from django.db.utils import DatabaseError
 from django.contrib.gis import gdal
-from django.contrib.gis.geos import fromstr, GEOSGeometry, \
-    Point, LineString, LinearRing, Polygon, GeometryCollection
-from django.contrib.gis.measure import Distance
-from django.contrib.gis.tests.utils import \
-    no_mysql, no_oracle, no_spatialite, \
-    mysql, oracle, postgis, spatialite
+from django.contrib.gis.geos import (fromstr, GEOSGeometry,
+    Point, LineString, LinearRing, Polygon, GeometryCollection)
+from django.contrib.gis.tests.utils import (
+    no_mysql, no_oracle, no_spatialite,
+    mysql, oracle, postgis, spatialite)
 from django.test import TestCase
 
-from models import Country, City, PennsylvaniaCity, State, Track
+from .models import Country, City, PennsylvaniaCity, State, Track
 
 if not spatialite:
-    from models import Feature, MinusOneSRID
+    from .models import Feature, MinusOneSRID
 
 class GeoModelTest(TestCase):
 
@@ -93,8 +96,8 @@ class GeoModelTest(TestCase):
 
     def test03a_kml(self):
         "Testing KML output from the database using GeoQuerySet.kml()."
-        # Only PostGIS supports KML serialization
-        if not postgis:
+        # Only PostGIS and Spatialite (>=2.4.0-RC4) support KML serialization
+        if not (postgis or (spatialite and connection.ops.kml)):
             self.assertRaises(NotImplementedError, State.objects.all().kml, field_name='poly')
             return
 
@@ -118,7 +121,7 @@ class GeoModelTest(TestCase):
 
     def test03b_gml(self):
         "Testing GML output from the database using GeoQuerySet.gml()."
-        if mysql or spatialite:
+        if mysql or (spatialite and not connection.ops.gml) :
             self.assertRaises(NotImplementedError, Country.objects.all().gml, field_name='mpoly')
             return
 
@@ -132,12 +135,15 @@ class GeoModelTest(TestCase):
         if oracle:
             # No precision parameter for Oracle :-/
             gml_regex = re.compile(r'^<gml:Point srsName="SDO:4326" xmlns:gml="http://www.opengis.net/gml"><gml:coordinates decimal="\." cs="," ts=" ">-104.60925\d+,38.25500\d+ </gml:coordinates></gml:Point>')
-            for ptown in [ptown1, ptown2]:
-                self.failUnless(gml_regex.match(ptown.gml))
+        elif spatialite:
+            # Spatialite has extra colon in SrsName
+            gml_regex = re.compile(r'^<gml:Point SrsName="EPSG::4326"><gml:coordinates decimal="\." cs="," ts=" ">-104.609251\d+,38.255001</gml:coordinates></gml:Point>')
         else:
             gml_regex = re.compile(r'^<gml:Point srsName="EPSG:4326"><gml:coordinates>-104\.60925\d+,38\.255001</gml:coordinates></gml:Point>')
-            for ptown in [ptown1, ptown2]:
-                self.failUnless(gml_regex.match(ptown.gml))
+
+        for ptown in [ptown1, ptown2]:
+            self.assertTrue(gml_regex.match(ptown.gml))
+
 
     def test03c_geojson(self):
         "Testing GeoJSON output from the database using GeoQuerySet.geojson()."
@@ -672,21 +678,21 @@ class GeoModelTest(TestCase):
                '12.40500 43.94833,12.40889 43.95499,12.41580 43.95795)))')
         sm = Country.objects.create(name='San Marino', mpoly=fromstr(wkt))
 
-        # Because floating-point arithmitic isn't exact, we set a tolerance
+        # Because floating-point arithmetic isn't exact, we set a tolerance
         # to pass into GEOS `equals_exact`.
         tol = 0.000000001
 
         # SELECT AsText(ST_SnapToGrid("geoapp_country"."mpoly", 0.1)) FROM "geoapp_country" WHERE "geoapp_country"."name" = 'San Marino';
         ref = fromstr('MULTIPOLYGON(((12.4 44,12.5 44,12.5 43.9,12.4 43.9,12.4 44)))')
-        self.failUnless(ref.equals_exact(Country.objects.snap_to_grid(0.1).get(name='San Marino').snap_to_grid, tol))
+        self.assertTrue(ref.equals_exact(Country.objects.snap_to_grid(0.1).get(name='San Marino').snap_to_grid, tol))
 
         # SELECT AsText(ST_SnapToGrid("geoapp_country"."mpoly", 0.05, 0.23)) FROM "geoapp_country" WHERE "geoapp_country"."name" = 'San Marino';
         ref = fromstr('MULTIPOLYGON(((12.4 43.93,12.45 43.93,12.5 43.93,12.45 43.93,12.4 43.93)))')
-        self.failUnless(ref.equals_exact(Country.objects.snap_to_grid(0.05, 0.23).get(name='San Marino').snap_to_grid, tol))
+        self.assertTrue(ref.equals_exact(Country.objects.snap_to_grid(0.05, 0.23).get(name='San Marino').snap_to_grid, tol))
 
         # SELECT AsText(ST_SnapToGrid("geoapp_country"."mpoly", 0.5, 0.17, 0.05, 0.23)) FROM "geoapp_country" WHERE "geoapp_country"."name" = 'San Marino';
         ref = fromstr('MULTIPOLYGON(((12.4 43.87,12.45 43.87,12.45 44.1,12.5 44.1,12.5 43.87,12.45 43.87,12.4 43.87)))')
-        self.failUnless(ref.equals_exact(Country.objects.snap_to_grid(0.05, 0.23, 0.5, 0.17).get(name='San Marino').snap_to_grid, tol))
+        self.assertTrue(ref.equals_exact(Country.objects.snap_to_grid(0.05, 0.23, 0.5, 0.17).get(name='San Marino').snap_to_grid, tol))
 
     @no_mysql
     @no_spatialite
@@ -699,7 +705,7 @@ class GeoModelTest(TestCase):
         self.assertEqual(tuple(coords), t.reverse_geom.coords)
         if oracle:
             self.assertRaises(TypeError, State.objects.reverse_geom)
-        
+
     @no_mysql
     @no_oracle
     @no_spatialite
@@ -718,7 +724,7 @@ class GeoModelTest(TestCase):
     @no_mysql
     @no_oracle
     @no_spatialite
-    def test29_force_rhr(self):
+    def test30_geohash(self):
         "Testing GeoQuerySet.geohash()."
         if not connection.ops.geohash: return
         # Reference query:
@@ -730,6 +736,6 @@ class GeoModelTest(TestCase):
         self.assertEqual(ref_hash, h1.geohash)
         self.assertEqual(ref_hash[:5], h2.geohash)
 
-from test_feeds import GeoFeedTest
-from test_regress import GeoRegressionTests
-from test_sitemaps import GeoSitemapTest
+from .test_feeds import GeoFeedTest
+from .test_regress import GeoRegressionTests
+from .test_sitemaps import GeoSitemapTest

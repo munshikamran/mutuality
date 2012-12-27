@@ -3,12 +3,13 @@ Query subclasses which provide extra functionality beyond simple data retrieval.
 """
 
 from django.core.exceptions import FieldError
-from django.db import connections
+from django.db.models.fields import DateField, FieldDoesNotExist
 from django.db.models.sql.constants import *
 from django.db.models.sql.datastructures import Date
-from django.db.models.sql.expressions import SQLEvaluator
 from django.db.models.sql.query import Query
 from django.db.models.sql.where import AND, Constraint
+from django.utils.functional import Promise
+from django.utils.encoding import force_unicode
 
 
 __all__ = ['DeleteQuery', 'UpdateQuery', 'InsertQuery', 'DateQuery',
@@ -27,18 +28,19 @@ class DeleteQuery(Query):
         self.where = where
         self.get_compiler(using).execute_sql(None)
 
-    def delete_batch(self, pk_list, using):
+    def delete_batch(self, pk_list, using, field=None):
         """
         Set up and execute delete queries for all the objects in pk_list.
 
         More than one physical query may be executed if there are a
         lot of values in pk_list.
         """
+        if not field:
+            field = self.model._meta.pk
         for offset in range(0, len(pk_list), GET_ITERATOR_CHUNK_SIZE):
             where = self.where_class()
-            field = self.model._meta.pk
             where.add((Constraint(None, field.column, field), 'in',
-                    pk_list[offset : offset + GET_ITERATOR_CHUNK_SIZE]), AND)
+                    pk_list[offset:offset + GET_ITERATOR_CHUNK_SIZE]), AND)
             self.do_query(self.model._meta.db_table, where, using=using)
 
 class UpdateQuery(Query):
@@ -67,21 +69,14 @@ class UpdateQuery(Query):
         return super(UpdateQuery, self).clone(klass,
                 related_updates=self.related_updates.copy(), **kwargs)
 
-
-    def clear_related(self, related_field, pk_list, using):
-        """
-        Set up and execute an update query that clears related entries for the
-        keys in pk_list.
-
-        This is used by the QuerySet.delete_objects() method.
-        """
+    def update_batch(self, pk_list, values, using):
+        pk_field = self.model._meta.pk
+        self.add_update_values(values)
         for offset in range(0, len(pk_list), GET_ITERATOR_CHUNK_SIZE):
             self.where = self.where_class()
-            f = self.model._meta.pk
-            self.where.add((Constraint(None, f.column, f), 'in',
-                    pk_list[offset : offset + GET_ITERATOR_CHUNK_SIZE]),
+            self.where.add((Constraint(None, pk_field.column, pk_field), 'in',
+                    pk_list[offset:offset + GET_ITERATOR_CHUNK_SIZE]),
                     AND)
-            self.values = [(related_field, None, None)]
             self.get_compiler(using).execute_sql(None)
 
     def add_update_values(self, values):
@@ -107,6 +102,10 @@ class UpdateQuery(Query):
         Used by add_update_values() as well as the "fast" update path when
         saving models.
         """
+        # Check that no Promise object passes to the query. Refs #10498.
+        values_seq = [(value[0], value[1], force_unicode(value[2]))
+                      if isinstance(value[2], Promise) else value
+                      for value in values_seq]
         self.values.extend(values_seq)
 
     def add_related_update(self, model, field, value):
@@ -142,20 +141,19 @@ class InsertQuery(Query):
 
     def __init__(self, *args, **kwargs):
         super(InsertQuery, self).__init__(*args, **kwargs)
-        self.columns = []
-        self.values = []
-        self.params = ()
+        self.fields = []
+        self.objs = []
 
     def clone(self, klass=None, **kwargs):
         extras = {
-            'columns': self.columns[:],
-            'values': self.values[:],
-            'params': self.params
+            'fields': self.fields[:],
+            'objs': self.objs[:],
+            'raw': self.raw,
         }
         extras.update(kwargs)
         return super(InsertQuery, self).clone(klass, **extras)
 
-    def insert_values(self, insert_values, raw_values=False):
+    def insert_values(self, fields, objs, raw=False):
         """
         Set up the insert query from the 'insert_values' dictionary. The
         dictionary gives the model field names and their target values.
@@ -165,16 +163,15 @@ class InsertQuery(Query):
         parameters. This provides a way to insert NULL and DEFAULT keywords
         into the query, for example.
         """
-        placeholders, values = [], []
-        for field, val in insert_values:
-            placeholders.append((field, val))
-            self.columns.append(field.column)
-            values.append(val)
-        if raw_values:
-            self.values.extend([(None, v) for v in values])
-        else:
-            self.params += tuple(values)
-            self.values.extend(placeholders)
+        self.fields = fields
+        # Check that no Promise object reaches the DB. Refs #10498.
+        for field in fields:
+            for obj in objs:
+                value = getattr(obj, field.attname)
+                if isinstance(value, Promise):
+                    setattr(obj, field.attname, force_unicode(value))
+        self.objs = objs
+        self.raw = raw
 
 class DateQuery(Query):
     """
@@ -185,12 +182,24 @@ class DateQuery(Query):
 
     compiler = 'SQLDateCompiler'
 
-    def add_date_select(self, field, lookup_type, order='ASC'):
+    def add_date_select(self, field_name, lookup_type, order='ASC'):
         """
         Converts the query into a date extraction query.
         """
-        result = self.setup_joins([field.name], self.get_meta(),
-                self.get_initial_alias(), False)
+        try:
+            result = self.setup_joins(
+                field_name.split(LOOKUP_SEP),
+                self.get_meta(),
+                self.get_initial_alias(),
+                False
+            )
+        except FieldError:
+            raise FieldDoesNotExist("%s has no field named '%s'" % (
+                self.model._meta.object_name, field_name
+            ))
+        field = result[0]
+        assert isinstance(field, DateField), "%r isn't a DateField." \
+                % field.name
         alias = result[3][-1]
         select = Date((alias, field.column), lookup_type)
         self.select = [select]
@@ -199,6 +208,9 @@ class DateQuery(Query):
         self.set_extra_mask([])
         self.distinct = True
         self.order_by = order == 'ASC' and [1] or [-1]
+
+        if field.null:
+            self.add_filter(("%s__isnull" % field_name, False))
 
 class AggregateQuery(Query):
     """
