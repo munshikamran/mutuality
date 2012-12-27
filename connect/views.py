@@ -19,7 +19,7 @@ def index(request):
                 context_dict['profile'] = profile
         except Profile.DoesNotExist:
             pass
-    return render_to_response('index.html', context_dict)
+    return render_to_response('index.html', context_dict, context_instance=RequestContext(request))
 
 def register(request):
     context_dict = {}
@@ -33,7 +33,7 @@ def register(request):
                 context_dict['profile'] = profile
         except Profile.DoesNotExist:
             pass
-    return render_to_response('register.html', context_dict)
+    return render_to_response('register.html', context_dict, context_instance=RequestContext(request))
 
 @login_required
 def makematches(request):
@@ -90,4 +90,4 @@ def fbinfo(request):
         info['Facebook App ID'] = "Not Configured"
     context_dict = {}
     context_dict['info'] = sorted(info.items())
-    return render_to_response('fbinfo.html', context_dict)
+    return render_to_response('fbinfo.html', context_dict, context_instance=RequestContext(request))
