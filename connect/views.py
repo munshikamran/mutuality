@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from la_facebook.models import UserAssociation
 from connect.models import Profile
 
@@ -21,6 +22,7 @@ def index(request):
             pass
     return render_to_response('index.html', context_dict, context_instance=RequestContext(request))
 
+@csrf_exempt
 def register(request):
     context_dict = {}
     context_dict['request'] = request
