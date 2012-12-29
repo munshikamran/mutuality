@@ -41,6 +41,7 @@ def register(request):
 def makematches(request):
     context_dict = {}
     context_dict['info'] = fbinfo(request)
+    context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
         try:

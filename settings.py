@@ -9,29 +9,39 @@ ADMINS = (
 	# ('Your Name', 'your_email@domain.com'),
 )
 
+
+DEVELOPMENT_MODE = True
+
+
 MANAGERS = ADMINS
 
-DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-       'NAME': 'dummy.db',                      # Or path to database file if using sqlite3.
-       'USER': '',                      # Not used with sqlite3.
-       'PASSWORD': '',                  # Not used with sqlite3.
-       'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-       'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-   }
-}
+if DEVELOPMENT_MODE:
+    DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+           'NAME': 'dummy.db',                      # Or path to database file if using sqlite3.
+           'USER': '',                      # Not used with sqlite3.
+           'PASSWORD': '',                  # Not used with sqlite3.
+           'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+           'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+       }
+    }
+    FACEBOOK_APP_ID = '544374212239681'
+    FACEBOOK_APP_SECRET = 'e9609c52c461966845ff4ae6c186e458'
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'mutuality',                      # Or path to database file if using sqlite3.
+            'USER': 'root',                      # Not used with sqlite3.
+            'PASSWORD': 'redhat',                  # Not used with sqlite3.
+            'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+        }
+    }
 
-# DATABASES = {
-    # 'default': {
-        # 'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        # 'NAME': 'mutuality',                      # Or path to database file if using sqlite3.
-        # 'USER': 'root',                      # Not used with sqlite3.
-        # 'PASSWORD': 'redhat',                  # Not used with sqlite3.
-        # 'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        # 'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
-    # }
-# }
+    FACEBOOK_APP_ID = '475217095841801'
+    FACEBOOK_APP_SECRET = '1304979d3d82251c8dd383e179c30126'
 
 
 # Local time zone for this installation. Choices can be found here:
@@ -142,9 +152,6 @@ try:
     INSTALLED_APPS += ('django_coverage',)
 except ImportError:
     pass
-
-FACEBOOK_APP_ID = '475217095841801'
-FACEBOOK_APP_SECRET = '1304979d3d82251c8dd383e179c30126'
 
 AUTH_PROFILE_MODULE="connect.Profile"
 
