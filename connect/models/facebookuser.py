@@ -27,7 +27,7 @@ class FacebookUser( models.Model ):
     def updateUsingFacebookDictionary(self,fbDictionary):
         nameKey = 'name'
         if nameKey in fbDictionary.keys():
-            self.name = fbDictionary[nameKey]
+            self.name = fbDictionary[nameKey].encode('unicode_escape')
     	# update gender
         genderKey = 'gender'
     	if genderKey in fbDictionary.keys():
@@ -53,15 +53,13 @@ class FacebookUser( models.Model ):
 
         # for some reason, some locations from facebook can crash the server so we must wrap this in a try catch
     	# update location
-        try:
-    	    locationKey = 'location'
-    	    if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
-                self.location = fbDictionary[locationKey]['name']
-                state = fbDictionary[locationKey]['name'].split(', ')[-1]
-                self.state = state
-            self.save()
-        except:
+    	locationKey = 'location'
+    	if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
             print fbDictionary[locationKey]['name']
+            self.location = fbDictionary[locationKey]['name'].encode('unicode_escape')
+            state = fbDictionary[locationKey]['name'].split(', ')[-1]
+            self.state = state
+        self.save()
 
 
 
