@@ -44,20 +44,24 @@ class FacebookUser( models.Model ):
     		if len(bday)==3:
 				self.birthdayDate = datetime(int(bday[2]),int(bday[0]),int(bday[1]))
 
-    	# update location
-    	locationKey = 'location'
-    	if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
-            print fbDictionary[locationKey]['name']
-            self.location = fbDictionary[locationKey]['name']
-            state = fbDictionary[locationKey]['name'].split(', ')[-1]
-            self.state = state
-    	# update relationship status
-    	relationshipStatusKey = 'relationship_status'
-    	if relationshipStatusKey in fbDictionary.keys():
-    		self.relationshipStatus = fbDictionary[relationshipStatusKey]
-    	# save
-    	self.save()
+         # update relationship status
+        relationshipStatusKey = 'relationship_status'
+        if relationshipStatusKey in fbDictionary.keys():
+            self.relationshipStatus = fbDictionary[relationshipStatusKey]
+        # save
+        self.save()
 
+        # for some reason, some locations from facebook can crash the server so we must wrap this in a try catch
+    	# update location
+        try:
+    	    locationKey = 'location'
+    	    if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
+                self.location = fbDictionary[locationKey]['name']
+                state = fbDictionary[locationKey]['name'].split(', ')[-1]
+                self.state = state
+            self.save()
+        except:
+            print fbDictionary[locationKey]['name']
 
 
 
