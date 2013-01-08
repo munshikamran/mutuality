@@ -47,6 +47,7 @@ class FacebookUser( models.Model ):
     	# update location
     	locationKey = 'location'
     	if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
+            print fbDictionary[locationKey]['name']
     		self.location = fbDictionary[locationKey]['name']
     		state = fbDictionary[locationKey]['name'].split(', ')[-1]
     		self.state = state
