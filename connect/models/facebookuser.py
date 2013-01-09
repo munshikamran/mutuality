@@ -27,7 +27,7 @@ class FacebookUser( models.Model ):
     def updateUsingFacebookDictionary(self,fbDictionary):
         nameKey = 'name'
         if nameKey in fbDictionary.keys():
-            self.name = fbDictionary[nameKey]..encode('unicode_escape')
+            self.name = fbDictionary[nameKey].encode('unicode_escape')
     	# update gender
         genderKey = 'gender'
     	if genderKey in fbDictionary.keys():
