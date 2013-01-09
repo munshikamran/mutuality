@@ -2,151 +2,214 @@
 {% load la_facebook_tags %}
 {% block title %} Meet People  {% endblock %}
 {% block content %}
-    <section id="page-title" class="row">
-        <div class="eight columns">
-            <h2>Meet People</h2>
-        </div>
+	
+					<section id="page-title" class="row">
+						<div class="eight columns">
+							<h2>Meet People</h2>
+						</div>
+		
+						<form class="four columns custom">
+							<select id="fav-filter" style="display:none;">
+								<option id="all" value="All" selected="selected">All</option>
+								<option id="favorites" value="Favorites">Favorites</option>
+							</select>
 
-        <div class="four columns">
-            <span id="invite-link">Can't find a match? <a href="#"><strong>Invite more friends.</strong></a></span>
-        </div>
+							<div id="fav-filter" class="custom dropdown">
+								<a href="#" class="current">All</a>
+								<a href="#" class="selector"></a>
+								<ul>
+									<li id="all">All</li>
+									<li id="favorites">Favorites</li>
+								</ul>
+							</div>
+						</form>
+						
+						<hr />
+					</section>
+					
+					<section id="main" class="row">
+						
+						<div id="carousel" class="eight columns">
 
-        <hr />
-    </section>
+							<ul id="meet-profiles" class="profiles">
+								<li class="meet-profile">
+									<a href="#" class="loaded">
+										<img src="{{ MEDIA_URL }}/images/brian.jpg" />
+										<span class="match-profile-details">
+											<span id="add-to-fav">Add to Favorites</span>
+											<h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
+										</span>
+									</a>
+								</li>
+	
+								<li class="meet-profile active">
+									<a href="#" class="loaded">
+										<img src="{{ MEDIA_URL }}/images/john.jpg" />
+										<span class="match-profile-details">
+											<span id="add-to-fav">Add to Favorites</span>
+											<h3 id="left-profile-name" class="profile-name">John Griffin</h3>
+										</span>
+									</a>
+								</li>
+	
+								<li class="meet-profile">
+									<a href="#" class="loaded">
+										<img src="{{ MEDIA_URL }}/images/betty.jpg" />
+										<span class="match-profile-details">
+											<span id="add-to-fav">Add to Favorites</span>
+											<h3 id="left-profile-name" class="profile-name">Betty Draper</h3>
+										</span>
+									</a>
+								</li>
+	
+								<li class="meet-profile">
+									<a href="#" class="loaded">
+										<img src="{{ MEDIA_URL }}/images/susan.jpg" />
+										<span class="match-profile-details">
+											<span id="add-to-fav">Add to Favorites</span>
+											<h3 id="left-profile-name" class="profile-name">Susan Draper</h3>
+										</span>
+									</a>
+								</li>
+	
+								<li class="meet-profile">
+									<a href="#" class="loaded">
+										<img src="{{ MEDIA_URL }}/images/brian.jpg" />
+										<span class="match-profile-details">
+											<span id="add-to-fav">Add to Favorites</span>
+											<h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
+										</span>
+									</a>
+								</li>
+	
+								<li class="meet-profile">
+									<a href="#" class="loaded">
+										<img src="{{ MEDIA_URL }}/images/john.jpg" />
+										<span class="match-profile-details">
+											<span id="add-to-fav">Add to Favorites</span>
+											<h3 id="left-profile-name" class="profile-name">John Griffin</h3>
+										</span>
+									</a>
+								</li>
+							</ul>
 
-    <section id="main" class="row">
-        <aside id="user-profile" class="three columns first">
-            <h5>Profile</h5>
+							<a href="#" id="page-prev">Previous</a>
+							<a href="#" id="page-next">Next</a>
+						</div>
 
-            <ul id="profile-stats" class="menu">
-                <li id="profile-sex">Male</li>
-                <li id="profile-status">Single</li>
-                <li id="profile-dob">April 12, 2981</li>
-            </ul>
+						<aside id="user-profile" class="four columns">
+							<h6>Learn About <span class="profile-name">John</span></h6>
 
-            <h5>Get Introduced</h5>
+							<ul id="alt-actions" class="menu">
+								<li id="introduce"><a href="#" class="button"><i></i>Introduce Yourself</a></li>
+								<li id="view-fb"><a href="#" class="button"><i></i>Facebook Profile</a></li>
+							</ul>
+							
+							<hr />
+							
+							<h6>Ask About <span class="profile-name">John</span></h6>
+							
+							<div id="ask-about" class="">
+								
+								<ul>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+								</ul>
+								
+								<ul>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+								</ul>
 
-            <ul id="get-introduced">
-                <li><a href="#"><img src="{{ MEDIA_URL }}/images/betty.jpg" /></a></li>
-                <li><a href="#"><img src="{{ MEDIA_URL }}/images/brian.jpg" /></a></li>
-                <li><a href="#"><img src="{{ MEDIA_URL }}/images/betty.jpg" /></a></li>
-                <li><a href="#"><img src="{{ MEDIA_URL }}/images/brian.jpg" /></a></li>
-                <li><a href="#"><img src="{{ MEDIA_URL }}/images/betty.jpg" /></a></li>
-            </ul>
+							</div>
+							<div class="right">
+								<a href="#" id="ask-prev">&larr;</a>
+								<a href="#" id="ask-next">&rarr;</a>
+							</div>
+						</aside>
 
-            <ul id="alt-actions" class="menu">
-                <li id="introduce"><a href="#">Introduce Yourself</a></li>
-                <li id="add-fav"><a href="#">Add to Favorites</a></li>
-                <li id="view-fb"><a href="#">View Facebook Profile</a></li>
-            </ul>
-        </aside>
-
-        <div class="eight columns last">
-            <nav class="meet-menu row">
-                <select id="fav-filter">
-                    <option id="all" value="All" selected="selected">All</option>
-                    <option id="fav" value="Favorites">Favorites</option>
-                </select>
-
-                <div id="pager-buttons">
-                    <div class="pager-button">
-                        <a href="#" id="page-prev">Down</a>
-                    </div>
-
-                    <div class="pager-button">
-                        <a href="#" id="page-next">Up</a>
-                    </div>
-                </div>
-
-            </nav>
-
-            <ol id="meet-profiles" class="profiles">
-                <li class="meet-profile">
-                    <a href="#" class="loaded">
-                        <img src="{{ MEDIA_URL }}/images/brian.jpg" />
-                                    <span class="match-profile-details">
-                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
-                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
-                                    </span>
-                    </a>
-                </li>
-
-                <li class="meet-profile active">
-                    <a href="#" class="loaded">
-                        <img src="{{ MEDIA_URL }}/images/brian.jpg" />
-                                    <span class="match-profile-details">
-                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
-                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
-                                    </span>
-                    </a>
-                </li>
-
-                <li class="meet-profile">
-                    <a href="#" class="loaded">
-                        <img src="{{ MEDIA_URL }}/images/brian.jpg" />
-                                    <span class="match-profile-details">
-                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
-                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
-                                    </span>
-                    </a>
-                </li>
-
-                <li class="meet-profile">
-                    <a href="#" class="loaded">
-                        <img src="{{ MEDIA_URL }}/images/brian.jpg" />
-                                    <span class="match-profile-details">
-                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
-                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
-                                    </span>
-                    </a>
-                </li>
-
-                <li class="meet-profile">
-                    <a href="#" class="loaded">
-                        <img src="{{ MEDIA_URL }}/images/brian.jpg" />
-                                    <span class="match-profile-details">
-                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
-                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
-                                    </span>
-                    </a>
-                </li>
-
-                <li class="meet-profile">
-                    <a href="#" class="loaded">
-                        <img src="{{ MEDIA_URL }}/images/brian.jpg" />
-                                    <span class="match-profile-details">
-                                        <h3 id="left-profile-name" class="profile-name">Brian Griffin</h3>
-                                        <span id="left-profile-location" class="profile-location">Seattle, WA</span>
-                                    </span>
-                    </a>
-                </li>
-            </ol>
-        </div>
-    </section>
-
-    <hr />
-
-    <section id="meet-people-cta" class="row">
-        <div class="eight columns">
-            <h4>Make Matches</h4>
-            <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-            <a href="#" class="button">Get Started</a>
-        </div>
-        <div class="four columns">
-            <img src="{{ MEDIA_URL }}/images/meet-people-cta-img.png" />
-        </div>
-    </section>
-
-    </div>
-    </div>
-    </div>
+						<div id="profile-stats" class="row">
+							<ul class="nine columns menu">
+								<li id="profile-sex" class="two columns"><i class="male"></i>Male</li>
+								<li id="profile-status" class="two columns"><i class="single"></i>Single</li>
+								<li id="profile-education" class="two columns"><i class="edu"></i>Yale University</li>
+								<li id="profile-dob" class="two columns"><i class="birthday"></i>32 Years Old</li>
+								<li id="profile-location" class="two columns"><i class="location"></i>Seattle, WA</li>
+								<li id="profile-job" class="two columns"><i class="company"></i>Redfin Corporation</li>
+							</ul>
+						</div>
+					</section>
+	
+				</div>
+			</div>
+		</div>
+	</div>
+	<section id="meet-people-cta" class="page-content">
+		<div class="row">
+			<div class="eight columns">
+				<h4>Nudge Friends</h4>
+				<p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+				<a href="#" class="button">Get Started</a>
+			</div>
+			<div id="four-images" class="four columns">
+				<img src="{{ MEDIA_URL }}/images/brian.jpg" />
+				<img src="{{ MEDIA_URL }}/images/betty.jpg" />
+				<img src="{{ MEDIA_URL }}/images/brian.jpg" />
+				<img src="{{ MEDIA_URL }}/images/betty.jpg" />
+			</div>
+		</div>
+	</section>
 {% endblock %}
 {% block extrascript %}
     <script>
-        (function($){
-            $.getScript('{{ MEDIA_URL }}/javascripts/meet-people.js').fail(function(xhr, settings, exception){
-                console.log(exception);
-            });
-        })(jQuery);
+       /*
+          The token in this init function should pertain to the
+          current user, user session or something to identify the
+          current authenticated user   
+       */
+       Mutuality.init('{{ profile.facebookID }}', '../');
+          
+       /*
+        * Would like to replace this with a custom view helper
+        * that prints out a <script> tag to match the current
+        * route if the JS file exists. Example:
+        * 
+        * <script src="javascripts/mutuality/make-matches.js"><//script>
+        *
+       */
+       (function($){
+           $.getScript('{{ MEDIA_URL }}/javascripts/meet-people.js').fail(function(xhr, settings, exception){
+               console.log(exception);
+           });
+       })(jQuery);
+
+
+       FB.init({
+           appId  : '{{ FACEBOOK_APP_ID }}',
+           frictionlessRequests: true
+       });
+
+       function sendRequestViaMultiFriendSelector() {
+           var message = 'Mutuality is really fun! I just matched two people together that will make you laugh :)';
+           FB.ui({method: 'apprequests',
+               message: message
+           }, requestCallback);
+       }
+
+       function requestCallback(response) {
+           // Handle callback here
+       }
+
+       $("#invite-link a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");
+
     </script>
-{% endblock %}
+{% endblock %}	
+	

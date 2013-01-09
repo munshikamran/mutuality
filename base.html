@@ -15,8 +15,6 @@
   <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/app.css">
 
   <script src="{{ MEDIA_URL }}/javascripts/foundation/modernizr.foundation.js"></script>
-  <script type="text/javascript" src="//use.typekit.net/hys6mpw.js"></script>
-  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
   
 </head>
 <body>
@@ -37,17 +35,17 @@
           <section id="nav">
           {% if user.is_authenticated %}
               {% if profile %}
-                <ul class="right">
-                  <li id="menu-make-matches" class="active"><a href="/makematches/" class="page-nav">Connect Friends</a></li>
-                  <li id="menu-meet-people"><a href="/meetpeople/" class="page-nav">Meet People</a></li>
-                  <li class="divider show-for-medium-and-up"></li>
-                  <li class="has-dropdown">
-                    <a href="/account/">
+                  <ul class="right">
+                      <li class="divider"></li>
+                      <li id="menu-meet-people" class="active"><a href="/meetpeople/" class="page-nav">Meet People</a></li> <li class="divider"></li>
+                      <li id="menu-make-matches"><a href="/makematches/" class="page-nav">Connect Friends</a></li> <li class="divider"></li>
+                      <li id="menu-messages"><a href="/messages/" class="page-nav">Messages</a><span class="message-count">2</span></li> <li class="divider"></li>
+                      <li class="has-dropdown">
+                    <a href="#">
                       <span class="profile-thumb" style="background-image: urL(https://graph.facebook.com/{{ profile.facebookID }}/picture)"></span>{{ profile.name }}<span class="darr"></span>
                     </a>
                     <ul class="dropdown">
                       <li id="menu-account"><a href="/account/">Account</a></li>
-                      <li id="menu-messages"><a href="/messages/">Messages</a></li>
                       <li id="menu-logout"><a href="{% url logout %}">Log Out</a></li>
                     </ul>
                   </li>
@@ -61,12 +59,14 @@
     </div>
   </header>
   
-  <div id="kamranadded" style="min-height:600px;">
-  <div class="row">
-    <div class="twelve columns">
+  <div class="page-content">
+    <div class="row">
+      <div class="twelve columns">
+        <div id="page-content">
 	     {% block content %} 
           <!-- Page content gets inserted here -->
         {% endblock %}
+      </div>
     </div>
   </div>
 </div>
@@ -141,6 +141,8 @@
   <!-- Application Javascript, safe to override -->
   <script src="{{ MEDIA_URL }}/javascripts/foundation/app.js"></script>
   <script src="{{ MEDIA_URL }}/javascripts/mutuality.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/plugins.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/transform.js"></script>
   <script src="http://connect.facebook.net/en_US/all.js"></script>
   <script type="text/javascript">
     var _urq = _urq || [];
@@ -150,6 +152,12 @@
         ur.src = 'http://sdscdn.userreport.com/userreport.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
     })();
+  </script>
+  <script type="text/javascript">
+  $("#nav li").click(function() {
+    $("#nav li").removeClass("active");
+    $(this).addClass("active");
+  });
   </script>
   {% block extrascript %} 
     <!-- Extra page scripts get inserted here -->

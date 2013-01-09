@@ -28,6 +28,8 @@ h3, h4 { font-size: 24px; font-weight: 400; color: $txtColor; }
 	}
 }
 
+.page-content { max-width: 76em; margin: 0 auto; background: #fff; border: 1px solid #ddd; border-bottom: 0; @include border-radius(5px 5px 0 0); margin-top: -10px; }
+
 .tooltip { border-top: 1px solid #7ac3ed; border-bottom: 1px solid #056ba6; font-weight: 700; @include text-shadow(0px 1px 0px #056ba6);
 	
 	background-color: rgb(56,166,230);
@@ -107,14 +109,14 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 
 
 // Top Bar
-#brand {  background: $mainColor url(../images/brand-bg.png) repeat;  border-bottom: 1px solid $white; @include box-shadow( rgba(49, 127, 157, 1) 0px -5px 8px inset ); }
+#brand {  background: $mainColor url(../images/nav-bg.jpg) repeat-x;  border-bottom: 1px solid $white; @include box-shadow( rgba(49, 127, 157, 1) 0px -5px 8px inset ); }
 
 .top-bar { background-color: transparent; }
 
 
 // Logo
 .name:hover { background-color: transparent !important; }
-.name a {  display: block; width: 210px; height: 62px; text-indent: -999em; background: url(../images/logo.png) no-repeat; }
+.name a {  display: block; width: 210px; height: 75px; text-indent: -999em; background: url(../images/logo.png) no-repeat; }
 
 
 // Nav
@@ -125,15 +127,13 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 }
 #nav > ul > li > a { position: relative; font-weight: 700; 
 
-	@include text-shadow(0px -1px 0px #0e4c5d);
+	@include text-shadow(0px 2px 2px #0e4c5d);
 }
-#nav > ul > .divider { height: 50%; margin-top: 15px; }
-#nav .active {  background: url(../images/active-menu-bg.png) center bottom repeat-x; padding-bottom: 12px; }
-#nav .active a { color: #fff; border-left: 2px solid #7c044b; border-right: 2px solid #7c044b; 	
-
-	@include box-shadow( rgba(124, 4, 75, 0.7) 0px 3px 6px inset );
-	@include text-shadow(0px 3px 4px #8b0843);
-}
+.top-bar ul > li a:not(.button) { height: 68px; }
+#nav > ul > .divider { margin: 0; width: 2px; height: 88%; background: url(../images/nav-divider.jpg) center center no-repeat; @include box-shadow( none); }
+#nav .active {  background: transparent url(../images/nav-active-bg.png) center center no-repeat; position: relative; }
+#nav .active:after { bottom: 0; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff; border-width: 10px; left: 50%; margin-left: -10px; }
+#nav .active a { color: #fff; }
 #nav .has-dropdown .darr:after { top: 45%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-color: rgba(255, 255, 255, 0); border-top-color: $white; border-width: 7px; right: 10%; margin-left: -7px; }
 #nav .has-dropdown > a { padding: 0; margin: 0 30px 0 10px; width: 100%; }
 #nav .dropdown { top: 90%; height: auto; width: 65%; margin: 0; padding-top: 0; border: 1px solid $white;
@@ -161,21 +161,25 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 		color: #666;
 	}
 }
+#menu-messages { position: relative; }
+#menu-messages a { display: block; width: 24px; height: 18px; margin-top: 30px; background: url(../images/messages-icon.png) center center no-repeat; text-indent: -999em; }
+.message-count { position: absolute; top: 22px; right: 6px; display: block; width: 14px; height: 14px; padding: 3px 6px 3px 4px; font-size: 10px; line-height: .8em; font-weight: 700; color: #fff; border-radius: 50%; background: red; }
+
 #nav #menu-account:after{ bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff; border-width: 7px; left: 50%; margin-left: -7px; }
 #nav #menu-account a { background-position: 0 -72px; }
-#nav #menu-messages a { background-position: 0 -96px; }
 #nav #menu-logout a { background-position: 0 -124px; }
-#nav .profile-thumb { display: block; width: 45px; height: 45px; margin: 8px; border: 2px solid $white; float: left; background-position: 50%;
+.profile-thumb { display: block; width: 45px; height: 45px; border: 2px solid $white; float: left; background-size: 100%;
 	@include border-radius(50%);
-	@include box-shadow( rgba(54, 129, 130, 0.7) 0px 1px 5px);
+	@include box-shadow( rgba(0, 0, 0, 0.7) 0px 1px 4px);
 }
+#nav .profile-thumb { margin: 12px 8px 8px; }
 
 
 
 // Page Title
 #page-title { margin: 40px 0; }
 #page-title > div { padding: 0; }
-#page-title h2 { margin: 0; }
+#page-title h2 { margin: 0; font-weight: 400; }
 
 #invite-link { display: block; margin-top: 15px; font-size: 16px; text-align: right; }
 #invite-link a { color: $txtColor; text-decoration: underline; }
@@ -187,7 +191,7 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 #main { margin: 0; }
 #main > .first { padding-left: 0; padding-right: 0; width: 40%; }
 #main > .last { padding-right: 0; padding-left: 0; width: 40%; }
-#main .two.columns { padding: 0; width: 20%; }
+#make-matches #main .two.columns { padding: 0; width: 20%; }
 
 
 // Match Menu
@@ -232,9 +236,7 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 .profiles a > span h3 { display: inline-block; float: left; margin: 15px 0 25px; color: #222; white-space: pre; overflow: hidden; max-width: 86%; @include text-shadow(0px 2px 0px #fff); }
 .profile-location { display: inline-block; float: left; margin: 15px 5px 0 5px; padding-left: 25px; color: #222; background: $spriteURL 0 -287px no-repeat; width: 24px; height: 24px; border-bottom: none; }
 
-body#meet-people .profiles a > span h3 { margin-left: 15px; }
-
-#add-to-fav { display: block;width: 17px;height: 16px;margin: 17px 12px;text-indent: -999em;background: url(../images/fav.png) 0 0 no-repeat;float: right; }
+#add-to-fav { display: block;width: 17px;height: 16px;margin: 17px 12px;text-indent: -999em;background: url(../images/fav.png) 0 0 no-repeat; float: left; }
 #add-to-fav:hover,
 #add-to-fav.active { background-position: 0 -16px; }
 
@@ -507,36 +509,58 @@ input[type=text]:focus + .search-results { display: block; }
 // Meet People
 #fav-filter { }
 
-#user-profile { width: 25% !important;  }
-#user-profile > div { padding: 5px 12px; background-color: #fefefe; border: 1px solid #eee; @include box-shadow( rgba(0, 0, 0, 0.2) 0 1px 4px); }
+#user-profile { padding-left: 60px;  }
+#user-profile > div {  }
 #user-profile h5 { color: $txtColor; font-weight: 700; margin-bottom: 0; padding: 5px 0; }
 
 #main #carousel { width: 66.66667%; }
 
-#profile-stats li{ padding-left: 20px; background-image: $spriteURL;  background-repeat: no-repeat;  }
+#profile-stats { clear: both; }
+#profile-stats ul {  padding-top: 30px; background: url(../images/stats-bg.jpg) center top no-repeat; text-align: center; }
+#profile-stats li { float: left; background: url(../images/stats-sep-bg.png) right center no-repeat; font-size: .8em; font-weight: 700; }
+#profile-stats li:last-child { background: none; }
+#profile-stats i { display: block; width: 20px; height: 20px; margin: 0 auto; clear: both; background: url(../images/stats-icon-sprite.png) no-repeat; }
+
+#profile-stats i.male { background-position: -31px 0; }
+#profile-stats i.single { background-position: -136px 0; }
+#profile-stats i.edu { background-position: -270px 0; }
+#profile-stats i.birthday { background-position: -390px 0; }
+#profile-stats i.location { background-position: -513px 0; }
+#profile-stats i.company {background-position: -654px 0;  }
 
 #profile-sex { background-position: -5px 2px; }
 #profile-status { background-position: -5px -22px; }
 #profile-dob { background-position: -6px -50px; }
 #profile-location { background-position: -5px -284px; }
 
-#get-introduced { list-style: none; margin: 0; overflow: hidden; }
+#ask-about { height: 150px; }
+#ask-about ul { height: 150px; width: 213px; list-style: none; margin: 0; overflow: hidden; }
+#ask-about li { margin: 2px 8px 2px 2px; float: left; }
+#ask-about a { display: inline-block; padding: 3px; }
+#ask-about .profile-thumb { width: 55px; height: 55px;}
+#ask-prev,
+#ask-next {  }
+/*
 #get-introduced li { display: block;clear: both; overflow: hidden; margin: 5px 0; }
-#get-introduced a { display: block; position: relative; padding: 3px; font-weight: 700; line-height: 2.4em; }
-#get-introduced img { width: 35px; @include border-radius(50%); float: left; margin: 0 10px 0 0; background: $white; 
+#get-introduced a { display: inline-block; position: relative; padding: 3px; @include border-radius(50%); font-weight: 700; line-height: 2.4em; }
+#get-introduced img { width: 35px; float: left; margin: 0 10px 0 0; border: 2px solid #fff; @include border-radius(50%); background: $white; 
 	
 	@include border-radius(50%);
 	@include box-shadow( rgba(0, 0, 0, 0.3) 0 1px 5px); 
 }
+*/
+#introduce a,
+#view-fb a { padding-top: 11px; padding-bottom: 5px; padding-left: 10px; width: 175px; text-align: left; }
 
-#introduce { background-position: -5px -153px; }
+#introduce i,
+#view-fb i { display: inline-block; width: 20px; height: 18px; margin-right: 7px; float: left; background: $spriteURL -10px -1290px no-repeat; }
+#view-fb i  { background-position: -10px -1326px; }
 #add-fav { background-position: -5px -179px; }
-#view-fb { background-position: -5px -203px; }
 
 #alt-actions li { margin-bottom: 10px; }
 
 // Meet People
-#fav-filter { }
+#fav-filter { float: right; }
 
 #pager-buttons { width: 80px; float: right; }
 
@@ -588,10 +612,9 @@ input[type=text]:focus + .search-results { display: block; }
 	}
 }
 
-.pager-button a { display: block; padding: 10px 11px; text-indent: -999em; background: $spriteURL 5px -950px no-repeat; }
-
-#page-prev { background-position: 3px -940px; }
-#page-next { background-position: 3px -970px; }
+#page-prev,
+#page-next { position: absolute; top: 40%; left: 60px; display: block; width: 60px; height: 60px; background: rgba(255, 255, 255, 0.8) $spriteURL 10px -1122px no-repeat; @include border-radius(50%); @include box-shadow( rgba(0, 0, 0, 0.2) 0 1px 10px); text-indent: -999em; z-index: 100; }
+#page-next { left: auto; right: 50px; background-position: 10px -1197px; }
 
 #meet-profiles { visibility:hidden; }
 
@@ -611,7 +634,8 @@ input[type=text]:focus + .search-results { display: block; }
 
 
 // CTA
-#meet-people-cta { margin: 0 0 40px; }
+#meet-people-cta { background: url(../images/meet-people-cta-bg.jpg); }
+#meet-people-cta.page-content { position: relative; margin-top: 0; margin-bottom: -10px; padding: 30px 0; @include border-radius(0 0 5px 5px); z-index: 2; }
 #meet-people-cta p { font-size: 16px; }
 
 #four-images img { position: relative; width: 90px; height: 90px; @include box-shadow( rgba(0, 0, 0, 0.2) 0 1px 3px); @include border-radius(5px); border: 3px solid #fff; float: left; margin-right: 15px; z-index: 2; }
@@ -621,7 +645,7 @@ input[type=text]:focus + .search-results { display: block; }
 
 
 // Footer
-#footer { background: url(../images/footer-bg.jpg) repeat-x; padding-bottom: 120px; border-top: 1px solid $white; }
+#footer { position: relative; background: url(../images/footer-bg.jpg) repeat-x; padding-top: 30px; padding-bottom: 120px; border-top: 1px solid $white; z-index: 1; }
 #footer * { text-shadow: 0px -1px 0px $black; filter: dropshadow(color=$black, offx=-1, offy=0); }
 #footer h5 { margin: 28px 0 7px; clear: both; color: $white; font-size: 18px; }
 #footer ul { list-style: none; margin: 0; padding: 0; }

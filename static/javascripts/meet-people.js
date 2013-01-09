@@ -5,7 +5,7 @@
    var _center = { scale: 1, left:0, marginTop: 0, left:-30, opacity: 1 	};
    var _left   = { scale: .85, marginTop: 10, left: 185, opacity: 0.3 };
    var _right  = { scale: .85, left: -235, marginTop: 10, opacity: 0.3 };	
-   var _blur   = { filter : 'blur(3px)', webkitFilter: 'blur(3px)', mozFilter : 'blur(3px)', filter: 'url(/stylesheets/blur.svg#blur)' };	
+   var _blur   = { filter : 'blur(3px)', webkitFilter: 'blur(3px)', mozFilter : 'blur(3px)', filter: 'url({{ MEDIA_URL }}/stylesheets/blur.svg#blur)' };	
    var _noblur = { filter: 'none', webkitFilter: 'none', mozFilter: 'none' }
 	
 	$('#meet-profiles').carouFredSel({
@@ -66,5 +66,19 @@
 	$('#meet-profiles').children().eq( 0 ).css(_left).scale(0.85).css({ zIndex: 2 });
 	$('#meet-profiles').children().eq( 1 ).css(_center).scale(1.0).css({ zIndex: 3 });
 	$('#meet-profiles').children().eq( 2 ).css(_right).scale(0.85).css({ zIndex: 2 });
-	
+
+	$('#ask-about').carouFredSel({
+		auto : false,
+		width: 213,
+		height: 150,
+		prev: "#ask-prev",
+		next: "#ask-next",
+		items: {
+			visible: 1
+		},
+		scroll: {
+			fx: 'fade',
+			items: 1
+		}
+	});
 })(jQuery);
