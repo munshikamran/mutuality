@@ -86,6 +86,7 @@ var Mutuality = (function($){
    {
       basePath : '',
       cache: { current: ["", ""], profile: {}, friends: {}, leftSlotLocked: false, rightSlotLocked: false },
+      mpcache: { current: "", fofList: {} },
       history : [],
       token : null,
       init: function( token, basePath, success )
@@ -212,6 +213,14 @@ var Mutuality = (function($){
           for (i = 0; i<Mutuality.cache.friends.length;i++){
               if (Mutuality.cache.friends[i].facebookID == facebookID){
                   return Mutuality.cache.friends[i];
+              }
+          }
+      },      
+      // Get the rest of the information about a friendoffriend from his/her facebookID
+      getFriendOfFriendProfile: function ( facebookID ){
+          for (i = 0; i<Mutuality.mpcache.fofList.length;i++){
+              if (Mutuality.mpcache.fofList[i].facebookID == facebookID){
+                  return Mutuality.mpcache.fofList[i];
               }
           }
       },

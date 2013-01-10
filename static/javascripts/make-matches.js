@@ -311,13 +311,12 @@
         $('#four-images img').each(function(i) {
             $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
         });
-
     };
 
    // Load friendslist and friends of friends via AJAX and populate the left and right
-   // slots with a random match.
-   Mutuality.loadFriendsList(null, function(){});
-   Mutuality.getFriendsOfFriends(friendsOfFriendsSuccess);
-   Mutuality.loadNewMatch('male', 'female', Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
+   // slots with a random match if the call already hasn't been made
+    Mutuality.loadFriendsList(null, function(){});
+    Mutuality.getFriendsOfFriends(friendsOfFriendsSuccess); // TODO: Probably want to make this a more lightweight call
+    Mutuality.loadNewMatch('male', 'female', Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
 
 })(jQuery);

@@ -23,7 +23,7 @@
 			items: 1,
 			duration: 400,
 			onBefore: function( data ) {
-            
+            console.log(data);
             // hide the text for blurred results
             $('.match-profile-details', data.items.visible.eq( 0 )).hide();
             $('.match-profile-details', data.items.visible.eq( 2 )).hide();            
@@ -40,8 +40,11 @@
             // reset z-indexes for smooth scrolling
 				setTimeout(function() {
 					data.items.visible.eq( 0 ).css({ zIndex: 2 });
+					data.items.visible.eq( 0 ).removeAttr('focused');
 					data.items.visible.eq( 1 ).css({ zIndex: 3 });
+					data.items.visible.eq( 1 ).attr('focused', 'true');
 					data.items.visible.eq( 2 ).css({ zIndex: 2 });
+					data.items.visible.eq( 2 ).removeAttr('focused');
 				}, 10);
 			},
 			onAfter:function( data ) {
@@ -81,4 +84,73 @@
 			items: 1
 		}
 	});
+
+	var setCurrentPerson = function (){
+		setTimeout(function (){
+			var currentlyFocusedElem = null;
+	    	$('#meet-profiles li').each(function(){
+	    		if($(this).attr("focused") == "true"){
+	    			currentlyFocusedElem = $(this);
+	    			// console.log(currentlyFocusedElem);
+	    		}
+	    	});
+	    	Mutuality.mpcache.current = currentlyFocusedElem.attr("facebookID");
+	    	console.log(currentlyFocusedElem.attr("facebookID"));
+	    }, 10);
+	    
+	}
+
+	$('#page-next').click(function(){
+		setCurrentPerson();
+		setTimeout(function (){
+			var profile = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
+
+			if(profile.location){
+				$("#profile-location").html(profile.location);
+			}
+
+			$(".profile-name").html(profile.name);
+			$("#view-fb a").attr('onclick', Mutuality.getFacebookPageURL(profile.facebookID));
+		}, 10);
+	});
+		$('#page-prev').click(function(){
+		setCurrentPerson();
+		setTimeout(function (){
+			var profile = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
+
+			if(profile.location){
+				$("#profile-location").html(profile.location);
+			}
+
+			$("#profile-name").html(profile.name);
+			$("#view-fb a").attr('onclick', Mutuality.getFacebookPageURL(profile.facebookID));
+		}, 10);
+	});
+    // After AJAX call for finding friends of friends, load that into meet people page cache
+    var friendsOfFriendsSuccess = function(friends){
+    	Mutuality.mpcache.fofList = friends;
+    	meetProfilesElem = $("#meet-profiles")
+    	loadingProfilesElems = $(".meet-profile");
+
+    	for (i=0; i<friends.length; i++){
+    		var liElem = $('<li>', {class:'meet-profile', facebookID:friends[i].facebookID}).appendTo(meetProfilesElem);
+    		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
+    		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(friends[i].facebookID, 350, 350)}).appendTo(aElem);
+    		var spanElem = $('<span>', {class:"match-profile-details"}).appendTo(aElem);
+    		var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites"}).appendTo(spanElem);
+    		var hElem = $('<h3>', {id:"left-profile-name", html:friends[i].name}).appendTo(spanElem);
+    	}
+    	// remove the loaders and simulate a click
+    	loadingProfilesElems.each(function(){$(this).remove();});
+    	$('#page-next').trigger('click');
+
+    	
+    }
+
+   // Load friendslist and friends of friends via AJAX and populate the left and right
+   // slots with a random match.
+   Mutuality.loadFriendsList(null, function(){});
+   Mutuality.getFriendsOfFriends(friendsOfFriendsSuccess);
+
+
 })(jQuery);
