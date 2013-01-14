@@ -56,7 +56,6 @@ class FacebookUser( models.Model ):
             self.location = fbDictionary[locationKey]['name'].encode('unicode_escape')
             state = fbDictionary[locationKey]['name'].split(', ')[-1]
             self.state = state
-        self.save()
 
 
 

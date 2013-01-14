@@ -25,6 +25,7 @@ def createOrUpdateFacebookUser(friendFacebookData):
         facebookID = friendFacebookData['id']
     )
     facebookUser.updateUsingFacebookDictionary(friendFacebookData)
+    facebookUser.save()
     return facebookUser
 
 def createOrUpdateFriendShip(profile,facebookUser):

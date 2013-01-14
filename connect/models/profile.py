@@ -54,7 +54,6 @@ class Profile(models.Model):
 		if relationshipStatusKey in fbDictionary.keys():
 			self.relationshipStatus = fbDictionary[relationshipStatusKey]
 
-		self.save()
 
 	def imageURL(self,type='normal'):
 		url = 'http://graph.facebook.com/%s/picture?type=%s'

@@ -92,6 +92,7 @@ class DefaultFacebookCallback(BaseFacebookCallback):
             facebookID = user_data['id']
         )
         profile.updateUsingFacebookDictionary(user_data)
+        profile.save()
 #        for k, v in user_data.items():
 #            if k !='id' and hasattr(profile, k):
 #                setattr(profile, k, v)
