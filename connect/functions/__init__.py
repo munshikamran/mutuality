@@ -8,3 +8,5 @@ from rateMatch import RateThumbsUp, RateThumbsDown
 from getFriendsOfFriends import GetFriendsOfFriends
 from getFacebookSendDialogue import GetFacebookSendDialogue
 from orderByNumberOfMutualFriends import OrderByNumberOfMutualFriends
+from createUserFavorite import CreateUserFavorite
+from getUserFavorites import GetUserFavorites
