@@ -3,6 +3,7 @@ from django.db import models
 from datetime import datetime
 from common.enums import RELATIONSHIP_STATUS
 from common.enums import GENDER
+from facebookuser import FacebookUser
 
 class Profile(models.Model):
 
@@ -53,6 +54,10 @@ class Profile(models.Model):
 		relationshipStatusKey = 'relationship_status'
 		if relationshipStatusKey in fbDictionary.keys():
 			self.relationshipStatus = fbDictionary[relationshipStatusKey]
+
+	def getOrCreateFacebookUser(self):
+		facebookUser, created = FacebookUser.objects.get_or_create(facebookID = self.facebookID,name = self.name,birthdayString  = self.birthdayString,birthdayDate = self.birthdayDate,location = self.location,state = self.state,gender = self.gender,relationshipStatus = self.relationshipStatus)
+		return facebookUser
 
 
 	def imageURL(self,type='normal'):
