@@ -12,3 +12,7 @@ def GetFriendsOfFriends(profile):
     friendsOfFriendsList = FacebookUser.objects.filter(facebookID__in=friendsOfFriendsIDs)
     return friendsOfFriendsList
 
+def GetFriendsOfFriendsInArea(profile):
+    fofInArea = GetFriendsOfFriends(profile).filter(state = profile.state)
+    return fofInArea
+
