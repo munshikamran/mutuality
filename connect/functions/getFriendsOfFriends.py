@@ -4,12 +4,6 @@ from getFriendList import GetFriendIDs
 
 def GetFriendsOfFriends(profile):
     friendIDs = GetFriendIDs(profile)
-    friendshipsOfFriends = list(Friendship.objects.filter(user__in=friendIDs).exclude(friend=profile).values_list('friend'))
-    friendsOfFriendsIDs = []
-    for friendship in friendshipsOfFriends:
-        friendsOfFriendsIDs.append(friendship[0])
-
-    uniqueFriends = set(friendsOfFriendsIDs).difference(set(friendIDs))
-    friendsOfFriendsList = FacebookUser.objects.filter(facebookID__in=uniqueFriends)
-    return friendsOfFriendsList
+    friendsOfFriends = Friendship.objects.filter(user__in=friendIDs).exclude(friend__in=friendIDs + [profile.facebookID])
+    return friendsOfFriends
 
