@@ -56,7 +56,14 @@ class Profile(models.Model):
 			self.relationshipStatus = fbDictionary[relationshipStatusKey]
 
 	def getOrCreateFacebookUser(self):
-		facebookUser, created = FacebookUser.objects.get_or_create(facebookID = self.facebookID,name = self.name,birthdayString  = self.birthdayString,birthdayDate = self.birthdayDate,location = self.location,state = self.state,gender = self.gender,relationshipStatus = self.relationshipStatus)
+		facebookUser, created = FacebookUser.objects.get_or_create(facebookID = self.facebookID)
+		facebookUser.name = self.name
+		facebookUser.birthdayString  = self.birthdayString
+		facebookUser.birthdayDate = self.birthdayDate
+		facebookUser.location = self.location
+		facebookUser.state = self.state
+		facebookUser.gender = self.gender
+		facebookUser.relationshipStatus = self.relationshipStatus
 		return facebookUser
 
 
