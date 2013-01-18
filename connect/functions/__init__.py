@@ -11,3 +11,5 @@ from orderByNumberOfMutualFriends import OrderByNumberOfMutualFriends
 from createUserFavorite import CreateUserFavorite
 from getUserFavorites import GetUserFavorites
 from getMutualityUsers import GetNonFriendUsersInArea
+from viewUser import ViewUser
+from getViewedUsers import GetViewedUsers
