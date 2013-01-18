@@ -13,3 +13,4 @@ from getUserFavorites import GetUserFavorites
 from getMutualityUsers import GetNonFriendUsersInArea
 from viewUser import ViewUser
 from getViewedUsers import GetViewedUsers
+from getMeetPeople import GetMeetPeople
