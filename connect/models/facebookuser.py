@@ -52,10 +52,28 @@ class FacebookUser( models.Model ):
     	# update location
     	locationKey = 'location'
     	if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
-            print fbDictionary[locationKey]['name']
             self.location = fbDictionary[locationKey]['name'].encode('unicode_escape')
             state = fbDictionary[locationKey]['name'].split(', ')[-1]
             self.state = state
+
+        #the following are not stored in the database
+        workKey = 'work'
+        try:
+#            this is a list of jobs. First element is most recent job (I think)
+            self.employer = fbDictionary[workKey][0]["employer"]["name"]
+        except:
+            pass
+
+        educationKey = 'education'
+        try:
+            educations = fbDictionary[educationKey]
+            for education in educations:
+                if education["type"] == 'College':
+                    self.college = education['school']['name']
+        except:
+            pass
+
+
 
 
 

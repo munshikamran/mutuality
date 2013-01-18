@@ -14,3 +14,5 @@ from getMutualityUsers import GetNonFriendUsersInArea
 from viewUser import ViewUser
 from getViewedUsers import GetViewedUsers
 from getMeetPeople import GetMeetPeople
+from getProfileAuthToken import GetProfileAuthToken
+from getMeetPeopleProfile import GetMeetPeopleProfile
