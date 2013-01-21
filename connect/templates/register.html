@@ -3,9 +3,9 @@
     <h1>A bit more information for Mutuality</h1>
 	<div id="facebookSignup" style="width:700px;">
 	<iframe src="https://www.facebook.com/plugins/registration?
-	             client_id={{ settings.FACEBOOK_APP_ID }}&
+	             client_id={{ FACEBOOK_APP_ID }}&
 	             fb_only=true&
-	             redirect_uri=http://mymutuality.com/makematches/&
+	             redirect_uri={{ URL }}&
 	             fields=[
 	 					 {'name':'name'},
 						 {'name':'email'},

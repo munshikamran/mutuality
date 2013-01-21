@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from la_facebook.models import UserAssociation
 from connect.models import Profile
+from django.views.decorators.csrf import csrf_protect
 
 def index(request):
     context_dict = {}
@@ -23,9 +24,12 @@ def index(request):
     return render_to_response('index.html', context_dict, context_instance=RequestContext(request))
 
 @csrf_exempt
+@csrf_protect
 def register(request):
     context_dict = {}
     context_dict['request'] = request
+    context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID;
+    context_dict['URL'] = settings.URL;
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
         print

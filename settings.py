@@ -28,6 +28,7 @@ if DEVELOPMENT_MODE:
     }
     FACEBOOK_APP_ID = '544374212239681'
     FACEBOOK_APP_SECRET = 'e9609c52c461966845ff4ae6c186e458'
+    URL = "http://localhost:8000"
 else:
     DATABASES = {
         'default': {
@@ -39,9 +40,9 @@ else:
             'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
         }
     }
-
     FACEBOOK_APP_ID = '475217095841801'
     FACEBOOK_APP_SECRET = '1304979d3d82251c8dd383e179c30126'
+    URL = "http://mymutuality.com"
 
 
 # Local time zone for this installation. Choices can be found here:
@@ -113,7 +114,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
 	'django.middleware.common.CommonMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
+	#'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 )
