@@ -114,7 +114,11 @@
 	$('#page-prev').click(function(){
 		setCurrentPerson();
 		setTimeout(function (){
-			loadMeetPeopleProfileInfo();	
+			loadMeetPeopleProfileInfo();
+			Mutuality.getMutualFriendList(Mutuality.mpcache.current, function(mutualFriends){
+				$('#ask-about').html("")
+				loadMutualFriends(mutualFriends);
+			});
 		}, 10);
 	});
 
@@ -135,10 +139,10 @@
 		for (i=0; i<mutualFriends.length; i++){
 			askaboutElem = $('#ask-about');
 			if (i % 6 == 0){
-				newUlElem = $('<ul>', {}).appendTo(askaboutElem);
+				newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo(askaboutElem);
 			}
 
-			var liElem = $('<li>', {facebookID:mutualFriends[i].facebookID}).appendTo(newUlElem);
+			var liElem = $('<li>', {}).appendTo(newUlElem);
     		var aElem = $('<a>', {href:'#', onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, "Hey can you introduce me to "+ mutualFriends[i].name + " ?", "mymutuality.com", "http://mymutuality.com/makematches")
 }).appendTo(liElem);
     		var spanElem = $('<span>', {class: 'profile-thumb', style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
