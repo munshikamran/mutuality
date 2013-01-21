@@ -119,11 +119,17 @@
 	});
 
 	$('#fav-filter').bind('change', function(e){
-        Mutuality.getFavoritesList(function(favorites){
-        	console.log(favorites);
-        });
+		if ($('#fav-filter').val() == "Favorites"){
+	        Mutuality.getFavoritesList(function(favorites){
+	        	loadFavorites(favorites);
+	        });
+    	}
+    	else{
+    		friendsOfFriendsSuccess(Mutuality.mpcache.fofList);
+    	}
 	});
 
+	// Load the mutual friends into the UI
 	var loadMutualFriends = function (mutualFriends){
 		var newUlElem;
 		for (i=0; i<mutualFriends.length; i++){
@@ -212,6 +218,22 @@
     	$('#page-next').trigger('click');
     }
 
+    var loadFavorites = function (favorites){
+    	Mutuality.mpcache.favoritesList = favorites;
+    	$("#meet-profiles").html("");
+
+    	for (i=0; i<favorites.length; i++){
+	    	//var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ console.log(success); });"
+    		var liElem = $('<li>', {class:'meet-profile', facebookID:favorites[i].facebookID}).appendTo(meetProfilesElem);
+    		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
+    		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(favorites[i].facebookID, 350, 350)}).appendTo(aElem);
+    		var spanElem = $('<span>', {class:"match-profile-details"}).appendTo(aElem);
+    		//var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", onclick:setFavoriteFunctionString}).appendTo(spanElem);
+    		var hElem = $('<h3>', {id:"left-profile-name", html:favorites[i].name}).appendTo(spanElem);
+    	}
+    	$('#page-next').trigger('click');
+    }
+
     var setFavorite = function (fbID){
     	Mutuality.setFavorite(fbID, function(success){
     		console.log(success);
@@ -219,10 +241,20 @@
 
     }
 
+    var loadFriendsSuccess = function(){
+    	var friends = Mutuality.cache.friends;
+    	console.log(Mutuality.cache.friends);
+        // friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
+        /*$('#four-images img').each(function(i) {
+            $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
+        });*/
+    }
+
    // Load friendslist and friends of friends via AJAX and populate the left and right
    // slots with a random match.
-   Mutuality.loadFriendsList(null, function(){});
+   Mutuality.loadFriendsList(loadFriendsSuccess());
    Mutuality.getMeetPeople(friendsOfFriendsSuccess);
+
 
 
 })(jQuery);

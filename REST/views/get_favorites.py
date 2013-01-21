@@ -1,6 +1,6 @@
 from django.http import Http404
 from connect.models import Profile
-from REST.serializers import UserFavoriteSerializer
+from REST.serializers import FacebookUserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -20,5 +20,5 @@ class GetFavoritesAPI(APIView):
 
     def post(self, request, format=None):
         favoriteList = self.get_object(request.DATA['token'])
-        serializer = UserFavoriteSerializer(favoriteList)
+        serializer = FacebookUserSerializer(favoriteList)
         return Response(serializer.data)
