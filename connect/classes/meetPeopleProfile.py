@@ -4,6 +4,5 @@ class MeetPeopleProfile:
         defaultAttrVal = ""
         for attr in attributes:
             attrVal = getattr(facebookUser,attr,defaultAttrVal)
+            print attrVal
             setattr(self,attr,attrVal)
-
-

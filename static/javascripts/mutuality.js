@@ -86,7 +86,7 @@ var Mutuality = (function($){
    {
       basePath : '',
       cache: { current: ["", ""], profile: {}, friends: {}, leftSlotLocked: false, rightSlotLocked: false },
-      mpcache: { current: "", fofList: {} },
+      mpcache: { current: "", fofList: {}, favoritesList: {} },
       history : [],
       token : null,
       init: function( token, basePath, success )
@@ -306,8 +306,88 @@ var Mutuality = (function($){
                    alert("Error: No friends of friends found.");
                }
            });
-       }
-   };
+       },
+      // Get meet people list
+      getMeetPeople: function( success )
+      {
+           var self = this;
+
+           self.__post('api/getMeetPeople/', { token: this.token }, function( response ){
+               if(response.length > 1)
+               {
+                   if(success instanceof Function) success.call(self, response);
+               }
+               else
+               {
+                   alert("Error: Meet people cannot be loaded.  No friends found.");
+               }
+           });
+       },
+      // Get meet people profile
+      getMeetPeopleProfile: function( fbID, success )
+      {
+           var self = this;
+
+           self.__post('api/getMeetPeopleProfile/', { facebookID: fbID }, function( response ){
+               if('gender' in response)
+               {
+                   if(success instanceof Function) success.call(self, response);
+               }
+               else
+               {
+                   alert("Error: Meet people profile cannot be loaded.");
+               }
+           });
+       },
+    // Get your mutual friends with a particular person
+    getMutualFriendList: function( fbID, success )
+    {
+         var self = this;
+
+         self.__post('api/getMutualFriendList/', { token: this.token, facebookID: fbID }, function( response ){
+             if(response.length > 0)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 alert("Error: No Mutual Friends.");
+             }
+         });
+     },
+     // Get your mutual friends with a particular person
+    setFavorite: function( fbID, success )
+    {
+         var self = this;
+
+         self.__post('api/setFavorite/', { token: this.token, facebookID: fbID }, function( response ){
+             if(response)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 alert("Error: Failed to add to favorites.");
+             }
+         });
+     },
+     // Get your mutual friends with a particular person
+    getFavoritesList: function( success )
+    {
+         var self = this;
+
+         self.__post('api/getFavoritesList/', { token: this.token }, function( response ){
+             if(response.length > 0)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 alert("Error: No Favorites Added.");
+             }
+         });
+     }
+ };
    return module;
 })(jQuery);
 
