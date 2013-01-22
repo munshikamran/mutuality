@@ -1,8 +1,8 @@
 from django.db import models
-from datetime import datetime
 
 from common.enums import RELATIONSHIP_STATUS
 from common.enums import GENDER
+import datetime
 
 class FacebookUser( models.Model ):
     
@@ -23,6 +23,17 @@ class FacebookUser( models.Model ):
 
     def __unicode__(self):
             return "%s  %s" % ( self.name, self.facebookID)
+
+    @property
+    def age(self):
+        if self.birthdayDate:
+            today = datetime.date.today()
+            years = today.year - self.birthdayDate.year
+            birthday = datetime.date(today.year, self.birthdayDate.month, self.birthdayDate.day)
+            if today < birthday:
+                years -= 1
+            return years
+        return None
 
     def updateUsingFacebookDictionary(self,fbDictionary):
         nameKey = 'name'
