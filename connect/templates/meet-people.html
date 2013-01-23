@@ -28,7 +28,7 @@
 					</section>
 					
 					<section id="main" class="row">
-						
+						 <a href="#" id="triggerModal" data-reveal-id="myModal"></a>
 						<div id="carousel" class="eight columns">
 
 							<ul id="meet-profiles" class="profiles">
@@ -78,7 +78,7 @@
 						</div>
 
 						<aside id="user-profile" class="four columns">
-							<h6>Learn About <span class="profile-name">John</span></h6>
+							<h6>Learn About <span class="profile-name"></span></h6>
 
 							<ul id="alt-actions" class="menu">
 								<li id="introduce"><a href="#" class="button"><i></i>Introduce Yourself</a></li>
@@ -87,7 +87,7 @@
 							
 							<hr />
 							
-							<h6>Ask About <span class="profile-name">John</span></h6>
+							<h6>Ask About <span class="profile-name"></span></h6>
 							
 							<div id="ask-about" class="">
 								<ul>
@@ -110,6 +110,7 @@
 								<li id="profile-job" class="two columns" style="display:none;"><i class="company"></i>Redfin Corporation</li>
 							</ul>
 						</div>
+
 					</section>
 	
 				</div>
@@ -131,6 +132,22 @@
 			</div>
 		</div>
 	</section>
+{% endblock %}
+{% block extrahtml %}
+    <div id="myModal" class="reveal-modal large">
+        <h4>We are currently searching for potential friends...</h4>
+        <div class="row">
+            <div id="nudge-left" style:"text-align:center">
+                <a href="#" class="title">
+                    <span class="match-name">It'll just take a second</span>
+                    <span class="introduce-thumb" style="background-image: url({{ MEDIA_URL }}/images/loader.gif);"></span>
+                </a>
+            </div>
+            
+        </div>
+
+        <a class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
+    </div>
 {% endblock %}
 {% block extrascript %}
     <script>

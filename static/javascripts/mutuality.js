@@ -86,7 +86,7 @@ var Mutuality = (function($){
    {
       basePath : '',
       cache: { current: ["", ""], profile: {}, friends: {}, leftSlotLocked: false, rightSlotLocked: false },
-      mpcache: { current: "", fofList: {}, favoritesList: {} },
+      mpcache: { current: "", fofList: {}, favoritesList: {}, currentLoc: 0, profileCacheFbId: new Array(), profileCacheData: {} },
       history : [],
       token : null,
       init: function( token, basePath, success )
@@ -185,11 +185,11 @@ var Mutuality = (function($){
       getFacebookPageURL: function(facebookID){
         return "window.open('http://facebook.com/" + facebookID +"'); return false;";
       },
-      // Get the url to pop open a fb message dialog
+      // Get the JS to pop open a fb message dialog
       getSendNudgeURL: function(facebookID, userID, name, link, redirect){
-          var sendURLFormat = "https://www.facebook.com/dialog/send?app_id=475217095841801&name=" + name + "&link="+ link + "&redirect_uri=" + redirect + "&to=" + userID;
-          return "window.open('" + sendURLFormat +"'); return false;";
-       },
+        var sendJS = "FB.ui({ method: 'send', name: '" + name +"', link:'" + link + "', to:'" + userID + "'});"
+        return sendJS;       
+      },
       // Get the list of facebook friends for the current user
       loadFriendsList: function( success )
       {
