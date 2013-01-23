@@ -53,7 +53,7 @@ class FacebookUser( models.Model ):
     		self.birthdayString = bday
     		# birthday must include year for us to calculate age
     		if len(bday)==3:
-				self.birthdayDate = datetime(int(bday[2]),int(bday[0]),int(bday[1]))
+				self.birthdayDate = datetime.datetime(int(bday[2]),int(bday[0]),int(bday[1]))
 
          # update relationship status
         relationshipStatusKey = 'relationship_status'
