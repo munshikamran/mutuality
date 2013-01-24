@@ -1,9 +1,9 @@
 from connect.models import UserViewed
 
-def GetViewedUsers(profile):
+def GetViewedUsers(profile,meetPeopleFilter):
 #    order by most recently viewed first
     try:
-        userViews = UserViewed.objects.filter(user=profile).order_by('date_last_viewed').reverse()
+        userViews = UserViewed.objects.filter(user=profile).filter(filter=meetPeopleFilter).order_by('date_last_viewed').reverse()
         userViews = userViews.select_related("viewed")
         viewedUsers = []
         for userView in userViews:
