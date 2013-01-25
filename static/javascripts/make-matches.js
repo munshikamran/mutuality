@@ -22,40 +22,28 @@
 
                $('#nudge-both .introduce-thumb:eq(1)').css({backgroundImage: 'url('+leftimgURL+')'});
                $('#nudge-both .introduce-thumb:eq(0)').css({backgroundImage: 'url('+rightimgURL+')'});
+
+               $("#rating-success").fadeIn(200, function() {
+                       $("#rating-success").delay(2000).fadeOut(200, function() {
+                           $("#rating-buttons").fadeIn(200);
+                           $("#random-button").removeClass('disabled');
+                       });
+                });
            });
        }
        else {
            var reasons = new Array();
-           // TODO: Actually get the right subject and object of the match (with radio button vals)
            var subject  = Mutuality.cache.current[0];
            var object = Mutuality.cache.current[1];
-           console.log($('#he-is').val());
-
-           $('#reason-list li').each(function() {
-               var reason = $(this).context.childNodes[1].nodeValue.trim();
-               console.log(reason);
-               if(reason == "Too far away."){
-                   reasons.push({enum: "TOO_FAR", subject: subject, object: object});
-               }
-               if(reason == "Too crazy."){
-                   reasons.push({enum: "TOO_CRAZY", subject: subject, object: object});
-               }
-               if(reason == "Too smart."){
-                   reasons.push({enum: "TOO_SMART", subject: subject, object: object});
-               }
-               if(reason == "Too sexy."){
-                   reasons.push({enum: "TOO_SEXY", subject: subject, object: object});
-               }
-           });
-
+           reasons.push({enum: "TOO_FAR", subject: subject, object: object}); // Temporary reason
            Mutuality.rateMatchThumbsDown(reasons, function(){
-               $("#reasons").fadeOut(200, function() {
                    $("#rating-success").fadeIn(200, function() {
                        $("#rating-success").delay(2000).fadeOut(200, function() {
                            $("#rating-buttons").fadeIn(200);
+                           $("#random-button").removeClass('disabled');
+                           $("#random-button").trigger('click');
                        });
                    });
-               });
            });
        }
 
@@ -84,35 +72,25 @@
 		return false;      
    }
    
-	// thumbs down
+	// Thumbs down
 	$("#rating-down").bind('click', function(e) {	   
-	   e.preventDefault();
+	  e.preventDefault();
 		$("#rating-buttons").fadeOut(200, function() {
-            $("#random-button").attr('class', 'disabled');
-			$("#reasons").fadeIn(200);
-            var leftName = Mutuality.getFriendProfile(Mutuality.cache.current[0]).name;
-            var rightName = Mutuality.getFriendProfile(Mutuality.cache.current[1]).name;
-            $("#left-radio-label").text(leftName.split(" ")[0] +  " is");
-            $("#right-radio-label").text(rightName.split(" ")[0] + " is");
+      $("#random-button").attr('class', 'disabled');
+      thumbRate.call(this,e, false);
 		});
 	});
 	
-	// thumbs up
+	// Thumbs up
 	$('#rating-up').bind('click', function(e){
 	   e.preventDefault();
-	   thumbRate.call(this,e, true);	   
-	});
-	
-	// done rating (thumbs down only)
-	$("#done-button").bind('click', function(e) {
-	   e.preventDefault();
-	   thumbRate.call(this,e, false);
-       $("#random-button").attr('class', '');
-       $("#reason-list li").remove();
-
+	   $("#rating-buttons").fadeOut(200, function() {
+      $("#random-button").attr('class', 'disabled');
+      thumbRate.call(this,e, true);
+    });   
 	});
 
-    // Left lock button pressed
+  // Left lock button pressed
 	$('#left-match-lock').bind('click', function(e){
 	   e.preventDefault();
        if(!Mutuality.cache.rightSlotLocked){
@@ -127,7 +105,7 @@
        }
 	});
 
-    // Right lock button pressed
+  // Right lock button pressed
 	$('#right-match-lock').bind('click', function(e){
 	   e.preventDefault();
        if(!Mutuality.cache.leftSlotLocked){
@@ -162,6 +140,19 @@
         var rightSex = $("#right-match-sex").val() == "Guys" ? 'male' : 'female';
         Mutuality.loadNewMatch(leftSex, rightSex, true, Mutuality.cache.rightSlotLocked, matchSuccess);
 	});
+
+  $(".search-box").live("blur", function(){
+        var default_value = $(this).attr("rel");
+        if ($(this).val() == ""){
+                $(this).val(default_value);
+        }
+  }).live("focus", function(){
+        var default_value = $(this).attr("rel");
+        if ($(this).val() == default_value){
+                $(this).val("");
+        }
+  });
+
 
     // Put in the search results into the DOM with actual search data
     var populateSearchResults = function(matches, parentID){
@@ -249,6 +240,7 @@
     // When the spin button is clicked, load a new match!
     $('#random-button').bind('click', function(e){
         if ($(this).attr('class') !== "disabled"){
+            $(this).attr('class', 'disabled');
             var leftSex = $("#left-match-sex").val() == "Guys" ? 'male' : 'female';
             var rightSex = $("#right-match-sex").val() == "Guys" ? 'male' : 'female';
             Mutuality.loadNewMatch(leftSex, rightSex, Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
@@ -257,6 +249,7 @@
 
     // After AJAX call for new match, load the data into the UI
     var matchSuccess = function(match){
+        $("#random-button").attr('class', '');
         var leftFriend   = $('#left-match-profiles');
         var rightFriend  = $('#right-match-profiles');
         if (match.length == 2) {

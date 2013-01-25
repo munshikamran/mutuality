@@ -81,7 +81,7 @@
 							<h6>Learn About <span class="profile-name"></span></h6>
 
 							<ul id="alt-actions" class="menu">
-								<li id="introduce"><a href="#" class="button"><i></i>Introduce Yourself</a></li>
+								<li id="introduce" ><a href="#" class="button" data-reveal-id="myModal2"><i></i>Get Introduced</a></li>
 								<li id="view-fb"><a href="#" class="button"><i></i>Facebook Profile</a></li>
 							</ul>
 							
@@ -147,6 +147,20 @@
         </div>
 
         <a class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
+    </div>
+    <div id="myModal2" class="reveal-modal large">
+        <h4 id="#myModal2Header"></h4>
+		<div id="ask-about" align="center" class="">			
+			<ul>
+				<li><a href="#"><span class="profile-thumb" style="background-image: url(../images/betty.jpg);"></span></a></li>
+				<li><a href="#"><span class="profile-thumb" style="background-image: url(../images/brian.jpg);"></span></a></li>
+				<li><a href="#"><span class="profile-thumb" style="background-image: url(../images/betty.jpg);"></span></a></li>
+				<li><a href="#"><span class="profile-thumb" style="background-image: url(../images/brian.jpg);"></span></a></li>
+				<li><a href="#"><span class="profile-thumb" style="background-image: url(../images/betty.jpg);"></span></a></li>
+				<li><a href="#"><span class="profile-thumb" style="background-image: url(../images/betty.jpg);"></span></a></li>
+			</ul>
+		</div>
+        <a class="close-reveal-modal"><small>Nevermind</small> &times;</a>
     </div>
 {% endblock %}
 {% block extrascript %}

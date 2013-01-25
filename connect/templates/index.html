@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% block title %} Home {% endblock %}
 {% block content %}
 	<section id="page-title" class="row">
 		<div class="eight columns">
@@ -7,17 +7,21 @@
 		</div>
 		<hr />
 	</section>
-	<div class="eight columns">
+	<div class="eight columns" style="height: 250px;">
 		<h4>Mutuality is all about meeting someone through your existing network of friends.</h4>
-		<p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+		<p> Note: This site is currently in pre-alpha.  Please keep the site's contents strictly confidential.  Enjoy!</p>
 	</div>
 	{% if user.is_authenticated %}
         {% if profile %}
 			<p>You're logged in. </p>  
-			Go <a href="/makematches/">make some matches</a> or <a href="/meetpeople/"> meet people </a> </p>.
+			Go <a href="/makematches/">connect some friends</a> or <a href="/meetpeople/"> meet people</a>!</p>.
         {% endif %}
     {% else %}
-    <a href="{% url la_facebook_login %}?next={{ next }}" class="button"><img src="http://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_light_medium_long.gif"></a>
+    <div style="text-align:center;">
+	    <a href="{% url la_facebook_login %}?next={{ next }}"><img src="{{ MEDIA_URL }}/images/facebookconnect.png"></a>
+	    <br/>
+	    <span>We never post to Facebook.</span>
+	</div>
     {% endif %}
 
 {% endblock %}

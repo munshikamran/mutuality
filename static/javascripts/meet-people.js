@@ -85,6 +85,11 @@
 		}
 	});
 
+	$('#introduce').click(function(){
+		console.log("touched");
+		var basicProfile = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
+		$('#myModal2Header').html("Why don't you ask a friend to connect you and " + basicProfile.name + "?");
+	});
 
 	$('#page-next').click(function(){
 		// Hide the profile stats and mutual friends divs while new data being fetched
@@ -155,7 +160,6 @@
     	}
     }
 
-
 	// Fetch the extended profile and mutual friends, store in cache, and display in UI
 	var fetchMeetPeopleProfileInfo = function (facebookID){
 		Mutuality.getMeetPeopleProfile(facebookID, function(extendedProfile){
@@ -195,7 +199,7 @@
 			    	// remove the loaders and simulate a click
 			    	loadingProfilesElems.each(function(){$(this).remove();});
 			    	$('#page-next').trigger('click');
-					});
+				});
 		});
 	}
 
@@ -209,7 +213,7 @@
 			}
 
 			var liElem = $('<li>', {}).appendTo(newUlElem);
-    		var aElem = $('<a>', {href:'#', onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, "Hey can you introduce me to "+ mutualFriends[i].name + " ?", "mymutuality.com", "http://mymutuality.com/makematches")
+    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, "Hey can you introduce me to "+ mutualFriends[i].name + " ?", "mymutuality.com", "http://mymutuality.com/makematches")
 }).appendTo(liElem);
     		var spanElem = $('<span>', {class: 'profile-thumb', style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
 		}
@@ -310,7 +314,7 @@
 
    // Load friendslist and friends of friends via AJAX and populate the left and right
    // slots with a random match.
-   $("#triggerModal").trigger('click')
+   $("#triggerModal").trigger('click');
    $("#main").hide();
    Mutuality.loadFriendsList(populateCTA());
    Mutuality.getMeetPeople(friendsOfFriendsSuccess);

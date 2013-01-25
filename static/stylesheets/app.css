@@ -6831,7 +6831,7 @@ input[type=text]:focus + .search-results {
 
 /* line 371, ../sass/app.scss */
 #rating-buttons {
-  width: 55%;
+  width: 75%;
   margin: 0 auto;
   clear: both;
 }

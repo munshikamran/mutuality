@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>A bit more information for Mutuality</h1>
-	<div id="facebookSignup" style="width:700px;">
-	<iframe src="https://www.facebook.com/plugins/registration?
+    <h1>Do we have this right?</h1>
+	<div id="facebookSignup" style="width:700px;align:center;">
+	<iframe id="facebookRegisterIframe" style="display:none;" src="https://www.facebook.com/plugins/registration?
 	             client_id={{ FACEBOOK_APP_ID }}&
 	             fb_only=true&
 	             redirect_uri={{ URL }}&
@@ -23,10 +23,30 @@
 	</iframe>
 	</div>
 {% endblock %}
+{% block extrahtml %}
+    <div id="myModal" class="reveal-modal large">
+        <h4>Grabbing your Facebook details...</h4>
+        <div class="row">
+            <div id="nudge-left" style:"text-align:center">
+                <a href="#" class="title">
+                    <span class="match-name">It'll just take a second</span>
+                    <span class="introduce-thumb" style="background-image: url({{ MEDIA_URL }}/images/loader.gif);"></span>
+                </a>
+            </div>
+            
+        </div>
+		<a href="#" id="triggerModal" data-reveal-id="myModal"></a>
+        <a class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
+    </div>
+{% endblock %}
 {% block extrascript %}
     <script>
+    	$("#triggerModal").trigger('click');
         Mutuality.init('{{ profile.facebookID }}', '../');
-        Mutuality.updateFriendList(function(){});
+        Mutuality.updateFriendList(function(){
+        	$('#facebookRegisterIframe').show();
+        	$(".close-reveal-modal").trigger('click');
+        });
     </script>
 {% endblock %}
 

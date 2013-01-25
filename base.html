@@ -26,7 +26,7 @@
           <ul>
             <li class="name">
               <h1>
-                <a href="#">Mutuality</a>
+                <a href="/">Mutuality</a>
               </h1>
             </li>
             <li class="toggle-topbar"><a href="#"></a></li>
@@ -37,9 +37,9 @@
               {% if profile %}
                   <ul class="right">
                       <li class="divider"></li>
-                      <li id="menu-meet-people" class="active"><a href="/meetpeople/" class="page-nav">Meet People</a></li> <li class="divider"></li>
+                      <li id="menu-meet-people"><a href="/meetpeople/" class="page-nav">Meet People</a></li> <li class="divider"></li>
                       <li id="menu-make-matches"><a href="/makematches/" class="page-nav">Connect Friends</a></li> <li class="divider"></li>
-                      <li id="menu-messages"><a href="/messages/" class="page-nav">Messages</a><span class="message-count">2</span></li> <li class="divider"></li>
+                      <li id="menu-messages"><a href="/messages/" class="page-nav">Messages</a><span class="message-count" style="display:none;">1</span></li> <li class="divider"></li>
                       <li class="has-dropdown">
                     <a href="#">
                       <span class="profile-thumb" style="background-image: urL(https://graph.facebook.com/{{ profile.facebookID }}/picture)"></span>{{ profile.name }}<span class="darr"></span>
