@@ -4,6 +4,9 @@ import facebook
 #friendList is a list of FacebookUser objects. This method calculates the number of mutual friends the profile object
 #shares with each friend in FriendList and orders friendList by the this number in descending order
 def OrderByNumberOfMutualFriends(profile,friendList):
+    if len(friendList) < 1:
+        print "friendlist most not be empty"
+        return friendList
     graph = facebook.GraphAPI(GetProfileAuthToken(profile))
     idsString = ""
     facebookUserDict = {}

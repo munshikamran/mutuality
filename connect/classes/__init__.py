@@ -1,3 +1,4 @@
 from friendMatch import FriendMatch
 from matchRatingReason import MatchRatingReason
 from meetPeopleProfile import MeetPeopleProfile
+from meetPeopleResponse import MeetPeopleResponse
