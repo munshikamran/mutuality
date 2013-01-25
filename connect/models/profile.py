@@ -47,9 +47,9 @@ class Profile(models.Model):
 		# update location
 		locationKey = 'location'
 		if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
-			self.location = fbDictionary[locationKey]['name']
+			self.location = fbDictionary[locationKey]['name'].encode('unicode_escape')
 			state = fbDictionary[locationKey]['name'].split(', ')[-1]
-			self.state = state
+			self.state = state.encode('unicode_escape')
 		# update relationship status
 		relationshipStatusKey = 'relationship_status'
 		if relationshipStatusKey in fbDictionary.keys():

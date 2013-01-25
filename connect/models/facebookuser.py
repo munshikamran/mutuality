@@ -65,7 +65,7 @@ class FacebookUser( models.Model ):
     	if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
             self.location = fbDictionary[locationKey]['name'].encode('unicode_escape')
             state = fbDictionary[locationKey]['name'].split(', ')[-1]
-            self.state = state
+            self.state = state.encode('unicode_escape')
 
         #the following are not stored in the database
         workKey = 'work'
