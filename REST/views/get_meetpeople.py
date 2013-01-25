@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from connect.functions import GetMeetPeople
+from common.enums import MEET_PEOPLE_FILTER
 
 class GetMeetPeopleAPI(APIView):
     """
@@ -13,8 +14,8 @@ class GetMeetPeopleAPI(APIView):
     def get_object(self, pk):
         try:
             profile = Profile.objects.get(facebookID=pk)
-            facebookUserList = GetMeetPeople(profile)
-            return facebookUserList
+            facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP)
+            return facebookUserList.freshUsers
         except Profile.DoesNotExist:
             raise Http404
 
