@@ -146,6 +146,7 @@ INSTALLED_APPS = (
     'la_facebook',
     'messages',
     'rest_framework',
+    'south',
 )
 
 try:

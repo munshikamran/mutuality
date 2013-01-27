@@ -6,15 +6,15 @@ from django.db.models import Q
 def GetRecentMessages(profile):
     now = datetime.now()
     pastDate = now - timedelta(weeks=4)
-    return getMessagesSince(pastDate)
+    return getMessagesSince(profile,pastDate)
 
 def GetMessageThreadWithOther(profile,otherProfile):
-    q =  Q(sender_deleted_at__isnull=True) & (Q(sender_id=profile.user_id) & Q(recipient_id=profile.user_id)) | (Q(sender_id=otherProfile.user_id) & Q(recipient_id=profile.user_id))
+    q =  Q(sender_deleted_at__isnull=True) & (Q(sender=profile) & Q(recipient=otherProfile)) | (Q(sender=otherProfile) & Q(recipient=profile))
     #order older messages first
     return Message.objects.filter(q).order_by('sent_at')
 
 #private
 def getMessagesSince(profile,pastDate):
-    q = Q(sender_deleted_at__isnull=True) & (Q(sender_id=profile.user_id) | Q(recipient_id=profile.user_id)) & Q(sent_at__gte=pastDate)
+    q = Q(sender_deleted_at__isnull=True) & (Q(sender=profile) | Q(recipient=profile)) & Q(sent_at__gte=pastDate)
     #order newer messages first
     return Message.objects.filter(q).order_by('sent_at').reverse()
