@@ -1,27 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Do we have this right?</h1>
-	<div id="facebookSignup" style="width:700px;align:center;">
-	<iframe id="facebookRegisterIframe" style="display:none;" src="https://www.facebook.com/plugins/registration?
-	             client_id={{ FACEBOOK_APP_ID }}&
-	             fb_only=true&
-	             redirect_uri={{ URL }}&
-	             fields=[
-	 					 {'name':'name'},
-						 {'name':'email'},
-						 {'name':'location'},
-						 {'name':'gender'},
-						 {'name':'birthday'},
-						 {'name':'single','description':'Single?', 'type':'checkbox',  'default':'checked'}
-						]"
-	        scrolling="auto"
-	        frameborder="no"
-	        style="border:none"
-	        allowTransparency="true"
-	        width="100%"
-	        height="350">
-	</iframe>
+    <section id="page-title" class="row">
+		<div class="eight columns">
+			<h2>Do we have this right?</h2>
+		</div>
+		<hr />
+	</section>
+	<section id="main" class="row">
+		<div id="facebookSignup" style="width:700px;align:center;">
+		<iframe id="facebookRegisterIframe" style="display:none;" src="https://www.facebook.com/plugins/registration?
+		             client_id={{ FACEBOOK_APP_ID }}&
+		             fb_only=true&
+		             redirect_uri={{ URL }}&
+		             fields=[
+		 					 {'name':'name'},
+							 {'name':'email'},
+							 {'name':'location'},
+							 {'name':'gender'},
+							 {'name':'birthday'},
+							 {'name':'single','description':'Single?', 'type':'checkbox',  'default':'checked'}
+							]"
+		        scrolling="auto"
+		        frameborder="no"
+		        style="border:none"
+		        allowTransparency="true"
+		        width="100%"
+		        height="350">
+		</iframe>
+		</div>
+	</section>
+			</div>
 	</div>
+</div>
+</div>
 {% endblock %}
 {% block extrahtml %}
     <div id="myModal" class="reveal-modal large">

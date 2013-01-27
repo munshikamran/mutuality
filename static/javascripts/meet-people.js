@@ -208,14 +208,21 @@
 		var newUlElem;
 		for (i=0; i<mutualFriends.length; i++){
 			askaboutElem = $('#ask-about');
+			askaboutElemModal = $('#ask-about-modal');
+			console.log(askaboutElemModal);
 			if (i % 6 == 0){
 				newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo(askaboutElem);
+				newUlElemModal = $('<ul>', {style: "margin-right: 0px;"}).appendTo(askaboutElemModal);
 			}
 
 			var liElem = $('<li>', {}).appendTo(newUlElem);
+			var liElemModal = $('<li>', {}).appendTo(newUlElemModal);
     		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, "Hey can you introduce me to "+ mutualFriends[i].name + " ?", "mymutuality.com", "http://mymutuality.com/makematches")
 }).appendTo(liElem);
+    		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, "Hey can you introduce me to "+ mutualFriends[i].name + " ?", "mymutuality.com", "http://mymutuality.com/makematches")
+}).appendTo(liElemModal);
     		var spanElem = $('<span>', {class: 'profile-thumb', style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
+    		var spanElemModal = $('<span>', {class: 'profile-thumb', style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
 		}
 	}
 
