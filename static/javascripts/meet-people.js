@@ -22,10 +22,10 @@
 			items: 1,
 			duration: 400,
 			onBefore: function( data ) {
-            console.log(data.items.visible);
+            console.log(data.items);
 
-            for(i=0; i<data.items.visible.length; i++){
-            	var facebookID = $(data.items.visible[i]).attr("facebookid");
+            for(i=0; i<5&&i<data.items.visible.prevObject.length; i++){
+            	var facebookID = $(data.items.visible.prevObject[i]).attr("facebookid");
             	if(Mutuality.mpcache.profileCacheFbId.indexOf(facebookID) === -1){
 					Mutuality.getMeetPeopleProfile(facebookID, function(extendedProfile){
 						Mutuality.getMutualFriendList(facebookID, function(mutualFriends){
