@@ -86,7 +86,7 @@ var Mutuality = (function($){
    {
       basePath : '',
       cache: { current: ["", ""], profile: {}, friends: {}, leftSlotLocked: false, rightSlotLocked: false },
-      mpcache: { current: "", fofList: {}, favoritesList: {}, currentLoc: 0, profileCacheFbId: new Array(), profileCacheData: {} },
+      mpcache: { current: "", fofList: {}, favoritesList: {}, currentLoc: 0, profileCacheData: {} },
       history : [],
       token : null,
       init: function( token, basePath, success )
@@ -307,7 +307,23 @@ var Mutuality = (function($){
                }
            });
        },
-      // Get meet people list
+       // Get meet people list (fresh users)
+      getMeetPeopleViewed: function( success )
+      {
+           var self = this;
+
+           self.__post('api/getMeetPeopleViewed/', { token: this.token }, function( response ){
+               if(response.length >= 0)
+               {
+                   if(success instanceof Function) success.call(self, response);
+               }
+               else
+               {
+                   alert("Error: Meet people viewed cannot be loaded.  No friends found.");
+               }
+           });
+       },
+      // Get meet people list (fresh users)
       getMeetPeople: function( success )
       {
            var self = this;
@@ -355,7 +371,7 @@ var Mutuality = (function($){
              }
          });
      },
-     // Get your mutual friends with a particular person
+     // Set a favorite
     setFavorite: function( fbID, success )
     {
          var self = this;
@@ -371,19 +387,36 @@ var Mutuality = (function($){
              }
          });
      },
-     // Get your mutual friends with a particular person
+     // Get your favorites list
     getFavoritesList: function( success )
     {
          var self = this;
 
          self.__post('api/getFavoritesList/', { token: this.token }, function( response ){
-             if(response.length > 0)
+             if(response)
              {
                  if(success instanceof Function) success.call(self, response);
              }
              else
              {
                  alert("Error: No Favorites Added.");
+             }
+         });
+     },
+
+    // Set a user as viewed
+    setUserViewed: function( fbID, success )
+    {
+         var self = this;
+
+         self.__post('api/setUserViewed/', { token: this.token, facebookID: fbID }, function( response ){
+             if(response)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 alert("Error: Failed to set user as viewed.");
              }
          });
      }

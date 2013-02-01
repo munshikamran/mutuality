@@ -8,3 +8,4 @@ def ViewUser(profile,facebookUserID,filter):
         return True
     except:
             print "error when creating viewed user"
+            return False

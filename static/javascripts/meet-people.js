@@ -26,7 +26,7 @@
 
             for(i=0; i<5&&i<data.items.visible.prevObject.length; i++){
             	var facebookID = $(data.items.visible.prevObject[i]).attr("facebookid");
-            	if(Mutuality.mpcache.profileCacheFbId.indexOf(facebookID) === -1){
+            	if(!Mutuality.mpcache.profileCacheData[facebookID]){
 					Mutuality.getMeetPeopleProfile(facebookID, function(extendedProfile){
 						Mutuality.getMutualFriendList(facebookID, function(mutualFriends){
 							loadMeetPeopleProfileInfoToCache(facebookID, mutualFriends, extendedProfile);
@@ -124,12 +124,24 @@
 	// When the fav filter is selected, load the favorites into the UI
 	$('#fav-filter').bind('change', function(e){
 		if ($('#fav-filter').val() == "Favorites"){
-        	loadFavorites(Mutuality.mpcache.favoritesList);
+			Mutuality.getFavoritesList(function(favorites){
+        		loadFavorites(favorites);
+        		for (i=0;i<favorites.length; i++){
+        			if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
+        				Mutuality.mpcache.favoritesList[favorites[i].facebookID] = true;
+        			}
+				}
+   			});
+    	} else if ($('#fav-filter').val() == "Viewed") {
+    		Mutuality.getMeetPeopleViewed(function(viewedUsers){
+    			loadFavorites(viewedUsers);
+    		});
     	}
     	else{
     		friendsOfFriendsSuccess(Mutuality.mpcache.fofList);
     	}
 	});
+
 /* End Event Code */
 /* Begin Helper functions */
 
@@ -145,10 +157,12 @@
 
 	    	Mutuality.mpcache.current = currentlyFocusedElem.attr("facebookID");
 	    	//console.log(currentlyFocusedElem.attr("facebookID"));
-	    	console.log(Mutuality.mpcache.profileCacheFbId);
+
 	    	console.log(Mutuality.mpcache.profileCacheData);
 
-	    	if(Mutuality.mpcache.profileCacheFbId.indexOf(Mutuality.mpcache.current) > -1) {
+	    	Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){console.log("set viewed = " + success );});
+
+	    	if(Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current]) {
 	    		// Cache hit, so load directly from cache!
 	    		console.log("cache hit!")
 	    		loadMutualFriendsIntoUI(Mutuality.mpcache.current, Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].mutualFriends);
@@ -171,7 +185,6 @@
 
 	// Store meet people profile and mutual friends into cache object
     var loadMeetPeopleProfileInfoToCache = function (facebookID, mutualFriends, extendedProfile){
-    	Mutuality.mpcache.profileCacheFbId.push(facebookID);
     	Mutuality.mpcache.profileCacheData[facebookID] = {
     		'mutualFriends' : mutualFriends,
     		'extendedProfile' : extendedProfile
@@ -205,17 +218,13 @@
 			    	loadingProfilesElems = $(".meet-profile");
 
 			    	for (i=0; i<friends.length; i++){
-				    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ console.log(success); });"
+				    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ console.log(success); }); $(this).css('background-position',  '0 -16px;');"
 			    		var liElem = $('<li>', {class:'meet-profile', facebookID:friends[i].facebookID}).appendTo(meetProfilesElem);
 			    		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
 			    		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(friends[i].facebookID, 350, 350)}).appendTo(aElem);
 			    		var spanElem = $('<span>', {class:"match-profile-details"}).appendTo(aElem);
-			    		var inFavorites = false;
-			    		/*for (i=0;i<Mutuality.mpcache.favoritesList; i++){
-			    			if (Mutuality.mpcache.favoritesList[i].facebookID === friends[i].facebookID){
-			    				inFavorites= true;
-			    			}
-			    		}*/
+			    		var inFavorites = Mutuality.mpcache.favoritesList[friends[i].facebookID];
+
 			    		if (!inFavorites) {
 			    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", onclick:setFavoriteFunctionString}).appendTo(spanElem);
 			    		}
@@ -319,15 +328,25 @@
     	$("#meet-profiles").html("");
 
     	for (i=0; i<favorites.length; i++){
-	    	//var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ console.log(success); });"
-    		var liElem = $('<li>', {class:'meet-profile', facebookID:favorites[i].facebookID}).appendTo(meetProfilesElem);
+	    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +favorites[i].facebookID+", function(success){ console.log(success); }); $(this).css('background-position',  '0 -16px;');"    		
+	    	var liElem = $('<li>', {class:'meet-profile', facebookID:favorites[i].facebookID}).appendTo(meetProfilesElem);
     		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
     		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(favorites[i].facebookID, 350, 350)}).appendTo(aElem);
     		var spanElem = $('<span>', {class:"match-profile-details"}).appendTo(aElem);
-    		//var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", onclick:setFavoriteFunctionString}).appendTo(spanElem);
+    		var inFavorites = Mutuality.mpcache.favoritesList[favorites[i].facebookID];
+
+    		if (!inFavorites) {
+    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", onclick:setFavoriteFunctionString}).appendTo(spanElem);
+    		}
+    		else{
+    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", style:"background-position: 0 -16px;"}).appendTo(spanElem);
+    			console.log("yes a favorite");
+    		}
     		var hElem = $('<h3>', {id:"left-profile-name", html:favorites[i].name}).appendTo(spanElem);
     	}
     	$('#page-next').trigger('click');
+    	$('#page-next').show();
+    	$('#page-prev').show();
     }
 
     // Set a favorite
@@ -358,8 +377,13 @@
    Mutuality.loadFriendsList(populateCTA());
    Mutuality.getMeetPeople(friendsOfFriendsSuccess);
    Mutuality.getFavoritesList(function(favorites){
-    	Mutuality.mpcache.favoritesList = favorites;
-   });
+		for (i=0;i<favorites.length; i++){
+			if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
+				Mutuality.mpcache.favoritesList[favorites[i].facebookID] = true;
+			}
+		}
+	});
+   
 /* End Main Code */
 
 })(jQuery);

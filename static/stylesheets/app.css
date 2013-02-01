@@ -825,6 +825,7 @@ form.custom div.custom.dropdown ul li {
   padding-right: 38px;
   min-height: 18px;
   line-height: 18px;
+  min-width: 100px;
   margin: 0;
   white-space: nowrap;
   list-style: none;

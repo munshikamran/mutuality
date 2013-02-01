@@ -7,9 +7,9 @@ from rest_framework.response import Response
 from connect.functions import GetMeetPeople
 from common.enums import MEET_PEOPLE_FILTER
 
-class GetMeetPeopleAPI(APIView):
+class GetMeetPeopleViewedAPI(APIView):
     """
-    Get the user's meet people list, but only the fresh users.
+    Get the user's meet people list, but only the viewed users.
     """
     def get_object(self, pk):
         try:
@@ -21,5 +21,5 @@ class GetMeetPeopleAPI(APIView):
 
     def post(self, request, format=None):
         facebookUserList = self.get_object(request.DATA['token'])
-        serializer = FacebookUserSerializer(facebookUserList.freshUsers)
+        serializer = FacebookUserSerializer(facebookUserList.viewedUsers)
         return Response(serializer.data)
