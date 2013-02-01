@@ -1,5 +1,5 @@
-from getMutualityUsers import GetNonFriendUsersInArea
-from getFriendsOfFriends import GetFriendsOfFriendsInArea
+from getMutualityUsers import GetNonFriendUsersInArea, GetNonFriendSingleUsersInArea
+from getFriendsOfFriends import GetFriendsOfFriendsInArea, GetFriendsOfFriendsSingleInArea
 from getViewedUsers import GetViewedUsers
 from orderByNumberOfMutualFriends import OrderByNumberOfMutualFriends
 from connect.models import FacebookUser
@@ -15,7 +15,8 @@ def GetMeetPeople(profile,filter):
         mutualityUsers = GetNonFriendUsersInArea(profile)
         friendsOfFriends = GetFriendsOfFriendsInArea(profile)
     if filter == MEET_PEOPLE_FILTER.DATING:
-        print "Dating filter not yet implemented"
+        mutualityUsers = GetNonFriendSingleUsersInArea(profile)
+        friendsOfFriends = GetFriendsOfFriendsSingleInArea(profile)
     facebookUserIDSet = set()
     for person in mutualityUsers:
         facebookUserIDSet.add(person.facebookID)

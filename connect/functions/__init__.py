@@ -5,12 +5,12 @@ from getMessages import GetRecentMessages, GetMessageThreadWithOther
 from sendMessage import SendMessageToOtherProfile
 from updateFriendList import UpdateFriendList
 from rateMatch import RateThumbsUp, RateThumbsDown
-from getFriendsOfFriends import GetFriendsOfFriends, GetFriendsOfFriendsInArea
+from getFriendsOfFriends import GetFriendsOfFriends, GetFriendsOfFriendsInArea, GetFriendsOfFriendsSingleInArea
 from getFacebookSendDialogue import GetFacebookSendDialogue
 from orderByNumberOfMutualFriends import OrderByNumberOfMutualFriends
 from createUserFavorite import CreateUserFavorite
 from getUserFavorites import GetUserFavorites
-from getMutualityUsers import GetNonFriendUsersInArea
+from getMutualityUsers import GetNonFriendUsersInArea, GetNonFriendSingleUsersInArea
 from viewUser import ViewUser
 from getViewedUsers import GetViewedUsers
 from getMeetPeople import GetMeetPeople
