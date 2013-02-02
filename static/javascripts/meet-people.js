@@ -22,7 +22,7 @@
 			items: 1,
 			duration: 400,
 			onBefore: function( data ) {
-            console.log(data.items);
+            //console.log(data.items);
 
             for(i=0; i<5&&i<data.items.visible.prevObject.length; i++){
             	var facebookID = $(data.items.visible.prevObject[i]).attr("facebookid");
@@ -137,8 +137,15 @@
     			loadFavorites(viewedUsers);
     		});
     	}
+    	else if ($('#fav-filter').val() == "Dating") {
+    		Mutuality.getMeetPeopleDating(function(datingFriends){
+    			loadFavorites(datingFriends);
+    		});
+    	}
     	else{
-    		friendsOfFriendsSuccess(Mutuality.mpcache.fofList);
+    		Mutuality.getMeetPeople(function(meetPeopleList) {
+    			meetPeopleSuccess(meetPeopleList);
+    		});
     	}
 	});
 
@@ -156,22 +163,22 @@
 	    	});
 
 	    	Mutuality.mpcache.current = currentlyFocusedElem.attr("facebookID");
-	    	//console.log(currentlyFocusedElem.attr("facebookID"));
+	    	console.log(currentlyFocusedElem.attr("facebookID"));
 
-	    	console.log(Mutuality.mpcache.profileCacheData);
+	    	// console.log(Mutuality.mpcache.profileCacheData);
 
 	    	Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){console.log("set viewed = " + success );});
 
 	    	if(Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current]) {
 	    		// Cache hit, so load directly from cache!
-	    		console.log("cache hit!")
+	    		// console.log("cache hit!")
 	    		loadMutualFriendsIntoUI(Mutuality.mpcache.current, Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].mutualFriends);
 				loadProfileInfoIntoUI(Mutuality.mpcache.current, Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].extendedProfile);
 	    	}
 	    	else {
 	    		//Cache miss
 	    		//Go fetch the data, and store it in the cache, then load into UI from cache
-	    		console.log("cache miss.")
+	    		// console.log("cache miss.")
 	    		$('#page-next').hide();
 	    		$('#page-prev').hide();
 				setTimeout(function (){
@@ -230,7 +237,7 @@
 			    		}
 			    		else{
 			    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", style:"background-position: 0 -16px;"}).appendTo(spanElem);
-			    			console.log("yes a favorite");
+			    			//console.log("yes a favorite");
 			    		}
 			    		var hElem = $('<h3>', {id:"left-profile-name", html:friends[i].name}).appendTo(spanElem);
 			    	}
@@ -316,13 +323,16 @@
 	}
 
     // After AJAX call for getMeetPeople, load that into meet people page cache
-    var friendsOfFriendsSuccess = function(friends){
-    	Mutuality.mpcache.fofList = friends;
+    var meetPeopleSuccess = function(friends){
+    	$("#meet-profiles").html("");
     	for (i=2; i<3&&i<friends.length; i++){
     		fetchMeetPeopleProfileInfoAndShowUI(friends[i].facebookID, friends);
     	}
     }
 
+    var friendsOfFriendsSuccess = function(friends){
+    	Mutuality.mpcache.fofList = friends;
+    }
     // Load the favorites into the UI
     var loadFavorites = function (favorites){
     	$("#meet-profiles").html("");
@@ -340,7 +350,7 @@
     		}
     		else{
     			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", style:"background-position: 0 -16px;"}).appendTo(spanElem);
-    			console.log("yes a favorite");
+    			// console.log("yes a favorite");
     		}
     		var hElem = $('<h3>', {id:"left-profile-name", html:favorites[i].name}).appendTo(spanElem);
     	}
@@ -362,7 +372,7 @@
     var populateCTA = function(){
     	// TODO: Finish
     	var friends = Mutuality.cache.friends;
-    	console.log(Mutuality.cache.friends);
+    	//console.log(Mutuality.cache.friends);
         // friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
         /*$('#four-images img').each(function(i) {
             $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
@@ -375,7 +385,8 @@
    $("#triggerModal").trigger('click');
    $("#main").hide();
    Mutuality.loadFriendsList(populateCTA());
-   Mutuality.getMeetPeople(friendsOfFriendsSuccess);
+   Mutuality.getFriendsOfFriends(friendsOfFriendsSuccess);
+   Mutuality.getMeetPeople(meetPeopleSuccess);
    Mutuality.getFavoritesList(function(favorites){
 		for (i=0;i<favorites.length; i++){
 			if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {

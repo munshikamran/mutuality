@@ -323,7 +323,7 @@ var Mutuality = (function($){
                }
            });
        },
-      // Get meet people list (fresh users)
+      // Get meet people list (fresh users, friendship)
       getMeetPeople: function( success )
       {
            var self = this;
@@ -335,7 +335,23 @@ var Mutuality = (function($){
                }
                else
                {
-                   alert("Error: Meet people cannot be loaded.  No friends found.");
+                   alert("Error: Meet people (friends) cannot be loaded.  No friends found.");
+               }
+           });
+       },      
+       // Get meet people list (fresh users, dating)
+      getMeetPeopleDating: function( success )
+      {
+           var self = this;
+
+           self.__post('api/getMeetPeopleDating/', { token: this.token }, function( response ){
+               if(response.length > 1)
+               {
+                   if(success instanceof Function) success.call(self, response);
+               }
+               else
+               {
+                   alert("Error: Meet people (dating) cannot be loaded.  No friends found.");
                }
            });
        },

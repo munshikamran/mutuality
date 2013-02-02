@@ -7,6 +7,7 @@ from REST.views.rate_match_thumbsup import RateMatchThumbsUpAPI
 from REST.views.rate_match_thumbsdown import RateMatchThumbsDownAPI
 from REST.views.get_friends_of_friends import GetFriendsOfFriendsList
 from REST.views.get_meetpeople import GetMeetPeopleAPI
+from REST.views.get_meetpeople_dating import GetMeetPeopleDatingAPI
 from REST.views.get_meetpeople_viewed import GetMeetPeopleViewedAPI
 from REST.views.get_meetpeople_profile import GetMeetPeopleProfileAPI
 from REST.views.get_mutualfriend_list import GetMutualFriendListAPI
@@ -23,6 +24,7 @@ urlpatterns = patterns('REST.views',
     url(r'^rateThumbsDown/$', RateMatchThumbsDownAPI.as_view()),
     url(r'^getFriendsOfFriendsList/$', GetFriendsOfFriendsList.as_view()),
     url(r'^getMeetPeople/$', GetMeetPeopleAPI.as_view()),
+    url(r'^getMeetPeopleDating/$', GetMeetPeopleDatingAPI.as_view()),
     url(r'^getMeetPeopleViewed/$', GetMeetPeopleViewedAPI.as_view()),
     url(r'^getMeetPeopleProfile/$', GetMeetPeopleProfileAPI.as_view()),
     url(r'^getMutualFriendList/$', GetMutualFriendListAPI.as_view()),
