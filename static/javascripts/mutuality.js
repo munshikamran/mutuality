@@ -135,7 +135,6 @@ var Mutuality = (function($){
       __makeRequest:function(type, url, params, onSuccess, onError, beforeSend)
       {
          var self = this;
-         console.log("Base Path=" + self.basePath);
          
          $.ajax({
             beforeSend : beforeSend || this.__beforeSend,
@@ -308,54 +307,22 @@ var Mutuality = (function($){
                }
            });
        },
-       // Get meet people list (fresh users)
-      getMeetPeopleViewed: function( success )
-      {
-           var self = this;
-
-           self.__post('api/getMeetPeopleViewed/', { token: this.token }, function( response ){
-               if(response.length >= 0)
-               {
-                   if(success instanceof Function) success.call(self, response);
-               }
-               else
-               {
-                   alert("Error: Meet people viewed cannot be loaded.  No friends found.");
-               }
-           });
-       },
       // Get meet people list (fresh users, friendship)
-      getMeetPeople: function( success )
+      getMeetPeople: function(v, d, success )
       {
            var self = this;
 
-           self.__post('api/getMeetPeople/', { token: this.token }, function( response ){
-               if(response.length > 1)
+           self.__post('api/getMeetPeople/', { token: this.token, viewed: v, dating: d }, function( response ){
+               if(response)
                {
                    if(success instanceof Function) success.call(self, response);
                }
                else
                {
-                   alert("Error: Meet people (friends) cannot be loaded.  No friends found.");
+                   alert("Error: Meet people cannot be loaded.  No results.");
                }
            });
-       },      
-       // Get meet people list (fresh users, dating)
-      /*getMeetPeopleDating: function( success )
-      {
-           var self = this;
-
-           self.__post('api/getMeetPeopleDating/', { token: this.token }, function( response ){
-               if(response.length > 1)
-               {
-                   if(success instanceof Function) success.call(self, response);
-               }
-               else
-               {
-                   alert("Error: Meet people (dating) cannot be loaded.  No friends found.");
-               }
-           });
-       },*/
+       }, 
       // Get meet people profile
       getMeetPeopleProfile: function( fbID, success )
       {

@@ -9,10 +9,8 @@ from REST.views.get_friends_of_friends import GetFriendsOfFriendsList
 from REST.views.get_favorites import GetFavoritesAPI
 from REST.views.set_favorite import SetFavoriteAPI
 from REST.views.get_meetpeople import GetMeetPeopleAPI
-from REST.views.get_meetpeople_viewed import GetMeetPeopleViewedAPI
 from REST.views.get_meetpeople_profile import GetMeetPeopleProfileAPI
 from REST.views.get_mutualfriend_list import GetMutualFriendListAPI
-from REST.views.get_meetpeople_dating import GetMeetPeopleDatingAPI
 from REST.views.set_user_viewed import SetUserViewedAPI
 
 urlpatterns = patterns('REST.views',
@@ -27,8 +25,6 @@ urlpatterns = patterns('REST.views',
     url(r'^getFavoritesList/$', GetFavoritesAPI.as_view()),
     url(r'^setFavorite/$', SetFavoriteAPI.as_view()),
     url(r'^getMeetPeople/$', GetMeetPeopleAPI.as_view()),
-    url(r'^getMeetPeopleDating/$', GetMeetPeopleDatingAPI.as_view()),
-    url(r'^getMeetPeopleViewed/$', GetMeetPeopleViewedAPI.as_view()),
     url(r'^getMeetPeopleProfile/$', GetMeetPeopleProfileAPI.as_view()),
     url(r'^setUserViewed/$', SetUserViewedAPI.as_view()),
 )

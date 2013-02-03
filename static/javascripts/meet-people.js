@@ -133,17 +133,17 @@
 				}
    			});
     	} else if ($('#fav-filter').val() == "Viewed") {
-    		Mutuality.getMeetPeopleViewed(function(viewedUsers){
+    		Mutuality.getMeetPeople(1, 0, function(viewedUsers){
     			loadFavorites(viewedUsers);
     		});
     	}
     	else if ($('#fav-filter').val() == "Dating") {
-    		/*Mutuality.getMeetPeopleDating(function(datingFriends){
+    		Mutuality.getMeetPeople(0, 1, function(datingFriends){
     			loadFavorites(datingFriends);
-    		});*/
+    		});
     	}
     	else{
-    		Mutuality.getMeetPeople(function(meetPeopleList) {
+    		Mutuality.getMeetPeople(0, 0, function(meetPeopleList) {
     			meetPeopleSuccess(meetPeopleList);
     		});
     	}
@@ -384,14 +384,14 @@
    Mutuality.loadFriendsList(populateCTA());
    Mutuality.getFriendsOfFriends(function(friends){
     	Mutuality.mpcache.fofList = friends;
-    	Mutuality.getMeetPeople(meetPeopleSuccess);
-   Mutuality.getFavoritesList(function(favorites){
-		for (i=0;i<favorites.length; i++){
-			if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
-				Mutuality.mpcache.favoritesList[favorites[i].facebookID] = true;
+    	Mutuality.getMeetPeople(0, 0, meetPeopleSuccess);
+   		Mutuality.getFavoritesList(function(favorites){
+			for (i=0;i<favorites.length; i++){
+				if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
+					Mutuality.mpcache.favoritesList[favorites[i].facebookID] = true;
+				}
 			}
-		}
-	});
+		});
    });
    
    

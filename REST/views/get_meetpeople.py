@@ -10,15 +10,22 @@ class GetMeetPeopleAPI(APIView):
     """
     Get the user's meet people list, but only the fresh users for the Friendship filter.
     """
-    def get_object(self, pk):
+    def get_object(self, pk, viewed, dating):
         try:
             profile = Profile.objects.get(facebookID=pk)
-            facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP)
-            return facebookUserList
+            if (viewed == "0" and dating == "0"):
+                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP)
+                return facebookUserList.freshUsers
+            elif (viewed == "1" and dating == "0"):
+                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP)
+                return facebookUserList.viewedUsers
+            elif (viewed == "0" and dating == "1"):
+                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.DATING)
+                return facebookUserList.freshUsers
         except Profile.DoesNotExist:
             raise Http404
 
     def post(self, request, format=None):
-        facebookUserList = self.get_object(request.DATA['token'])
-        serializer = FacebookUserSerializer(facebookUserList.freshUsers)
+        facebookUserList = self.get_object(request.DATA['token'], request.DATA['viewed'], request.DATA['dating'])
+        serializer = FacebookUserSerializer(facebookUserList)
         return Response(serializer.data)
