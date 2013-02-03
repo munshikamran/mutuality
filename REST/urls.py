@@ -30,5 +30,5 @@ urlpatterns = patterns('REST.views',
     url(r'^getMutualFriendList/$', GetMutualFriendListAPI.as_view()),
     url(r'^getFavoritesList/$', GetFavoritesAPI.as_view()),
     url(r'^setFavorite/$', SetFavoriteAPI.as_view()),
-    url(r'^setUserViewed/$', SetUserViewedAPI.as_view()),
+    url(r'^setUserViewed/$', SetUserViewedAPI.as_view())
 )

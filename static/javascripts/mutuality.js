@@ -419,7 +419,6 @@ var Mutuality = (function($){
              }
          });
      },
-
     // Set a user as viewed
     setUserViewed: function( fbID, success )
     {
