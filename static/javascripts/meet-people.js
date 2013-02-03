@@ -330,9 +330,6 @@
     	}
     }
 
-    var friendsOfFriendsSuccess = function(friends){
-    	Mutuality.mpcache.fofList = friends;
-    }
     // Load the favorites into the UI
     var loadFavorites = function (favorites){
     	$("#meet-profiles").html("");
@@ -385,8 +382,9 @@
    $("#triggerModal").trigger('click');
    $("#main").hide();
    Mutuality.loadFriendsList(populateCTA());
-   Mutuality.getFriendsOfFriends(friendsOfFriendsSuccess);
-   Mutuality.getMeetPeople(meetPeopleSuccess);
+   Mutuality.getFriendsOfFriends(function(friends){
+    	Mutuality.mpcache.fofList = friends;
+    	Mutuality.getMeetPeople(meetPeopleSuccess);
    Mutuality.getFavoritesList(function(favorites){
 		for (i=0;i<favorites.length; i++){
 			if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
@@ -394,6 +392,8 @@
 			}
 		}
 	});
+   });
+   
    
 /* End Main Code */
 
