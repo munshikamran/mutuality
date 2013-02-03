@@ -135,6 +135,7 @@ var Mutuality = (function($){
       __makeRequest:function(type, url, params, onSuccess, onError, beforeSend)
       {
          var self = this;
+         console.log("Base Path=" + self.basePath);
          
          $.ajax({
             beforeSend : beforeSend || this.__beforeSend,
