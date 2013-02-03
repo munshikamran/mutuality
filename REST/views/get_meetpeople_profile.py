@@ -19,6 +19,5 @@ class GetMeetPeopleProfileAPI(APIView):
 
     def post(self, request, format=None):
         meetPeopleProfile = self.get_object(request.DATA['facebookID'])
-        print meetPeopleProfile.college;
         serializer = MeetPeopleProfileSerializer(meetPeopleProfile)
         return Response(serializer.data)

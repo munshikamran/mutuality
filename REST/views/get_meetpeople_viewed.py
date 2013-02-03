@@ -14,12 +14,12 @@ class GetMeetPeopleViewedAPI(APIView):
     def get_object(self, pk):
         try:
             profile = Profile.objects.get(facebookID=pk)
-            facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP)
-            return facebookUserList
+            facebookUserListViewed = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP)
+            return facebookUserListViewed
         except Profile.DoesNotExist:
             raise Http404
 
     def post(self, request, format=None):
-        facebookUserList = self.get_object(request.DATA['token'])
-        serializer = FacebookUserSerializer(facebookUserList.viewedUsers)
+        facebookUserListViewed = self.get_object(request.DATA['token'])
+        serializer = FacebookUserSerializer(facebookUserListViewed.viewedUsers)
         return Response(serializer.data)
