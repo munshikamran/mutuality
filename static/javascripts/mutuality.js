@@ -388,7 +388,7 @@ var Mutuality = (function($){
          });
      },
     // Set a user as viewed
-    /*setUserViewed: function( fbID, success )
+    setUserViewed: function( fbID, success )
     {
          var self = this;
 
@@ -402,7 +402,7 @@ var Mutuality = (function($){
                  alert("Error: Failed to set user as viewed.");
              }
          });
-     }*/
+     }
  };
    return module;
 })(jQuery);
