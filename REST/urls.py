@@ -7,12 +7,12 @@ from REST.views.rate_match_thumbsup import RateMatchThumbsUpAPI
 from REST.views.rate_match_thumbsdown import RateMatchThumbsDownAPI
 from REST.views.get_friends_of_friends import GetFriendsOfFriendsList
 from REST.views.get_meetpeople import GetMeetPeopleAPI
-from REST.views.get_meetpeople_dating import GetMeetPeopleDatingAPI
 from REST.views.get_meetpeople_viewed import GetMeetPeopleViewedAPI
 from REST.views.get_meetpeople_profile import GetMeetPeopleProfileAPI
 from REST.views.get_mutualfriend_list import GetMutualFriendListAPI
 from REST.views.get_favorites import GetFavoritesAPI
 from REST.views.set_favorite import SetFavoriteAPI
+from REST.views.get_meetpeople_dating import GetMeetPeopleDatingAPI
 from REST.views.set_user_viewed import SetUserViewedAPI
 
 urlpatterns = patterns('REST.views',

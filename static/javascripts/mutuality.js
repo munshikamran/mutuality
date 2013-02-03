@@ -341,7 +341,7 @@ var Mutuality = (function($){
            });
        },      
        // Get meet people list (fresh users, dating)
-      getMeetPeopleDating: function( success )
+      /*getMeetPeopleDating: function( success )
       {
            var self = this;
 
@@ -355,7 +355,7 @@ var Mutuality = (function($){
                    alert("Error: Meet people (dating) cannot be loaded.  No friends found.");
                }
            });
-       },
+       },*/
       // Get meet people profile
       getMeetPeopleProfile: function( fbID, success )
       {
@@ -421,7 +421,7 @@ var Mutuality = (function($){
          });
      },
     // Set a user as viewed
-    setUserViewed: function( fbID, success )
+    /*setUserViewed: function( fbID, success )
     {
          var self = this;
 
@@ -435,7 +435,7 @@ var Mutuality = (function($){
                  alert("Error: Failed to set user as viewed.");
              }
          });
-     }
+     }*/
  };
    return module;
 })(jQuery);

@@ -138,9 +138,9 @@
     		});
     	}
     	else if ($('#fav-filter').val() == "Dating") {
-    		Mutuality.getMeetPeopleDating(function(datingFriends){
+    		/*Mutuality.getMeetPeopleDating(function(datingFriends){
     			loadFavorites(datingFriends);
-    		});
+    		});*/
     	}
     	else{
     		Mutuality.getMeetPeople(function(meetPeopleList) {
@@ -167,7 +167,7 @@
 
 	    	// console.log(Mutuality.mpcache.profileCacheData);
 
-	    	Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){console.log("set viewed = " + success );});
+	    	//Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){console.log("set viewed = " + success );});
 
 	    	if(Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current]) {
 	    		// Cache hit, so load directly from cache!
