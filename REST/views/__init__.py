@@ -1,1 +1,15 @@
-__author__ = 'Kamran'
+from get_favorites import GetFavoritesAPI
+from get_friend_list import GetFriendsList
+from get_friends_of_friends import GetFriendsOfFriendsList
+from get_match import GetMatch
+from get_meetpeople import GetMeetPeopleAPI
+from get_meetpeople_profile import GetMeetPeopleProfileAPI
+from get_meetpeople_dating import GetMeetPeopleDatingAPI
+from get_meetpeople_viewed import GetMeetPeopleViewedAPI
+from get_mutualfriend_list import GetMutualFriendListAPI
+from get_profile import GetProfile
+from rate_match_thumbsup import RateMatchThumbsUpAPI
+from rate_match_thumbsdown import RateMatchThumbsDownAPI
+from set_favorite import SetFavoriteAPI
+from set_user_viewed import SetUserViewedAPI
+from update_friend_list import UpdateFriendListAPI
