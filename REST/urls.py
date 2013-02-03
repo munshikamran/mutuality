@@ -24,11 +24,11 @@ urlpatterns = patterns('REST.views',
     url(r'^rateThumbsDown/$', RateMatchThumbsDownAPI.as_view()),
     url(r'^getFriendsOfFriendsList/$', GetFriendsOfFriendsList.as_view()),
     url(r'^getMeetPeople/$', GetMeetPeopleAPI.as_view()),
-    url(r'^getMeetPeopleDating/$', GetMeetPeopleDatingAPI.as_view()),
     url(r'^getMeetPeopleViewed/$', GetMeetPeopleViewedAPI.as_view()),
     url(r'^getMeetPeopleProfile/$', GetMeetPeopleProfileAPI.as_view()),
     url(r'^getMutualFriendList/$', GetMutualFriendListAPI.as_view()),
     url(r'^getFavoritesList/$', GetFavoritesAPI.as_view()),
     url(r'^setFavorite/$', SetFavoriteAPI.as_view()),
-    url(r'^setUserViewed/$', SetUserViewedAPI.as_view())
+    url(r'^getMeetPeopleDating/$', GetMeetPeopleDatingAPI.as_view()),
+    url(r'^setUserViewed/$', SetUserViewedAPI.as_view()),
 )
