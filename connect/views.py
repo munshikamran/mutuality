@@ -59,6 +59,7 @@ def makematches(request):
 @login_required
 def meetpeople(request):
     context_dict = {}
+    context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
     context_dict['info'] = fbinfo(request)
     if hasattr(request, 'user'):
         context_dict['user'] = request.user

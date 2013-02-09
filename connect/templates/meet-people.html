@@ -122,8 +122,8 @@
 		<div class="row">
 			<div class="eight columns">
 				<h4>Connect Friends</h4>
-				<p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-				<a href="/makematches/" class="button">Get Started</a>
+				<p>Play friend-maker with this fun and simple tool!</p>
+				<a href="/makematches/" class="button">Learn more</a>
 			</div>
 			<div id="four-images" class="four columns">
 				<img src="{{ MEDIA_URL }}/images/brian.jpg" />
@@ -149,21 +149,22 @@
 
         <a class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
     </div>
-    <div id="myModal2" class="reveal-modal large four columns">
-        <aside id="user-profile" class="four columns">
-						
+    <div id="myModal2" class="reveal-modal large eight columns">
+        <aside id="user-profile" style="four columns">
+			<h4>Get Introduced to <span class="profile-name"></span></h4>
 							
-							<div id="ask-about-modal" class="">
-								<ul>
+			<div id="ask-about-modal" style="">
+				<ul>
 
-								</ul>
-							</div>
-							<div class="right">
-								<a href="#" id="ask-prev">&larr;</a>
-								<a href="#" id="ask-next">&rarr;</a>
-							</div>
-						</aside>
-        <a class="close-reveal-modal"><small>Nevermind</small> &times;</a>
+				</ul>
+			</div>
+
+			<div class="right">
+				<a href="#" id="ask-prev-modal">&larr;</a>
+				<a href="#" id="ask-next-modal">&rarr;</a>
+			</div>
+		</aside>
+        <a class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();"><small>Nevermind</small> &times;</a>
     </div>
 {% endblock %}
 {% block extrascript %}

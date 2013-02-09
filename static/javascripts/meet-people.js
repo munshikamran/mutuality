@@ -11,9 +11,10 @@
 		auto : false,
 		width: 632,
 		height: 400,
+		circular: true,
 		align: 'center',
-		prev: "#page-prev",
-		next: "#page-next",
+		prev: { button: "#page-prev", key: "left" },
+		next: { button: "#page-next", key: "right" },
 		items: {
 			visible: 3,
 			width: 350
@@ -22,41 +23,65 @@
 			items: 1,
 			duration: 400,
 			onBefore: function( data ) {
-            //console.log(data.items);
-
-            for(i=0; i<5&&i<data.items.visible.prevObject.length; i++){
-            	var facebookID = $(data.items.visible.prevObject[i]).attr("facebookid");
-            	if(!Mutuality.mpcache.profileCacheData[facebookID]){
-					Mutuality.getMeetPeopleProfile(facebookID, function(extendedProfile){
-						Mutuality.getMutualFriendList(facebookID, function(mutualFriends){
-							loadMeetPeopleProfileInfoToCache(facebookID, mutualFriends, extendedProfile);
+				// Everytime we scroll the carousel- load data into cache	
+		        for(i=0; i<5&&i<data.items.visible.prevObject.length; i++){
+		        	var facebookID = $(data.items.visible.prevObject[i]).attr("facebookid");
+		        	if(!Mutuality.mpcache.profileCacheData[facebookID]){
+						Mutuality.getMeetPeopleProfile(facebookID, function(extendedProfile){
+							Mutuality.getMutualFriendList(facebookID, function(mutualFriends){
+								loadMeetPeopleProfileInfoToCache(facebookID, mutualFriends, extendedProfile);
+							});
 						});
-					});
-				}
-            }
+					}
+		        }
 
-            // hide the text for blurred results
-            $('.match-profile-details', data.items.visible.eq( 0 )).hide();
-            $('.match-profile-details', data.items.visible.eq( 2 )).hide();            
+		        // ATTEMPT AT FIXING < 3 people in carousel issue
+		        /*if (data.items.visible.prevObject.length == 1){
+		        	console.log("ONLY ONE");
+					$(data.items.visible.prevObject[0]).animate(_center, 300);
+					setTimeout(function() {
+						$(data.items.visible.prevObject[0]).css({ zIndex: 3 });
+						$(data.items.visible.prevObject[0]).attr('focused', 'true');
+					}, 10);
 
-            // move visible items into position
-				data.items.visible.eq( 0 ).animate(_left, function(){
-				   $('img', data.items.visible.eq( 0 )).css(_blur);
-				});
-				data.items.visible.eq( 1 ).animate(_center, 300);
-				data.items.visible.eq( 2 ).animate(_right, function(){
-				   $('img', data.items.visible.eq( 2 )).css(_blur);
-				});
+			   		$('img', $(data.items.visible.prevObject[0])).css(_noblur);		
+			   		$('.match-profile-details', $(data.items.visible.prevObject[0])).fadeIn();	
+		        }
+		        else if (data.items.visible.prevObject.length == 2){
+		        	console.log("ONLY TWO");
 
-            // reset z-indexes for smooth scrolling
-				setTimeout(function() {
+            		// hide the text for blurred results
+	            	$('.match-profile-details', data.items.visible.eq( 0 )).hide();
 					data.items.visible.eq( 0 ).css({ zIndex: 2 });
 					data.items.visible.eq( 0 ).removeAttr('focused');
 					data.items.visible.eq( 1 ).css({ zIndex: 3 });
 					data.items.visible.eq( 1 ).attr('focused', 'true');
-					data.items.visible.eq( 2 ).css({ zIndex: 2 });
-					data.items.visible.eq( 2 ).removeAttr('focused');
-				}, 10);
+					data.items.visible.eq( 1 ).animate(_center, 300);
+		        }
+		        else*/ if (data.items.visible.prevObject.length > 3) {
+	            	// hide the text for blurred results
+		            $('.match-profile-details', data.items.visible.eq( 0 )).hide();
+		            $('.match-profile-details', data.items.visible.eq( 2 )).hide();            
+
+	            	// move visible items into position
+					data.items.visible.eq( 0 ).animate(_left, function(){
+					   $('img', data.items.visible.eq( 0 )).css(_blur);
+					});
+					data.items.visible.eq( 1 ).animate(_center, 300);
+					data.items.visible.eq( 2 ).animate(_right, function(){
+					   $('img', data.items.visible.eq( 2 )).css(_blur);
+					});
+
+	            	// reset z-indexes for smooth scrolling
+					setTimeout(function() {
+						data.items.visible.eq( 0 ).css({ zIndex: 2 });
+						data.items.visible.eq( 0 ).removeAttr('focused');
+						data.items.visible.eq( 1 ).css({ zIndex: 3 });
+						data.items.visible.eq( 1 ).attr('focused', 'true');
+						data.items.visible.eq( 2 ).css({ zIndex: 2 });
+						data.items.visible.eq( 2 ).removeAttr('focused');
+					}, 10);
+				}
 			},
 			onAfter:function( data ) {
 			   $('img', data.items.visible.eq( 1 )).css(_noblur);		
@@ -64,22 +89,20 @@
 		   }
 		}
 	});
-	
-	// re-adjust width - think it is a border-box issue
-	var wid = $('#meet-profiles').outerWidth() + ($('#meet-profiles li').length * 30);
-	$('#meet-profiles').css({visibility:'visible',width: wid});
-	$('#meet-profiles li').css({position:'relative'});
-	
-   $('.match-profile-details', $('#meet-profiles').children().eq( 0 )).hide();
-   $('.match-profile-details', $('#meet-profiles').children().eq( 2 )).hide();	
-	
-   $('img', $('#meet-profiles').children().eq( 0 )).css(_blur);
-   $('img', $('#meet-profiles').children().eq( 2 )).css(_blur);
-   
-	$('#meet-profiles').children().scale(.85);
-	$('#meet-profiles').children().eq( 0 ).css(_left).scale(0.85).css({ zIndex: 2 });
-	$('#meet-profiles').children().eq( 1 ).css(_center).scale(1.0).css({ zIndex: 3 });
-	$('#meet-profiles').children().eq( 2 ).css(_right).scale(0.85).css({ zIndex: 2 });
+
+	// Make sure that when you are scrolling with the keyboard, it's like you're clicking next/prev
+	$(document).keypress(function (e){ 
+	    if(e.keyCode == 37) // left arrow
+	    {
+	        // your action here, for example
+	        $('#page-prev').click();
+	    }
+	    else if(e.keyCode == 39)    // right arrow
+	    { 
+	        // your action here, for example
+	        $('#page-next').click();
+	    }
+	});
 
 	$('#ask-about').carouFredSel({
 		auto : false,
@@ -95,14 +118,43 @@
 			items: 1
 		}
 	});
+	$('#ask-about-modal').carouFredSel({
+		auto : false,
+		width: 400,
+		height: 150,
+		prev: "#ask-prev-modal",
+		next: "#ask-next-modal",
+		items: {
+			visible: 1
+		},
+		scroll: {
+			fx: 'fade',
+			items: 1
+		}
+	});
 
+	// re-adjust width - think it is a border-box issue
+	var wid = $('#meet-profiles').outerWidth() + ($('#meet-profiles li').length * 30);
+	$('#meet-profiles').css({visibility:'visible',width: wid});
+	$('#meet-profiles li').css({position:'relative'});
+	
+   $('.match-profile-details', $('#meet-profiles').children().eq( 0 )).hide();
+   $('.match-profile-details', $('#meet-profiles').children().eq( 2 )).hide();	
+	
+   $('img', $('#meet-profiles').children().eq( 0 )).css(_blur);
+   $('img', $('#meet-profiles').children().eq( 2 )).css(_blur);
+   
+	$('#meet-profiles').children().scale(.85);
+	$('#meet-profiles').children().eq( 0 ).css(_left).scale(0.85).css({ zIndex: 2 });
+	$('#meet-profiles').children().eq( 1 ).css(_center).scale(1.0).css({ zIndex: 3 });
+	$('#meet-profiles').children().eq( 2 ).css(_right).scale(0.85).css({ zIndex: 2 });
 /* End Meet People Carousel Code */
 /* Begin Event Code */
 
-	// Drop down the modal when you click "Get introduced"
-	$('#introduce').click(function(){
-		var basicProfile = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
-		$('#myModal2Header').html("Why don't you ask a friend to connect you and " + basicProfile.name + "?");
+	$("#introduce").click(function(){
+	    	$('#page-next').hide();
+	    	$('#page-prev').hide();
+
 	});
 
 	// When you click next, set the current person
@@ -110,6 +162,7 @@
 		// Hide the profile stats and mutual friends divs while new data being fetched
 		$("#profile-stats ul li").hide();
 		$('#ask-about').html("");
+		$('#ask-about-modal').html("");
 		setCurrentPerson();
 	});
 
@@ -118,6 +171,7 @@
 		// Hide the profile stats and mutual friends divs while new data being fetched
 		$("#profile-stats ul li").hide();
 		$('#ask-about').html("");
+		$('#ask-about-modal').html("");
 		setCurrentPerson();
 	});
 
@@ -252,19 +306,22 @@
 	// Just load the current person's mutual friends into the UI
 	var loadMutualFriendsIntoUI = function (facebookID, mutualFriends){
 		var newUlElem;
+		var currentPersonName = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
+		var messageString = "Hey can you introduce me to " + currentPersonName.name + "?";
+
 		for (i=0; i<mutualFriends.length; i++){
 			askaboutElem = $('#ask-about');
 			askaboutElemModal = $('#ask-about-modal');
 			if (i % 6 == 0){
 				newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo(askaboutElem);
-				newUlElemModal = $('<ul>', {style: "margin-right: 0px;"}).appendTo(askaboutElemModal);
+				newUlElemModal = $('<ul>', {style: "margin-right: 0px; list-style-type: none;"}).appendTo(askaboutElemModal);
 			}
 
 			var liElem = $('<li>', {}).appendTo(newUlElem);
 			var liElemModal = $('<li>', {}).appendTo(newUlElemModal);
-    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, "Hey can you introduce me to "+ mutualFriends[i].name + " ?", "mymutuality.com", "http://mymutuality.com/makematches")
+    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "mutuality.com", "http://mymutuality.com/makematches")
 }).appendTo(liElem);
-    		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, "Hey can you introduce me to "+ mutualFriends[i].name + " ?", "mymutuality.com", "http://mymutuality.com/makematches")
+    		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "mutuality.com", "http://mymutuality.com/makematches")
 }).appendTo(liElemModal);
     		var spanElem = $('<span>', {class: 'profile-thumb', style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
     		var spanElemModal = $('<span>', {class: 'profile-thumb', style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
