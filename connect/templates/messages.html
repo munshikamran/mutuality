@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load la_facebook_tags %}
+{% block title %} Messages  {% endblock %}
+{% block content %}
+
+					<section id="page-title" class="row">
+						<div class="eight columns">
+							<h2>Messages</h2>
+						</div>
+		
+						<div class="four columns">
+							<span id="invite-link">Can't find a match? <a href="#"><strong>Invite more friends.</strong></a></span>
+						</div>
+						
+						<hr />
+					</section>
+					
+					<section id="main" class="messages-content row">
+						
+						<div class="message-list three columns">
+						  <ul>
+						    <li class="cf active"><a href="#">
+						    	<span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span>
+						    	<strong>Mila Kunis</strong>
+						    	<small>September 30, 2030</small>
+						    </a></li>
+						    <li class="cf inactive"><a href="#">
+						    	<span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span>
+						    	<strong>Mila Kunis</strong>
+						    	<small>September 30, 2030</small>
+						    </a></li>
+						    <li class="cf inactive"><a href="#">
+						    	<span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span>
+						    	<strong>Mila Kunis</strong>
+						    	<small>September 30, 2030</small>
+						    </a></li>
+						    <li class="cf inactive"><a href="#">
+						    	<span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span>
+						    	<strong>Mila Kunis</strong>
+						    	<small>September 30, 2030</small>
+						    </a></li>
+						  </ul>
+						</div>
+						
+						<div class="message-view six columns">
+						  <div class="message-thread">
+						    <div class="load-messages row">
+						      <a href="#">Load previous messages</a>
+						    </div>
+						    <div class="single-message row">
+							    <div class="two columns">
+							      <span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span>
+							      <small>9:30 am</small>
+							    </div>
+							    <div class="ten columns">
+							      <p>Donec ullamcorper nulla non metus auctor fringilla. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condim entum nibh, ut fermentum massa justo sit amet risus. </p>
+							    </div>
+						    </div>
+						    <div class="single-message row">
+							    <div class="two columns">
+							      <span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span>
+							      <small>9:30 am</small>
+							    </div>
+							    <div class="ten columns">
+							      <p>Donec ullamcorper nulla non metus auctor fringilla. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condim entum nibh, ut fermentum massa justo sit amet risus.</p>
+							      <p>Cras mattis consectetur purus sit amet fermentum. Lorem ipsum dolor sit amet, consetur adipiscing elit. Nullam id dolor id nibh ultri cies vehicula ut id elit. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+							    </div>
+						    </div>
+						  </div>
+						  <div class="message-reply">
+						    <textarea placeholder="Write a reply..."></textarea>
+						  </div>
+						  <div class="row">
+						    <input class="messages button" value="Send" />
+						  </div>
+						</div>
+						
+						<aside class="message-ask three columns">
+							<h6>Ask About <span class="profile-name">John</span></h6>
+							
+							<div class="ask-about" class="twelve columns">
+								
+								<ul>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+								</ul>
+
+							</div>
+						</aside>
+					</section>
+	
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<section id="meet-people-cta" class="page-content">
+		<div class="row">
+			<div class="eight columns">
+				<h4>Nudge Friends</h4>
+				<p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+				<a href="#" class="button">Get Started</a>
+			</div>
+			<div id="four-images" class="four columns">
+				<img src="{{ MEDIA_URL }}/images/brian.jpg" />
+				<img src="{{ MEDIA_URL }}/images/betty.jpg" />
+				<img src="{{ MEDIA_URL }}/images/brian.jpg" />
+				<img src="{{ MEDIA_URL }}/images/betty.jpg" />
+			</div>
+		</div>
+	</section>
+{% endblock %}
+{% block extrascript %}
+    <script>
+       /*
+          The token in this init function should pertain to the
+          current user, user session or something to identify the
+          current authenticated user   
+       */
+       Mutuality.init('{{ profile.facebookID }}', '{{ MEDIA_URL }}/');
+          
+       /*
+        * Would like to replace this with a custom view helper
+        * that prints out a <script> tag to match the current
+        * route if the JS file exists. Example:
+        * 
+        * <script src="javascripts/mutuality/make-matches.js"><//script>
+        *
+       */
+       (function($){
+           $.getScript('{{ MEDIA_URL }}/javascripts/messages.js').fail(function(xhr, settings, exception){
+               console.log(exception);
+           });
+       })(jQuery);
+
+
+       FB.init({
+           appId  : '{{ FACEBOOK_APP_ID }}',
+           frictionlessRequests: true
+       });
+
+       function sendRequestViaMultiFriendSelector() {
+           var message = 'Mutuality is really fun! I just matched two people together that will make you laugh :)';
+           FB.ui({method: 'apprequests',
+               message: message
+           }, requestCallback);
+       }
+
+       function requestCallback(response) {
+           // Handle callback here
+       }
+
+       $("#invite-link a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");
+
+    </script>
+{% endblock %}	
+	

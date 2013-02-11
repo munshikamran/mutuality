@@ -6,8 +6,9 @@ urlpatterns = patterns('connect.views',
     url(r'^api/', include( 'REST.urls' )),
     url(r'^makematches/?$', "makematches", name="makematches"),
     url(r'^meetpeople/?$', "meetpeople", name="meetpeople"),
+    url(r'^messages/?$', "messages", name="messages"),
     url(r'^fbinfo/?$', "fbinfo", name="fbinfo"),
-    url(r'^register/$', register, name="register")
+    #url(r'^register/$', register, name="register")
 )
 
 

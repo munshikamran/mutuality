@@ -54,17 +54,12 @@ def facebook_login(request, redirect_field_name="next",
         # this session variable is used by the callback
         request.session[redirect_to_session_key] = request.GET.get(redirect_field_name)
     if request.method == "POST":
-        print "HELLO"
         data = parse_signed_request(request.POST['signed_request'], settings.FACEBOOK_APP_SECRET)
-        print request.POST['signed_request']
         facebookid = data['user_id']
         user_id = UserAssociation.objects.get(identifier=facebookid).user_id
         profile = Profile.objects.get(user_id=user_id)
-        print data['registration']['single']
         profile.single = bool(data['registration']['single'])
-        print data
-        print user_id
-        print profile
+
 
     return HttpResponseRedirect(access.authorization_url(token, display=display))
 

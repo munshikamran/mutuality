@@ -162,7 +162,7 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 	}
 }
 #menu-messages { position: relative; }
-#menu-messages a { display: block; width: 24px; height: 18px; margin-top: 30px; background: url(../images/messages-icon.png) center center no-repeat; text-indent: -999em; }
+#menu-messages a { display: block; width: 24px; height: 67px; background: url(../images/messages-icon.png) center center no-repeat; text-indent: -999em; }
 .message-count { position: absolute; top: 22px; right: 6px; display: block; width: 14px; height: 14px; padding: 3px 6px 3px 4px; font-size: 10px; line-height: .8em; font-weight: 700; color: #fff; border-radius: 50%; background: red; }
 
 #nav #menu-account:after{ bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff; border-width: 7px; left: 50%; margin-left: -7px; }
@@ -631,6 +631,40 @@ input[type=text]:focus + .search-results { display: block; }
 //}
 
 //.profile-name { color: rgba(51, 51, 51, 0); opacity: 0.3; }
+
+
+
+// Messages 
+body#messages #page-title { margin-bottom: 0; }
+
+.message-list { padding-top: 60px; }
+.message-list ul { list-style: none; margin: 0; }
+.message-list li { padding: 10px 0; border-bottom: 1px dotted #ddd; }
+.message-list strong { display: block; clear: right; color: $black; }
+.message-list small { font-size: .8em; color: $txtColor; }
+.message-list span { margin-right: 12px; }
+.message-list li.inactive span { @include filter(grayscale(100%)); @include opacity(0.8); }
+.message-list li.active { background: url(../images/message-active.png) 95% 50% no-repeat; }
+
+.message-view { padding-top: 5px; border-right: 1px solid #eee; border-left: 1px solid #eee; }
+
+.message-thread { background: url(../images/single-message-bg.png) 28px 0 repeat-y; }
+.message-thread .profile-thumb { width: 60px; height: 60px; margin-bottom: 6px; }
+.message-thread small { display: block; clear: both; font-size: .8em; text-align: right; }
+
+.single-message .two { padding-top: 6px; padding-bottom: 6px; background: $white; }
+.single-message .ten { padding-top: 15px; }
+
+.message-reply { border: 2px solid #eee; @include border-radius(15px); }
+.message-reply textarea { height: 100px; border: 0; background: transparent; padding: 10px; font-size: 1.25em; font-weight: 700; color: #eee; @include box-shadow(none); }
+.messages.button { padding: 6px 8px; width: 70px; float: right; margin: 15px 15px 70px 0; }
+
+.message-ask { padding-top: 60px; }
+.message-ask ul { list-style: none; margin: 0; }
+.message-ask li { float: left; margin: 6px; }
+
+.load-messages { background: $white url(../images/load-message-bg.png) center bottom no-repeat; padding-bottom: 15px; }
+.load-messages a { display: block; padding: 10px 0; text-align: center; font-weight: 700; }
 
 
 // CTA
