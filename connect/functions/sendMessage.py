@@ -1,8 +1,8 @@
 from messages.models import Message
-
-def SendMessageToOtherProfile(profile,otherProfile,messageBody):
-    sender = profile.user
-    recipient = otherProfile.user
+from connect.models import Profile
+def SendMessage(profile,otherUserFacebookID,messageBody):
+    sender = profile
+    recipient = Profile.objects.get(facebookID=otherUserFacebookID)
     body = messageBody
     message = Message(sender = sender, recipient = recipient,body = body)
     message.save()

@@ -1,8 +1,8 @@
 from getFriendList import GetFriendList, GetFriendIDs
 from getMutualFriendList import GetMutualFriendList, GetMutualFriendListWithFacebookUserID
 from getMatches import GetNewMatch,GetNewMatchIncludingPerson
-from getMessages import GetRecentMessages, GetMessageThreadWithOther
-from sendMessage import SendMessageToOtherProfile
+from getMessages import GetAllThreadPreviews, GetThreadPreviewsSince, GetMessageThreadWithOther, GetNewMessageCount
+from sendMessage import SendMessage
 from updateFriendList import UpdateFriendList
 from rateMatch import RateThumbsUp, RateThumbsDown
 from getFriendsOfFriends import GetFriendsOfFriends, GetFriendsOfFriendsInArea, GetFriendsOfFriendsSingleInArea
