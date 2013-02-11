@@ -19,7 +19,7 @@ def GetFriendsOfFriendsInArea(profile):
 def GetFriendsOfFriendsSingleInArea(profile):
     fofInArea = GetFriendsOfFriendsInArea(profile)
     genderToExclude = profile.gender
-    relationshipStatusesToExclude = [RELATIONSHIP_STATUS.RELATIONSHIP,RELATIONSHIP_STATUS.ENGAGED,RELATIONSHIP_STATUS.RELATIONSHIP]
+    relationshipStatusesToExclude = [RELATIONSHIP_STATUS.RELATIONSHIP,RELATIONSHIP_STATUS.ENGAGED,RELATIONSHIP_STATUS.MARRIED]
     fofSingleInArea = fofInArea.exclude(gender=genderToExclude).exclude(relationshipStatus__in=relationshipStatusesToExclude)
     return fofSingleInArea
 
