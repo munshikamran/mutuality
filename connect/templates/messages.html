@@ -29,16 +29,6 @@
 						    	<strong>Mila Kunis</strong>
 						    	<small>September 30, 2030</small>
 						    </a></li>
-						    <li class="cf inactive"><a href="#">
-						    	<span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span>
-						    	<strong>Mila Kunis</strong>
-						    	<small>September 30, 2030</small>
-						    </a></li>
-						    <li class="cf inactive"><a href="#">
-						    	<span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span>
-						    	<strong>Mila Kunis</strong>
-						    	<small>September 30, 2030</small>
-						    </a></li>
 						  </ul>
 						</div>
 						
@@ -121,7 +111,7 @@
           current user, user session or something to identify the
           current authenticated user   
        */
-       Mutuality.init('{{ profile.facebookID }}', '{{ MEDIA_URL }}/');
+       Mutuality.init('{{ profile.facebookID }}', '../');
           
        /*
         * Would like to replace this with a custom view helper

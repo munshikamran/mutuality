@@ -402,7 +402,33 @@ var Mutuality = (function($){
                  alert("Error: Failed to set user as viewed.");
              }
          });
+     },
+     // Get thread previews for messages
+    getThreadPreviews: function( success )
+    {
+         var self = this;
+
+         self.__post('api/getThreadPreviews/', { token: this.token }, function( response ){
+             if(response)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 alert("Error: Failed get inbox threads.");
+             }
+         });
+     },
+    // Get new message count
+    getNewMessageCount: function( success )
+    {
+         var self = this;
+
+         self.__post('api/getNewMessageCount/', { token: this.token }, function( response ){
+             if(success instanceof Function) success.call(self, response); 
+         });
      }
+
  };
    return module;
 })(jQuery);

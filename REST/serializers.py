@@ -3,8 +3,7 @@ from connect.models.profile import Profile
 from connect.models.friendship import Friendship
 from connect.models.facebookuser import FacebookUser
 from connect.models.userFavorite import UserFavorite
-from connect.classes.meetPeopleProfile import MeetPeopleProfile
-
+from messages.models import Message
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,4 +33,9 @@ class UserFavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFavorite
         fields = ('user', 'favorite', 'date_created')
+
+class MessagesSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Message
+            fields = ('subject', 'body', 'sender', 'recipient', 'parent_msg', 'sent_at', 'read_at', 'replied_at', 'sender_deleted_at', 'recipient_deleted_at')
 

@@ -159,6 +159,28 @@
     $(this).addClass("active");
   });
   </script>
+  {% if user.is_authenticated %}
+    {% if profile %}
+      <script type="text/javascript">
+       /*
+          The token in this init function should pertain to the
+          current user, user session or something to identify the
+          current authenticated user   
+       */
+       Mutuality.init('{{ profile.facebookID }}', '../');
+       Mutuality.getNewMessageCount(function(count){
+          console.log(count);
+          if (count > 0){
+            $(".message-count").show();
+            $(".message-count").html(count);
+          }
+          else{
+            $(".message-count").hide();
+          }
+       });
+      </script>
+    {% endif %}
+  {% endif %}  
   {% block extrascript %} 
     <!-- Extra page scripts get inserted here -->
   {% endblock %}

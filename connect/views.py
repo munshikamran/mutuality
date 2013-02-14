@@ -23,21 +23,22 @@ def index(request):
             pass
     return render_to_response('index.html', context_dict, context_instance=RequestContext(request))
 
-# def register(request):
-#     context_dict = {}
-#     context_dict['request'] = request
-#     context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID;
-#     context_dict['URL'] = settings.URL;
-#     if hasattr(request, 'user'):
-#         context_dict['user'] = request.user
-#         print
-#         try:
-#             if request.user.is_authenticated():
-#                 profile = request.user.get_profile()
-#                 context_dict['profile'] = profile
-#         except Profile.DoesNotExist:
-#             pass
-#     return render_to_response('register.html', context_dict, context_instance=RequestContext(request))
+@login_required
+def register(request):
+    context_dict = {}
+    context_dict['request'] = request
+    context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID;
+    context_dict['URL'] = settings.URL;
+    if hasattr(request, 'user'):
+        context_dict['user'] = request.user
+        print
+        try:
+            if request.user.is_authenticated():
+                profile = request.user.get_profile()
+                context_dict['profile'] = profile
+        except Profile.DoesNotExist:
+            pass
+    return render_to_response('register.html', context_dict, context_instance=RequestContext(request))
 
 @login_required
 def makematches(request):

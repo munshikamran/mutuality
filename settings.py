@@ -157,7 +157,7 @@ except ImportError:
 
 AUTH_PROFILE_MODULE="connect.Profile"
 
-LOGIN_REDIRECT_URL="/makematches/"
+LOGIN_REDIRECT_URL="/register/"
 
 FACEBOOK_ACCESS_SETTINGS = {
         "FACEBOOK_APP_ID": FACEBOOK_APP_ID,

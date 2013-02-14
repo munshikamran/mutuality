@@ -12,6 +12,8 @@ from REST.views.get_meetpeople import GetMeetPeopleAPI
 from REST.views.get_meetpeople_profile import GetMeetPeopleProfileAPI
 from REST.views.get_mutualfriend_list import GetMutualFriendListAPI
 from REST.views.set_user_viewed import SetUserViewedAPI
+from REST.views.get_thread_previews import GetThreadPreviewsAPI
+from REST.views.get_newmessage_count import GetNewMessageCountAPI
 
 urlpatterns = patterns('REST.views',
     url(r'^getProfile/$', GetProfile.as_view()),
@@ -27,4 +29,7 @@ urlpatterns = patterns('REST.views',
     url(r'^getMeetPeople/$', GetMeetPeopleAPI.as_view()),
     url(r'^getMeetPeopleProfile/$', GetMeetPeopleProfileAPI.as_view()),
     url(r'^setUserViewed/$', SetUserViewedAPI.as_view()),
+    url(r'^getThreadPreviews/$', GetThreadPreviewsAPI.as_view()),
+    url(r'^getNewMessageCount/$', GetNewMessageCountAPI.as_view())
+
 )

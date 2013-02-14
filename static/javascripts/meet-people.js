@@ -91,13 +91,13 @@
 	});
 
 	// Make sure that when you are scrolling with the keyboard, it's like you're clicking next/prev
-	$(document).keypress(function (e){ 
-	    if(e.keyCode == 37) // left arrow
+	$("body").keydown(function (e){ 
+	    if(e.keyCode == 37 || e.which == 37) // left arrow
 	    {
 	        // your action here, for example
 	        $('#page-prev').click();
 	    }
-	    else if(e.keyCode == 39)    // right arrow
+	    else if(e.keyCode == 39 || e.which == 39)    // right arrow
 	    { 
 	        // your action here, for example
 	        $('#page-next').click();
