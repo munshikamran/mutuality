@@ -46,7 +46,7 @@ else:
     FACEBOOK_APP_ID = '475217095841801'
     FACEBOOK_APP_SECRET = '1304979d3d82251c8dd383e179c30126'
 
-
+WSGI_APPLICATION = "Mutuality.wsgi.application"
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
