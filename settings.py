@@ -42,7 +42,7 @@ else:
 }
     import dj_database_url
     DATABASES['default'] =  dj_database_url.config()
-    URL = "boiling-ridge-8911.herokuapp.com"
+    URL = "vast-thicket-3000.herokuapp.com"
     FACEBOOK_APP_ID = '475217095841801'
     FACEBOOK_APP_SECRET = '1304979d3d82251c8dd383e179c30126'
 
