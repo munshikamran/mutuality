@@ -10,7 +10,8 @@ ADMINS = (
 )
 
 
-DEVELOPMENT_MODE = False
+DEVELOPMENT_MODE = True
+SHOULD_LOCKDOWN = True
 
 
 MANAGERS = ADMINS
@@ -47,6 +48,7 @@ else:
     FACEBOOK_APP_SECRET = '1304979d3d82251c8dd383e179c30126'
 
 WSGI_APPLICATION = "Mutuality.wsgi.application"
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -178,3 +180,10 @@ FACEBOOK_ACCESS_SETTINGS = {
         'friends_work_history',\
         'friends_education_history'], # FACEBOOK PERMISSIONS http://developers.facebook.com/docs/authentication/permissions/
 }
+
+# password protection
+if SHOULD_LOCKDOWN:
+    INSTALLED_APPS += ('lockdown', )
+    MIDDLEWARE_CLASSES += ('lockdown.middleware.LockdownMiddleware', )
+    LOCKDOWN_PASSWORD = 'alpha-tester'
+    LOCKDOWN_FORM = 'lockdown.forms.LockdownForm'
