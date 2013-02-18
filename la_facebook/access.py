@@ -121,8 +121,9 @@ class OAuthAccess(object):
         if settings.DEVELOPMENT_MODE:
             domain = 'localhost:8000'
         else:
-            domain = current_site.domain if settings.DEVELOPMENT_MODE else "mymutuality.com"
+            domain = settings.URL
         base_url = "http://%s" % domain
+        
         callback_url = reverse("la_facebook_callback")
         return "%s%s" % (base_url, callback_url)
 
