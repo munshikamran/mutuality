@@ -1,15 +1,15 @@
 
 (function($) {
    /* Begin Meet People Carousel Code */
-   var _center = { scale: 1, left:0, marginTop: 0, left:-30, opacity: 1 	};
-   var _left   = { scale: .85, marginTop: 10, left: 185, opacity: 0.3 };
-   var _right  = { scale: .85, left: -235, marginTop: 10, opacity: 0.3 };	
+   var _center = { scale: 1, left:0, marginTop: 0, left: -20, opacity: 1 	};
+   var _left   = { scale: .85, marginTop: 10, left: 152, opacity: 0.3 };
+   var _right  = { scale: .85, left: -206, marginTop: 10, opacity: 0.3 };
    var _blur   = { filter : 'blur(3px)', webkitFilter: 'blur(3px)', mozFilter : 'blur(3px)', filter: 'url({{ MEDIA_URL }}/stylesheets/blur.svg#blur)' };	
    var _noblur = { filter: 'none', webkitFilter: 'none', mozFilter: 'none' }
 	
 	$('#meet-profiles').carouFredSel({
 		auto : false,
-		width: 632,
+		width: 695,
 		height: 400,
 		circular: true,
 		align: 'center',
@@ -287,10 +287,10 @@
 			    		var inFavorites = Mutuality.mpcache.favoritesList[friends[i].facebookID];
 
 			    		if (!inFavorites) {
-			    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", onclick:setFavoriteFunctionString}).appendTo(spanElem);
+			    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"has-tip tip-top", title: "Add to Favorites", html:"Add to Favorites", onclick:setFavoriteFunctionString}).appendTo(spanElem);
 			    		}
 			    		else{
-			    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", style:"background-position: 0 -16px;"}).appendTo(spanElem);
+			    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", title: "Add to Favorites", class:"has-tip tip-top", style:"background-position: 0 -16px;"}).appendTo(spanElem);
 			    			//console.log("yes a favorite");
 			    		}
 			    		var hElem = $('<h3>', {id:"left-profile-name", html:friends[i].name}).appendTo(spanElem);
@@ -323,8 +323,8 @@
 }).appendTo(liElem);
     		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "mutuality.com", "http://mymutuality.com/makematches")
 }).appendTo(liElemModal);
-    		var spanElem = $('<span>', {class: 'profile-thumb', style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
-    		var spanElemModal = $('<span>', {class: 'profile-thumb', style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
+    		var spanElem = $('<span>', {class: 'profile-thumb has-tip tip-top', title: mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
+    		var spanElemModal = $('<span>', {class: 'profile-thumb has-tip tip-top', title: mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
 		}
 	}
 
@@ -376,7 +376,8 @@
 
 			$("#profile-stats ul").show();
 			$(".profile-name").html(basicProfile.name);
-			$("#view-fb a").attr('onclick', Mutuality.getFacebookPageURL(basicProfile.facebookID));
+			$("#profile-fb").show();
+			$("#profile-fb a").attr('onclick', Mutuality.getFacebookPageURL(basicProfile.facebookID));
 	}
 
     // After AJAX call for getMeetPeople, load that into meet people page cache
@@ -400,10 +401,10 @@
     		var inFavorites = Mutuality.mpcache.favoritesList[favorites[i].facebookID];
 
     		if (!inFavorites) {
-    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", onclick:setFavoriteFunctionString}).appendTo(spanElem);
+    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"has-tip tip-top", title: "Add to Favorites", html:"Add to Favorites", onclick:setFavoriteFunctionString}).appendTo(spanElem);
     		}
     		else{
-    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", style:"background-position: 0 -16px;"}).appendTo(spanElem);
+    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"has-tip tip-top", title: "Add to Favorites", html:"Add to Favorites", style:"background-position: 0 -16px;"}).appendTo(spanElem);
     			// console.log("yes a favorite");
     		}
     		var hElem = $('<h3>', {id:"left-profile-name", html:favorites[i].name}).appendTo(spanElem);

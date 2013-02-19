@@ -40,6 +40,8 @@ h3, h4 { font-size: 24px; font-weight: 400; color: $txtColor; }
 .has-tip:hover { border: none; }
 .tooltip.tip-top > .nub { border-color: #056ba6 transparent transparent transparent; }
 
+.centered-list { display: table; margin: 0 auto; }
+
 // Clearfix
 .cf:after { 
 	content: "";
@@ -169,6 +171,7 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 #nav #menu-account a { background-position: 0 -72px; }
 #nav #menu-logout a { background-position: 0 -124px; }
 .profile-thumb { display: block; width: 45px; height: 45px; border: 2px solid $white; float: left; background-size: 100%;
+	@include single-transition(all, 100ms);
 	@include border-radius(50%);
 	@include box-shadow( rgba(0, 0, 0, 0.7) 0px 1px 4px);
 }
@@ -221,9 +224,10 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 .profiles a { display: block; position: relative; padding: 10px; font-weight: 700; height:370px; width:370px; }
 .profiles a.loaded { width:auto; height:auto;}
 .profiles img { position: relative; display: block; width: 350px; height: 350px; margin: 0 auto; }
-.profiles a > span { position: absolute; width: 346px; top: 10px; left: 10px; 	
+.profiles a > span { position: absolute; width: 346px; top: 10px; left: 10px; background: rgba(255, 255, 255, 0.75);
 
-	@include filter-gradient(#ffffff, #ffffff, vertical);
+	/*
+@include filter-gradient(#ffffff, #ffffff, vertical);
 	$experimental-support-for-svg: true;
 	@include background-image(
 		linear-gradient(
@@ -232,11 +236,12 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 			rgba(255,255,255,0) 90%
 		)
 	);
+*/
 }
-.profiles a > span h3 { display: inline-block; float: left; margin: 15px 0 25px; color: #222; white-space: pre; overflow: hidden; max-width: 86%; @include text-shadow(0px 2px 0px #fff); }
+.profiles a > span h3 { display: inline-block; float: left; margin: 9px 0 13px; color: #222; white-space: pre; overflow: hidden; max-width: 86%; }
 .profile-location { display: inline-block; float: left; margin: 15px 5px 0 5px; padding-left: 25px; color: #222; background: $spriteURL 0 -287px no-repeat; width: 24px; height: 24px; border-bottom: none; }
 
-#add-to-fav { display: block;width: 17px;height: 16px;margin: 17px 12px;text-indent: -999em;background: url(../images/fav.png) 0 0 no-repeat; float: left; }
+#add-to-fav { display: block;width: 17px;height: 16px;margin: 12px 12px 11px;text-indent: -999em;background: url(../images/fav.png) 0 0 no-repeat; float: left; }
 #add-to-fav:hover,
 #add-to-fav.active { background-position: 0 -16px; }
 
@@ -509,15 +514,16 @@ input[type=text]:focus + .search-results { display: block; }
 // Meet People
 #fav-filter { }
 
-#user-profile { padding-left: 60px;  }
+#user-profile {  }
 #user-profile > div {  }
 #user-profile h5 { color: $txtColor; font-weight: 700; margin-bottom: 0; padding: 5px 0; }
+#user-profile hr { margin-right: 20px; }
 
-#main #carousel { width: 66.66667%; }
+#main #carousel {  }
 
-#profile-stats { clear: both; }
-#profile-stats ul {  padding-top: 30px; background: url(../images/stats-bg.jpg) center top no-repeat; text-align: center; }
-#profile-stats li { float: left; background: url(../images/stats-sep-bg.png) right center no-repeat; font-size: .8em; font-weight: 700; }
+#profile-stats { clear: both; min-width: 800px; padding-top: 30px; background: url(../images/stats-bg.jpg) 25px top no-repeat; }
+#profile-stats ul {   text-align: center; }
+#profile-stats li { min-width: 125px; max-width: 125px; float: left; background: url(../images/stats-sep-bg.png) right center no-repeat; font-size: .8em; font-weight: 700; }
 #profile-stats li:last-child { background: none; }
 #profile-stats i { display: block; width: 20px; height: 20px; margin: 0 auto; clear: both; background: url(../images/stats-icon-sprite.png) no-repeat; }
 
@@ -527,19 +533,24 @@ input[type=text]:focus + .search-results { display: block; }
 #profile-stats i.birthday { background-position: -390px 0; }
 #profile-stats i.location { background-position: -513px 0; }
 #profile-stats i.company {background-position: -654px 0;  }
+#profile-stats .inactive { color: #aaa; }
+#profile-stats .inactive i { @include filter(grayscale(100%)); @include opacity(0.5); }
 
 #profile-sex { background-position: -5px 2px; }
 #profile-status { background-position: -5px -22px; }
 #profile-dob { background-position: -6px -50px; }
 #profile-location { background-position: -5px -284px; }
+#profile-fb { background-position: -5px -284px; margin-top: 6px; margin-left: 10px; }
 
 #ask-about { height: 150px; }
 #ask-about ul { height: 150px; width: 213px; list-style: none; margin: 0; overflow: hidden; }
-#ask-about li { margin: 2px 8px 2px 2px; float: left; }
+#ask-about li { margin: 2px; float: left; }
 #ask-about a { display: inline-block; padding: 3px; }
-#ask-about .profile-thumb { width: 55px; height: 55px;}
+#ask-about .profile-thumb { width: 60px; height: 60px; border-width: 3px; }
+#ask-about .profile-thumb:hover { border-width: 4px; border-color: #4fa8c4; @include box-shadow( rgba(29, 171, 226, 0.9) 0 1px 8px); }
 #ask-prev,
-#ask-next {  }
+#ask-next { padding: 6px 0 5px; margin-top: 5px; }
+#ask-next { float: none; }
 /*
 #get-introduced li { display: block;clear: both; overflow: hidden; margin: 5px 0; }
 #get-introduced a { display: inline-block; position: relative; padding: 3px; @include border-radius(50%); font-weight: 700; line-height: 2.4em; }
@@ -550,7 +561,7 @@ input[type=text]:focus + .search-results { display: block; }
 }
 */
 #introduce a,
-#view-fb a { padding-top: 11px; padding-bottom: 5px; padding-left: 10px; width: 175px; text-align: left; }
+#view-fb a { padding-top: 11px; padding-bottom: 7px; padding-left: 10px; width: 195px; white-space: nowrap; font-size: 16px; text-align: left; }
 
 #introduce i,
 #view-fb i { display: inline-block; width: 20px; height: 18px; margin-right: 7px; float: left; background: $spriteURL -10px -1290px no-repeat; }
@@ -561,6 +572,7 @@ input[type=text]:focus + .search-results { display: block; }
 
 // Meet People
 #fav-filter { float: right; }
+#fav-filter ul { width: 120px !important; }
 
 #pager-buttons { width: 80px; float: right; }
 
@@ -613,7 +625,7 @@ input[type=text]:focus + .search-results { display: block; }
 }
 
 #page-prev,
-#page-next { position: absolute; top: 40%; left: 60px; display: block; width: 60px; height: 60px; background: rgba(255, 255, 255, 0.8) $spriteURL 10px -1122px no-repeat; @include border-radius(50%); @include box-shadow( rgba(0, 0, 0, 0.2) 0 1px 10px); text-indent: -999em; z-index: 100; }
+#page-next { position: absolute; top: 40%; left: 60px; display: block; width: 60px; height: 60px; background: rgba(255, 255, 255, 0.8) $spriteURL 10px -1122px no-repeat; @include border-radius(50%); @include box-shadow( rgba(0, 0, 0, 0.2) 0 1px 10px); text-indent: -999em; z-index: 100; @include single-transition(all, 100ms); }
 #page-next { left: auto; right: 50px; background-position: 10px -1197px; }
 
 #meet-profiles { visibility:hidden; }
@@ -656,7 +668,7 @@ body#messages #page-title { margin-bottom: 0; }
 .single-message .ten { padding-top: 15px; }
 
 .message-reply { border: 2px solid #eee; @include border-radius(15px); }
-.message-reply textarea { height: 100px; border: 0; background: transparent; padding: 10px; font-size: 1.25em; font-weight: 700; color: #eee; @include box-shadow(none); }
+.message-reply textarea { height: 100px; border: 0; background: transparent; padding: 10px; font-size: 1.25em; font-weight: 700; color: #999; @include box-shadow(none); }
 .messages.button { padding: 6px 8px; width: 70px; float: right; margin: 15px 15px 70px 0; }
 
 .message-ask { padding-top: 60px; }
@@ -666,6 +678,19 @@ body#messages #page-title { margin-bottom: 0; }
 .load-messages { background: $white url(../images/load-message-bg.png) center bottom no-repeat; padding-bottom: 15px; }
 .load-messages a { display: block; padding: 10px 0; text-align: center; font-weight: 700; }
 
+
+// Registration
+form#registration input[type=text],
+form#registration input[type=email],
+form#registration input[type=tel],
+form#registration input[type=url],
+form#registration input[type=password],
+form#registration input[type=date],
+form#registration textarea { height: auto; padding: 8px 10px; border: 3px solid #eee; font-size: 16px; color: #989898; @include border-radius(5px); @include box-shadow(none); }
+
+form#registration textarea { min-height: 150px; }
+
+form#registration span.prefix { padding: 8px; border: none; background: #eee; height: 40px; text-align: right; font-size: 16px; color: #989898; }
 
 // CTA
 #meet-people-cta { background: url(../images/meet-people-cta-bg.jpg); }

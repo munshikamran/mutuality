@@ -74,8 +74,8 @@ MEDIA_URL = '/static'
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
-# ADMIN_MEDIA_PREFIX = '/admin/'
+#ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = '/admin/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -141,7 +141,7 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.admin',
 	'django.contrib.admindocs',
-	# NEEYAA RELATED APPLICATIONS
+	# MUTUALITY RELATED APPLICATIONS
 	'connect',
     'la_facebook',
     'messages',
