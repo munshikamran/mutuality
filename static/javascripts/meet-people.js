@@ -279,7 +279,7 @@
 			    	loadingProfilesElems = $(".meet-profile");
 
 			    	for (i=0; i<friends.length; i++){
-				    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ console.log(success); }); $(this).css('background-position',  '0 -16px;');"
+				    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ console.log($(this)); $(this).css('background-position',  '0 -16px;'); });"
 			    		var liElem = $('<li>', {class:'meet-profile', facebookID:friends[i].facebookID}).appendTo(meetProfilesElem);
 			    		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
 			    		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(friends[i].facebookID, 350, 350)}).appendTo(aElem);
@@ -323,8 +323,8 @@
 }).appendTo(liElem);
     		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "mutuality.com", "http://mymutuality.com/makematches")
 }).appendTo(liElemModal);
-    		var spanElem = $('<span>', {class: 'profile-thumb has-tip tip-top', title: mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
-    		var spanElemModal = $('<span>', {class: 'profile-thumb has-tip tip-top', title: mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
+    		var spanElem = $('<span>', {class: 'profile-thumb has-tip tip-top', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
+    		var spanElemModal = $('<span>', {class: 'profile-thumb has-tip tip-top', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
 		}
 	}
 
@@ -393,7 +393,7 @@
     	$("#meet-profiles").html("");
 
     	for (i=0; i<favorites.length; i++){
-	    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +favorites[i].facebookID+", function(success){ console.log(success); }); $(this).css('background-position',  '0 -16px;');"    		
+	    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +favorites[i].facebookID+", function(success){ console.log($(this)); $(this).css('background-position',  '0 -16px;'); });"    		
 	    	var liElem = $('<li>', {class:'meet-profile', facebookID:favorites[i].facebookID}).appendTo(meetProfilesElem);
     		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
     		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(favorites[i].facebookID, 350, 350)}).appendTo(aElem);
@@ -424,14 +424,12 @@
 
     // Populate the CTA with actual friend data
     // TODO: Actually put in the images
-    var populateCTA = function(){
+    var populateCTA = function(friends){
     	// TODO: Finish
-    	var friends = Mutuality.cache.friends;
-    	//console.log(Mutuality.cache.friends);
-        // friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
-        /*$('#four-images img').each(function(i) {
+        friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
+        $('#four-images img').each(function(i) {
             $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
-        });*/
+        });
     }
  /* End Helper Functions */
 
@@ -439,18 +437,18 @@
    // Load friendslist, get the meet people result, and make sure the loading modal displays
    $("#triggerModal").trigger('click');
    $("#main").hide();
-   Mutuality.loadFriendsList(populateCTA());
-   Mutuality.getFriendsOfFriends(function(friends){
+   Mutuality.loadFriendsList(populateCTA);
+	Mutuality.getMeetPeople(0, 0, function(friends){
     	Mutuality.mpcache.fofList = friends;
-    	Mutuality.getMeetPeople(0, 0, meetPeopleSuccess);
-   		Mutuality.getFavoritesList(function(favorites){
-			for (i=0;i<favorites.length; i++){
-				if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
-					Mutuality.mpcache.favoritesList[favorites[i].facebookID] = true;
-				}
+		meetPeopleSuccess(friends);
+	});
+		Mutuality.getFavoritesList(function(favorites){
+		for (i=0;i<favorites.length; i++){
+			if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
+				Mutuality.mpcache.favoritesList[favorites[i].facebookID] = true;
 			}
-		});
-   });
+		}
+	});
    
    
 /* End Main Code */
