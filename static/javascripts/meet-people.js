@@ -160,7 +160,6 @@
 	// When you click next, set the current person
 	$('#page-next').click(function(){
 		// Hide the profile stats and mutual friends divs while new data being fetched
-		$("#profile-stats ul li").hide();
 		$('#ask-about').html("");
 		$('#ask-about-modal').html("");
 		setCurrentPerson();
@@ -169,7 +168,6 @@
 	// When you click previous, set the current person as well
 	$('#page-prev').click(function(){
 		// Hide the profile stats and mutual friends divs while new data being fetched
-		$("#profile-stats ul li").hide();
 		$('#ask-about').html("");
 		$('#ask-about-modal').html("");
 		setCurrentPerson();
@@ -333,50 +331,57 @@
 		var basicProfile = Mutuality.getFriendOfFriendProfile(facebookID);
 			if(basicProfile.location) {
 				$("#profile-location").html('<i class="location"></i>' + basicProfile.location);
-				$("#profile-location").show();
+				$("#profile-location").attr('class', '');
 			}
 			else {
-				$("#profile-location").hide();
+				$("#profile-location").html('<i class="location"></i>Location');
+				$("#profile-location").attr('class', 'inactive');
 			}
 			if(extendedProfile.gender) {
 				$("#profile-sex").html('<i class="male"></i>' + extendedProfile.gender);
-				$("#profile-sex").show();
+				$("#profile-sex").attr('class', '');
 			}
 			else {
-				$("#profile-sex").hide();
+				$("#profile-sex").html('<i class="male"></i>Gender');
+				$("#profile-sex").attr('class', 'inactive');			
 			}
 			if(extendedProfile.relationshipStatus) {
 				$("#profile-status").html('<i class="single"></i>' + extendedProfile.relationshipStatus);
-				$("#profile-status").show();
+				$("#profile-status").attr('class', '');
 			}
 			else {
-				$("#profile-status").hide();
+				$("#profile-status").html('<i class="single"></i>Relationship');
+				$("#profile-status").attr('class', 'inactive');
 			}
 			if(extendedProfile.age) {
 				$("#profile-dob").html('<i class="birthday"></i>' + extendedProfile.age);
-				$("#profile-dob").show();
+				$("#profile-dob").attr('class', '');
 			}
 			else {
-				$("#profile-dob").hide();
+				$("#profile-dob").html('<i class="birthday"></i>Birthday');
+				$("#profile-dob").attr('class', 'inactive');			
 			}			
 			if(extendedProfile.college) {
 				$("#profile-education").html('<i class="edu"></i>' + extendedProfile.college);
-				$("#profile-education").show();
+				$("#profile-education").attr('class', '');
 			}
 			else {
-				$("#profile-education").hide();
+				$("#profile-education").html('<i class="edu"></i>Education');
+				$("#profile-education").attr('class', 'inactive');
 			}
 			if(extendedProfile.employer) {
 				$("#profile-job").html('<i class="company"></i>' + extendedProfile.employer);
-				$("#profile-job").show();
+				$("#profile-job").attr('class', '');
 			}
 			else {
-				$("#profile-job").hide();
+				$("#profile-job").html('<i class="company"></i>Job');
+				$("#profile-job").attr('class', 'inactive');
 			}
 
 			$("#profile-stats ul").show();
+			$("#profile-stats ul li").show();
+
 			$(".profile-name").html(basicProfile.name);
-			$("#profile-fb").show();
 			$("#profile-fb a").attr('onclick', Mutuality.getFacebookPageURL(basicProfile.facebookID));
 	}
 
