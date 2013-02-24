@@ -301,10 +301,10 @@ var Mutuality = (function($){
                {
                    if(success instanceof Function) success.call(self, response);
                }
-               else
+               /*else
                {
                    alert("Error: No friends of friends found.");
-               }
+               }*/
            });
        },
       // Get meet people list (fresh users, friendship)
