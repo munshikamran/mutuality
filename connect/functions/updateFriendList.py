@@ -2,6 +2,9 @@ from connect.models import Profile,Friendship,FacebookUser
 from getProfileAuthToken import GetProfileAuthToken
 import facebook
 
+def UpdateFriendListHasBeenCalled(profile):
+    return Friendship.objects.filter(user=profile).exists()
+
 # use kwargs to set friendlist limits and offsets for updating parts of the friend list. this can be used for quickly
 # updating a subset of the friendlist when time is of the essence and the entire friendlist isn't needed.
 # Note: if kwargs is empty then it updates the entire friendlist with no limit
