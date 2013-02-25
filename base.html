@@ -178,7 +178,22 @@
             $(".message-count").hide();
           }
        });
-      </script>
+
+    // Make sure the header shows the active page
+    $(function(){
+          // this will get the full URL at the address bar
+          var url = window.location.href; 
+          console.log(url);
+
+        // passes on every "a" tag 
+        $(".page-nav").each(function() {
+                // checks if its the same on the address bar
+            if(url == (this.href)) { 
+                $(this).closest("li").addClass("active");
+            }
+          });
+    });
+  </script>
     {% endif %}
   {% endif %}  
   {% block extrascript %} 
