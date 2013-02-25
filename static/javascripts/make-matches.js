@@ -9,8 +9,8 @@
                var rightFriend = Mutuality.getFriendProfile( Mutuality.cache.current[1] );
                var leftimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[0], 165, 165);
                var rightimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[1], 165, 165);
-               var leftNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, leftFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "mutuality.com", "http://mymutuality.com/makematches");
-               var rightNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, rightFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "mutuality.com", "http://mymutuality.com/makematches");
+               var leftNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, leftFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "http://goo.gl/L7Uk9", "http://mymutuality.com/makematches");
+               var rightNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, rightFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "http://goo.gl/L7Uk9", "http://mymutuality.com/makematches");
 
                $('#nudge-left .match-name').text( leftFriend.name );
                $('#nudge-left .introduce-thumb').css({backgroundImage: 'url('+leftimgURL+')'});
@@ -309,7 +309,8 @@
    // Load friendslist and friends of friends via AJAX and populate the left and right
    // slots with a random match if the call already hasn't been made
     Mutuality.loadFriendsList(null, function(){});
-    Mutuality.getFriendsOfFriends(friendsOfFriendsSuccess); // TODO: Probably want to make this a more lightweight call
+    Mutuality.updateFriendList(0, function(){});
+    Mutuality.getMeetPeople(0, 0, friendsOfFriendsSuccess);
     Mutuality.loadNewMatch('male', 'female', Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
 
 })(jQuery);

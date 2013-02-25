@@ -4,10 +4,10 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
 from la_facebook.models import UserAssociation
 from connect.models import Profile
-from django.views.decorators.csrf import csrf_protect
+from django.shortcuts import redirect
+from connect.functions.updateFriendList import UpdateFriendListHasBeenCalled
 
 def index(request):
     context_dict = {}
@@ -38,7 +38,28 @@ def register(request):
                 context_dict['profile'] = profile
         except Profile.DoesNotExist:
             pass
-    return render_to_response('register.html', context_dict, context_instance=RequestContext(request))
+    if (UpdateFriendListHasBeenCalled(profile)):
+        return redirect("/makematches/")
+    else:
+        return render_to_response('register.html', context_dict, context_instance=RequestContext(request))
+
+@login_required
+def account(request):
+    context_dict = {}
+    context_dict['request'] = request
+    context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID;
+    context_dict['URL'] = settings.URL;
+    if hasattr(request, 'user'):
+        context_dict['user'] = request.user
+        print
+        try:
+            if request.user.is_authenticated():
+                profile = request.user.get_profile()
+                context_dict['profile'] = profile
+        except Profile.DoesNotExist:
+            pass
+    return render_to_response('account.html', context_dict, context_instance=RequestContext(request))
+
 
 @login_required
 def makematches(request):

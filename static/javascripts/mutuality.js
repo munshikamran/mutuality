@@ -130,7 +130,7 @@ var Mutuality = (function($){
       },
       __onError: function(xhr, err, msg)
       {
-         alert("Oops, something went wrong:\n\n"+msg);
+         console.log("Oops, something went wrong:\n\n"+msg);
       },
       __makeRequest:function(type, url, params, onSuccess, onError, beforeSend)
       {
@@ -225,17 +225,21 @@ var Mutuality = (function($){
           }
       },
       // Update users friend list in the mutuality backend
-      updateFriendList: function ( success )
+      updateFriendList: function ( number, success )
       {
           var self = this;
-          this.__post('api/updateFriendList/', {token: this.token }, function(response){
+          this.__post('api/updateFriendList/', {token: this.token, numFriends: number }, function(response){
               if (response == true){
                   if(success instanceof Function) success.call(self);
               }
-              else
-              {
-                  alert("Error: Couldn't update friend list.");
-              }
+          });
+      },      
+      // See if Update friend list has been called before
+      updateFriendListCalled: function ( success )
+      {
+          var self = this;
+          this.__post('api/updateFriendListCalled/', {token: this.token }, function(response){
+                  if(success instanceof Function) success.call(self);
           });
       },
       // Load a new match for the current user
