@@ -104,34 +104,6 @@
 	    }
 	});
 
-	$('#ask-about').carouFredSel({
-		auto : false,
-		width: 213,
-		height: 150,
-		prev: "#ask-prev",
-		next: "#ask-next",
-		items: {
-			visible: 1
-		},
-		scroll: {
-			fx: 'fade',
-			items: 1
-		}
-	});
-	$('#ask-about-modal').carouFredSel({
-		auto : false,
-		width: 400,
-		height: 150,
-		prev: "#ask-prev-modal",
-		next: "#ask-next-modal",
-		items: {
-			visible: 1
-		},
-		scroll: {
-			fx: 'fade',
-			items: 1
-		}
-	});
 
 	// re-adjust width - think it is a border-box issue
 	var wid = $('#meet-profiles').outerWidth() + ($('#meet-profiles li').length * 30);
@@ -297,6 +269,7 @@
 			    	// remove the loaders and simulate a click
 			    	loadingProfilesElems.each(function(){$(this).remove();});
 			    	$('#page-next').trigger('click');
+
 				});
 		});
 	}
@@ -324,6 +297,37 @@
     		var spanElem = $('<span>', {class: 'profile-thumb has-tip tip-top', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
     		var spanElemModal = $('<span>', {class: 'profile-thumb has-tip tip-top', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
 		}
+		// Initialize the carousels
+		$('#ask-about').carouFredSel({
+			auto : false,
+			width: 213,
+			height: 150,
+			prev: "#ask-prev",
+			next: "#ask-next",
+			items: {
+				visible: 1
+			},
+			scroll: {
+				fx: 'fade',
+				items: 1
+			}
+		});
+
+		$('#ask-about-modal').carouFredSel({
+		auto : false,
+		width: 400,
+		height: 150,
+		prev: "#ask-prev-modal",
+		next: "#ask-next-modal",
+		items: {
+			visible: 1
+		},
+		scroll: {
+			fx: 'fade',
+			items: 1
+		}
+	});
+
 	}
 
 	// Load the current person's profile info into the UI
