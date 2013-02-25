@@ -1,90 +1,16 @@
 {% extends "base.html" %}
 {% block title %} Account {% endblock %}
 {% block content %}
-  <!-- <section id="page-title" class="row" style="display:none;">
-		<div class="eight columns">
-			<h2>Do we have this right?</h2>
-		</div>
-		<hr />
-	</section>
-	<section id="main" class="row">
-		<div id="facebookSignup" style="width:700px;align:center;">
-		<iframe id="facebookRegisterIframe" style="display:none;" src="https://www.facebook.com/plugins/registration?
-		             client_id={{ FACEBOOK_APP_ID }}&
-		             fb_only=true&
-		             redirect_uri={{ URL }}&
-		             fields=[
-		 					 {'name':'name'},
-							 {'name':'email'},
-							 {'name':'location'},
-							 {'name':'gender'},
-							 {'name':'birthday'},
-							 {'name':'single','description':'Single?', 'type':'checkbox',  'default':'checked'}
-							]"
-		        scrolling="auto"
-		        frameborder="no"
-		        style="border:none"
-		        allowTransparency="true"
-		        width="100%"
-		        height="350">
-		</iframe>
-		</div>
-	</section>
-			</div>
+<section id="page-title" class="row">
+	<div class="eight columns">
+		<h2>Registration Page Under Construction</h2>
 	</div>
+	<hr />
+</section>
 </div>
-</div> -->
-					<section id="page-title" class="row">
-						<div class="eight columns">
-							<h2>Account</h2>
-						</div>
-
-						<hr />
-					</section>
-					
-					<section id="main" class="row">
-						<form id="registration">
-							<label>Name</label>
-
-							<input type="text" value="Lee" />
-
-							<input type="text" value="Peterson" />
-
-							<textarea>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</textarea>
-
-							<input type="password" />
-
-							<div class="row collapse">
-								<div class="six columns social">
-									<span class="prefix"><img src="#" />www.facebook.com/</span>
-								</div>
-								<div class="six columns">
-									<input type="text" value="Lee Peterson" />
-								</div>
-							</div>
-
-							<form class="custom">
-								<select style="display:none;">
-									<option value="Male" selected="selected">Male</option>
-									<option value="Female">Female</option>
-								</select>
-								
-								<div class="custom dropdown">
-									<a href="#" class="current">Male</a>
-									<a href="#" class="selector"></a>
-									<ul>
-										<li>Male</li>
-										<li>Female</li>
-									</ul>
-								</div>
-							</form>
-						</form>
-					</section>
-	
-				</div>
-			</div>
-		</div>
-	</div>
+</div>
+</div>
+</div>
 {% endblock %}
 {% block extrahtml %}
     <div id="myModal" class="reveal-modal large">
@@ -106,10 +32,16 @@
     <script>
     	$("#triggerModal").trigger('click');
         Mutuality.init('{{ profile.facebookID }}', '../');
-        Mutuality.updateFriendList(function(){
-        	$(".close-reveal-modal").trigger('click');
-        	window.location.href = "/makematches/";
+
+         Mutuality.updateFriendListCalled(function(response){
+        	if (!response){
+	        	Mutuality.updateFriendList(25, function(){
+        			$(".close-reveal-modal").trigger('click');
+        			window.location = "/makematches/"
+        		});
+        	}
         });
+
     </script>
 {% endblock %}
 

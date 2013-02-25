@@ -45,7 +45,7 @@
                       <span class="profile-thumb" style="background-image: urL(https://graph.facebook.com/{{ profile.facebookID }}/picture)"></span>{{ profile.name }}<span class="darr"></span>
                     </a>
                     <ul class="dropdown">
-                      <li id="menu-account"><a href="/register/">Account</a></li>
+                      <li id="menu-account"><a href="/account/">Account</a></li>
                       <li id="menu-logout"><a href="{% url logout %}">Log Out</a></li>
                     </ul>
                   </li>
@@ -178,7 +178,22 @@
             $(".message-count").hide();
           }
        });
-      </script>
+
+    // Make sure the header shows the active page
+    $(function(){
+          // this will get the full URL at the address bar
+          var url = window.location.href; 
+          console.log(url);
+
+        // passes on every "a" tag 
+        $(".page-nav").each(function() {
+                // checks if its the same on the address bar
+            if(url == (this.href)) { 
+                $(this).closest("li").addClass("active");
+            }
+          });
+    });
+  </script>
     {% endif %}
   {% endif %}  
   {% block extrascript %} 

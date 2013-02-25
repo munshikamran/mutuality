@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %} Account {% endblock %}
+{% block content %}
+
+					<section id="page-title" class="row">
+						<div class="eight columns">
+							<h2>Page under construction</h2>
+						</div>
+
+						<hr />
+					</section>
+					
+					<section id="main" class="row">
+						<form id="registration">
+							<label>Name</label>
+
+							<input type="text" value="" />
+
+							<input type="text" value="" />
+
+							<textarea>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</textarea>
+
+							<input type="password" />
+
+							<div class="row collapse">
+								<div class="six columns social">
+									<span class="prefix"><img src="#" />www.facebook.com/</span>
+								</div>
+								<div class="six columns">
+									<input type="text" value="" />
+								</div>
+							</div>
+
+							<form class="custom">
+								<select style="display:none;">
+									<option value="Male" selected="selected">Male</option>
+									<option value="Female">Female</option>
+								</select>
+								
+								<div class="custom dropdown">
+									<a href="#" class="current">Male</a>
+									<a href="#" class="selector"></a>
+									<ul>
+										<li>Male</li>
+										<li>Female</li>
+									</ul>
+								</div>
+							</form>
+						</form>
+					</section>
+	
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block extrascript %}
+    <script>
+        Mutuality.init('{{ profile.facebookID }}', '../');
+
+    </script>
+{% endblock %}
+
+
