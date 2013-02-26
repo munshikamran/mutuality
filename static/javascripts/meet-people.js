@@ -34,31 +34,8 @@
 						});
 					}
 		        }
-
-		        // ATTEMPT AT FIXING < 3 people in carousel issue
-		        /*if (data.items.visible.prevObject.length == 1){
-		        	console.log("ONLY ONE");
-					$(data.items.visible.prevObject[0]).animate(_center, 300);
-					setTimeout(function() {
-						$(data.items.visible.prevObject[0]).css({ zIndex: 3 });
-						$(data.items.visible.prevObject[0]).attr('focused', 'true');
-					}, 10);
-
-			   		$('img', $(data.items.visible.prevObject[0])).css(_noblur);		
-			   		$('.match-profile-details', $(data.items.visible.prevObject[0])).fadeIn();	
-		        }
-		        else if (data.items.visible.prevObject.length == 2){
-		        	console.log("ONLY TWO");
-
-            		// hide the text for blurred results
-	            	$('.match-profile-details', data.items.visible.eq( 0 )).hide();
-					data.items.visible.eq( 0 ).css({ zIndex: 2 });
-					data.items.visible.eq( 0 ).removeAttr('focused');
-					data.items.visible.eq( 1 ).css({ zIndex: 3 });
-					data.items.visible.eq( 1 ).attr('focused', 'true');
-					data.items.visible.eq( 1 ).animate(_center, 300);
-		        }
-		        else*/ if (data.items.visible.prevObject.length > 3) {
+				
+				if (data.items.visible.prevObject.length > 3) {
 	            	// hide the text for blurred results
 		            $('.match-profile-details', data.items.visible.eq( 0 )).hide();
 		            $('.match-profile-details', data.items.visible.eq( 2 )).hide();            
@@ -249,7 +226,8 @@
 			    	loadingProfilesElems = $(".meet-profile");
 
 			    	for (i=0; i<friends.length; i++){
-				    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ console.log($(this)); $(this).css('background-position',  '0 -16px;'); });"
+	    				var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ $('#add-to-fav').each(function(){ console.log($(this)); if($(this).attr('facebookID') =='"+friends[i].facebookID+"'){$(this).css('background-position',  '0 -16px;'); }});});"    		
+
 			    		var liElem = $('<li>', {class:'meet-profile', facebookID:friends[i].facebookID}).appendTo(meetProfilesElem);
 			    		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
 			    		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(friends[i].facebookID, 350, 350)}).appendTo(aElem);
@@ -257,14 +235,16 @@
 			    		var inFavorites = Mutuality.mpcache.favoritesList[friends[i].facebookID];
 
 			    		if (!inFavorites) {
-			    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"has-tip tip-top", title: "Add to Favorites", html:"Add to Favorites", onclick:setFavoriteFunctionString}).appendTo(spanElem);
+			    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title: "Add to Favorites", html:"Add to Favorites", facebookID: friends[i].facebookID ,  onclick:setFavoriteFunctionString}).appendTo(spanElem);
 			    		}
 			    		else{
-			    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", title: "Add to Favorites", class:"has-tip tip-top", style:"background-position: 0 -16px;"}).appendTo(spanElem);
+			    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Add to Favorites", title: "Add to Favorites", class:"tooltip", style:"background-position: 0 -16px;"}).appendTo(spanElem);
 			    			//console.log("yes a favorite");
 			    		}
 			    		var hElem = $('<h3>', {id:"left-profile-name", html:friends[i].name}).appendTo(spanElem);
 			    	}
+
+		    		$('.tooltip').tooltipster();
 
 			    	// remove the loaders and simulate a click
 			    	loadingProfilesElems.each(function(){$(this).remove();});
@@ -294,9 +274,12 @@
 }).appendTo(liElem);
     		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "http://goo.gl/L7Uk9")
 }).appendTo(liElemModal);
-    		var spanElem = $('<span>', {class: 'profile-thumb has-tip tip-top', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
-    		var spanElemModal = $('<span>', {class: 'profile-thumb has-tip tip-top', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
+    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
+    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
 		}
+
+		$('.tooltip').tooltipster();
+
 		// Initialize the carousels
 		$('#ask-about').carouFredSel({
 			auto : false,
@@ -402,7 +385,7 @@
     	$("#meet-profiles").html("");
 
     	for (i=0; i<favorites.length; i++){
-	    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +favorites[i].facebookID+", function(success){ console.log($(this)); $(this).css('background-position',  '0 -16px;'); });"    		
+	    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +favorites[i].facebookID+", function(success){ $('#add-to-fav').each(function(){ if ($(this).attr('facebookID') == favorites[i].facebookID){ $(this).css('background-position',  '0 -16px;'); }});});"    		
 	    	var liElem = $('<li>', {class:'meet-profile', facebookID:favorites[i].facebookID}).appendTo(meetProfilesElem);
     		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
     		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(favorites[i].facebookID, 350, 350)}).appendTo(aElem);
@@ -410,10 +393,10 @@
     		var inFavorites = Mutuality.mpcache.favoritesList[favorites[i].facebookID];
 
     		if (!inFavorites) {
-    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"has-tip tip-top", title: "Add to Favorites", html:"Add to Favorites", onclick:setFavoriteFunctionString}).appendTo(spanElem);
+    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title: "Add to Favorites", html:"Add to Favorites", facebookID: favorites[i].facebookID, onclick:setFavoriteFunctionString}).appendTo(spanElem);
     		}
     		else{
-    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"has-tip tip-top", title: "Add to Favorites", html:"Add to Favorites", style:"background-position: 0 -16px;"}).appendTo(spanElem);
+    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title: "Add to Favorites", html:"Add to Favorites", style:"background-position: 0 -16px;"}).appendTo(spanElem);
     			// console.log("yes a favorite");
     		}
     		var hElem = $('<h3>', {id:"left-profile-name", html:favorites[i].name}).appendTo(spanElem);
@@ -458,7 +441,8 @@
 			}
 		}
 	});
-   
+
+
    
 /* End Main Code */
 
