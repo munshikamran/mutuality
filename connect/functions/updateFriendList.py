@@ -1,7 +1,7 @@
 from connect.models import Profile,Friendship,FacebookUser
 from getProfileAuthToken import GetProfileAuthToken
 import facebook
-
+import time
 def UpdateFriendListHasBeenCalled(profile):
     return Friendship.objects.filter(user=profile).exists()
 
@@ -14,10 +14,22 @@ def UpdateFriendListHasBeenCalled(profile):
 # UpdateFriendList(profile, **{limit" : 10, "offset" : 10})
 def UpdateFriendList(profile,**kwargs):
     try:
+        start_time = time.time()
         friendListData = getFriendListFromFacebook(profile,**kwargs)
+        elapsed_time = time.time() - start_time
+        print "%f seconds to return from facebook" % elapsed_time
+        start_time = time.time()
         for friend in friendListData:
+            start_time1 = time.time()
             facebookUser = createOrUpdateFacebookUser(friend)
+            elapsed_time1 = time.time() - start_time1
+            print "%f seconds to create facebookUser" % elapsed_time1
+            start_time1 = time.time()
             friendship = createOrUpdateFriendShip(profile,facebookUser)
+            elapsed_time1 = time.time() - start_time1
+            print "%f seconds to create friendship" % elapsed_time1
+        elapsed_time = time.time() - start_time
+        print "%f seconds to process all" % elapsed_time
         return True
     except:
         return False
