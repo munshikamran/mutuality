@@ -2,6 +2,7 @@ from connect.models import Profile,Friendship,FacebookUser
 from getProfileAuthToken import GetProfileAuthToken
 import facebook
 import time
+import sys
 def UpdateFriendListHasBeenCalled(profile):
     return Friendship.objects.filter(user=profile).exists()
 
@@ -20,10 +21,7 @@ def UpdateFriendList(profile,**kwargs):
         print "%f seconds to return from facebook" % elapsed_time
         start_time = time.time()
         for friend in friendListData:
-            start_time1 = time.time()
             facebookUser = createOrUpdateFacebookUser(friend)
-            elapsed_time1 = time.time() - start_time1
-            print "%f seconds to create facebookUser" % elapsed_time1
             start_time1 = time.time()
             friendship = createOrUpdateFriendShip(profile,facebookUser)
             elapsed_time1 = time.time() - start_time1
@@ -32,6 +30,7 @@ def UpdateFriendList(profile,**kwargs):
         print "%f seconds to process all" % elapsed_time
         return True
     except:
+        print "Unexpected error:", sys.exc_info()[0]
         return False
 
 def getFriendListFromFacebook(profile,**kwargs):
@@ -44,11 +43,17 @@ def getFriendListFromFacebook(profile,**kwargs):
 
 
 def createOrUpdateFacebookUser(friendFacebookData):
+    start_time1 = time.time()
     facebookUser, created = FacebookUser.objects.get_or_create(
         facebookID = friendFacebookData['id']
     )
+    elapsed_time1 = time.time() - start_time1
+    print "%f seconds to get or create fb user" % elapsed_time1
+    start_time1 = time.time()
     facebookUser.updateUsingFacebookDictionary(friendFacebookData)
     facebookUser.save()
+    elapsed_time1 = time.time() - start_time1
+    print "%f seconds to update user" % elapsed_time1
     return facebookUser
 
 def createOrUpdateFriendShip(profile,facebookUser):
