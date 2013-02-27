@@ -442,6 +442,9 @@
 		}
 	});
 
+    Mutuality.updateFriendList(0, function(){});
+
+
 
    
 /* End Main Code */
