@@ -1,17 +1,17 @@
 class RELATIONSHIP_STATUS():
 
-	SINGLE = "SINGLE"
-	MARRIED = "MARRIED"
-	COMPLICATED = "IT'S COMPLICATED"
-	RELATIONSHIP = "IN A RELATIONSHIP"
-	ENGAGED = "ENGAGED"
-	DOMESTIC = "IN A DOMESTIC PARTNERSHIP"
+	SINGLE = "Single"
+	MARRIED = "Married"
+	COMPLICATED = "It's Complicated"
+	RELATIONSHIP = "In a Relationship"
+	ENGAGED = "Engaged"
+	DOMESTIC = "In a Domestic Partnership"
 
 	ENUM = (
 			(SINGLE,"Single"),
 			(MARRIED,"Married"),
 			(COMPLICATED,"It's complicated"),
-			(RELATIONSHIP,"In a relationship"),
+			(RELATIONSHIP,"In a Relationship"),
 			(ENGAGED,"Engaged"),
 			(DOMESTIC,"Domestic"),
 			)

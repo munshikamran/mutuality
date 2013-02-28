@@ -1,7 +1,7 @@
 from connect.models import Profile,Friendship,FacebookUser
 from getProfileAuthToken import GetProfileAuthToken
 import facebook
-
+import sys
 def UpdateFriendListHasBeenCalled(profile):
     return Friendship.objects.filter(user=profile).exists()
 
@@ -14,32 +14,47 @@ def UpdateFriendListHasBeenCalled(profile):
 # UpdateFriendList(profile, **{limit" : 10, "offset" : 10})
 def UpdateFriendList(profile,**kwargs):
     try:
+        facebookUsers = []
+        friendships = []
+        facebookIDs = []
         friendListData = getFriendListFromFacebook(profile,**kwargs)
         for friend in friendListData:
-            facebookUser = createOrUpdateFacebookUser(friend)
-            friendship = createOrUpdateFriendShip(profile,facebookUser)
+            facebookIDs.append(friend['id'])
+            facebookUser = createFacebookUser(friend)
+            facebookUsers.append(facebookUser)
+            friendship = createFriendShip(profile,facebookUser)
+            friendships.append(friendship)
+        FacebookUser.objects.filter(pk__in=facebookIDs).delete()
+        Friendship.objects.filter(user=profile,friend__in=facebookIDs).delete()
+        bulkSave(facebookUsers,friendships)
         return True
     except:
+        print "Unexpected error:", sys.exc_info()
         return False
 
 def getFriendListFromFacebook(profile,**kwargs):
     graph = facebook.GraphAPI(GetProfileAuthToken(profile))
     fields = ['name','location','picture','gender','birthday','relationship_status']
     kwargs['fields'] = fields
-    # kwargs = {"fields": fields, "limit" : limit}
     friendList = graph.get_connections("me","friends",**kwargs)['data']
     return friendList
 
 
-def createOrUpdateFacebookUser(friendFacebookData):
-    facebookUser, created = FacebookUser.objects.get_or_create(
-        facebookID = friendFacebookData['id']
-    )
+def createFacebookUser(friendFacebookData):
+    facebookUser = FacebookUser(facebookID = friendFacebookData['id'])
     facebookUser.updateUsingFacebookDictionary(friendFacebookData)
-    facebookUser.save()
     return facebookUser
 
-def createOrUpdateFriendShip(profile,facebookUser):
-    friendship, created = Friendship.objects.get_or_create(
-    user = profile,friend = facebookUser)
+def createFriendShip(profile,facebookUser):
+    friendship = Friendship(user = profile,friend = facebookUser)
     return friendship
+
+def bulkSave(facebookUsers,friendships):
+    bulkSize = 500
+    for i in range(len(facebookUsers)/bulkSize+1):
+        startIdx = i*bulkSize
+        stopIdx = (i+1)*bulkSize
+        FacebookUser.objects.bulk_create(facebookUsers[startIdx:stopIdx])
+        Friendship.objects.bulk_create(friendships[startIdx:stopIdx])
+
+

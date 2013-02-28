@@ -38,7 +38,7 @@ class FacebookUser( models.Model ):
     def updateUsingFacebookDictionary(self,fbDictionary):
         nameKey = 'name'
         if nameKey in fbDictionary.keys():
-            self.name = fbDictionary[nameKey].encode('unicode_escape')
+            self.name = fbDictionary[nameKey]
     	# update gender
         genderKey = 'gender'
     	if genderKey in fbDictionary.keys():
@@ -63,9 +63,9 @@ class FacebookUser( models.Model ):
     	# update location
     	locationKey = 'location'
     	if locationKey in fbDictionary.keys() and not (fbDictionary[locationKey]['name'] == None):
-            self.location = fbDictionary[locationKey]['name'].encode('unicode_escape')
+            self.location = fbDictionary[locationKey]['name']
             state = fbDictionary[locationKey]['name'].split(', ')[-1]
-            self.state = state.encode('unicode_escape')
+            self.state = state
 
         #the following are not stored in the database
         workKey = 'work'

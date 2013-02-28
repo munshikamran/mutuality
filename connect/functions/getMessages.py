@@ -33,7 +33,7 @@ def GetMessageThreadWithOther(profile,otherUserFacebookID):
     otherProfile = Profile.objects.get(facebookID=otherUserFacebookID)
     q =  Q(sender_deleted_at__isnull=True) & (Q(sender=profile) & Q(recipient=otherProfile)) | (Q(sender=otherProfile) & Q(recipient=profile))
     #order older messages first
-    messages = Message.objects.filter(q).order_by('sent_at')
+    messages = Message.objects.filter(q).order_by('sent_at').select_related('sender','recipient')
     # once these messages are returned we mark them as read
     now = datetime.now()
     for message in messages:
@@ -46,4 +46,4 @@ def GetMessageThreadWithOther(profile,otherUserFacebookID):
 def getMessagesSince(profile,pastDate):
     q = Q(sender_deleted_at__isnull=True) & (Q(sender=profile) | Q(recipient=profile)) & Q(sent_at__gte=pastDate)
     #order newer messages first
-    return Message.objects.filter(q).order_by('sent_at').reverse()
+    return Message.objects.filter(q).order_by('sent_at').reverse().select_related('sender','recipient')
