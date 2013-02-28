@@ -428,7 +428,7 @@ var Mutuality = (function($){
     {
          var self = this;
 
-         self.__post('api/getThreadPreviews/', { token: this.token, facebookID: fbID }, function( response ){
+         self.__post('api/getMessageWithOther/', { token: this.token, facebookID: fbID }, function( response ){
              if(response)
              {
                  if(success instanceof Function) success.call(self, response);
