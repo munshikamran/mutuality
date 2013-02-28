@@ -35,7 +35,9 @@ class UserFavoriteSerializer(serializers.ModelSerializer):
         fields = ('user', 'favorite', 'date_created')
 
 class MessagesSerializer(serializers.ModelSerializer):
-        class Meta:
+    sender = ProfileSerializer()
+    class Meta:
             model = Message
-            fields = ('subject', 'body', 'sender', 'recipient', 'parent_msg', 'sent_at', 'read_at', 'replied_at', 'sender_deleted_at', 'recipient_deleted_at')
+            fields = ('subject', 'body', 'recipient', 'sender', 'parent_msg', 'sent_at', 'read_at', 'replied_at', 'sender_deleted_at', 'recipient_deleted_at')
+
 
