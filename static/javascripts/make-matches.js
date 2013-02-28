@@ -311,7 +311,5 @@
     Mutuality.loadFriendsList(null, function(){});
     Mutuality.getMeetPeople(0, 0, friendsOfFriendsSuccess);
     Mutuality.loadNewMatch('male', 'female', Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
-    Mutuality.updateFriendList(0, function(){});
-
 
 })(jQuery);

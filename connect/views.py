@@ -39,7 +39,7 @@ def register(request):
         except Profile.DoesNotExist:
             pass
     if (UpdateFriendListHasBeenCalled(profile)):
-        return redirect("/makematches/")
+        return redirect("/meetpeople/")
     else:
         return render_to_response('register.html', context_dict, context_instance=RequestContext(request))
 
