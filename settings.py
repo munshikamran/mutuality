@@ -185,5 +185,5 @@ FACEBOOK_ACCESS_SETTINGS = {
 if SHOULD_LOCKDOWN:
     INSTALLED_APPS += ('lockdown', )
     MIDDLEWARE_CLASSES += ('lockdown.middleware.LockdownMiddleware', )
-    LOCKDOWN_PASSWORD = 'alpha-tester'
+    LOCKDOWN_PASSWORD = 'Alpha-Tester'
     LOCKDOWN_FORM = 'lockdown.forms.LockdownForm'
