@@ -15,22 +15,33 @@ def UpdateFriendListHasBeenCalled(profile):
 # UpdateFriendList(profile, **{limit" : 10, "offset" : 10})
 def UpdateFriendList(profile,**kwargs):
     try:
+        facebookUsers = []
+        friendships = []
+        facebookIDs = []
         start_time = time.time()
         friendListData = getFriendListFromFacebook(profile,**kwargs)
         elapsed_time = time.time() - start_time
         print "%f seconds to return from facebook" % elapsed_time
         start_time = time.time()
         for friend in friendListData:
-            facebookUser = createOrUpdateFacebookUser(friend)
+            facebookIDs.append(friend['id'])
+            facebookUser = createFacebookUser(friend)
+            facebookUsers.append(facebookUser)
             start_time1 = time.time()
-            friendship = createOrUpdateFriendShip(profile,facebookUser)
+            friendship = createFriendShip(profile,facebookUser)
+            friendships.append(friendship)
             elapsed_time1 = time.time() - start_time1
             print "%f seconds to create friendship" % elapsed_time1
         elapsed_time = time.time() - start_time
+        FacebookUser.objects.filter(pk__in=facebookIDs).delete()
+        print "deleted"
+        Friendship.objects.filter(user=profile,friend__in=facebookIDs).delete()
+        print "deleted"
+        bulkSave(facebookUsers,friendships)
         print "%f seconds to process all" % elapsed_time
         return True
     except:
-        print "Unexpected error:", sys.exc_info()[0]
+        print "Unexpected error:", sys.exc_info()
         return False
 
 def getFriendListFromFacebook(profile,**kwargs):
@@ -42,11 +53,12 @@ def getFriendListFromFacebook(profile,**kwargs):
     return friendList
 
 
-def createOrUpdateFacebookUser(friendFacebookData):
+def createFacebookUser(friendFacebookData):
     start_time1 = time.time()
-    facebookUser, created = FacebookUser.objects.get_or_create(
-        facebookID = friendFacebookData['id']
-    )
+    # facebookUser, created = FacebookUser.objects.get_or_create(
+    #     facebookID = friendFacebookData['id']
+    # )
+    facebookUser = FacebookUser(facebookID = friendFacebookData['id'])
     elapsed_time1 = time.time() - start_time1
     print "%f seconds to get or create fb user" % elapsed_time1
     start_time1 = time.time()
@@ -56,7 +68,18 @@ def createOrUpdateFacebookUser(friendFacebookData):
     print "%f seconds to update user" % elapsed_time1
     return facebookUser
 
-def createOrUpdateFriendShip(profile,facebookUser):
-    friendship, created = Friendship.objects.get_or_create(
-    user = profile,friend = facebookUser)
+def createFriendShip(profile,facebookUser):
+    # friendship, created = Friendship.objects.get_or_create(
+    # user = profile,friend = facebookUser)
+    friendship = Friendship(user = profile,friend = facebookUser)
     return friendship
+
+def bulkSave(facebookUsers,friendships):
+    bulkSize = 500
+    for i in range(len(facebookUsers)/bulkSize+1):
+        startIdx = i*bulkSize
+        stopIdx = (i+1)*bulkSize
+        FacebookUser.objects.bulk_create(facebookUsers[startIdx:stopIdx])
+        Friendship.objects.bulk_create(friendships[startIdx:stopIdx])
+
+
