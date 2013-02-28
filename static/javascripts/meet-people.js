@@ -441,21 +441,24 @@
    // Load friendslist, get the meet people result, and make sure the loading modal displays
    $("#triggerModal").trigger('click');
    $("#main").hide();
-   	Mutuality.loadFriendsList(populateCTA);
-	Mutuality.getMeetPeople(0, 0, function(friends){
-    	Mutuality.mpcache.fofList = friends;
-		meetPeopleSuccess(friends);
-	});
-	Mutuality.getFavoritesList(function(favorites){
-		console.log(favorites);
-		for (i=0;i<favorites.length; i++){
-			if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
-				Mutuality.mpcache.favoritesList[favorites[i].facebookID] = true;
+
+    Mutuality.updateFriendList(0, function(){
+
+   		Mutuality.loadFriendsList(populateCTA);
+		Mutuality.getMeetPeople(0, 0, function(friends){
+	    	Mutuality.mpcache.fofList = friends;
+			meetPeopleSuccess(friends);
+		});
+		Mutuality.getFavoritesList(function(favorites){
+			console.log(favorites);
+			for (i=0;i<favorites.length; i++){
+				if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
+					Mutuality.mpcache.favoritesList[favorites[i].facebookID] = true;
+				}
 			}
-		}
+		});
 	});
 
-    Mutuality.updateFriendList(0, function(){});
 
    
 /* End Main Code */
