@@ -51,7 +51,7 @@ def createOrUpdateFacebookUser(friendFacebookData):
     print "%f seconds to get or create fb user" % elapsed_time1
     start_time1 = time.time()
     facebookUser.updateUsingFacebookDictionary(friendFacebookData)
-    facebookUser.save()
+    # facebookUser.save()
     elapsed_time1 = time.time() - start_time1
     print "%f seconds to update user" % elapsed_time1
     return facebookUser
