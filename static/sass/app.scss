@@ -109,7 +109,7 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 
 // Logo
 .name:hover { background-color: transparent !important; }
-.name a {  display: block; width: 210px; height: 75px; text-indent: -999em; background: url(../images/mutuality-logo.svg) center center no-repeat; background-size: 100%; }
+.name a {  display: block; width: 160px; height: 75px; text-indent: -999em; background: url(../images/mutuality-logo.svg) center center no-repeat; background-size: 100%; }
 
 
 // Nav
@@ -230,7 +230,7 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 */
 }
 .profiles a > span h3 { display: inline-block; float: left; margin: 9px 0 13px 35px; color: #222; white-space: pre; overflow: hidden; max-width: 86%; }
-.profile-location { display: inline-block; float: left; margin: 15px 5px 0 5px; padding-left: 25px; color: #222; background: $spriteURL 0 -287px no-repeat; width: 24px; height: 24px; border-bottom: none; }
+.profile-location { display: inline-block; float: left; margin: 12px 12px 11px; padding-left: 0; color: #222; background: $spriteURL -4px -287px no-repeat; width: 18px; height: 24px; border-bottom: none; }
 
 #add-to-fav { display: block;width: 17px;height: 16px;margin: 12px 12px 11px;text-indent: -999em;background: url(../images/fav.png) 0 0 no-repeat; float: left; }
 #add-to-fav:hover,
@@ -285,10 +285,12 @@ form.custom div.custom.dropdown ul li.selected:hover { background: none !importa
 input[type=text]:focus + .search-results { display: block; }
 
 
+#utility-col { width: 20%; }
+
 // Randomize
-#randomize { background-color: #dfdfdf; width: 72px; height: 72px; margin: 150px auto 40px; 
+#randomize { background-color: #dfdfdf; width: 92px; height: 92px; margin: 150px auto 40px; 
 	
-	@include border-radius(36px);
+	@include border-radius(56px);
 	@include box-shadow( 
 		rgba(88, 88, 88, 0.4) 0 1px 1px inset,
 		rgba(88, 88, 88, 0.2) 0px 2px 5px inset,
@@ -297,11 +299,11 @@ input[type=text]:focus + .search-results { display: block; }
 	);
 }
 
-#hole { width: 51px; height: 51px; margin: 0 auto; top: 7px; position: relative; }
+#hole { width: 71px; height: 71px; margin: 0 auto; top: 7px; position: relative; }
 
-#random-button { display: block; width: 50px; height: 50px; margin: 0 auto; position: relative; top: -1px; background-color: rgb(101,211,225); 
+#random-button { display: block; width: 70px; height: 70px; margin: 0 auto; position: relative; top: -1px; background-color: rgb(101,211,225); 
 
-	@include border-radius(25px);
+	@include border-radius(45px);
 	@include single-transition(all, 100ms);
 	@include filter-gradient(#65d3e1, #2da1c8, horizontal);
 	$experimental-support-for-svg: true;
@@ -357,14 +359,14 @@ input[type=text]:focus + .search-results { display: block; }
 	);
 }
 
-#rotate { width: 29px; height: 35px; display: block; margin: auto; position: relative; top: 6px; z-index: 2; background: url(../images/rotate.png) center center no-repeat; 
+#rotate { width: 49px; height: 55px; display: block; margin: auto; position: relative; top: 6px; z-index: 2; background: url(../images/rotate.png) center center no-repeat; 
 	
 	@include transition(all, 300ms);
 }
 
 
 // Rating	
-#rating-buttons { width: 75%; margin: 0 auto; clear: both; }
+#rating-buttons { width: 65%; margin: 0 auto; clear: both; }
 
 .rating-button { width: 49.5%; float: left; border: 1px solid #ddd; 
 
@@ -459,7 +461,7 @@ input[type=text]:focus + .search-results { display: block; }
 
 #radios > div { float: left; height: 28px; }
 // #radios input[type=radio] { float: left; }
-#radios label { line-height: 16px; font-weight: 700; }
+#radios label { line-height: 16px; font-weight: 700; width: 100%; }
 
 
 #radios.custom span.custom.radio.checked::before {
@@ -478,6 +480,8 @@ input[type=text]:focus + .search-results { display: block; }
 }
 
 #reason-select.custom.dropdown.open ul { padding: 1px; }
+
+#reason-select.custom.dropdown { width: 140px !important; }
 
 #reason-select.custom.dropdown,
 #reason-select.custom.dropdown li, 
@@ -702,7 +706,7 @@ form#registration span.prefix { padding: 8px; border: none; background: #eee; he
 #footer li { padding: 2px 0; }
 #footer a { color: $white; font-size: 16px; }
 
-#footer-logo { margin-top: 20px; }
+#footer-logo { margin-top: 20px; width: 160px; }
 #footer-logo p { margin: 0; color: $white; }
 #footer-logo a { color: $white; font-size: 12px; }
 
@@ -760,11 +764,18 @@ html {
 
 /* Use this next selector to style things like font-size and line-height: */
 .tooltipster-default .tooltipster-content {
-	font-family: Arial, sans-serif;
-	font-size: 14px;
+	font-size: 12px;
+	font-weight: 700;
+	text-align: center;
 	line-height: 16px;
-	padding: 8px 10px;
-	overflow: hidden;
+	padding: 5px 10px;
+	display: block;
+//	overflow: hidden;
+//	max-height: 30px;
+//	min-width: 100px;
+//	max-width: 200px;
+	width: auto;
+	white-space: nowrap;
 }
 
 /* This next selector defines the color of the border on the outside of the arrow. This will automatically match the color and size of the border set on the main tooltip styles. Set display: none; if you would like a border around the tooltip but no border around the arrow */
@@ -778,12 +789,6 @@ html {
 	cursor: help;
 	margin-left: 4px;
 }
-
-
-
-
-
-
 
 
 /* This is the base styling required to make all Tooltipsters work */

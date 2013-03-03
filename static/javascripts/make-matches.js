@@ -294,6 +294,7 @@
                $('img', rightFriend).fadeIn(400);
            }
 
+          $('.tooltip').tooltipster();
         }
 
     };
