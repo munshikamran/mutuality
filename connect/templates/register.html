@@ -32,15 +32,11 @@
     <script>
     	$("#triggerModal").trigger('click');
         Mutuality.init('{{ profile.facebookID }}', '../');
-
-         Mutuality.updateFriendListCalled(function(response){
-        	if (!response){
-	        	Mutuality.updateFriendList(25, function(){
-        			$(".close-reveal-modal").trigger('click');
-        			window.location = "/meetpeople/"
-        		});
-        	}
-        });
+        
+    	Mutuality.updateFriendList(function(){
+			$(".close-reveal-modal").trigger('click');
+			window.location = "/meetpeople/"
+		});
 
     </script>
 {% endblock %}

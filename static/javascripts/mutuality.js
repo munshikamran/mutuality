@@ -423,6 +423,22 @@ var Mutuality = (function($){
              }
          });
      },
+     // Get messages with another facebook user
+    getMessagesWithOther: function( fbID, success )
+    {
+         var self = this;
+
+         self.__post('api/getThreadPreviews/', { token: this.token, facebookID: fbID }, function( response ){
+             if(response)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 alert("Error: Failed get messages with another user.");
+             }
+         });
+     },
     // Get new message count
     getNewMessageCount: function( success )
     {
