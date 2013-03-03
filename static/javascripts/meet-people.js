@@ -261,7 +261,8 @@
 			Mutuality.getMutualFriendList(facebookID, function(mutualFriends){
 					loadMeetPeopleProfileInfoToCache(facebookID, mutualFriends, extendedProfile);
 					meetProfilesElem = $("#meet-profiles");
-			    	for (i=0; i<friends.length; i++){
+					console.log("Length of Friends = " + friends.length);
+			    	for (i=0; i<100&&i<friends.length; i++){
 	    				var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ $('#add-to-fav').each(function(){ console.log($(this)); if($(this).attr('facebookID') =='"+friends[i].facebookID+"'){$(this).css('background-position',  '0 -16px;'); }});});"    		
 
 			    		var liElem = $('<li>', {class:'meet-profile', facebookID:friends[i].facebookID}).appendTo(meetProfilesElem);
