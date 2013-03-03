@@ -6,7 +6,8 @@
    var _right  = { scale: .85, left: -206, marginTop: 10, opacity: 0.3 };
    var _blur   = { filter : 'blur(3px)', webkitFilter: 'blur(3px)', mozFilter : 'blur(3px)', filter: 'url({{ MEDIA_URL }}/stylesheets/blur.svg#blur)' };	
    var _noblur = { filter: 'none', webkitFilter: 'none', mozFilter: 'none' }
-	
+
+   var MAX_CAROUSEL_NUM = 100;
 
 	var initCarousel = function () {
 		$('#meet-profiles').carouFredSel({
@@ -262,7 +263,7 @@
 					loadMeetPeopleProfileInfoToCache(facebookID, mutualFriends, extendedProfile);
 					meetProfilesElem = $("#meet-profiles");
 					console.log("Length of Friends = " + friends.length);
-			    	for (i=0; i<100&&i<friends.length; i++){
+			    	for (i=0; i<MAX_CAROUSEL_NUM&&i<friends.length; i++){
 	    				var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ $('#add-to-fav').each(function(){ console.log($(this)); if($(this).attr('facebookID') =='"+friends[i].facebookID+"'){$(this).css('background-position',  '0 -16px;'); }});});"    		
 
 			    		var liElem = $('<li>', {class:'meet-profile', facebookID:friends[i].facebookID}).appendTo(meetProfilesElem);
@@ -392,7 +393,7 @@
     var loadNewDataIntoCarousel = function (favorites){
     	$("#meet-profiles").html("");
 
-    	for (i=0; i<favorites.length; i++){
+    	for (i=0; i<MAX_CAROUSEL_NUM&&i<favorites.length; i++){
 	    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +favorites[i].facebookID+", function(success){ $('#add-to-fav').each(function(){ if ($(this).attr('facebookID') == favorites[i].facebookID){ $(this).css('background-position',  '0 -16px;'); }});});"    		
 	    	var liElem = $('<li>', {class:'meet-profile', facebookID:favorites[i].facebookID}).appendTo(meetProfilesElem);
     		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
