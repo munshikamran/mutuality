@@ -16,8 +16,8 @@
 			height: 400,
 			circular: true,
 			align: 'center',
-			prev: { button: "#page-prev", key: "left" },
-			next: { button: "#page-next", key: "right" },
+			prev: { button: "#page-prev" },
+			next: { button: "#page-next" },
 			items: {
 				visible: 3,
 				width: 350
@@ -115,13 +115,15 @@
 	$("body").keydown(function (e){ 
 	    if(e.keyCode == 37 || e.which == 37) // left arrow
 	    {
-	        // your action here, for example
-	        $('#page-prev').click();
+	    	if($('#page-prev').is(":visible")){
+	        	$('#page-prev').click();
+	    	}
 	    }
 	    else if(e.keyCode == 39 || e.which == 39)    // right arrow
 	    { 
-	        // your action here, for example
-	        $('#page-next').click();
+	        if($('#page-next').is(":visible")){
+	        	$('#page-next').click();
+	    	}
 	    }
 	});
 
