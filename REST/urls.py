@@ -16,6 +16,8 @@ from REST.views.set_user_viewed import SetUserViewedAPI
 from REST.views.get_thread_previews import GetThreadPreviewsAPI
 from REST.views.get_newmessage_count import GetNewMessageCountAPI
 from REST.views.get_message_with_other import GetMessageThreadWithOtherAPI
+from REST.views.send_message import SendMessageAPI
+
 
 urlpatterns = patterns('REST.views',
     url(r'^getProfile/$', GetProfile.as_view()),
@@ -34,5 +36,7 @@ urlpatterns = patterns('REST.views',
     url(r'^setUserViewed/$', SetUserViewedAPI.as_view()),
     url(r'^getThreadPreviews/$', GetThreadPreviewsAPI.as_view()),
     url(r'^getNewMessageCount/$', GetNewMessageCountAPI.as_view()),
-    url(r'^getMessagesWithOther/$', GetMessageThreadWithOtherAPI.as_view())
+    url(r'^getMessagesWithOther/$', GetMessageThreadWithOtherAPI.as_view()),
+    url(r'^sendMessage/$', SendMessageAPI.as_view())
+
 )

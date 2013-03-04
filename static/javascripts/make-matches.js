@@ -312,5 +312,5 @@
     Mutuality.loadFriendsList(null, function(){});
     Mutuality.getMeetPeople(0, 0, friendsOfFriendsSuccess);
     Mutuality.loadNewMatch('male', 'female', Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
-
+    //Mutuality.sendMessage('1240230066', 'hey sexy dude', function(response){console.log(response);});
 })(jQuery);

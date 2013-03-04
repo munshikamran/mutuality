@@ -447,6 +447,15 @@ var Mutuality = (function($){
          self.__post('api/getNewMessageCount/', { token: this.token }, function( response ){
              if(success instanceof Function) success.call(self, response); 
          });
+     },
+   // Send new message
+    sendMessage: function(fbID, messageString, success )
+    {
+         var self = this;
+
+         self.__post('api/sendMessage/', { token: this.token, otherFbId: fbID, messageContent: messageString }, function( response ){
+             if(success instanceof Function) success.call(self, response); 
+         });
      }
 
  };
