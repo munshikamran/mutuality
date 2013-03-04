@@ -93,5 +93,5 @@ class BaseFacebookCallback(object):
                 'handle_unauthenticated_user method")
 
     def identifier_from_data(self, data):
-        return "%s-%s" % (slugify(data['name']), data['id'])
+        return "%s" % slugify(data['id'])
 
