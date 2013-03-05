@@ -170,6 +170,7 @@
 	// When the fav filter is selected, load the favorites into the UI
 	$('#fav-filter').bind('change', function(e){
 		if ($('#fav-filter').val() == "Favorites"){
+			triggerModal();
 			Mutuality.getFavoritesList(function(favorites){
         		loadNewDataIntoCarousel(favorites);
         		for (i=0;i<favorites.length; i++){
@@ -179,16 +180,19 @@
 				}
    			});
     	} else if ($('#fav-filter').val() == "Viewed") {
+		   triggerModal()
     		Mutuality.getMeetPeople(1, 0, function(viewedUsers){
     			loadNewDataIntoCarousel(viewedUsers);
     		});
     	}
     	else if ($('#fav-filter').val() == "Dating") {
+    		triggerModal();
     		Mutuality.getMeetPeople(0, 1, function(datingFriends){
     			loadNewDataIntoCarousel(datingFriends);
     		});
     	}
     	else{
+    		triggerModal();
     		Mutuality.getMeetPeople(0, 0, function(meetPeopleList) {
     			loadNewDataIntoCarousel(meetPeopleList);
     		});
@@ -197,6 +201,18 @@
 
 /* End Event Code */
 /* Begin Helper functions */
+
+	var triggerModal = function(){
+	   $("#triggerModal").trigger('click');
+	   $("page-next").hide();
+	   $("page-prev").hide();
+	}
+
+	var hideModal = function(){
+	   $(".close-reveal-modal").trigger('click');
+	   $("page-next").show();
+	   $("page-prev").show();
+	}
 
 	// Find out which person is currently focused and get their details
 	var setCurrentPerson = function (){
@@ -286,7 +302,7 @@
 
 					//Show the main content, dismiss the modal, init tooltips
 			    	$("#main").show();
-			   		$(".close-reveal-modal").trigger('click');
+			    	hideModal();
 		    		$('.tooltip').tooltipster();
 			    	initCarousel();
 
@@ -413,8 +429,7 @@
     		var hElem = $('<h3>', {id:"left-profile-name", html:favorites[i].name}).appendTo(spanElem);
     	}
 
-    	$('#page-next').show();
-    	$('#page-prev').show();
+    	hideModal();
     	$('#page-next').trigger('click');
 
     }
@@ -438,7 +453,7 @@
 
 /* Begin Main Code */
    // Show the loading modal, and hide the page contents while async calls fire
-   $("#triggerModal").trigger('click');
+   triggerModal();
    $("#main").hide();
 
    if($.cookie("UpdateFriendListCalled") !== "true") {
@@ -474,6 +489,9 @@
 			}
 		});
 	}
+
+	//Style adjustments
+	$('#ask-about').css({ zIndex: 0 });
  
 /* End Main Code */
 
