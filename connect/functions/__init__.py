@@ -9,6 +9,7 @@ from getFriendsOfFriends import GetFriendsOfFriends, GetFriendsOfFriendsInArea, 
 from getFacebookSendDialogue import GetFacebookSendDialogue
 from orderByNumberOfMutualFriends import OrderByNumberOfMutualFriends
 from createUserFavorite import CreateUserFavorite
+from removeUserFavorite import RemoveUserFavorite
 from getUserFavorites import GetUserFavorites
 from getMutualityUsers import GetNonFriendUsersInArea, GetNonFriendSingleUsersInArea
 from viewUser import ViewUser
