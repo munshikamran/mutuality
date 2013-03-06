@@ -244,6 +244,7 @@
             var leftSex = $("#left-match-sex").val() == "Guys" ? 'male' : 'female';
             var rightSex = $("#right-match-sex").val() == "Guys" ? 'male' : 'female';
             Mutuality.loadNewMatch(leftSex, rightSex, Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
+             mixpanel.track("spin button clicked"); 
         }
     });
 
