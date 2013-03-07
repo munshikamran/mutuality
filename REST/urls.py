@@ -17,6 +17,8 @@ from REST.views.get_thread_previews import GetThreadPreviewsAPI
 from REST.views.get_newmessage_count import GetNewMessageCountAPI
 from REST.views.get_message_with_other import GetMessageThreadWithOtherAPI
 from REST.views.send_message import SendMessageAPI
+from REST.views.remove_favorite import RemoveFavoriteAPI
+
 
 
 urlpatterns = patterns('REST.views',
@@ -37,6 +39,6 @@ urlpatterns = patterns('REST.views',
     url(r'^getThreadPreviews/$', GetThreadPreviewsAPI.as_view()),
     url(r'^getNewMessageCount/$', GetNewMessageCountAPI.as_view()),
     url(r'^getMessagesWithOther/$', GetMessageThreadWithOtherAPI.as_view()),
-    url(r'^sendMessage/$', SendMessageAPI.as_view())
-
+    url(r'^sendMessage/$', SendMessageAPI.as_view()),
+    url(r'^removeFavorite/$', RemoveFavoriteAPI.as_view())
 )

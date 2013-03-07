@@ -180,7 +180,7 @@
 				}
    			});
     	} else if ($('#fav-filter').val() == "Viewed") {
-		   triggerModal()
+		   triggerModal();
     		Mutuality.getMeetPeople(1, 0, function(viewedUsers){
     			loadNewDataIntoCarousel(viewedUsers);
     		});
@@ -203,15 +203,15 @@
 /* Begin Helper functions */
 
 	var triggerModal = function(){
-	   $("#triggerModal").trigger('click');
-	   $("page-next").hide();
-	   $("page-prev").hide();
+	   $("#page-next").hide();
+	   $("#page-prev").hide();
+   	   $("#triggerModal").trigger('click');
 	}
 
 	var hideModal = function(){
-	   $(".close-reveal-modal").trigger('click');
-	   $("page-next").show();
-	   $("page-prev").show();
+	   $("#page-next").show();
+	   $("#page-prev").show();
+   	   $(".close-reveal-modal").trigger('click');
 	}
 
 	// Find out which person is currently focused and get their details
@@ -282,7 +282,7 @@
 					meetProfilesElem = $("#meet-profiles");
 					console.log("Length of Friends = " + friends.length);
 			    	for (i=0; i<MAX_CAROUSEL_NUM&&i<friends.length; i++){
-	    				var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ $('#add-to-fav').each(function(){ console.log($(this)); if($(this).attr('facebookID') =='"+friends[i].facebookID+"'){$(this).css('background-position',  '0 -16px;'); }});});"    		
+	    				var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ console.log($('.match-profile-details').is(':visible').closest('li').attr(facebookid));  if($('.match-profile-details').is(':visible')[0].closest('li').attr(facebookid) =='"+friends[i].facebookID+"'){console.log('success nigga') }});"    		
 
 			    		var liElem = $('<li>', {class:'meet-profile', facebookID:friends[i].facebookID}).appendTo(meetProfilesElem);
 			    		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
@@ -301,11 +301,10 @@
 			    	}
 
 					//Show the main content, dismiss the modal, init tooltips
-			    	$("#main").show();
 			    	hideModal();
+			    	$("#main").show();
 		    		$('.tooltip').tooltipster();
 			    	initCarousel();
-
 			    	$('#page-next').trigger('click');
 
 				});

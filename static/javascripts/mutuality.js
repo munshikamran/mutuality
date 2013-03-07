@@ -272,10 +272,10 @@ var Mutuality = (function($){
             if (response == true){
                 if(success instanceof Function) success.call(self);
             }
-            else
+            /*else
             {
                 alert("Error: Couldn't rate thumbs up.");
-            }
+            }*/
          });
 
       },
@@ -289,10 +289,10 @@ var Mutuality = (function($){
            {
               if(success instanceof Function) success.call(self, response.profiles);
            }
-           else
+           /*else
            {
               alert("Error: Couldn't rate thumbs down.");
-           }
+           }*/
         });
       },
       // Get friends of friend
@@ -321,10 +321,10 @@ var Mutuality = (function($){
                {
                    if(success instanceof Function) success.call(self, response);
                }
-               else
+               /*else
                {
                    alert("Error: Meet people cannot be loaded.  No results.");
-               }
+               }*/
            });
        }, 
       // Get meet people profile
@@ -337,10 +337,10 @@ var Mutuality = (function($){
                {
                    if(success instanceof Function) success.call(self, response);
                }
-               else
+               /*else
                {
                    alert("Error: Meet people profile cannot be loaded.");
-               }
+               }*/
            });
        },
     // Get your mutual friends with a particular person
@@ -353,10 +353,10 @@ var Mutuality = (function($){
              {
                  if(success instanceof Function) success.call(self, response);
              }
-             else
+             /*else
              {
                  alert("Error: No Mutual Friends.");
-             }
+             }*/
          });
      },
      // Set a favorite
@@ -365,14 +365,30 @@ var Mutuality = (function($){
          var self = this;
 
          self.__post('api/setFavorite/', { token: this.token, facebookID: fbID }, function( response ){
-             if(response)
+             if(response == true)
              {
                  if(success instanceof Function) success.call(self, response);
              }
-             else
+             /*else
              {
                  alert("Error: Failed to add to favorites.");
+             }*/
+         });
+     },     
+    // Remove a favorite
+    removeFavorite: function( fbID, success )
+    {
+         var self = this;
+
+         self.__post('api/removeFavorite/', { token: this.token, facebookID: fbID }, function( response ){
+             if(response == true)
+             {
+                 if(success instanceof Function) success.call(self, response);
              }
+             /*else
+             {
+                 alert("Error: Failed to remove from favorites.");
+             }*/
          });
      },
      // Get your favorites list
@@ -381,14 +397,14 @@ var Mutuality = (function($){
          var self = this;
 
          self.__post('api/getFavoritesList/', { token: this.token }, function( response ){
-             if(response)
+             if(response.length > 0)
              {
                  if(success instanceof Function) success.call(self, response);
              }
-             else
+             /*else
              {
                  alert("Error: No Favorites Added.");
-             }
+             }*/
          });
      },
     // Set a user as viewed
