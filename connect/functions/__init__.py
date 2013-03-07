@@ -17,3 +17,4 @@ from getViewedUsers import GetViewedUsers
 from getMeetPeople import GetMeetPeople
 from getProfileAuthToken import GetProfileAuthToken
 from getMeetPeopleProfile import GetMeetPeopleProfile
+from updateProfile import UpdateProfile
