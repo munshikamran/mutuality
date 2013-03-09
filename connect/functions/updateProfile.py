@@ -6,5 +6,5 @@ from connect.models import Profile
 # 'location' : <city>,<state> e.g. 'Seattle, Washington'
 #  'relationship_status' : one of the values in common.enums.relationship_status.py
 def UpdateProfile(profile,userData):
-    profile.updateUsingFacebookDictionary()
+    profile.updateUsingFacebookDictionary(userData)
     profile.save()
