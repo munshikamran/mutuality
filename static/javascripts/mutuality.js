@@ -472,6 +472,15 @@ var Mutuality = (function($){
          self.__post('api/sendMessage/', { token: this.token, otherFbId: fbID, messageContent: messageString }, function( response ){
              if(success instanceof Function) success.call(self, response); 
          });
+     },
+    // Set attributes of user profile
+    setProfile: function( profileDict, success )
+    {
+         var self = this;
+
+         self.__post('api/setProfile/', { token: this.token, userData: profileDict }, function( response ){
+             if(success instanceof Function) success.call(self, response); 
+         });
      }
 
  };
