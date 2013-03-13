@@ -4,9 +4,8 @@
 
 					<section id="page-title" class="row">
 						<div class="eight columns">
-							<h2>Welcome, please update your profile</h2>
+							<h2>Account</h2>
 						</div>
-
 						<hr />
 					</section>
 					
@@ -17,33 +16,35 @@
 							    <label for="reg-firstname"><strong>Name</strong></label>
 							  </div>
 							  
-							  <div class="five columns">
-							    <input id="reg-firstname" type="text" value="Lee" />
+							  <div class="ten columns">
+							    <input id="reg-firstname" type="text" value="" disabled="disabled" />
 							  </div>
 							  
-							  <div class="five columns">
-							    <input type="text" value="Peterson" />
-							  </div>
+							  <!--<div class="five columns">
+							    <input type="text" value="" />
+							  </div> -->
 							</div>
 
 							<div class="row">
-							  <div class="two columns">
+							  <!--<div class="two columns">
 							    <label for="reg-bio"><strong>Bio</strong></label>
 							  </div>
 							  
 							  <div class="ten columns">
-							    <textarea id="bio">Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</textarea>
-							  </div>
+							    <textarea id="bio"></textarea>
+							  </div> -->
 							</div>
 
 							<div class="row">
 							  <div class="two columns">
-							    <label for="reg-pw"><strong>Location</strong></label>
+							    <label for="reg-location"><strong>Location</strong></label>
 							  </div>
 							  
 							  <div class="ten columns">
-							    <input id="reg-pw" type="password" />
+							    <input id="reg-location" type="text" />
 							  </div>
+					          <div id="location-ajax" style="display:none;"></div>
+					          <div id="location-error" style="display:none;">You must select a location from the dropdown.</div>
 							</div>
 
 							<div class="row">
@@ -53,7 +54,7 @@
 							  
 							  <div class="seven columns">
     							<select id="reg-sex" style="display:none;">
-    								<option id="reg-female" value="Male" selected="selected">Male</option>
+    								<option id="reg-male" value="Male" selected="selected">Male</option>
     								<option id="reg-female" value="Female">Female</option>
     							</select>
     							<div id="reg-sex" class="custom dropdown">
@@ -65,13 +66,16 @@
     								</ul>
     							</div>
     						</div>
+    					</div>
+
 							<div class="row">
 							  <div class="two columns">
-							    <label for="reg-relationship"><strong>Relationship Status</strong></label>
+							    <label for="reg-relationship"><strong>Status</strong></label>
 							  </div>
+  							  <div class="seven columns">
     							<select id="reg-relationship" style="display:none;">
     								<option id="reg-single" value="Single" selected="selected">Single</option>
-    								<option id="reg-notsingle" value="NotSingle">Not-Single</option>
+    								<option id="reg-notsingle" value="Relationship">In a Relationship</option>
     							</select>
     							<div id="reg-relationship" class="custom dropdown">
     								<a href="#" class="current">Single</a>
@@ -82,27 +86,171 @@
     								</ul>
     							</div>
 							  </div>
+							</div>
   							<div class="three columns"></div>
 							</div>
   						
 							<div class="row">
 							  <div class="ten columns offset-by-two">
-      						<input type="button" href="#" class="medium button" value="Save Settings" />
+      						<input id="save-button"type="button" href="#" class="medium button" value="Save Settings" />
 							  </div>
 							</div>
+							<br />
 						</form>
 					</section>
+
 	
 				</div>
 			</div>
 		</div>
 	</div>
 {% endblock %}
-{% block extrascript %}
-    <script>
-        Mutuality.init('{{ profile.facebookID }}', '../');
+  {% block extrahtml %} 
+<div class="error message">
+		 <h3>Error!</h3>
+		 <p>There was a problem saving your profile.</p>
 
-    </script>
+</div>
+<div class="success message">
+		 <h3>Success!</h3>
+		 <p>We successfully saved your profile.</p>
+
+</div>
+<ul id="trigger-list">
+		 <li><a href="#" class="trigger error-trigger" style="display:none;">Error</a></li>
+		 <li><a href="#" class="trigger success-trigger" style="display:none;">Success</a></li>
+</ul>  
+{% endblock %}
+{% block extrascript %}
+<!-- Autocomplete styles -->
+<style type="text/css">
+	.autocomplete-suggestions { border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; }
+	.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+	.autocomplete-selected { background: #F0F0F0; }
+	.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+</style>
+
+<!-- Notification styles -->
+<style type=text/css>
+	.message
+	{
+			-webkit-background-size: 40px 40px;
+			-moz-background-size: 40px 40px;
+			background-size: 40px 40px;			
+			background-image: -webkit-gradient(linear, left top, right bottom,
+									color-stop(.25, rgba(255, 255, 255, .05)), color-stop(.25, transparent),
+									color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .05)),
+									color-stop(.75, rgba(255, 255, 255, .05)), color-stop(.75, transparent),
+									to(transparent));
+			background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+								transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+								transparent 75%, transparent);
+			background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+								transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+								transparent 75%, transparent);
+			background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+								transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+								transparent 75%, transparent);
+			background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+								transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+								transparent 75%, transparent);
+			background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+								transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+								transparent 75%, transparent);
+									
+			 -moz-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+			 -webkit-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);		
+			 box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+			 width: 100%;
+			 border: 1px solid;
+			 color: #fff;
+			 padding: 15px;
+			 position: fixed;
+			 _position: absolute;
+			 text-shadow: 0 1px 0 rgba(0,0,0,.5);
+			 -webkit-animation: animate-bg 5s linear infinite;
+			 -moz-animation: animate-bg 5s linear infinite;
+	}
+
+	.info
+	{
+			 background-color: #4ea5cd;
+			 border-color: #3b8eb5;
+	}
+
+	.error
+	{
+			 background-color: #de4343;
+			 border-color: #c43d3d;
+	}
+			 
+	.warning
+	{
+			 background-color: #eaaf51;
+			 border-color: #d99a36;
+	}
+
+	.success
+	{
+			 background-color: #61b832;
+			 border-color: #55a12c;
+	}
+
+	.message h3
+	{
+			 margin: 0 0 5px 0;													 
+	}
+
+	.message p
+	{
+			 margin: 0;													 
+	}
+
+	@-webkit-keyframes animate-bg
+	{
+	    from {
+	        background-position: 0 0;
+	    }
+	    to {
+	       background-position: -80px 0;
+	    }
+	}
+
+	@-moz-keyframes animate-bg 
+	{
+	    from {
+	        background-position: 0 0;
+	    }
+	    to {
+	       background-position: -80px 0;
+	    }
+	}
+</style>
+<script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.autocomplete.js"></script>
+<script>
+   (function($){
+       $.getScript('{{ MEDIA_URL }}/javascripts/account.js').fail(function(xhr, settings, exception){
+           console.log(exception);
+       });
+   })(jQuery);
+
+   FB.init({
+       appId  : '{{ FACEBOOK_APP_ID }}',
+       frictionlessRequests: true
+   });
+
+   function sendRequestViaMultiFriendSelector() {
+       var message = 'Mutuality is really fun! I just matched two people together that will make you laugh :)';
+       FB.ui({method: 'apprequests',
+           message: message
+       }, requestCallback);
+   }
+
+   function requestCallback(response) {
+       // Handle callback here
+   }
+
+</script>
 {% endblock %}
 
 

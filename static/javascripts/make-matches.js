@@ -302,10 +302,15 @@
 
     // After AJAX call for finding friends of friends, load random four images into meet people call to action
     var friendsOfFriendsSuccess = function(friends){
-        friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
-        $('#four-images img').each(function(i) {
-            $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
-        });
+        if (friends.length > 0){
+            friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
+            $('#four-images img').each(function(i) {
+                $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
+            });
+        }
+        else{
+            $("#meet-people-cta").css('display','none');
+        }
     };
 
    // Load friendslist and friends of friends via AJAX and populate the left and right

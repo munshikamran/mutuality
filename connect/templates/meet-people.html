@@ -7,13 +7,11 @@
 						<div class="eight columns">
 							<h2>Meet People</h2>
 						</div>
-		
 						<form class="four columns custom">
 							<select id="fav-filter" style="display:none;">
 								<option id="all" value="All" selected="selected">Friends</option><option id="dating" value="Dating">Dating</option>
 								<option id="favorites" value="Favorites">Favorites</option><option id="viewed" value="Viewed">Viewed</option>
 							</select>
-
 							<div id="fav-filter" class="custom dropdown">
 								<a href="#" class="current">Friends</a>
 								<a href="#" class="selector"></a>
@@ -28,15 +26,13 @@
 						
 						<hr />
 					</section>
-					<section id="main" class="row">
+					<section id="main" style="min-height: 400px;" class="row">
 						<a href="#" id="triggerModal" data-reveal-id="myModal"></a>
 						<div id="carousel" class="nine columns">
 
 							<ul id="meet-profiles" class="profiles">
 
 							</ul>
-
-
 							<a href="#" id="page-prev">Previous</a>
 							<a href="#" id="page-next">Next</a>
 						</div>
@@ -87,8 +83,8 @@
 	<section id="meet-people-cta" class="page-content">
 		<div class="row">
 			<div class="eight columns">
-				<h4>Connect Friends</h4>
-				<p>Play friend-maker with this fun and simple tool!</p>
+				<h4>Make Matches</h4>
+				<p>Have some fun - connect your friends or be a match maker!</p>
 				<a href="/makematches/" class="button">Learn more</a>
 			</div>
 			<div id="four-images" class="four columns">
@@ -102,12 +98,13 @@
 {% endblock %}
 {% block extrahtml %}
     <div id="myModal" class="reveal-modal large">
-        <h4>We are currently searching for potential friends...</h4>
+        <h4>Analyzing your friend network...</h4>
         <div class="row">
             <div id="nudge-left" style:"text-align:center">
                 <a href="#" class="title">
                     <span class="match-name">This may take a few seconds</span>
                     <span class="introduce-thumb" style="background-image: url({{ MEDIA_URL }}/images/loader.gif);"></span>
+                    <span  id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite some friends and get more matches!)</a></span>
                 </a>
             </div>
             
@@ -154,7 +151,7 @@
        });
 
        function sendRequestViaMultiFriendSelector() {
-           var message = 'Mutuality is really fun! I just matched two people together that will make you laugh :)';
+           var message = 'Mutuality is really fun! It connects you with friends of friends!  Join me and help me meet some new people :)';
            FB.ui({method: 'apprequests',
                message: message
            }, requestCallback);
@@ -164,7 +161,8 @@
            // Handle callback here
        }
 
-       $("#invite-link a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");
+       // Attach the facebook friend invite to things on the page
+       $("#inviteFriends a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");
 
     </script>
 {% endblock %}	

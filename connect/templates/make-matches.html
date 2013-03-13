@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load la_facebook_tags %}
-{% block title %} Connect Friends  {% endblock %}
+{% block title %} Make Matches  {% endblock %}
 {% block content %}
     <section id="page-title" class="row">
         <div class="eight columns">
-            <h2>Connect Friends</h2>
+            <h2>Make Matches</h2>
         </div>
 
         <div class="four columns">
-            <span id="invite-link">Having fun? <a  onclick="" ><strong>Invite your friends!</strong></a></span>
+            <span id="invite-link">Having fun? <a href="#" onclick="" ><strong>Invite your friends!</strong></a></span>
         </div>
 
         <hr />
@@ -223,6 +223,7 @@
             </div>
         </div>
     </div>
+    <div id="meet-people-wrapper" style="min-height: 50px;">
     <section id="meet-people-cta" class="page-content">
         <div class="row">
             <div class="eight columns">
@@ -237,6 +238,7 @@
                 <img src="{{ MEDIA_URL }}/images/betty.jpg" />
             </div>
         </div>
+    </div>
     </section>
 {% endblock %}
 {% block extrahtml %}

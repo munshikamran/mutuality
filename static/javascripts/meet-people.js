@@ -170,7 +170,7 @@
 	// When the fav filter is selected, load the favorites into the UI
 	$('#fav-filter').bind('change', function(e){
 		if ($('#fav-filter').val() == "Favorites"){
-			triggerModal();
+			//triggerModal();
 			Mutuality.getFavoritesList(function(favorites){
         		loadNewDataIntoCarousel(favorites);
         		for (i=0;i<favorites.length; i++){
@@ -180,7 +180,7 @@
 				}
    			});
     	} else if ($('#fav-filter').val() == "Viewed") {
-		   triggerModal();
+		    //triggerModal();
     		Mutuality.getMeetPeople(1, 0, function(viewedUsers){
     			loadNewDataIntoCarousel(viewedUsers);
     		});
@@ -282,19 +282,33 @@
 					meetProfilesElem = $("#meet-profiles");
 					console.log("Length of Friends = " + friends.length);
 			    	for (i=0; i<MAX_CAROUSEL_NUM&&i<friends.length; i++){
-	    				var setFavoriteFunctionString = "Mutuality.setFavorite(" +friends[i].facebookID+", function(success){ console.log($('.match-profile-details').is(':visible').closest('li').attr(facebookid));  if($('.match-profile-details').is(':visible')[0].closest('li').attr(facebookid) =='"+friends[i].facebookID+"'){console.log('success nigga') }});"    		
+	    				var setFavoriteFunctionString = 
+							"var currentPerson = $($($('.match-profile-details')[1]).children()[0]);" +
+							"if(currentPerson.css('background-position') == '0px -16px') {" +
+							"	Mutuality.removeFavorite(" +friends[i].facebookID+"," +
+							"		function(success){ " +
+							"			if(currentPerson.attr('facebookid') =='"+friends[i].facebookID+"'){" +
+							"				currentPerson.css('background-position',  '0 0px');}" +
+							"		}); " +
+							" } " +
+							"else {" +
+							"	Mutuality.setFavorite(" +friends[i].facebookID+", "+
+							"		function(success){ " +
+							"			if(currentPerson.attr('facebookid') =='"+friends[i].facebookID+"'){"+
+							"				currentPerson.css('background-position',  '0 -16px');} " +
+							"	});}";    		
 
 			    		var liElem = $('<li>', {class:'meet-profile', facebookID:friends[i].facebookID}).appendTo(meetProfilesElem);
-			    		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
+			    		var aElem = $('<a>', { class:"loaded"}).appendTo(liElem);
 			    		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(friends[i].facebookID, 350, 350)}).appendTo(aElem);
 			    		var spanElem = $('<span>', {class:"match-profile-details"}).appendTo(aElem);
 			    		var inFavorites = Mutuality.mpcache.favoritesList[friends[i].facebookID];
 
 			    		if (!inFavorites) {
-			    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title: "Add to Favorites", facebookID: friends[i].facebookID ,  onclick:setFavoriteFunctionString}).appendTo(spanElem);
+			    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title: "Toggle Favorite", facebookID: friends[i].facebookID ,  style:"background-position: 0 0px", onclick:setFavoriteFunctionString}).appendTo(spanElem);
 			    		}
 			    		else{
-			    			var spanElem2 = $('<span>', {id:"add-to-fav", html:"Remove from Favorites", class:"tooltip", style:"background-position: 0 -16px;"}).appendTo(spanElem);
+			    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title:"Toggle Favorite", facebookID: friends[i].facebookID, style:"background-position: 0 -16px", onclick:setFavoriteFunctionString}).appendTo(spanElem);
 			    			//console.log("yes a favorite");
 			    		}
 			    		var hElem = $('<h3>', {id:"left-profile-name", html:friends[i].name}).appendTo(spanElem);
@@ -411,7 +425,21 @@
     	$("#meet-profiles").html("");
 
     	for (i=0; i<MAX_CAROUSEL_NUM&&i<favorites.length; i++){
-	    	var setFavoriteFunctionString = "Mutuality.setFavorite(" +favorites[i].facebookID+", function(success){ $('#add-to-fav').each(function(){ if ($(this).attr('facebookID') == favorites[i].facebookID){ $(this).css('background-position',  '0 -16px;'); }});});"    		
+		var setFavoriteFunctionString = 
+			"var currentPerson = $($($('.match-profile-details')[1]).children()[0]);" +
+			"if(currentPerson.css('background-position') == '0px -16px') {" +
+			"	Mutuality.removeFavorite(" +favorites[i].facebookID+"," +
+			"		function(success){ " +
+			"			if(currentPerson.attr('facebookid') =='"+favorites[i].facebookID+"'){" +
+			"				currentPerson.css('background-position',  '0 0px');}" +
+			"		}); " +
+			" } " +
+			"else {" +
+			"	Mutuality.setFavorite(" +favorites[i].facebookID+", "+
+			"		function(success){ " +
+			"			if(currentPerson.attr('facebookid') =='"+favorites[i].facebookID+"'){"+
+			"				currentPerson.css('background-position',  '0 -16px');} " +
+			"	});}";  
 	    	var liElem = $('<li>', {class:'meet-profile', facebookID:favorites[i].facebookID}).appendTo(meetProfilesElem);
     		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
     		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(favorites[i].facebookID, 350, 350)}).appendTo(aElem);
@@ -419,11 +447,11 @@
     		var inFavorites = Mutuality.mpcache.favoritesList[favorites[i].facebookID];
 
     		if (!inFavorites) {
-    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title: "Add to Favorites", facebookID: favorites[i].facebookID, onclick:setFavoriteFunctionString}).appendTo(spanElem);
+    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title: "Toggle Favorite", facebookID: favorites[i].facebookID ,  style:"background-position: 0 0px", onclick:setFavoriteFunctionString}).appendTo(spanElem);
     		}
     		else{
-    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title: "Remove from Favorites", style:"background-position: 0 -16px;"}).appendTo(spanElem);
-    			// console.log("yes a favorite");
+    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title:"Toggle Favorite", facebookID: favorites[i].facebookID, style:"background-position: 0 -16px", onclick:setFavoriteFunctionString}).appendTo(spanElem);
+    			//console.log("yes a favorite");
     		}
     		var hElem = $('<h3>', {id:"left-profile-name", html:favorites[i].name}).appendTo(spanElem);
     	}
@@ -452,8 +480,8 @@
 
 /* Begin Main Code */
    // Show the loading modal, and hide the page contents while async calls fire
-   triggerModal();
    $("#main").hide();
+   triggerModal();
 
    if($.cookie("UpdateFriendListCalled") !== "true") {
 	    Mutuality.updateFriendList(0, function(){
@@ -476,8 +504,17 @@
 	else {
 		Mutuality.loadFriendsList(populateCTA);
 		Mutuality.getMeetPeople(0, 0, function(friends){
-	    	Mutuality.mpcache.fofList = friends;
-			meetPeopleSuccess(friends);
+			if (friends.length > 0){
+	    		Mutuality.mpcache.fofList = friends;
+				meetPeopleSuccess(friends);
+			}
+			else {
+				$("#myModal h4").text("Sorry, but no people were found!");
+				$(".introduce-thumb").hide();
+				$(".match-name").hide();
+				$("#inviteFriends").show();
+				//alert("You currently have no friends on Mutuality.  Invite some friends to see some people!");
+			}
 		});
 		Mutuality.getFavoritesList(function(favorites){
 			//console.log(favorites);

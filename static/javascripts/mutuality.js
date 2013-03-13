@@ -474,11 +474,11 @@ var Mutuality = (function($){
          });
      },
     // Set attributes of user profile
-    setProfile: function( profileDict, success )
+    setProfile: function( loc, relationship, gen, success )
     {
          var self = this;
 
-         self.__post('api/setProfile/', { token: this.token, userData: profileDict }, function( response ){
+         self.__post('api/setProfile/', { token: this.token, location: loc, relationship_status: relationship, gender: gen }, function( response ){
              if(success instanceof Function) success.call(self, response); 
          });
      }

@@ -12,7 +12,15 @@ class SetProfileAPI(APIView):
     def post(self, request, format=None):
         try:
             profile = Profile.objects.get(facebookID=request.DATA['token'])
-            success = UpdateProfile(profile, request.DATA['userData']);
+            pfDict = {}
+            print request.DATA['location']
+            print request.DATA['relationship_status']
+            print request.DATA['gender']
+            pfDict['location'] = {}
+            pfDict['location']['name'] = request.DATA['location']
+            pfDict['relationship_status'] = request.DATA['relationship_status']
+            pfDict['gender'] = request.DATA['gender']
+            success = UpdateProfile(profile, pfDict)
             return Response(success)
         except:
             raise Http404
