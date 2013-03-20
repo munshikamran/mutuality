@@ -6,3 +6,4 @@ connect/migrations/*
 */workspace.xml
 *~
 * alias
+*.idea*
