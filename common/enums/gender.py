@@ -1,7 +1,7 @@
 class GENDER():
 
-	MALE = "MALE"
-	FEMALE = "FEMALE"
+	MALE = "male"
+	FEMALE = "female"
 
 
 	ENUM = (

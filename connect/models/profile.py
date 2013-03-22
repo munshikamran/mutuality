@@ -32,8 +32,10 @@ class Profile(models.Model):
 		genderKey = 'gender'
 		if genderKey in fbDictionary.keys():
 			gender = fbDictionary[genderKey]
-			# store as 'm' or 'f' not as 'male' or 'female'
-			self.gender = gender
+			if gender == 'male' or gender == 'Male':
+				self.gender = GENDER.MALE
+			elif gender == 'female' or gender == 'Female':
+				self.gender = GENDER.FEMALE
 
 	# update age
 		birthdayKey = 'birthday'
