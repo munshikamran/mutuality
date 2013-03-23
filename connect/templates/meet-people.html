@@ -127,39 +127,55 @@
 		</aside>
         <a class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();"><small>Nevermind</small> &times;</a>
     </div>
+    <ol id="joyRideTipContent">
+      <li class="seePeople" data-id="meet-profiles" data-button="NEXT" data-options="nubPosition:seePeopleNub">
+      	<h4>Make trusted connections</h4>
+        <p>You have mutual friends with everyone you see</p>
+      </li>
+      <li class="filters" data-id="fav-filter" data-button="NEXT" data-options="nubPosition:filtersNub">
+      	<h4>Have it your way</h4>
+      	<p>Filter your matches to make it even easier</p>
+      </li>
+      <li class="fav" data-id="carousel" data-button="NEXT" data-options="nubPosition:favNub">
+      	<h4>See someone interesting?</h4>
+      	<p>Click here to save them to your (private) favorites</p>
+      </li>
+      <li class="ask" data-id="ask-about" data-button="NEXT" data-options="nubPosition:askNub">
+      	<h4>Or...</h4>
+      	<p>Ask a close friend for more info</p>
+      </li>
+      <li class="intro" data-id="introduce" data-button="NEXT" data-options="nubPosition:introNub">
+      	<h4>Or...</h4>
+      	<p>Just ask them for an introduction</p>
+      </li>
+      <li data-button="CLOSE">
+      	<h4>It's that easy</h4>
+      	<p>Don't forget to show your friends!</p>
+      </li>
+    </ol>
 {% endblock %}
 {% block extrascript %}
     <script>
-       /*
-        * Would like to replace this with a custom view helper
-        * that prints out a <script> tag to match the current
-        * route if the JS file exists. Example:
-        * 
-        * <script src="javascripts/mutuality/make-matches.js"><//script>
-        *
-       */
-       (function($){
-           $.getScript('{{ MEDIA_URL }}/javascripts/meet-people.js').fail(function(xhr, settings, exception){
-               console.log(exception);
-           });
-       })(jQuery);
+    	// Get page JS
+		(function($){
+		   $.getScript('{{ MEDIA_URL }}/javascripts/meet-people.js').fail(function(xhr, settings, exception){
+		       console.log(exception);
+		   });
+		})(jQuery);
 
-
-       FB.init({
+		// Init Facebook JS object
+        FB.init({
            appId  : '{{ FACEBOOK_APP_ID }}',
            frictionlessRequests: true
-       });
+        });
 
-       function sendRequestViaMultiFriendSelector() {
-           var message = 'Mutuality is really fun! It connects you with friends of friends!  Join me and help me meet some new people :)';
-           FB.ui({method: 'apprequests',
-               message: message
-           }, requestCallback);
-       }
-
-       function requestCallback(response) {
-           // Handle callback here
-       }
+		function sendRequestViaMultiFriendSelector() {
+			var message = 'Mutuality is really fun! I just matched two people together that will make you laugh :)';
+			FB.ui({method: 'apprequests',
+			   message: message
+			}, requestCallback);
+		}
+       	function requestCallback(response) {}
 
        // Attach the facebook friend invite to things on the page
        $("#inviteFriends a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");

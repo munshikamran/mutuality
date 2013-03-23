@@ -268,41 +268,55 @@
 
         <a class="close-reveal-modal"><small>No Thanks</small> &times;</a>
     </div>
+    <ol id="joyRideTipContent">
+      <li class="spin" data-id="hole" data-button="NEXT" data-options="tipLocation:top">
+        <h4>Spin!</h4>
+        <p>Click below to refresh the matches</p>
+      </li>
+      <li class="ratings" data-id="rating-buttons" data-button="NEXT" data-options="tipLocation:top;nubPosition:ratingNub">
+        <h4>Would they get along?</h4>
+        <p>Give them an up-or-down vote. If<br>you give them the thumbs up, you<br>can choose to introduce them</p>
+      </li>
+      <li class="search" data-id="left-match-search" data-button="NEXT" data-options="tipLocation:top;nubPosition:searchNub">
+        <h4>Search for someone</h4>
+        <p>Start typing a friend's name to find them</p>
+      </li>
+      <li class="lock" data-id="left-match-lock" data-button="NEXT" data-options="tipLocation:top;nubPosition:lockNub">
+        <h4>Lock it down</h4>
+        <p>Click here to only refresh the other side</p>
+      </li>
+      <li data-button="CLOSE">
+        <h4>Have fun!</h4>
+        <p>Don't forget to show your friends!</p>
+      </li>
+    </ol>
 {% endblock %}
 {% block extrascript %}
     <script>
-       /*
-        * Would like to replace this with a custom view helper
-        * that prints out a <script> tag to match the current
-        * route if the JS file exists. Example:
-        * 
-        * <script src="javascripts/mutuality/make-matches.js"><//script>
-        *
-       */
-       (function($){
+        // Joyride
+        $(window).load(function() { $('#joyRideTipContent').joyride(); });
+
+        // Get page JS
+        (function($){
            $.getScript('{{ MEDIA_URL }}/javascripts/make-matches.js').fail(function(xhr, settings, exception){
                console.log(exception);
            });
-       })(jQuery);
+        })(jQuery);
 
-
-       FB.init({
+        // Init Facebook JS object
+        FB.init({
            appId  : '{{ FACEBOOK_APP_ID }}',
            frictionlessRequests: true
-       });
+        });
 
-       function sendRequestViaMultiFriendSelector() {
+        function sendRequestViaMultiFriendSelector() {
            var message = 'Mutuality is really fun! I just matched two people together that will make you laugh :)';
            FB.ui({method: 'apprequests',
                message: message
            }, requestCallback);
-       }
-
-       function requestCallback(response) {
-           // Handle callback here
-       }
-
+        }
+       function requestCallback(response) {}
+       
        $("#invite-link a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");
-
     </script>
 {% endblock %}

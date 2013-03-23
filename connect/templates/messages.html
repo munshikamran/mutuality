@@ -19,6 +19,7 @@
 						
 						<div class="message-list three columns">
 						  <ul>
+						  <!--
 						    <li class="cf active"><a href="#">
 						    	<span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span>
 						    	<strong>Mila Kunis</strong>
@@ -29,6 +30,7 @@
 						    	<strong>Mila Kunis</strong>
 						    	<small>September 30, 2030</small>
 						    </a></li>
+						  -->
 						  </ul>
 						</div>
 						
@@ -37,6 +39,7 @@
 						    <div class="load-messages row">
 						      <a href="#">Load previous messages</a>
 						    </div>
+						    <!--
 						    <div class="single-message row">
 							    <div class="two columns">
 							      <span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span>
@@ -52,13 +55,14 @@
 							      <small>9:30 am</small>
 							    </div>
 							    <div class="ten columns">
-							      <p>Donec ullamcorper nulla non metus auctor fringilla. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condim entum nibh, ut fermentum massa justo sit amet risus.</p>
+							      <p>fuck ullamcorper nulla non metus auctor fringilla. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condim entum nibh, ut fermentum massa justo sit amet risus.</p>
 							      <p>Cras mattis consectetur purus sit amet fermentum. Lorem ipsum dolor sit amet, consetur adipiscing elit. Nullam id dolor id nibh ultri cies vehicula ut id elit. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
 							    </div>
 						    </div>
+						  -->
 						  </div>
 						  <div class="message-reply">
-						    <textarea placeholder="Write a reply..."></textarea>
+						    <textarea placeholder="Write a reply..." onfocus="this.placeholder = ''"></textarea>
 						  </div>
 						  <div class="row">
 						    <input class="messages button" value="Send" />
@@ -66,19 +70,25 @@
 						</div>
 						
 						<aside class="message-ask three columns">
-							<h6>Ask About <span class="profile-name">John</span></h6>
+							<h6 class="profile-name"></h6>
 							
-							<div class="ask-about" class="twelve columns">
-								
+							<div class="ask-about">
+								<!-- 
 								<ul>
+									
 									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
 									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span></a></li>
 									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
 									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/brian.jpg);"></span></a></li>
 									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
 									<li><a href="#"><span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/betty.jpg);"></span></a></li>
+									
 								</ul>
-
+								//-->
+							</div>
+							<div class="twelve columns">
+								<a href="#" id="ask-prev" class="four offset-by-one columns small button">&larr; Prev</a>
+								<a href="#" id="ask-next" class="four offset-by-two columns small button">Next &rarr;</a>
 							</div>
 						</aside>
 					</section>
@@ -103,6 +113,27 @@
 			</div>
 		</div>
 	</section>
+
+	    	<!--  Each tip is set within this <ol>. */ -->
+		<!-- This creates the order the tips are displayed--> 
+		<ol id="joyride">
+  			<!--/* data-id needs to be the same as the parent it will attach to */ -->
+  			<li data-id="main">
+  				<h1>trial</h1>
+  				<p>working</p>
+  			</li>
+  			<li data-class="message-reply">
+        		<h2>Stop #2</h2>
+       			<p>Get the details right by styling Joyride with a custom stylesheet!</p>
+      		</li>
+  			<!--/* This tip will be display as a modal */
+  			<li>Tip content...</li>
+  			/* using 'data-button' lets you have custom button text */
+  			<li data-class="parent-element-class" data-options="tipLocation:top;tipAnimation:fade" data-button="Second Button">Content...</li>
+  			/* you can put a class for custom styling */
+  			<li data-id="parentElementID" class="custom-class">Content...</li> -->
+		</ol>
+
 {% endblock %}
 {% block extrascript %}
     <script>
@@ -145,6 +176,10 @@
        }
 
        $("#invite-link a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");
+
+         $(window).load(function() {
+    		$('#joyride').joyride();
+  		});
 
     </script>
 {% endblock %}	

@@ -490,6 +490,7 @@
 			Mutuality.getMeetPeople(0, 0, function(friends){
 		    	Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
+				$('#joyRideTipContent').joyride();
 			});
 			Mutuality.getFavoritesList(function(favorites){
 				//console.log(favorites);
@@ -507,13 +508,13 @@
 			if (friends.length > 0){
 	    		Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
+				$('#joyRideTipContent').joyride();
 			}
 			else {
 				$("#myModal h4").text("Sorry, but no people were found!");
 				$(".introduce-thumb").hide();
 				$(".match-name").hide();
 				$("#inviteFriends").show();
-				//alert("You currently have no friends on Mutuality.  Invite some friends to see some people!");
 			}
 		});
 		Mutuality.getFavoritesList(function(favorites){
