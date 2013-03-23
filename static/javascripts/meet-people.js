@@ -94,20 +94,20 @@
 			}
 		});
 
-		$('#ask-about-modal').carouFredSel({
-		auto : false,
-		width: 400,
-		height: 150,
-		prev: "#ask-prev-modal",
-		next: "#ask-next-modal",
-		items: {
-			visible: 1
-		},
-		scroll: {
-			fx: 'fade',
-			items: 1
-		}
-	});
+	// 	$('#ask-about-modal').carouFredSel({
+	// 	auto : false,
+	// 	width: 213,
+	// 	height: 150,
+	// 	prev: "#ask-prev-modal",
+	// 	next: "#ask-next-modal",
+	// 	items: {
+	// 		visible: 1
+	// 	},
+	// 	scroll: {
+	// 		fx: 'fade',
+	// 		items: 1
+	// 	}
+	// });
 
 	};
 
@@ -529,7 +529,9 @@
 
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });
- 
+ 	$('#ask-about-modal').css({ zIndex: 0 });
+ 	//$('#introduce').click(function(){initAskAboutCarousel();});
+
 /* End Main Code */
 
 })(jQuery);
