@@ -93,24 +93,24 @@
 				items: 1
 			}
 		});
-
-	// 	$('#ask-about-modal').carouFredSel({
-	// 	auto : false,
-	// 	width: 213,
-	// 	height: 150,
-	// 	prev: "#ask-prev-modal",
-	// 	next: "#ask-next-modal",
-	// 	items: {
-	// 		visible: 1
-	// 	},
-	// 	scroll: {
-	// 		fx: 'fade',
-	// 		items: 1
-	// 	}
-	// });
-
 	};
 
+	var initAskAboutCarouselModal = function () {
+		$('.ask-about-modal').carouFredSel({
+			auto : false,
+			width: 213,
+			height: 150,
+			prev: "#ask-prev-modal",
+			next: "#ask-next-modal",
+			items: {
+				visible: 1
+			},
+			scroll: {
+				fx: 'fade',
+				items: 1
+			}
+		});
+	};
 	// Make sure that when you are scrolling with the keyboard, it's like you're clicking next/prev
 	$("body").keydown(function (e){ 
 	    if(e.keyCode == 37 || e.which == 37) // left arrow
@@ -148,14 +148,14 @@
 	$("#introduce").click(function(){
 	    	$('#page-next').hide();
 	    	$('#page-prev').hide();
-
+			setTimeout(function(){initAskAboutCarouselModal();}, 100);
 	});
 
 	// When you click next, set the current person
 	$('#page-next').click(function(){
 		// Hide the profile stats and mutual friends divs while new data being fetched
 		$('#ask-about').html("");
-		$('#ask-about-modal').html("");
+		$('.ask-about-modal').html("");
 		setCurrentPerson();
 	});
 
@@ -163,7 +163,7 @@
 	$('#page-prev').click(function(){
 		// Hide the profile stats and mutual friends divs while new data being fetched
 		$('#ask-about').html("");
-		$('#ask-about-modal').html("");
+		$('.ask-about-modal').html("");
 		setCurrentPerson();
 	});
 
@@ -333,7 +333,7 @@
 
 		for (i=0; i<mutualFriends.length; i++){
 			askaboutElem = $('#ask-about');
-			askaboutElemModal = $('#ask-about-modal');
+			askaboutElemModal = $('.ask-about-modal');
 			if (i % 6 == 0){
 				newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo(askaboutElem);
 				newUlElemModal = $('<ul>', {style: "margin-right: 0px; list-style-type: none;"}).appendTo(askaboutElemModal);
@@ -351,6 +351,7 @@
 
 		$('.tooltip').tooltipster();
 		initAskAboutCarousel();
+		initAskAboutCarouselModal();
 	}
 
 	// Load the current person's profile info into the UI
@@ -529,7 +530,7 @@
 
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });
- 	$('#ask-about-modal').css({ zIndex: 0 });
+ 	$('.ask-about-modal').css({ zIndex: 0 });
  	//$('#introduce').click(function(){initAskAboutCarousel();});
 
 /* End Main Code */
