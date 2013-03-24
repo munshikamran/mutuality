@@ -89,7 +89,6 @@
 							</div>
   							<div class="three columns"></div>
 							</div>
-  						
 							<div class="row">
 							  <div class="ten columns offset-by-two">
       						<input id="save-button"type="button" href="#" class="medium button" value="Save Settings" />
@@ -105,151 +104,27 @@
 		</div>
 	</div>
 {% endblock %}
-  {% block extrahtml %} 
+ {% block extrahtml %} 
 <div class="error message">
-		 <h3>Error!</h3>
-		 <p>There was a problem saving your profile.</p>
-
+	 <h3>Error!</h3>
+	 <p>There was a problem saving your profile.</p>
 </div>
 <div class="success message">
-		 <h3>Success!</h3>
-		 <p>We successfully saved your profile.</p>
-
+	 <h3>Success!</h3>
+	 <p>We successfully saved your profile.</p>
 </div>
 <ul id="trigger-list">
-		 <li><a href="#" class="trigger error-trigger" style="display:none;">Error</a></li>
-		 <li><a href="#" class="trigger success-trigger" style="display:none;">Success</a></li>
+	 <li><a href="#" class="trigger error-trigger" style="display:none;">Error</a></li>
+	 <li><a href="#" class="trigger success-trigger" style="display:none;">Success</a></li>
 </ul>  
 {% endblock %}
 {% block extrascript %}
-<!-- Autocomplete styles -->
-<style type="text/css">
-	.autocomplete-suggestions { border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; }
-	.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
-	.autocomplete-selected { background: #F0F0F0; }
-	.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
-</style>
-
-<!-- Notification styles -->
-<style type=text/css>
-	.message
-	{
-			-webkit-background-size: 40px 40px;
-			-moz-background-size: 40px 40px;
-			background-size: 40px 40px;			
-			background-image: -webkit-gradient(linear, left top, right bottom,
-									color-stop(.25, rgba(255, 255, 255, .05)), color-stop(.25, transparent),
-									color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .05)),
-									color-stop(.75, rgba(255, 255, 255, .05)), color-stop(.75, transparent),
-									to(transparent));
-			background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
-								transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
-								transparent 75%, transparent);
-			background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
-								transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
-								transparent 75%, transparent);
-			background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
-								transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
-								transparent 75%, transparent);
-			background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
-								transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
-								transparent 75%, transparent);
-			background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
-								transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
-								transparent 75%, transparent);
-									
-			 -moz-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
-			 -webkit-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);		
-			 box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
-			 width: 100%;
-			 border: 1px solid;
-			 color: #fff;
-			 padding: 15px;
-			 position: fixed;
-			 _position: absolute;
-			 text-shadow: 0 1px 0 rgba(0,0,0,.5);
-			 -webkit-animation: animate-bg 5s linear infinite;
-			 -moz-animation: animate-bg 5s linear infinite;
-	}
-
-	.info
-	{
-			 background-color: #4ea5cd;
-			 border-color: #3b8eb5;
-	}
-
-	.error
-	{
-			 background-color: #de4343;
-			 border-color: #c43d3d;
-	}
-			 
-	.warning
-	{
-			 background-color: #eaaf51;
-			 border-color: #d99a36;
-	}
-
-	.success
-	{
-			 background-color: #61b832;
-			 border-color: #55a12c;
-	}
-
-	.message h3
-	{
-			 margin: 0 0 5px 0;													 
-	}
-
-	.message p
-	{
-			 margin: 0;													 
-	}
-
-	@-webkit-keyframes animate-bg
-	{
-	    from {
-	        background-position: 0 0;
-	    }
-	    to {
-	       background-position: -80px 0;
-	    }
-	}
-
-	@-moz-keyframes animate-bg 
-	{
-	    from {
-	        background-position: 0 0;
-	    }
-	    to {
-	       background-position: -80px 0;
-	    }
-	}
-</style>
-<script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.autocomplete.js"></script>
 <script>
    (function($){
        $.getScript('{{ MEDIA_URL }}/javascripts/account.js').fail(function(xhr, settings, exception){
            console.log(exception);
        });
    })(jQuery);
-
-   FB.init({
-       appId  : '{{ FACEBOOK_APP_ID }}',
-       frictionlessRequests: true
-   });
-
-   function sendRequestViaMultiFriendSelector() {
-       var message = 'Mutuality is really fun! I just matched two people together that will make you laugh :)';
-       FB.ui({method: 'apprequests',
-           message: message
-       }, requestCallback);
-   }
-
-   function requestCallback(response) {
-       // Handle callback here
-   }
-
 </script>
 {% endblock %}
 

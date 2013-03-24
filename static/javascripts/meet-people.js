@@ -94,20 +94,20 @@
 			}
 		});
 
-		$('#ask-about-modal').carouFredSel({
-		auto : false,
-		width: 400,
-		height: 150,
-		prev: "#ask-prev-modal",
-		next: "#ask-next-modal",
-		items: {
-			visible: 1
-		},
-		scroll: {
-			fx: 'fade',
-			items: 1
-		}
-	});
+	// 	$('#ask-about-modal').carouFredSel({
+	// 	auto : false,
+	// 	width: 213,
+	// 	height: 150,
+	// 	prev: "#ask-prev-modal",
+	// 	next: "#ask-next-modal",
+	// 	items: {
+	// 		visible: 1
+	// 	},
+	// 	scroll: {
+	// 		fx: 'fade',
+	// 		items: 1
+	// 	}
+	// });
 
 	};
 
@@ -490,6 +490,7 @@
 			Mutuality.getMeetPeople(0, 0, function(friends){
 		    	Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
+				$('#joyRideTipContent').joyride();
 			});
 			Mutuality.getFavoritesList(function(favorites){
 				//console.log(favorites);
@@ -507,13 +508,13 @@
 			if (friends.length > 0){
 	    		Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
+				$('#joyRideTipContent').joyride();
 			}
 			else {
 				$("#myModal h4").text("Sorry, but no people were found!");
 				$(".introduce-thumb").hide();
 				$(".match-name").hide();
 				$("#inviteFriends").show();
-				//alert("You currently have no friends on Mutuality.  Invite some friends to see some people!");
 			}
 		});
 		Mutuality.getFavoritesList(function(favorites){
@@ -528,7 +529,9 @@
 
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });
- 
+ 	$('#ask-about-modal').css({ zIndex: 0 });
+ 	//$('#introduce').click(function(){initAskAboutCarousel();});
+
 /* End Main Code */
 
 })(jQuery);

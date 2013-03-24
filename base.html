@@ -8,18 +8,11 @@
 
   <!-- Set the viewport width to device width for mobile -->
   <meta name="viewport" content="width=device-width" />
-
   <title>{% block title %}{% endblock %} - Mutuality</title>
 
   <!-- Included CSS Files -->
   <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/app.css">
-
-  <script src="{{ MEDIA_URL }}/javascripts/foundation/modernizr.foundation.js"></script>
-
-    <!-- start Mixpanel --><script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
-typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,
-e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
-mixpanel.init("2c016968167f5dc85b02e758553ab355");</script><!-- end Mixpanel -->
+  <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/joyride-2.0.3.css">
 
 </head>
 <body>
@@ -36,7 +29,6 @@ mixpanel.init("2c016968167f5dc85b02e758553ab355");</script><!-- end Mixpanel -->
             </li>
             <li class="toggle-topbar"><a href="#"></a></li>
           </ul>
-          
           <section id="nav">
           {% if user.is_authenticated %}
               {% if profile %}
@@ -127,6 +119,8 @@ mixpanel.init("2c016968167f5dc85b02e758553ab355");</script><!-- end Mixpanel -->
   <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.forms.js"></script>
   <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.tooltips.js"></script>
   <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.cookie.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/modernizr.foundation.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.joyride.js"></script>
 
   <!--
       <script src="javascripts/foundation/jquery.foundation.topbar.js"></script>
@@ -150,6 +144,8 @@ mixpanel.init("2c016968167f5dc85b02e758553ab355");</script><!-- end Mixpanel -->
   <script src="{{ MEDIA_URL }}/javascripts/plugins.js"></script>
   <script src="{{ MEDIA_URL }}/javascripts/transform.js"></script>
   <script src="http://connect.facebook.net/en_US/all.js"></script>
+  
+  <!-- User feedback JS -->
   <script type="text/javascript">
     var _urq = _urq || [];
     _urq.push(['initSite', '576e2861-518d-4c6b-8da5-097f7fec1e70']);
@@ -159,49 +155,151 @@ mixpanel.init("2c016968167f5dc85b02e758553ab355");</script><!-- end Mixpanel -->
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
     })();
   </script>
-  <script type="text/javascript">
-  $("#nav li").click(function() {
-    $("#nav li").removeClass("active");
-    $(this).addClass("active");
-  });
-  </script>
+
+  <!-- Mixpanel JS -->
+  <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
+  typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,
+  e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
+  mixpanel.init("2c016968167f5dc85b02e758553ab355");
+  </script> 
+ 
+
   {% if user.is_authenticated %}
     {% if profile %}
-      <script type="text/javascript">
-       /*
-          The token in this init function should pertain to the
-          current user, user session or something to identify the
-          current authenticated user   
-       */
-       Mutuality.init('{{ profile.facebookID }}', '../');
-       Mutuality.getNewMessageCount(function(count){
-          console.log(count);
-          if (count > 0){
-            $(".message-count").show();
-            $(".message-count").html(count);
-          }
-          else{
-            $(".message-count").hide();
-          }
-       });
-
-    // Make sure the header shows the active page
-    $(function(){
-          // this will get the full URL at the address bar
-          var url = window.location.href; 
-          console.log(url);
-
-        // passes on every "a" tag 
-        $(".page-nav").each(function() {
-                // checks if its the same on the address bar
-            if(url == (this.href)) { 
-                $(this).closest("li").addClass("active");
+        <script type="text/javascript">
+        // Update the message count in the header
+         Mutuality.init('{{ profile.facebookID }}', '../');
+         Mutuality.getNewMessageCount(function(count){
+            console.log(count);
+            if (count > 0){
+              $(".message-count").show();
+              $(".message-count").html(count);
             }
-          });
-    });
-  </script>
+            else{
+              $(".message-count").hide();
+            }
+         });
+
+      // Make sure the header shows the active page
+      $(function(){
+            var url = window.location.href; 
+          $(".page-nav").each(function() {
+              if(url.indexOf(this.href) !== -1) { 
+                  $(this).closest("li").addClass("active");
+              }
+            });
+      });
+    </script>
     {% endif %}
-  {% endif %}  
+  {% endif %} 
+
+<!-- Autocomplete styles -->
+<style type="text/css">
+    .autocomplete-suggestions { border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; }
+    .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+    .autocomplete-selected { background: #F0F0F0; }
+    .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+</style>
+
+<!-- Notification styles -->
+<style type=text/css>
+    .message
+    {
+            -webkit-background-size: 40px 40px;
+            -moz-background-size: 40px 40px;
+            background-size: 40px 40px;         
+            background-image: -webkit-gradient(linear, left top, right bottom,
+                                    color-stop(.25, rgba(255, 255, 255, .05)), color-stop(.25, transparent),
+                                    color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .05)),
+                                    color-stop(.75, rgba(255, 255, 255, .05)), color-stop(.75, transparent),
+                                    to(transparent));
+            background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                                transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                                transparent 75%, transparent);
+            background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                                transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                                transparent 75%, transparent);
+            background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                                transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                                transparent 75%, transparent);
+            background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                                transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                                transparent 75%, transparent);
+            background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                                transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                                transparent 75%, transparent);
+                                    
+             -moz-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+             -webkit-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);       
+             box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+             width: 100%;
+             border: 1px solid;
+             color: #fff;
+             padding: 15px;
+             position: fixed;
+             _position: absolute;
+             text-shadow: 0 1px 0 rgba(0,0,0,.5);
+             -webkit-animation: animate-bg 5s linear infinite;
+             -moz-animation: animate-bg 5s linear infinite;
+    }
+
+    .info
+    {
+             background-color: #4ea5cd;
+             border-color: #3b8eb5;
+    }
+
+    .error
+    {
+             background-color: #de4343;
+             border-color: #c43d3d;
+    }
+             
+    .warning
+    {
+             background-color: #eaaf51;
+             border-color: #d99a36;
+    }
+
+    .success
+    {
+             background-color: #61b832;
+             border-color: #55a12c;
+    }
+
+    .message h3
+    {
+             margin: 0 0 5px 0;                                                  
+    }
+
+    .message p
+    {
+             margin: 0;                                                  
+    }
+
+    @-webkit-keyframes animate-bg
+    {
+        from {
+            background-position: 0 0;
+        }
+        to {
+           background-position: -80px 0;
+        }
+    }
+
+    @-moz-keyframes animate-bg 
+    {
+        from {
+            background-position: 0 0;
+        }
+        to {
+           background-position: -80px 0;
+        }
+    }
+</style>
+<script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.autocomplete.js"></script>
+
+
   {% block extrascript %} 
     <!-- Extra page scripts get inserted here -->
   {% endblock %}

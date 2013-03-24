@@ -7230,6 +7230,50 @@ input[type=text]:focus + .search-results {
   box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
 }
 
+/* line 540, ../sass/app.scss */
+#ask-about-small {
+  height: 150px;
+}
+
+/* line 541, ../sass/app.scss */
+#ask-about-small ul {
+  height: 150px;
+  width: 213px;
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* line 542, ../sass/app.scss */
+#ask-about-small li {
+  margin: 2px;
+  float: left;
+}
+
+/* line 543, ../sass/app.scss */
+#ask-about-small a {
+  display: inline-block;
+  padding: 3px;
+  width: 65px;
+  height: 65px;
+}
+
+/* line 544, ../sass/app.scss */
+#ask-about-small .profile-thumb {
+  width: 60px;
+  height: 60px;
+  border-width: 3px;
+}
+
+/* line 545, ../sass/app.scss */
+#ask-about-small .profile-thumb:hover {
+  border-width: 4px;
+  border-color: #4fa8c4;
+  -webkit-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+  -moz-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+  box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+}
+
 /* line 547, ../sass/app.scss */
 #ask-prev,
 #ask-next {
@@ -7438,8 +7482,12 @@ body#messages #page-title {
 
 /* line 649, ../sass/app.scss */
 .message-list li {
-  padding: 10px 0;
+  padding: 10px 10px;
   border-bottom: 1px dotted #ddd;
+}
+
+.message-list li:hover {
+  background: url(../images/message-active.png) 95% 50% no-repeat;
 }
 
 /* line 650, ../sass/app.scss */
