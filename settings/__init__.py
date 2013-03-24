@@ -9,43 +9,18 @@ ADMINS = (
 	# ('Your Name', 'your_email@domain.com'),
 )
 
-
 DEVELOPMENT_MODE = False
 SHOULD_LOCKDOWN = True
+ENVIRONMENT=os.environ.get('ENVIRONMENT')
+if ENVIRONMENT:
+    # determine if stage or prod
+    print ENVIRONMENT
+else:
+    ENVIRONMENT = 'development'
+    DEVELOPMENT_MODE = True
 
 
 MANAGERS = ADMINS
-
-if DEVELOPMENT_MODE:
-    DATABASES = {
-       'default': {
-           'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-           'NAME': 'dummy.db',                      # Or path to database file if using sqlite3.
-           'USER': '',                      # Not used with sqlite3.
-           'PASSWORD': '',                  # Not used with sqlite3.
-           'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-           'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-       }
-    }
-    FACEBOOK_APP_ID = '544374212239681'
-    FACEBOOK_APP_SECRET = 'e9609c52c461966845ff4ae6c186e458'
-    URL = "http://localhost:8000"
-else:
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-    import dj_database_url
-    DATABASES['default'] =  dj_database_url.config()
-    URL = "www.mymutuality.com"
-    FACEBOOK_APP_ID = '475217095841801'
-    FACEBOOK_APP_SECRET = '1304979d3d82251c8dd383e179c30126'
 
 WSGI_APPLICATION = "Mutuality.wsgi.application"
 
@@ -66,9 +41,13 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = False
 
+#changed to be more universal... this will always give the absolute
+#path for settings.py and everything is relative to it -- Jeff
+ABSOLUTE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'static')
+MEDIA_ROOT = os.path.join(ABSOLUTE_PATH, 'static')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -80,24 +59,6 @@ MEDIA_URL = '/static'
 # Examples: "http://foo.com/media/", "/media/".
 #ADMIN_MEDIA_PREFIX = '/static/admin/'
 ADMIN_MEDIA_PREFIX = '/admin/'
-
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.abspath(os.path.dirname(__file__)) + '/static/'
-
-# URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
-# STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.join(os.path.dirname(__file__), 'static'),
-)
-
 
 
 # Make this unique, and don't share it with anybody.
@@ -126,7 +87,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-	os.path.join(os.path.dirname(__file__), ''),
+	ABSOLUTE_PATH
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -163,6 +124,30 @@ AUTH_PROFILE_MODULE="connect.Profile"
 
 LOGIN_REDIRECT_URL="/register/"
 
+# password protection
+if SHOULD_LOCKDOWN:
+    INSTALLED_APPS += ('lockdown', )
+    MIDDLEWARE_CLASSES += ('lockdown.middleware.LockdownMiddleware', )
+    LOCKDOWN_PASSWORD = 'Alpha-Tester'
+    LOCKDOWN_FORM = 'lockdown.forms.LockdownForm'
+
+# override and additional settings for different environments
+from django.utils.importlib import import_module
+import sys
+def override_settings(dottedpath):
+    try:
+        _m = import_module(dottedpath)
+    except ImportError:
+        warnings.warn("Failed to import environment settings: %s" % dottedpath)
+        pass
+    else:
+        _thismodule = sys.modules[__name__]
+        for _k in dir(_m):
+            if _k.isupper() and not _k.startswith('__'):
+                setattr(_thismodule, _k, getattr(_m, _k))
+
+override_settings('settings.%s' % ENVIRONMENT)
+
 FACEBOOK_ACCESS_SETTINGS = {
         "FACEBOOK_APP_ID": FACEBOOK_APP_ID,
         "FACEBOOK_APP_SECRET": FACEBOOK_APP_SECRET,
@@ -180,10 +165,3 @@ FACEBOOK_ACCESS_SETTINGS = {
         'friends_work_history',\
         'friends_education_history'], # FACEBOOK PERMISSIONS http://developers.facebook.com/docs/authentication/permissions/
 }
-
-# password protection
-if SHOULD_LOCKDOWN:
-    INSTALLED_APPS += ('lockdown', )
-    MIDDLEWARE_CLASSES += ('lockdown.middleware.LockdownMiddleware', )
-    LOCKDOWN_PASSWORD = 'Alpha-Tester'
-    LOCKDOWN_FORM = 'lockdown.forms.LockdownForm'

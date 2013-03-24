@@ -46,10 +46,10 @@ return curr_hour + ":" + curr_min + " " + a_p;
 }
 
 var initAskAboutCarousel = function () {
-		$('.ask-about').carouFredSel({
+		$('#ask-about-small').carouFredSel({
 			auto : false,
 			width: 213,
-			height: 110,
+			height: 150,
 			prev: "#ask-prev",
 			next: "#ask-next",
 			items: {
@@ -61,8 +61,6 @@ var initAskAboutCarousel = function () {
 			}
 		});
 	};
-
-
 
 //Load full message exchange into the UI
 var loadMessageThreadIntoUI = function(messageThread) {
@@ -205,20 +203,28 @@ var loadThreadPreviewsIntoUI = function (messages) {
 	var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 		var name = otherName.split(" ");
 		var newUlElem;
-		$('.ask-about').empty();
+		$('#ask-about-small').empty();
 		$('.profile-name').html("Ask About " + name[0]);
 		for (var i = 0; i < mutualFriends.length; i++) {
 			var friendID = mutualFriends[i].facebookID;
+			var friendName = mutualFriends[i].name.split(" ")[0]
+			var messageString = "Can you tell me more about " + friendName + "?";
 			var mutualFriendImage = 'background-image: url(' + Mutuality.getProfilePictureURL(friendID, 45, 45) + ')';
 			if (i % 6 == 0){
-				newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo($('.ask-about'));
+				newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo($('#ask-about-small'));
 				}
+			
 				var liElem = $(newUlElem).append
 					($('<li>').append(
-						$('<a>').attr('href','#').append(
+						$('<a>').attr({
+							'href': '#',
+							'data-facebookid':friendID,
+							'data-name':otherName,
+							'onclick': Mutuality.getSendNudgeURL(Mutuality.cache.profile.facebookID,friendID,messageString,"http://goo.gl/L7Uk9")
+						}).append(
 							$('<span>').attr({
 									class: "profile-thumb tooltip",
-									title: "Ask " + mutualFriends[i].name.split(" ")[0],
+									title: "Ask " + friendName,
 									style: mutualFriendImage,
 									}))));
 			};
@@ -287,8 +293,6 @@ var loadThreadPreviewsIntoUI = function (messages) {
 				$('input.messages.button').click();
 			}
 		});	
-
-
 	
 	});
    
