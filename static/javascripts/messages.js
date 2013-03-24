@@ -62,8 +62,6 @@ var initAskAboutCarousel = function () {
 		});
 	};
 
-
-
 //Load full message exchange into the UI
 var loadMessageThreadIntoUI = function(messageThread) {
 	var totalHeight = 0;
@@ -209,16 +207,24 @@ var loadThreadPreviewsIntoUI = function (messages) {
 		$('.profile-name').html("Ask About " + name[0]);
 		for (var i = 0; i < mutualFriends.length; i++) {
 			var friendID = mutualFriends[i].facebookID;
+			var friendName = mutualFriends[i].name.split(" ")[0]
+			var messageString = "Can you tell me more about " + friendName + "?";
 			var mutualFriendImage = 'background-image: url(' + Mutuality.getProfilePictureURL(friendID, 45, 45) + ')';
 			if (i % 6 == 0){
 				newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo($('#ask-about-small'));
 				}
+			
 				var liElem = $(newUlElem).append
 					($('<li>').append(
-						$('<a>').attr('href','#').append(
+						$('<a>').attr({
+							'href': '#',
+							'data-facebookid':friendID,
+							'data-name':otherName,
+							'onclick': Mutuality.getSendNudgeURL(Mutuality.cache.profile.facebookID,friendID,messageString,"http://goo.gl/L7Uk9")
+						}).append(
 							$('<span>').attr({
 									class: "profile-thumb tooltip",
-									title: "Ask " + mutualFriends[i].name.split(" ")[0],
+									title: "Ask " + friendName,
 									style: mutualFriendImage,
 									}))));
 			};
@@ -287,8 +293,6 @@ var loadThreadPreviewsIntoUI = function (messages) {
 				$('input.messages.button').click();
 			}
 		});	
-
-
 	
 	});
    
