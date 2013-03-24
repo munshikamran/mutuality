@@ -115,8 +115,11 @@ var loadSentMessage = function(messageThread) {
 	var messageOwner = sentMessage.sender.facebookID;
 	var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 45, 45) + ')';
 	var time = formatTime(sentMessage.sent_at);
+	var newMessagePos = $('.single-message').eq(0).data('messageposition') + 1;
+	var messageAdded = false;
 	if ($('.message-thread').height() > 450) {
 		$('.single-message').eq(0).remove();
+		messsageAdded = true;
 	}
 	
 	$('.message-thread').append(
@@ -132,6 +135,9 @@ var loadSentMessage = function(messageThread) {
 						"<p>" + sentMessage.body + "</p>"	
 						)
 						)))
+	if (messageAdded = true) {
+		$('.single-message').eq(0).attr('data-messageposition',newMessagePos);
+	}
 }
 
 //Load thread previews into the UI
