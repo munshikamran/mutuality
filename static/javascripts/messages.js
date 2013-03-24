@@ -19,6 +19,35 @@ var friendsOfFriendsSuccess = function(friends){
 };
 
 */
+function introduceYourself (facebookID, name) {
+	//Is this person in the list already?
+	Mutuality.getThreadPreviews(function(messages) {
+			console.log(messages);
+			var existing = false;
+			for (i = 0; i < messages.length; i++) {
+				var messageSender = messages[i].sender.facebookID;
+				var messageRecipient = messages[i].recipient.facebookID;
+				if (messageSender===facebookID || messageRecipient === facebookID) {
+					existing = true;
+					break;
+				}
+			}
+
+			console.log(existing);
+
+		});
+
+	//If so, open that thread 
+
+	//If they aren't in the list, add li element to top of thread previews that is active
+
+	//Show some content about introducing yourself in the center
+
+	//Text area prefill should be "write a message..."
+
+
+}
+
 function formatTime (dateString) {
 	
 	var a_p = "";
@@ -239,6 +268,14 @@ var loadThreadPreviewsIntoUI = function (messages) {
 	// Get and show full message thread when relevant preview li element is clicked
 	$(document).ready(function() {
 	
+		//Start new message thread (if query string)
+		//var trial;
+
+		//console.log(trial);
+
+		//introduceYourself("1451700007", "Taylor Woods");
+		introduceYourself("4055796633278", "Sarah Rodolico");
+
 		// Get Thread Previews
 		Mutuality.getThreadPreviews(loadThreadPreviewsIntoUI);
 
