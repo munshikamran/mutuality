@@ -7,6 +7,8 @@ from la_facebook.la_fb_logging import logger
 from la_facebook.models import UserAssociation
 from la_facebook.callbacks.base import BaseFacebookCallback
 
+from connect.functions import SendMessage
+
 class DefaultFacebookCallback(BaseFacebookCallback):
 
     def fetch_user_data(self, request, access, token):
@@ -107,6 +109,9 @@ class DefaultFacebookCallback(BaseFacebookCallback):
 #            )
             profile = self.update_profile_from_graph(request, access, token, user)
             profile.save()
+            # Send out Welcome message to this user that has newly been created
+            SendMessage(profile, profile.facebookID, "Welcome to Mutuality! This is your first message! love, BigDickJeff")
+
 
         else:
             # Do nothing because users have no site profile defined
