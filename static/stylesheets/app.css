@@ -7438,8 +7438,12 @@ body#messages #page-title {
 
 /* line 649, ../sass/app.scss */
 .message-list li {
-  padding: 10px 0;
+  padding: 10px 10px;
   border-bottom: 1px dotted #ddd;
+}
+
+.message-list li:hover {
+  background: url(../images/message-active.png) 95% 50% no-repeat;
 }
 
 /* line 650, ../sass/app.scss */

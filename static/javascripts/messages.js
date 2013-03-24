@@ -2,6 +2,23 @@
 (function($) {
 
 /* Begin Helper functions */
+// After AJAX call for finding friends of friends, load random four images into meet people call to action
+
+/*
+var friendsOfFriendsSuccess = function(friends){
+        if (friends.length > 0){
+        	console.log("working");
+            friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
+            $('#four-images img').each(function(i) {
+                $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
+            });
+        }
+        else{
+            $("#meet-people-cta").css('display','none');
+        }
+};
+
+*/
 function formatTime (dateString) {
 	
 	var a_p = "";
@@ -61,7 +78,7 @@ var loadMessageThreadIntoUI = function(messageThread) {
 		var messageOwner = messageThread[i].sender.facebookID;
 		var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 45, 45) + ')';
 		var time = formatTime(messageThread[i].sent_at);
-		console.log(time);
+		//console.log(time);
 		//console.log($('.single-message').length);	
 			if ($('.single-message').length !== 0) { 
 				messageHeight = $('.single-message').eq(0).height();
@@ -92,6 +109,30 @@ var loadMessageThreadIntoUI = function(messageThread) {
 			}
 		}
 	}
+
+var loadSentMessage = function(messageThread) {
+	var sentMessage = messageThread[messageThread.length-1];
+	var messageOwner = sentMessage.sender.facebookID;
+	var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 45, 45) + ')';
+	var time = formatTime(sentMessage.sent_at);
+	if ($('.message-thread').height() > 450) {
+		$('.single-message').eq(0).remove();
+	}
+	
+	$('.message-thread').append(
+		$('<div>').addClass('single-message row').append(
+			$('<div>').addClass('two columns').append(
+					$('<span>').attr({
+						class: "profile-thumb",
+						style:  thumbImage,
+					}), 
+					($('<small>').html(time))
+					)).append(
+					($('<div>').addClass('ten columns').html(
+						"<p>" + sentMessage.body + "</p>"	
+						)
+						)))
+}
 
 //Load thread previews into the UI
 var loadThreadPreviewsIntoUI = function (messages) {
@@ -125,7 +166,7 @@ var loadThreadPreviewsIntoUI = function (messages) {
 				formattedMessage = messageBody;
 			}
 			else {
-				formattedMessage = messageBody.substr(0,25) + "...";
+				formattedMessage = messageBody.substr(0,20) + "...";
 			}
 			var name = otherPerson.name;	
 				
@@ -196,7 +237,7 @@ var loadThreadPreviewsIntoUI = function (messages) {
 			$(".message-thread").css({"height":"400px", "width":"450px", "overflow-y":"scroll", "overflow-x":"hidden"});
 			var otherFbId = $('.message-list').find('li.active').data('facebookid');
 			Mutuality.getMessagesWithOther(otherFbId, loadMessageThreadIntoUI);
-
+			//Mutuality.getMeetPeople(0, 0, friendsOfFriendsSuccess);
 		});
 
 		$('.message-list ul').on('click', 'li', function (event) {
@@ -206,7 +247,7 @@ var loadThreadPreviewsIntoUI = function (messages) {
 			$(this).removeClass("cf inactive").addClass("cf active");
 			var otherFbId = $('.message-list').find('li.active').data('facebookid');
 			var otherName = $('.message-list').find('li.active').data('name');
-			//$('.message-thread').empty();
+			$('.message-thread').empty();
 			//$(.'ask-about').empty();
 			Mutuality.getMutualFriendList(otherFbId, function(mutualFriends){
 				loadMutualFriendsIntoUI(otherFbId, otherName, mutualFriends);
@@ -218,12 +259,18 @@ var loadThreadPreviewsIntoUI = function (messages) {
 		$('input.messages.button').on('click', function (event){
 			event.stopPropagation();
 			var sendTo = $('.message-list').find('li.active').data('facebookid');
-			console.log(sendTo);
+			//console.log(sendTo);
 			var messageToSend = $('.message-reply').find('textarea').val();
-			console.log(messageToSend);
+			//console.log(messageToSend);
 			Mutuality.sendMessage(sendTo, messageToSend, function(response){
 				if (response === true) {
+					var otherFbId = $('.message-list').find('li.active').data('facebookid');
 					$('.message-reply').find('textarea').val("");
+					Mutuality.getMessagesWithOther(otherFbId, loadSentMessage);
+					//$('.message-thread').empty();
+					//$('.message-thread').replaceWith(Mutuality.getMessagesWithOther(otherFbId, loadMessageThreadIntoUI));	
+				} else {
+				   alert("Error: can't send message");	
 				}
 			});
 		});
@@ -234,6 +281,8 @@ var loadThreadPreviewsIntoUI = function (messages) {
 				$('input.messages.button').click();
 			}
 		});	
+
+
 	
 	});
    
