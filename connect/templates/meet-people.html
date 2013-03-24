@@ -107,21 +107,24 @@
                     <span  id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite some friends and get more matches!)</a></span>
                 </a>
             </div>
-            
         </div>
-
         <a class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
     </div>
-    <div id="myModal2" class="reveal-modal large">
+    <div id="myModal2" class="reveal-modal medium">
         <aside id="user-profile" style="three columns">
 			<h4>Get Introduced to <span class="profile-name"></span></h4>
-							
-			<div id="ask-about-modal" class="">
+			<div style="width:220px;text-align:center;margin: 0 auto">
+			<div id="ask-about" class="ask-about-modal" style="text-align:center;">
 				<ul>
 
 				</ul>
 			</div>
-		</aside>
+			<div class="twelve columns" style="max-height:20px;">
+				<a href="#" id="ask-prev-modal" class="four offset-by-one columns small button">&larr; Prev</a>
+				<a href="#" id="ask-next-modal" class="four offset-by-two columns small button" style="max-height:25px;">Next &rarr;</a>
+			</div>
+		</div>
+		</aside>						
         <a class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();"><small>Nevermind</small> &times;</a>
     </div>
     <ol id="joyRideTipContent">

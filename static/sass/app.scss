@@ -546,6 +546,9 @@ input[type=text]:focus + .search-results { display: block; }
 #ask-prev,
 #ask-next { padding: 6px 0 5px; margin-top: 5px; }
 #ask-next { float: none; }
+#ask-prev-modal,
+#ask-next-modal { padding: 6px 0 5px; margin-top: 5px; }
+#ask-next-modal { float: none; }
 /*
 #get-introduced li { display: block;clear: both; overflow: hidden; margin: 5px 0; }
 #get-introduced a { display: inline-block; position: relative; padding: 3px; @include border-radius(50%); font-weight: 700; line-height: 2.4em; }

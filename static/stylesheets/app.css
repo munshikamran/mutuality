@@ -7281,6 +7281,12 @@ input[type=text]:focus + .search-results {
   margin-top: 5px;
 }
 
+#ask-prev-modal,
+#ask-next-modal {
+  padding: 6px 0 5px;
+  margin-top: 5px;
+}
+
 /* line 548, ../sass/app.scss */
 #ask-next {
   float: none;
