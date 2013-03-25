@@ -6,3 +6,4 @@ from facebookUserMatchRating import FacebookUserMatchRating
 from facebookUserMatchReason import FacebookUserMatchReason
 from userFavorite import UserFavorite
 from userViewed import UserViewed
+from pageView import PageView
