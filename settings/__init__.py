@@ -134,8 +134,8 @@ if SHOULD_LOCKDOWN:
 
 
 # celery
-import djcelery
-djcelery.setup_loader()
+# import djcelery
+# djcelery.setup_loader()
 
 # override and additional settings for different environments
 from django.utils.importlib import import_module
