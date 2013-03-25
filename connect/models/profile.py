@@ -54,7 +54,7 @@ class Profile(models.Model):
             state = fbDictionary[locationKey]['name'].split(', ')[-1]
             self.state = state
             if state in stateAbbreviations.keys():
-                state = stateAbbreviations[state]
+                self.state = stateAbbreviations[state]
 
         # update relationship status
         relationshipStatusKey = 'relationship_status'
