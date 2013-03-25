@@ -70,7 +70,7 @@ class FacebookUser(models.Model):
             state = fbDictionary[locationKey]['name'].split(', ')[-1]
             self.state = state
             if state in stateAbbreviations.keys():
-                state = stateAbbreviations[state]
+                self.state = stateAbbreviations[state]
 
         #the following are not stored in the database
         workKey = 'work'
