@@ -15,4 +15,4 @@ DATABASES['default'] =  dj_database_url.config()
 URL = 'thawing-lowlands-3501.herokuapp.com'
 
 # celery
-# BROKER_URL = 'amqp://rrcoynid:0IF8M5sDPBRvx8YRfMqK2HnZO_-LZJEZ@tiger.cloudamqp.com/rrcoynid'
+BROKER_URL = 'amqp://rrcoynid:0IF8M5sDPBRvx8YRfMqK2HnZO_-LZJEZ@tiger.cloudamqp.com/rrcoynid'
