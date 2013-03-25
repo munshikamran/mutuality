@@ -112,6 +112,7 @@ INSTALLED_APPS = (
     'messages',
     'rest_framework',
     'south',
+    'djcelery'
 )
 
 try:
