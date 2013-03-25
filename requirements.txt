@@ -10,6 +10,7 @@ anyjson==0.3.3
 billiard==2.7.3.22
 celery==3.0.16
 dj-database-url==0.2.1
+django-celery==3.0.11
 django-filter==0.5.4
 django-la-facebook==0.1.1
 django-lockdown==0.1.1
@@ -21,7 +22,7 @@ httplib2==0.7.6
 kombu==2.5.7
 oauth2==1.5.211
 psycopg2==2.4.6
-python-dateutil==2.1
+python-dateutil==1.5
 pytz==2012j
 redis==2.7.2
 rq==0.3.7
