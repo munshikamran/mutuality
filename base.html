@@ -170,7 +170,6 @@
         // Update the message count in the header
          Mutuality.init('{{ profile.facebookID }}', '../');
          Mutuality.getNewMessageCount(function(count){
-            console.log(count);
             if (count > 0){
               $(".message-count").show();
               $(".message-count").html(count);
