@@ -131,6 +131,11 @@ if SHOULD_LOCKDOWN:
     LOCKDOWN_PASSWORD = 'Alpha-Tester'
     LOCKDOWN_FORM = 'lockdown.forms.LockdownForm'
 
+
+# celery
+import djcelery
+djcelery.setup_loader()
+
 # override and additional settings for different environments
 from django.utils.importlib import import_module
 import sys

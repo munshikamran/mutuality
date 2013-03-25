@@ -13,3 +13,6 @@ FACEBOOK_APP_SECRET = '00c92e60a39c18b6ead3f69dba7aa6f1'
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
 URL = 'thawing-lowlands-3501.herokuapp.com'
+
+# celery
+BROKER_URL = 'amqp://rrcoynid:0IF8M5sDPBRvx8YRfMqK2HnZO_-LZJEZ@tiger.cloudamqp.com/rrcoynid'
