@@ -171,3 +171,9 @@ FACEBOOK_ACCESS_SETTINGS = {
         'friends_work_history',\
         'friends_education_history'], # FACEBOOK PERMISSIONS http://developers.facebook.com/docs/authentication/permissions/
 }
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'mutuality'
+EMAIL_HOST_PASSWORD = 'myMutuality16'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
