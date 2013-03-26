@@ -25,6 +25,10 @@
 
 </head>
 <body>
+<!-- has this page been viewed? then render the following element -->
+{% if viewed %}
+    <a id="noTour" style="display:none;"/>
+{% endif %}
 <div id="fb-root"></div>
   <header id="brand" class="wrapper">
     <div class="row">
@@ -298,12 +302,15 @@
     }
 </style>
 <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.autocomplete.js"></script>
+<<<<<<< HEAD
 <script>
 $(window).load(function(){
 mixpanel.register({"Gender":Mutuality.cache.profile.gender, "Location":Mutuality.cache.profile.location, "Relationship":Mutuality.cache.profile.relationshipStatus, "RegDate":Mutuality.cache.profile.date_created});
 mixpanel.identify(Mutuality.cache.profile.facebookID);
 })
 </script>
+=======
+>>>>>>> a60938c96e8238f22fc5ce247b777815cd12b9e8
 
   {% block extrascript %} 
     <!-- Extra page scripts get inserted here -->

@@ -15,6 +15,18 @@ class FriendshipSerializer(serializers.ModelSerializer):
         model = Friendship
         fields = ('user', 'friend')
 
+class FacebookUserMeetPeopleSerializer(serializers.Serializer):
+    facebookID = serializers.CharField()
+    name = serializers.CharField()
+    birthdayString = serializers.DateTimeField()
+    location = serializers.CharField()
+    state = serializers.CharField()
+    gender = serializers.CharField()
+    relationshipStatus = serializers.CharField()
+    date_created = serializers.DateTimeField()
+    date_updated = serializers.DateTimeField()
+    isMutualityUser = serializers.BooleanField()
+
 class FacebookUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = FacebookUser
