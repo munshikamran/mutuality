@@ -1,6 +1,6 @@
 from django.http import Http404
 from connect.models import Profile
-from REST.serializers import FacebookUserSerializer
+from REST.serializers import FacebookUserMeetPeopleSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from connect.functions import GetMeetPeople
@@ -27,5 +27,5 @@ class GetMeetPeopleAPI(APIView):
 
     def post(self, request, format=None):
         facebookUserList = self.get_object(request.DATA['token'], request.DATA['viewed'], request.DATA['dating'])
-        serializer = FacebookUserSerializer(facebookUserList)
+        serializer = FacebookUserMeetPeopleSerializer(facebookUserList)
         return Response(serializer.data)

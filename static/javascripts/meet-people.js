@@ -507,6 +507,8 @@
 		Mutuality.loadFriendsList(populateCTA);
 		Mutuality.getMeetPeople(0, 0, function(friends){
 			if (friends.length > 0){
+								console.log(friends);
+
 	    		Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
 				$('#joyRideTipContent').joyride();
