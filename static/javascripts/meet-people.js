@@ -157,6 +157,7 @@
 		$('#ask-about').html("");
 		$('.ask-about-modal').html("");
 		setCurrentPerson();
+		mixpanel.track("Next-Prev",{"Button":"Next"});
 	});
 
 	// When you click previous, set the current person as well
@@ -165,6 +166,7 @@
 		$('#ask-about').html("");
 		$('.ask-about-modal').html("");
 		setCurrentPerson();
+		mixpanel.track("Next-Prev",{"Button":"Prev"});
 	});
 
 	// When the fav filter is selected, load the favorites into the UI
@@ -341,7 +343,7 @@
 
 			var liElem = $('<li>', {}).appendTo(newUlElem);
 			var liElemModal = $('<li>', {}).appendTo(newUlElemModal);
-    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "www.mymutuality.com")
+    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "www.mymutuality.com");
 }).appendTo(liElem);
     		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "www.mymutuality.com")
 }).appendTo(liElemModal);
@@ -492,6 +494,7 @@
 		    	Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
 				$('#joyRideTipContent').joyride();
+				mixpanel.track("Login success");
 			});
 			Mutuality.getFavoritesList(function(favorites){
 				//console.log(favorites);
@@ -510,6 +513,7 @@
 	    		Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
 				$('#joyRideTipContent').joyride();
+				mixpanel.track("Login success");
 			}
 			else {
 				$("#myModal h4").text("Sorry, but no people were found!");
