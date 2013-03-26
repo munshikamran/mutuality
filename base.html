@@ -18,6 +18,10 @@
 
 </head>
 <body>
+<!-- has this page been viewed? then render the following element -->
+{% if viewed %}
+    <a id="showTour" style="display:none;"/>
+{% endif %}
 <div id="fb-root"></div>
   <header id="brand" class="wrapper">
     <div class="row">
@@ -300,7 +304,6 @@
     }
 </style>
 <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.autocomplete.js"></script>
-
 
   {% block extrascript %} 
     <!-- Extra page scripts get inserted here -->
