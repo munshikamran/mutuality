@@ -343,9 +343,9 @@
 
 			var liElem = $('<li>', {}).appendTo(newUlElem);
 			var liElemModal = $('<li>', {}).appendTo(newUlElemModal);
-    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "www.mymutuality.com")
+    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg")
 }).appendTo(liElem);
-    		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "www.mymutuality.com")
+    		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg")
 }).appendTo(liElemModal);
     		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
     		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
@@ -368,7 +368,7 @@
 				$("#profile-location").attr('class', 'inactive');
 			}
 			if(extendedProfile.gender) {
-				$("#profile-sex").html('<i class="male"></i>' + extendedProfile.gender);
+				$("#profile-sex").html('<i class="male"></i>' + extendedProfile.gender.charAt(0).toUpperCase() + extendedProfile.gender.slice(1));
 				$("#profile-sex").attr('class', '');
 			}
 			else {
