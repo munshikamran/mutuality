@@ -4,83 +4,151 @@
 /* Begin Helper functions */
 // After AJAX call for finding friends of friends, load random four images into meet people call to action
 
-/*
-var friendsOfFriendsSuccess = function(friends){
-        if (friends.length > 0){
-        	console.log("working");
-            friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
-            $('#four-images img').each(function(i) {
-                $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
-            });
-        }
-        else{
-            $("#meet-people-cta").css('display','none');
-        }
-};
-*/
-
-function existingPerson (facebookid) {
+function loadPage() {
 	Mutuality.getThreadPreviews(function(messages) {
+		//cache["messages"] = messages
+		//console.log(cache.messages);
+		var facebookID = getParameterByName("fbid");
+		var name = getParameterByName("name");
+		console.log(facebookID);
+		if (facebookID==="") {
+			loadPageFirstCase(messages);
+		} else {
+			existingPerson(facebookID, messages, function(index){
+				if (index !== -1) {
+					loadPageSecondCase(facebookID, name, messages, index);
+				} else {
+					loadPageThirdCase(facebookID, name, messages);
+				}
+			});
+		}	
+	});
+}	
+
+function existingPerson (facebookid, messages, success) {
+		var index = -1;
 		for (i = 0; i < messages.length; i++) {
 			var messageSender = messages[i].sender.facebookID;
 			var messageRecipient = messages[i].recipient.facebookID;
 			if (messageSender===facebookid || messageRecipient === facebookid) {
-					 //console.log(facebookID);
-					 return true;
-				}
+				index = i;
 			}
-			return false;
+		}	
+		success(index);
+}
+
+//Load messages and mutual friends for selected person
+function loadThread (facebookID) {
+	Mutuality.getMessagesWithOther(facebookID, loadMessageThreadIntoUI);
+} 
+
+function loadFriends (facebookID, name) {
+	Mutuality.getMutualFriendList(facebookID, function(mutualFriends) {
+		loadMutualFriendsIntoUI(facebookID, name, mutualFriends);
 	});
 }
-function introduceYourself (facebookID, name) {
-	//Is this person in the list already?
-	console.log(existingPerson(facebookID));
-	//console.log(existing);
-	if (existing === false) {
+function parseMessageForId (messages, index) {
+	if (messages[index].sender.facebookID !== Mutuality.token) {
+			return messages[index].sender.facebookID; 
+		} else {
+			return messages[index].recipient.facebookID;
+		}	
+} 
 
-	//Add preview HTML element into DOM	
+function parseMessageForName (messages, index) {
+	if (messages[index].sender.facebookID !== Mutuality.token) {
+			return messages[index].sender.name;
+		} else {
+			return messages[index].recipient.name;
+		}	
+
+}
+
+//Load thread previews into the UI
+function loadPageFirstCase (messages) {	
+		//Figure out the fbid and name of first person in preview
+		var firstPersonID = parseMessageForId(messages, 0);
+		var firstPersonName = parseMessageForName(messages, 0);
+
+		//Load the first person's message thread and mutual friends
+		loadThread(firstPersonID);
+		loadFriends(firstPersonID, firstPersonName);
+
+	for (var i = 0; i < messages.length; i++) {
+		if (messages[i].sender.facebookID !== Mutuality.token) {
+			var otherPerson = messages[i].sender 
+		}
+		else {
+			var otherPerson = messages[i].recipient;
+		}
+		var facebookID = otherPerson.facebookID;
+		var name = otherPerson.name;
+		var date = new Date(messages[i].sent_at);
+		var formattedMessage = formatMessageForPreview(messages[i].body);
+		if (i !== 0) {
+			var state ='cf inactive';
+		} else {
+			var state = 'cf active';
+		}	
+			//Add preview HTML element into DOM	
+			addProfilePreview(facebookID, name, formattedMessage, state);
+	}
+}
+
+function formatMessageForPreview (messageBody) {
+		if (messageBody.length < 30) {
+			return messageBody;
+		}
+		else {
+			return (messageBody.substr(0,20) + "...");
+		}	
+}
+
+function loadPageSecondCase (facebookID, name, messages, index) {
+	var firstName = name.split(" ")[0];
+	var formattedMessage = formatMessageForPreview(messages[index].body);
+	loadThread(facebookID);
+	loadFriends(facebookID, firstName);
+	addProfilePreview(facebookID, name, formattedMessage, "cf active");
+	messages.splice(index,1);
+	for (var i = 0; i < messages.length; i++) {
+		var newFbId = parseMessageForId(messages, i);
+		var name = parseMessageForName(messages, i);
+		var formattedMessage = formatMessageForPreview(messages[i].body);
+		addProfilePreview (newFbId, name, formattedMessage, "cf inactive");
+	}
+}
+
+function loadPageThirdCase (facebookID, name, messages) {
+	var firstName = name.split(" ")[0];
+	var formattedMessage = "...";
+	loadFriends(facebookID,firstName);
+	addProfilePreview(facebookID, name, formattedMessage, "cf active")
+	for (var i = 0; i < messages.length; i++) {
+		var newFbId = parseMessageForId(messages, i);
+		var newName = parseMessageForName(messages, i);
+		var newFormattedMessage = formatMessageForPreview(messages[i].body);
+		addProfilePreview (newFbId, newName, newFormattedMessage, "cf inactive");
+	}
+}
+
+
+function addProfilePreview (facebookID, name, formattedMessage, state) {
 	var profileImage = 'background-image: url(' + Mutuality.getProfilePictureURL(facebookID, 45, 45) + ')';
-
-	$('.message-list ul').append(
-		$('<li>').append($('<a>').attr('href','#').append(
-								$('<span>').attr({
-									class: "profile-thumb",
-									style: profileImage
-									}),
-								($('<strong>').html(name)),
-								($('<small>').html(""))
-								)));
-		$('.message-list ul').find('li').eq(0).attr({
-			'data-facebookid':facebookID,
-			'data-name':name
-		});
-		$('.message-list ul').find('li').eq(0).click();
-
-					//attr({'data-facebookid': facebookID,'data-name':name})
-					 /*
-				    $('.message-list ul li').eq(i).attr({
-						'data-facebookid': otherPerson.facebookID,
-						'data-name':otherPerson.name
-					}); 
-					*/
-		Mutuality.getThreadPreviews(loadThreadPreviewsIntoUI);
-			} else {
-				$(window).load(function (){
-					$('.message-list ul').find('li').each(function(index){
-						var fbID = $(this).data('facebookid');
-						//console.log(fbID);
-						//console.log(facebookID);
-						if (fbID == facebookID) {
-							console.log(index);
-							$('.message-list ul').find('li').eq(index).click();
-						}
-					});
-				});
-			}
+	$('.message-list ul').append($('<li>').attr({
+		'data-facebookid':facebookID,
+		'data-name':name
+	}).addClass(state).append($('<a>').attr('href','#').append(
+						$('<span>').attr({
+							class: "profile-thumb",
+							style: profileImage
+							}),
+						($('<strong>').html(name)),
+						($('<small>').html(formattedMessage))
+						)));
 }
 
 function formatTime (dateString) {
-
 	var a_p = "";
 	var d = new Date(dateString);
 	var curr_hour = d.getHours();
@@ -191,127 +259,55 @@ var loadSentMessage = function(messageThread) {
 					)).append(
 					($('<div>').addClass('ten columns').html(
 						"<p>" + sentMessage.body + "</p>"						)
-						)))
+						)));
 	if (messageAdded === true) {
 		$('.single-message').eq(0).attr('data-messageposition',newMessagePos);
 	}
 }
 
-//Load thread previews into the UI
-var loadThreadPreviewsIntoUI = function (messages) {
-			if (messages[0].sender.facebookID !== Mutuality.token) {
-				var loadFirstPerson = messages[0].sender.facebookID; 
+var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
+	var name = otherName.split(" ");
+	var newUlElem;
+	$('#ask-about-small').empty();
+	$('.profile-name').html("Ask About " + name[0]);
+	for (var i = 0; i < mutualFriends.length; i++) {
+		var friendID = mutualFriends[i].facebookID;
+		var friendName = mutualFriends[i].name.split(" ")[0];
+		var messageString = "Can you tell me more about " + friendName + "?";
+		var mutualFriendImage = 'background-image: url(' + Mutuality.getProfilePictureURL(friendID, 45, 45) + ')';
+		if (i % 6 === 0){
+			newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo($('#ask-about-small'));
 			}
-			else {
-				var loadFirstPerson = messages[0].recipient.facebookID;
-			}	
-			$('.message-thread').empty();
-			Mutuality.getMessagesWithOther(loadFirstPerson, loadMessageThreadIntoUI);
-			Mutuality.getMutualFriendList(loadFirstPerson, function(mutualFriends) {
-				loadMutualFriendsIntoUI(loadFirstPerson, messages[0].sender.name, mutualFriends);
-				});
-
-		for (var i = 0; i < messages.length; i++) {
-			var otherPerson;
-			if (messages[i].sender.facebookID !== Mutuality.token) {
-				var otherPerson = messages[i].sender 
-			}
-			else {
-				var otherPerson = messages[i].recipient;
-			}
-			//console.log(otherPerson);
-			//messages[i].sender.facebookID;
-			var profileImage = 'background-image: url(' + Mutuality.getProfilePictureURL(otherPerson.facebookID, 45, 45) + ')';
-			var date = new Date(messages[i].sent_at);
-			var formattedMessage;
-			var messageBody = messages[i].body;
-			if (messageBody.length < 30) {
-				formattedMessage = messageBody;
-			}
-			else {
-				formattedMessage = messageBody.substr(0,20) + "...";
-			}
-			var name = otherPerson.name;	
-				
-				//Add preview HTML element into DOM	
-				$('.message-list ul').append(
-					$('<li>').addClass(function() {
-						if (i !== 0) {
-							return 'cf inactive';
-						} else {
-							return 'cf active';
-						}	
-					})
-					.append(
-							$('<a>').attr('href','#').append(
-								$('<span>').attr({
-									class: "profile-thumb",
-									style: profileImage
-									}),
-								($('<strong>').html(name)),
-								($('<small>').html(formattedMessage))
-								)));
-	
-					$('.message-list ul li').eq(i).attr({
-						'data-facebookid': otherPerson.facebookID,
-						'data-name':otherPerson.name
-					});
-			}	
-	}
-
-	var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
-		var name = otherName.split(" ");
-		var newUlElem;
-		$('#ask-about-small').empty();
-		$('.profile-name').html("Ask About " + name[0]);
-		for (var i = 0; i < mutualFriends.length; i++) {
-			var friendID = mutualFriends[i].facebookID;
-			var friendName = mutualFriends[i].name.split(" ")[0];
-			var messageString = "Can you tell me more about " + friendName + "?";
-			var mutualFriendImage = 'background-image: url(' + Mutuality.getProfilePictureURL(friendID, 45, 45) + ')';
-			if (i % 6 === 0){
-				newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo($('#ask-about-small'));
-				}
-			
-				var liElem = $(newUlElem).append
-					($('<li>').append(
-						$('<a>').attr({
-							'href': '#',
-							'data-facebookid':friendID,
-							'data-name':otherName,
-							'onclick': Mutuality.getSendNudgeURL(Mutuality.cache.profile.facebookID,friendID,messageString,"http://goo.gl/L7Uk9")
-						}).append(
-							$('<span>').attr({
-									class: "profile-thumb tooltip",
-									title: "Ask " + friendName,
-									style: mutualFriendImage
-									}))));
-			}
-			$('.tooltip').tooltipster();
-			initAskAboutCarousel();
-	}
+		
+			var liElem = $(newUlElem).append
+				($('<li>').append(
+					$('<a>').attr({
+						'href': '#',
+						'data-facebookid':friendID,
+						'data-name':otherName,
+						'onclick': Mutuality.getSendNudgeURL(Mutuality.cache.profile.facebookID,friendID,messageString,"http://goo.gl/L7Uk9")
+					}).append(
+						$('<span>').attr({
+								class: "profile-thumb tooltip",
+								title: "Ask " + friendName,
+								style: mutualFriendImage
+								}))));
+		}
+		$('.tooltip').tooltipster();
+		initAskAboutCarousel();
+}
 
 /* End Helper functions */
 
 /* Begin Messages Main Code */
-
 	// Get and show full message thread when relevant preview li element is clicked
-	$(document).ready(function() {
-	
-		//Start new message thread (if query string)
-		//var trial;
+	$(document).ready(function() {	
+		//Load correct message previews, message thread, and mutual friends
+		loadPage();
 
-		//console.log(trial);
-		
-		introduceYourself("1451700007", "Taylor Woods");
-		//introduceYourself("4055796633278", "Sarah Rodolico");
-		//introduceYourself("80983859", "Alyssa Nicole");
-		//introduceYourself("107173028", "Carolina Escude");
-		
-		
-		// Get Thread Previews
-		Mutuality.getThreadPreviews(loadThreadPreviewsIntoUI);
-		console.log('test');
+		//introduceYourself("1451700007", "Taylor Woods");
+		//introduceYourself("613170158", "Angela Cough");
+		//introduceYourself("10701292", "Elly Egli");
 
 		//Load overflow messages
 		$(document).on('click', '.load-messages', function (event) { 
@@ -323,19 +319,17 @@ var loadThreadPreviewsIntoUI = function (messages) {
 			//Mutuality.getMeetPeople(0, 0, friendsOfFriendsSuccess);
 		});
 
-		$('.message-list ul').on('click', 'li', function (event) {
+		//Activate preview, load messages, and mutual friends once clicked
+		$('.message-list ul').on('click', 'li', function () {
 			event.stopPropagation();
-			event.preventDefault();
+			$('.message-thread').empty();
+			$('.ask-about').empty();
 			$(this).siblings('li').removeClass("cf active").addClass("cf inactive");
 			$(this).removeClass("cf inactive").addClass("cf active");
 			var otherFbId = $('.message-list').find('li.active').data('facebookid');
-			var otherName = $('.message-list').find('li.active').data('name');
-			$('.message-thread').empty();
-			//$(.'ask-about').empty();
-			Mutuality.getMutualFriendList(otherFbId, function(mutualFriends){
-				loadMutualFriendsIntoUI(otherFbId, otherName, mutualFriends);
-			});
-			Mutuality.getMessagesWithOther(otherFbId, loadMessageThreadIntoUI);	
+			var otherName = $('.message-list').find('li.active').data('name');		
+			loadThread(otherFbId);
+			loadFriends(otherFbId, otherName);
 		});
 
 		//Send button sends message in message field
@@ -350,6 +344,7 @@ var loadThreadPreviewsIntoUI = function (messages) {
 					var otherFbId = $('.message-list').find('li.active').data('facebookid');
 					$('.message-reply').find('textarea').val("");
 					Mutuality.getMessagesWithOther(otherFbId, loadSentMessage);
+					mixpanel.track("Message sent");
 					//$('.message-thread').empty();
 					//$('.message-thread').replaceWith(Mutuality.getMessagesWithOther(otherFbId, loadMessageThreadIntoUI));	
 				} else {
@@ -365,8 +360,7 @@ var loadThreadPreviewsIntoUI = function (messages) {
 			}
 		});	
 	
-	});
-   
+	});  
 /* End Main Code */
 
 })(jQuery);
