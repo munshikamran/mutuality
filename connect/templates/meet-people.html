@@ -7,7 +7,7 @@
 						<div class="eight columns">
 							<h2>Meet People</h2>
 						</div>
-						<form class="four columns custom">
+						<form id="four-filters" class="four columns custom">
 							<select id="fav-filter" style="display:none;">
 								<option id="all" value="All" selected="selected">Friends</option><option id="dating" value="Dating">Dating</option>
 								<option id="favorites" value="Favorites">Favorites</option><option id="viewed" value="Viewed">Viewed</option>
@@ -128,11 +128,11 @@
         <a class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();"><small>Nevermind</small> &times;</a>
     </div>
     <ol id="joyRideTipContent">
-      <li class="seePeople" data-id="meet-profiles" data-button="NEXT" data-options="nubPosition:seePeopleNub">
+      <li class="seePeople" data-id="page-title" data-button="NEXT" data-options="tipLocation:top;nubPosition:seePeopleNub">
       	<h4>Make trusted connections</h4>
         <p>You have mutual friends with everyone you see</p>
       </li>
-      <li class="filters" data-id="fav-filter" data-button="NEXT" data-options="nubPosition:filtersNub">
+      <li class="filters" data-id="four-filters" data-button="NEXT" data-options="nubPosition:filtersNub">
       	<h4>Have it your way</h4>
       	<p>Filter your matches to make it even easier</p>
       </li>

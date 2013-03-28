@@ -7555,6 +7555,18 @@ body#messages #page-title {
   text-align: right;
 }
 
+.message-load {
+  background: url(../images/single-message-bg.png) 28px 0 repeat-y;
+
+}
+
+.scroll {
+  height: 400px;
+  width:450px;
+  overflow-y:scroll;
+  overflow-x:hidden;
+}
+
 /* line 662, ../sass/app.scss */
 .single-message .two, .single-message .row .two, .row .single-message .two {
   padding-top: 6px;
@@ -7569,6 +7581,7 @@ body#messages #page-title {
 
 /* line 665, ../sass/app.scss */
 .message-reply {
+  margin-top:20px;
   border: 2px solid #eee;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
@@ -7620,6 +7633,10 @@ body#messages #page-title {
 .load-messages {
   background: white url(../images/load-message-bg.png) center bottom no-repeat;
   padding-bottom: 15px;
+}
+
+.fix-position {
+  position:fixed;
 }
 
 /* line 674, ../sass/app.scss */
