@@ -305,9 +305,9 @@
 
 <script>
 $(window).load(function(){
-  mixpanel.register({"Gender":Mutuality.cache.profile.gender, "Location":Mutuality.cache.profile.location, "Relationship":Mutuality.cache.profile.relationshipStatus, "RegDate":Mutuality.cache.profile.date_created});
-  mixpanel.identify(Mutuality.cache.profile.facebookID);
-  mixpanel.name_tag(Mutuality.cache.profile.name);
+   mixpanel.register({"Gender":Mutuality.cache.profile.gender, "Location":Mutuality.cache.profile.location, "Relationship":Mutuality.cache.profile.relationshipStatus, "RegDate":Mutuality.cache.profile.date_created});
+   mixpanel.identify(Mutuality.cache.profile.facebookID);
+   mixpanel.name_tag(Mutuality.cache.profile.name);
 })
 </script>
 
