@@ -331,7 +331,9 @@
 	var loadMutualFriendsIntoUI = function (facebookID, mutualFriends){
 		var newUlElem;
 		var currentPersonName = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
-		var messageString = "Hey can you introduce me to " + currentPersonName.name + "?";
+		var messageStringIntro = "Hey can you introduce me to " + currentPersonName.name + "?";
+		var messageStringAsk = "Can you tell me more about " + currentPersonName.name + "?";
+		var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple."
 
 		for (i=0; i<mutualFriends.length; i++){
 			askaboutElem = $('#ask-about');
@@ -343,9 +345,9 @@
 
 			var liElem = $('<li>', {}).appendTo(newUlElem);
 			var liElemModal = $('<li>', {}).appendTo(newUlElemModal);
-    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg")
+    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElem);
-    		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg")
+    		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringIntro, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElemModal);
     		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
     		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);

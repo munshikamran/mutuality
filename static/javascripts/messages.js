@@ -229,7 +229,6 @@ var loadMessageThreadIntoUI = function(messageThread) {
 				totalHeight = totalHeight + messageHeight;
 				//console.log(totalHeight);
 			}
-		console.log(totalHeight);
 		if (totalHeight < 400 || i === messagePos) {
 		$('.message-thread').prepend(
 			$('<div>').addClass('single-message row').append(
@@ -245,7 +244,6 @@ var loadMessageThreadIntoUI = function(messageThread) {
 						)
 						)));
 			} else {
-				console.log("working");
 				$('.single-message').eq(0).attr({
 						'data-messageposition': i
 					});
@@ -293,8 +291,10 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 	for (var i = 0; i < mutualFriends.length; i++) {
 		var friendID = mutualFriends[i].facebookID;
 		var friendName = mutualFriends[i].name.split(" ")[0];
-		var messageString = "Can you tell me more about " + friendName + "?";
+		var messageString = "Can you tell me more about " + otherName + "?";
 		var mutualFriendImage = 'background-image: url(' + Mutuality.getProfilePictureURL(friendID, 45, 45) + ')';
+		var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple."
+
 		if (i % 6 === 0){
 			newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo($('#ask-about-small'));
 			}
@@ -305,7 +305,7 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 						'href': '#',
 						'data-facebookid':friendID,
 						'data-name':otherName,
-						'onclick': Mutuality.getSendNudgeURL(Mutuality.cache.profile.facebookID,friendID,messageString,"http://goo.gl/L7Uk9")
+						'onclick': Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, friendID, messageString, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
 					}).append(
 						$('<span>').attr({
 								class: "profile-thumb tooltip",
@@ -360,9 +360,7 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 		$('input.messages.button').on('click', function (event){
 			event.stopPropagation();
 			var sendTo = $('.message-list').find('li.active').data('facebookid');
-			//console.log(sendTo);
 			var messageToSend = $('.message-reply').find('textarea').val();
-			//console.log(messageToSend);
 			Mutuality.sendMessage(sendTo, messageToSend, function(response){
 				if (response === true) {
 					var otherFbId = $('.message-list').find('li.active').data('facebookid');
