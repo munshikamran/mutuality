@@ -100,7 +100,7 @@ class DefaultFacebookCallback(BaseFacebookCallback):
         facebookUser.save()
         # send an email to admins if new user
         if created:
-            send_user_joined_email(profile)
+            send_user_joined_email.delay(profile)
         return profile
 
     def create_profile(self, request, access, token, user):
