@@ -6300,6 +6300,52 @@ form.custom div.custom.dropdown ul li.selected:hover {
 }
 
 /* line 164, ../sass/app.scss */
+.about-picture {
+  display: block;
+  width: 200px;
+  height: 200px;
+  background-size: 100%;
+  -webkit-transition: all 100ms;
+  -moz-transition: all 100ms;
+  -o-transition: all 100ms;
+  transition: all 100ms;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+}
+
+.team {
+  margin-top:20px !important;
+}
+
+.team h3 {
+  margin: 0px -15px 10px -15px;
+}
+
+.team h4 {
+  margin-top:20px;
+  margin-bottom:5px;
+}
+
+.team p {
+  margin-bottom: 5px
+}
+
+.social-icons {
+  
+  display:block;
+  margin: 0px 0px 10px 10px;
+}
+
+.social-icons img {
+  margin:10px;
+}
+/* line 164, ../sass/app.scss */
 .profile-thumb {
   display: block;
   width: 45px;
@@ -6338,6 +6384,22 @@ form.custom div.custom.dropdown ul li.selected:hover {
 
 /* line 176, ../sass/app.scss */
 #page-title h2 {
+  margin: 0;
+  font-weight: 400;
+}
+
+/* line 174, ../sass/app.scss */
+#page-title-static {
+  margin: 40px 0px 0px 0px;
+}
+
+/* line 175, ../sass/app.scss */
+#page-title-static > div {
+  padding: 0;
+}
+
+/* line 176, ../sass/app.scss */
+#page-title-static h2 {
   margin: 0;
   font-weight: 400;
 }
@@ -7477,7 +7539,7 @@ body#messages #page-title {
 
 /* line 647, ../sass/app.scss */
 .message-list {
-  padding-top: 60px;
+  /*padding-top: 60px;*/
 }
 
 /* line 648, ../sass/app.scss */
@@ -7614,7 +7676,7 @@ body#messages #page-title {
 
 /* line 669, ../sass/app.scss */
 .message-ask {
-  padding-top: 60px;
+  /*padding-top: 60px;*/
 }
 
 /* line 670, ../sass/app.scss */

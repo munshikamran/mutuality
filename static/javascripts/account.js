@@ -79,6 +79,8 @@
 	            var url = window.location.href; 
 				if(url.indexOf("register") !== -1) { 
 					window.location = "/meetpeople/";
+					mixpanel.alias(Mutuality.cache.profile.facebookID);
+					mixpanel.identify(Mutuality.cache.profile.facebookID);
 				}
 			});
 		}

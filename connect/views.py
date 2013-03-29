@@ -117,6 +117,59 @@ def messages(request):
         html = render_to_string('messages.html', RequestContext(request, context_dict))
         return HttpResponse(html)
 
+def about(request):
+    info = {}
+    if request.user.is_authenticated():
+        info['User Authenticated'] = 'Yes'
+        if request.user.has_usable_password():
+            info['Authed via'] = 'Django'
+            info['Django username'] = str(request.user)
+        else:
+            info['Authed via'] = "Facebook"
+            try:
+                assoc_obj = UserAssociation.objects.get(user=request.user)
+            except UserAssociation.DoesNotExist:
+                info['Association Object'] = "not found"
+            else:
+                info['Associated FB Token Expires'] = assoc_obj.expires
+                info['Facebook ID'] = assoc_obj.identifier
+    else:
+        info['User Authenticated'] = 'No'
+    info['Session Expires'] = request.session.get_expiry_date()
+    try:
+        info['Facebook App ID'] = settings.FACEBOOK_ACCESS_SETTINGS["FACEBOOK_APP_ID"]
+    except (KeyError, AttributeError):
+        info['Facebook App ID'] = "Not Configured"
+    context_dict = {}
+    context_dict['info'] = sorted(info.items())
+    return render_to_response('about.html', context_dict, context_instance=RequestContext(request))
+
+def faq(request):
+    info = {}
+    if request.user.is_authenticated():
+        info['User Authenticated'] = 'Yes'
+        if request.user.has_usable_password():
+            info['Authed via'] = 'Django'
+            info['Django username'] = str(request.user)
+        else:
+            info['Authed via'] = "Facebook"
+            try:
+                assoc_obj = UserAssociation.objects.get(user=request.user)
+            except UserAssociation.DoesNotExist:
+                info['Association Object'] = "not found"
+            else:
+                info['Associated FB Token Expires'] = assoc_obj.expires
+                info['Facebook ID'] = assoc_obj.identifier
+    else:
+        info['User Authenticated'] = 'No'
+    info['Session Expires'] = request.session.get_expiry_date()
+    try:
+        info['Facebook App ID'] = settings.FACEBOOK_ACCESS_SETTINGS["FACEBOOK_APP_ID"]
+    except (KeyError, AttributeError):
+        info['Facebook App ID'] = "Not Configured"
+    context_dict = {}
+    context_dict['info'] = sorted(info.items())
+    return render_to_response('faq.html', context_dict, context_instance=RequestContext(request)) 
 
 def fbinfo(request):
     """ A view for returning a dict of info about FB and user status """
