@@ -487,7 +487,10 @@
    // Show the loading modal, and hide the page contents while async calls fire
    $("#main").hide();
    triggerModal();
-
+   if ($('#noTour').length === 0) {
+		$('#joyRideTipContent').joyride();
+	}
+   
    if($.cookie("UpdateFriendListCalled") !== "true") {
 	    Mutuality.updateFriendList(0, function(){
 	    	$.cookie("UpdateFriendListCalled", "true");
@@ -495,11 +498,10 @@
 			Mutuality.getMeetPeople(0, 0, function(friends){
 		    	Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
-				$('#joyRideTipContent').joyride();
+				
 				mixpanel.track("Login success");
 			});
 			Mutuality.getFavoritesList(function(favorites){
-				//console.log(favorites);
 				for (i=0;i<favorites.length; i++){
 					if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
 						Mutuality.mpcache.favoritesList[favorites[i].facebookID] = true;
@@ -514,7 +516,6 @@
 			if (friends.length > 0){
 	    		Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
-				$('#joyRideTipContent').joyride();
 				mixpanel.track("Login success");
 			}
 			else {
