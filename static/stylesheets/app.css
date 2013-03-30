@@ -7297,48 +7297,48 @@ input[type=text]:focus + .search-results {
 }
 
 /* line 540, ../sass/app.scss */
-#ask-about-small {
+/*#ask-about-small {
   height: 150px;
-}
+}*/
 
 /* line 541, ../sass/app.scss */
-#ask-about-small ul {
-  height: 150px;
-  width: 213px;
+/*#ask-about-small ul {
+  height: 213px;
+  width: 150px;
   list-style: none;
   margin: 0;
   overflow: hidden;
 }
-
+*/
 /* line 542, ../sass/app.scss */
-#ask-about-small li {
+/*#ask-about-small li {
   margin: 2px;
   float: left;
-}
+}*/
 
 /* line 543, ../sass/app.scss */
-#ask-about-small a {
+/*#ask-about-small a {
   display: inline-block;
   padding: 3px;
   width: 65px;
   height: 65px;
-}
+}*/
 
 /* line 544, ../sass/app.scss */
-#ask-about-small .profile-thumb {
+/*#ask-about-small .profile-thumb {
   width: 60px;
   height: 60px;
   border-width: 3px;
-}
+}*/
 
 /* line 545, ../sass/app.scss */
-#ask-about-small .profile-thumb:hover {
+/*#ask-about-small .profile-thumb:hover {
   border-width: 4px;
   border-color: #4fa8c4;
   -webkit-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
   -moz-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
   box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
-}
+}*/
 
 /* line 547, ../sass/app.scss */
 #ask-prev,
@@ -7693,6 +7693,8 @@ body#messages #page-title {
 .message-ask li {
   float: left;
   margin: 6px;
+  height: 60px;
+  width: 60px;
 }
 
 /* line 673, ../sass/app.scss */

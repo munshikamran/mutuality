@@ -21,7 +21,7 @@ function loadPage() {
 					loadPageThirdCase(facebookID, name, messages);
 				}
 			});
-		}	
+		}
 	});
 }	
 
@@ -122,7 +122,7 @@ function loadPageSecondCase (facebookID, name, messages, index) {
 function loadPageThirdCase (facebookID, name, messages) {
 	var firstName = name.split(" ")[0];
 	var formattedMessage = "...";
-	var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(facebookID, 45, 45) + ')';
+	var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(facebookID, 90, 90) + ')';
 	loadFriends(facebookID,firstName);
 	addProfilePreview(facebookID, name, formattedMessage, "cf active")
 	$('.message-thread').append(
@@ -151,7 +151,7 @@ function loadPageThirdCase (facebookID, name, messages) {
 
 
 function addProfilePreview (facebookID, name, formattedMessage, state) {
-	var profileImage = 'background-image: url(' + Mutuality.getProfilePictureURL(facebookID, 45, 45) + ')';
+	var profileImage = 'background-image: url(' + Mutuality.getProfilePictureURL(facebookID, 90, 90) + ')';
 	$('.message-list ul').append($('<li>').attr({
 		'data-facebookid':facebookID,
 		'data-name':name
@@ -191,7 +191,7 @@ return curr_hour + ":" + curr_min + " " + a_p;
 }
 
 var initAskAboutCarousel = function () {
-		$('#ask-about-small').carouFredSel({
+		$('#ask-about').carouFredSel({
 			auto : false,
 			width: 213,
 			height: 150,
@@ -219,7 +219,7 @@ var loadMessageThreadIntoUI = function(messageThread) {
 		}
 	for (var i = messagePos; i >= 0; i--) {
 		var messageOwner = messageThread[i].sender.facebookID;
-		var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 45, 45) + ')';
+		var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 90, 90) + ')';
 		var time = formatTime(messageThread[i].sent_at);
 		//console.log(time);
 		//console.log($('.single-message').length);	
@@ -257,7 +257,7 @@ var loadMessageThreadIntoUI = function(messageThread) {
 var loadSentMessage = function(messageThread) {
 	var sentMessage = messageThread[messageThread.length-1];
 	var messageOwner = sentMessage.sender.facebookID;
-	var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 45, 45) + ')';
+	var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 90, 90) + ')';
 	var time = formatTime(sentMessage.sent_at);
 	var newMessagePos = $('.single-message').eq(0).data('messageposition') + 1;
 	var messageAdded = false;
@@ -286,17 +286,17 @@ var loadSentMessage = function(messageThread) {
 var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 	var name = otherName.split(" ");
 	var newUlElem;
-	$('#ask-about-small').empty();
+	$('#ask-about').empty();
 	$('.profile-name').html("Ask About " + name[0]);
 	for (var i = 0; i < mutualFriends.length; i++) {
 		var friendID = mutualFriends[i].facebookID;
 		var friendName = mutualFriends[i].name.split(" ")[0];
 		var messageString = "Can you tell me more about " + otherName + "?";
-		var mutualFriendImage = 'background-image: url(' + Mutuality.getProfilePictureURL(friendID, 45, 45) + ')';
+		var mutualFriendImage = 'background-image: url(' + Mutuality.getProfilePictureURL(friendID, 100, 100) + ')';
 		var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple."
 
 		if (i % 6 === 0){
-			newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo($('#ask-about-small'));
+			newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo($('#ask-about'));
 			}
 		
 			var liElem = $(newUlElem).append

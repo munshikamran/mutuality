@@ -349,8 +349,8 @@
 }).appendTo(liElem);
     		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringIntro, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElemModal);
-    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
-    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
+    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElem);
+    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElemModal);
 		}
 
 		$('.tooltip').tooltipster();
