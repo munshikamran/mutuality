@@ -6320,11 +6320,11 @@ form.custom div.custom.dropdown ul li.selected:hover {
 }
 
 .team {
-  margin-top:20px !important;
+  margin-top:30px !important;
 }
 
 .team h3 {
-  margin: 0px -15px 10px -15px;
+  margin: 0px 0px 20px 0px;
 }
 
 .team h4 {
@@ -6336,14 +6336,18 @@ form.custom div.custom.dropdown ul li.selected:hover {
   margin-bottom: 5px
 }
 
+.bio {
+  width:80%;
+  float:left;
+}
 .social-icons {
   
   display:block;
-  margin: 0px 0px 10px 10px;
+  margin: 0px 0px 5px 10px;
 }
 
 .social-icons img {
-  margin:10px;
+  margin:10px 15px 10px 15px;
 }
 /* line 164, ../sass/app.scss */
 .profile-thumb {
