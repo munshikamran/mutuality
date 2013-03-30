@@ -347,12 +347,15 @@
 			var liElemModal = $('<li>', {}).appendTo(newUlElemModal);
     		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElem);
-    		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringIntro, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
+    		var aElemModal = $('<a>', {class: 'askModalLink', onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringIntro, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElemModal);
     		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElem);
     		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElemModal);
 		}
 
+		var currentClick =  $('.askModalLink').attr('onclick');
+		var newClick =  currentClick + " $('.close-reveal-modal').trigger('click');"
+		$('.askModalLink').attr('onclick',  newClick);
 		$('.tooltip').tooltipster();
 		initAskAboutCarousel();
 		initAskAboutCarouselModal();
