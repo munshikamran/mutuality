@@ -112,6 +112,7 @@ INSTALLED_APPS = (
     'messages',
     'rest_framework',
     'south',
+    'djcelery'
 )
 
 try:
@@ -130,6 +131,11 @@ if SHOULD_LOCKDOWN:
     MIDDLEWARE_CLASSES += ('lockdown.middleware.LockdownMiddleware', )
     LOCKDOWN_PASSWORD = 'Alpha-Tester'
     LOCKDOWN_FORM = 'lockdown.forms.LockdownForm'
+
+
+# celery
+import djcelery
+djcelery.setup_loader()
 
 # override and additional settings for different environments
 from django.utils.importlib import import_module
@@ -165,3 +171,9 @@ FACEBOOK_ACCESS_SETTINGS = {
         'friends_work_history',\
         'friends_education_history'], # FACEBOOK PERMISSIONS http://developers.facebook.com/docs/authentication/permissions/
 }
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'mutuality'
+EMAIL_HOST_PASSWORD = 'myMutuality16'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
