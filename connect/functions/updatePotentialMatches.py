@@ -4,6 +4,7 @@ from connect.functions import GetAllViewedUsers
 from connect.functions import GetNumberOfMutualFriends
 from connect.models import FacebookUser
 from connect.models import PotentialMatch
+from connect.models import PotentialMatchUpdate
 
 
 def UpdatePotentialMatches(profile):
@@ -31,11 +32,13 @@ def UpdatePotentialMatches(profile):
         userDictionary[freshUser.facebookID] = freshUser
     mutualFriendCounts = GetNumberOfMutualFriends(profile, userDictionary.keys())
     potentialMatches = []
+    potentialMatchUpdate = PotentialMatchUpdate(profile=profile)
+    potentialMatchUpdate.save()
     for result in mutualFriendCounts:
         facebookID = result['uid']
-        facebookUser = userDictionary[facebookID]
+        facebookUser = userDictionary[str(facebookID)]
         mutualFriendCount = result['mutual_friend_count']
-        potentialMatch = PotentialMatch.objects.create(profile=profile, facebookUser=facebookUser, numMutualFriends=mutualFriendCount)
+        potentialMatch = PotentialMatch(profile=profile, facebookUser=facebookUser, numMutualFriends=mutualFriendCount, potentialMatchUpdate=potentialMatchUpdate)
         potentialMatches.append(potentialMatch)
     bulkSave(potentialMatches)
 

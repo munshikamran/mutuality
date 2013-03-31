@@ -16,7 +16,8 @@ def GetViewedUsers(profile,meetPeopleFilter):
 
 
 def GetAllViewedUsers(profile):
-    userViews = UserViewed.objects.filter(user=profile).distinct('viewed').select_related('viewed')
+    # userViews = UserViewed.objects.filter(user=profile).distinct('viewed').select_related('viewed')
+    userViews = UserViewed.objects.filter(user=profile).select_related('viewed')
     viewedUsers = []
     for userView in userViews:
         viewedUsers.append(userView.viewed)
