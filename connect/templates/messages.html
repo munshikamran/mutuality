@@ -3,7 +3,7 @@
 {% block title %} Messages  {% endblock %}
 {% block content %}
 
-					<section id="page-title" class="row">
+					<section id="page-title-static" class="row">
 						<div class="eight columns">
 							<h2>Messages</h2>
 						</div>
@@ -24,14 +24,17 @@
 						</div>
 						
 						<div class="message-view six columns">
+							<div class="message-load">
+							</div>
 						  <div class="message-thread">
-						    <div class="load-messages row">
+						    
+						    <!-- <div class="load-messages row"> 
 						      <a href="#">Load previous messages</a>
-						    </div>
+						    </div>-->
 
 						  </div>
 						  <div class="message-reply">
-						    <textarea placeholder="Write a reply..." onfocus="this.placeholder = ''"></textarea>
+						    <textarea placeholder="Write a message..." onfocus="this.placeholder = ''"></textarea>
 						  </div>
 						  <div class="row">
 						    <input class="messages button" value="Send" />
@@ -41,7 +44,7 @@
 						<aside class="message-ask three columns">
 							<h6 class="profile-name"></h6>
 							
-							<div id="ask-about-small">
+							<div id="ask-about">
 								<ul>
 									
 								</ul>

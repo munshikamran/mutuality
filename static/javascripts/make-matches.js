@@ -9,8 +9,8 @@
                var rightFriend = Mutuality.getFriendProfile( Mutuality.cache.current[1] );
                var leftimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[0], 165, 165);
                var rightimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[1], 165, 165);
-               var leftNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, leftFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "http://www.mymutuality.com/makematches");
-               var rightNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, rightFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "http://www.mymutuality.com/makematches");
+               var leftNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, leftFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "http://www.mymutuality.com/makematches", "http://i.imgur.com/Hcy3Clo.jpg");
+               var rightNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, rightFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "http://www.mymutuality.com/makematches", "http://i.imgur.com/Hcy3Clo.jpg");
 
                $('#nudge-left .match-name').text( leftFriend.name );
                $('#nudge-left .introduce-thumb').css({backgroundImage: 'url('+leftimgURL+')'});
@@ -244,7 +244,7 @@
             var leftSex = $("#left-match-sex").val() == "Guys" ? 'male' : 'female';
             var rightSex = $("#right-match-sex").val() == "Guys" ? 'male' : 'female';
             Mutuality.loadNewMatch(leftSex, rightSex, Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
-             mixpanel.track("spin button clicked"); 
+             mixpanel.track("Spin button clicked"); 
         }
     });
 

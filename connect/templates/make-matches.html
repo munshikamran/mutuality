@@ -294,7 +294,9 @@
 {% block extrascript %}
     <script>
         // Joyride
-        $(window).load(function() { $('#joyRideTipContent').joyride(); });
+          if ($('#noTour').length === 0) {
+                $(window).load(function() { $('#joyRideTipContent').joyride(); });
+            }
 
         // Get page JS
         (function($){

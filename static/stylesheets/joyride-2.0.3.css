@@ -52,11 +52,11 @@ margin: -15px 0px -260px -150px ! important;
 }
 
 .seePeople {
-  margin: 45px 0px 0px 550px !important;
+  margin: -120px 0px 0px 330px !important;
 }
 
 .filters {
-  margin: 140px 0px 0px 860px !important;
+  margin: 0px 0px 0px 0px !important;
 }
 
 .fav {
@@ -204,7 +204,7 @@ margin: -15px 0px -260px -150px ! important;
 }
 
 .seePeopleNub {
-  margin: 115px 0px 0px 0px !important;
+  margin: 112px 0px 0px 0px !important;
   border-color: #fff;
   border-color: #fff !important;
   border-bottom-color: transparent !important;

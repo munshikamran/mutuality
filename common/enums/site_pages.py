@@ -1,5 +1,5 @@
 class SITE_PAGES():
 
     MEET_PEOPLE = 'meet people'
-    CONNECT_FRIENDS = 'connect friends'
+    MAKE_MATCHES = 'make matches'
     MESSAGES = 'messages'

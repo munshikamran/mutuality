@@ -6300,6 +6300,56 @@ form.custom div.custom.dropdown ul li.selected:hover {
 }
 
 /* line 164, ../sass/app.scss */
+.about-picture {
+  display: block;
+  width: 200px;
+  height: 200px;
+  background-size: 100%;
+  -webkit-transition: all 100ms;
+  -moz-transition: all 100ms;
+  -o-transition: all 100ms;
+  transition: all 100ms;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+}
+
+.team {
+  margin-top:30px !important;
+}
+
+.team h3 {
+  margin: 0px 0px 20px 0px;
+}
+
+.team h4 {
+  margin-top:20px;
+  margin-bottom:5px;
+}
+
+.team p {
+  margin-bottom: 5px
+}
+
+.bio {
+  width:80%;
+  float:left;
+}
+.social-icons {
+  
+  display:block;
+  margin: 0px 0px 5px 10px;
+}
+
+.social-icons img {
+  margin:10px 15px 10px 15px;
+}
+/* line 164, ../sass/app.scss */
 .profile-thumb {
   display: block;
   width: 45px;
@@ -6338,6 +6388,22 @@ form.custom div.custom.dropdown ul li.selected:hover {
 
 /* line 176, ../sass/app.scss */
 #page-title h2 {
+  margin: 0;
+  font-weight: 400;
+}
+
+/* line 174, ../sass/app.scss */
+#page-title-static {
+  margin: 40px 0px 0px 0px;
+}
+
+/* line 175, ../sass/app.scss */
+#page-title-static > div {
+  padding: 0;
+}
+
+/* line 176, ../sass/app.scss */
+#page-title-static h2 {
   margin: 0;
   font-weight: 400;
 }
@@ -7231,48 +7297,48 @@ input[type=text]:focus + .search-results {
 }
 
 /* line 540, ../sass/app.scss */
-#ask-about-small {
+/*#ask-about-small {
   height: 150px;
-}
+}*/
 
 /* line 541, ../sass/app.scss */
-#ask-about-small ul {
-  height: 150px;
-  width: 213px;
+/*#ask-about-small ul {
+  height: 213px;
+  width: 150px;
   list-style: none;
   margin: 0;
   overflow: hidden;
 }
-
+*/
 /* line 542, ../sass/app.scss */
-#ask-about-small li {
+/*#ask-about-small li {
   margin: 2px;
   float: left;
-}
+}*/
 
 /* line 543, ../sass/app.scss */
-#ask-about-small a {
+/*#ask-about-small a {
   display: inline-block;
   padding: 3px;
   width: 65px;
   height: 65px;
-}
+}*/
 
 /* line 544, ../sass/app.scss */
-#ask-about-small .profile-thumb {
+/*#ask-about-small .profile-thumb {
   width: 60px;
   height: 60px;
   border-width: 3px;
-}
+}*/
 
 /* line 545, ../sass/app.scss */
-#ask-about-small .profile-thumb:hover {
+/*#ask-about-small .profile-thumb:hover {
   border-width: 4px;
   border-color: #4fa8c4;
   -webkit-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
   -moz-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
   box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
-}
+}*/
 
 /* line 547, ../sass/app.scss */
 #ask-prev,
@@ -7477,7 +7543,7 @@ body#messages #page-title {
 
 /* line 647, ../sass/app.scss */
 .message-list {
-  padding-top: 60px;
+  /*padding-top: 60px;*/
 }
 
 /* line 648, ../sass/app.scss */
@@ -7555,6 +7621,18 @@ body#messages #page-title {
   text-align: right;
 }
 
+.message-load {
+  background: url(../images/single-message-bg.png) 28px 0 repeat-y;
+
+}
+
+.scroll {
+  height: 400px;
+  width:450px;
+  overflow-y:scroll;
+  overflow-x:hidden;
+}
+
 /* line 662, ../sass/app.scss */
 .single-message .two, .single-message .row .two, .row .single-message .two {
   padding-top: 6px;
@@ -7569,6 +7647,7 @@ body#messages #page-title {
 
 /* line 665, ../sass/app.scss */
 .message-reply {
+  margin-top:20px;
   border: 2px solid #eee;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
@@ -7601,7 +7680,7 @@ body#messages #page-title {
 
 /* line 669, ../sass/app.scss */
 .message-ask {
-  padding-top: 60px;
+  /*padding-top: 60px;*/
 }
 
 /* line 670, ../sass/app.scss */
@@ -7614,12 +7693,18 @@ body#messages #page-title {
 .message-ask li {
   float: left;
   margin: 6px;
+  height: 60px;
+  width: 60px;
 }
 
 /* line 673, ../sass/app.scss */
 .load-messages {
   background: white url(../images/load-message-bg.png) center bottom no-repeat;
   padding-bottom: 15px;
+}
+
+.fix-position {
+  position:fixed;
 }
 
 /* line 674, ../sass/app.scss */

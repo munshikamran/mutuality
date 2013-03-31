@@ -157,6 +157,7 @@
 		$('#ask-about').html("");
 		$('.ask-about-modal').html("");
 		setCurrentPerson();
+		mixpanel.track("Next-Prev",{"Button":"Next"});
 	});
 
 	// When you click previous, set the current person as well
@@ -165,6 +166,7 @@
 		$('#ask-about').html("");
 		$('.ask-about-modal').html("");
 		setCurrentPerson();
+		mixpanel.track("Next-Prev",{"Button":"Prev"});
 	});
 
 	// When the fav filter is selected, load the favorites into the UI
@@ -329,7 +331,9 @@
 	var loadMutualFriendsIntoUI = function (facebookID, mutualFriends){
 		var newUlElem;
 		var currentPersonName = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
-		var messageString = "Hey can you introduce me to " + currentPersonName.name + "?";
+		var messageStringIntro = "Hey can you introduce me to " + currentPersonName.name + "?";
+		var messageStringAsk = "Can you tell me more about " + currentPersonName.name + "?";
+		var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple."
 
 		for (i=0; i<mutualFriends.length; i++){
 			askaboutElem = $('#ask-about');
@@ -341,14 +345,17 @@
 
 			var liElem = $('<li>', {}).appendTo(newUlElem);
 			var liElemModal = $('<li>', {}).appendTo(newUlElemModal);
-    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "www.mymutuality.com")
+    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElem);
-    		var aElemModal = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageString, "www.mymutuality.com")
+    		var aElemModal = $('<a>', {class: 'askModalLink', onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringIntro, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElemModal);
-    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElem);
-    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID)+ ');'}).appendTo(aElemModal);
+    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElem);
+    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElemModal);
 		}
 
+		var currentClick =  $('.askModalLink').attr('onclick');
+		var newClick =  currentClick + " $('.close-reveal-modal').trigger('click');"
+		$('.askModalLink').attr('onclick',  newClick);
 		$('.tooltip').tooltipster();
 		initAskAboutCarousel();
 		initAskAboutCarouselModal();
@@ -366,7 +373,7 @@
 				$("#profile-location").attr('class', 'inactive');
 			}
 			if(extendedProfile.gender) {
-				$("#profile-sex").html('<i class="male"></i>' + extendedProfile.gender);
+				$("#profile-sex").html('<i class="male"></i>' + extendedProfile.gender.charAt(0).toUpperCase() + extendedProfile.gender.slice(1));
 				$("#profile-sex").attr('class', '');
 			}
 			else {
@@ -483,7 +490,10 @@
    // Show the loading modal, and hide the page contents while async calls fire
    $("#main").hide();
    triggerModal();
-
+   if ($('#noTour').length === 0) {
+		$('#joyRideTipContent').joyride();
+	}
+   
    if($.cookie("UpdateFriendListCalled") !== "true") {
 	    Mutuality.updateFriendList(0, function(){
 	    	$.cookie("UpdateFriendListCalled", "true");
@@ -491,10 +501,10 @@
 			Mutuality.getMeetPeople(0, 0, function(friends){
 		    	Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
-				$('#joyRideTipContent').joyride();
+				
+				mixpanel.track("Login success");
 			});
 			Mutuality.getFavoritesList(function(favorites){
-				//console.log(favorites);
 				for (i=0;i<favorites.length; i++){
 					if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
 						Mutuality.mpcache.favoritesList[favorites[i].facebookID] = true;
@@ -509,7 +519,7 @@
 			if (friends.length > 0){
 	    		Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
-				$('#joyRideTipContent').joyride();
+				mixpanel.track("Login success");
 			}
 			else {
 				$("#myModal h4").text("Sorry, but no people were found!");

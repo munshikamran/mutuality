@@ -8,8 +8,10 @@ urlpatterns = patterns('connect.views',
     url(r'^meetpeople/?$', "meetpeople", name="meetpeople"),
     url(r'^messages/?$', "messages", name="messages"),
     url(r'^fbinfo/?$', "fbinfo", name="fbinfo"),
+    url(r'^faq/?$', "faq", name="faq"),
+    url(r'^about/?$', "about", name="about"),
+    url(r'^privacy/?$', "privacy", name="privacy"),
     url(r'^register/$', register, name="register"),
-    url(r'^account/$', account, name="account")
+    url(r'^account/$', account, name="account"),
 )
-
 

@@ -15,10 +15,21 @@
   <!-- Included CSS Files -->
   <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/app.css">
   <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/joyride-2.0.3.css">
+  
+    <!-- Mixpanel JS -->
+  <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
+  typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,
+  e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
+  mixpanel.init("2c016968167f5dc85b02e758553ab355");
+  </script> 
 
 </head>
 <body>
+<!-- has this page been viewed? then render the following element -->
 <div id="fb-root"></div>
+{% if viewed %}
+    <a id="noTour" style="display:none;"/>
+{% endif %}
   <header id="brand" class="wrapper">
     <div class="row">
       <div class="twelve columns">
@@ -76,28 +87,28 @@
         <nav id="footer-nav" class="four columns">
           <h5>Find Out More</h5>
           <ul class="six columns">
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">How It Works</a></li>
-            <li><a href="#">FAQs</a></li>
+            <li><a href="/about">About Us</a></li>
+            <!-- <li><a href="#">How It Works</a></li> -->
+            <li><a href="faq">FAQs</a></li>
           </ul>
           <ul class="six columns">
-            <li><a href="#">Our Blog</a></li>
-            <li><a href="/fbinfo">Facebook Info</a></li>
-            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="http://mymutuality.wordpress.com/">Our Blog</a></li>
+            <!-- <li><a href="/fbinfo">Facebook Info</a></li> -->
+            <li><a href="/privacy">Privacy Policy</a></li>
           </ul>
         </nav>
         
         <nav id="footer-social" class="four columns">
           <h5>Connect With Us</h5>
           <ul class="six columns">
-            <li id="social-fb"><a href="#">Facebook</a></li>
-            <li id="social-tw"><a href="#">Twitter</a></li>
-            <li id="social-pin"><a href="#">Pinterest</a></li>
+            <li id="social-fb"><a href="https://www.facebook.com/MyMutuality">Facebook</a></li>
+            <li id="social-tw"><a href="https://twitter.com/MyMutuality">Twitter</a></li>
+            <!-- <li id="social-pin"><a href="#">Pinterest</a></li> -->
           </ul>
           <ul class="six columns">
-            <li id="social-rss"><a href="#">RSS</a></li>
-            <li id="social-email"><a href="#">Email</a></li>
-            <li id="social-contactus"><a href="#">Contact Us</a></li>
+            <!-- <li id="social-rss"><a href="#">RSS</a></li> -->
+            <li id="social-email"><a href="mailto:info@mymutuality.com">Email Us</a></li>
+            <!-- <li id="social-contactus"><a href="#">Contact Us</a></li> -->
           </ul>
         </nav>
         
@@ -146,7 +157,7 @@
   <script src="{{ MEDIA_URL }}/javascripts/plugins.js"></script>
   <script src="{{ MEDIA_URL }}/javascripts/transform.js"></script>
   <script src="http://connect.facebook.net/en_US/all.js"></script>
-  
+
   <!-- User feedback JS -->
   <script type="text/javascript">
     var _urq = _urq || [];
@@ -158,21 +169,12 @@
     })();
   </script>
 
-  <!-- Mixpanel JS -->
-  <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
-  typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,
-  e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
-  mixpanel.init("2c016968167f5dc85b02e758553ab355");
-  </script> 
- 
-
   {% if user.is_authenticated %}
     {% if profile %}
         <script type="text/javascript">
         // Update the message count in the header
          Mutuality.init('{{ profile.facebookID }}', '../');
          Mutuality.getNewMessageCount(function(count){
-            console.log(count);
             if (count > 0){
               $(".message-count").show();
               $(".message-count").html(count);
@@ -301,6 +303,13 @@
 </style>
 <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.autocomplete.js"></script>
 
+<script>
+$(window).load(function(){
+   mixpanel.register({"Gender":Mutuality.cache.profile.gender, "Location":Mutuality.cache.profile.location, "Relationship":Mutuality.cache.profile.relationshipStatus, "RegDate":Mutuality.cache.profile.date_created});
+   mixpanel.identify(Mutuality.cache.profile.facebookID);
+   mixpanel.name_tag(Mutuality.cache.profile.name);
+})
+</script>
 
   {% block extrascript %} 
     <!-- Extra page scripts get inserted here -->

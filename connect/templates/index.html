@@ -15,11 +15,11 @@
 		{% if user.is_authenticated %}
 	        {% if profile %}
 				<p>You're logged in. </p>  
-				Go <a href="/makematches/">connect some friends</a> or <a href="/meetpeople/"> meet people</a>!</p>.
+				Go <a href="/makematches/">make some matches</a> or <a href="/meetpeople/"> meet people</a>!</p>.
 	        {% endif %}
 	    {% else %}
 	    <div style="text-align:center;">
-		    <a href="{% url la_facebook_login %}?next={{ next }}"><img src="{{ MEDIA_URL }}/images/facebookconnect.png"></a>
+		    <a href="{% url la_facebook_login %}?next={{ next }}" OnClick="mixpanel.track('Facebook Connect');"><img src="{{ MEDIA_URL }}/images/facebookconnect.png"></a>
 		    <br/>
 		    <span>We never post to Facebook.</span>
 		</div>
@@ -28,6 +28,11 @@
 	</div>
 </div>
 </div>
+<script type="text/javascript">
+    mixpanel.track("Homepage loaded")
+</script>
 {% endif %}
 
 {% endblock %}
+
+
