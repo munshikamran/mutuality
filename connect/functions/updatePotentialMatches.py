@@ -35,10 +35,11 @@ def UpdatePotentialMatches(profile):
     potentialMatchUpdate = PotentialMatchUpdate(profile=profile)
     potentialMatchUpdate.save()
     for result in mutualFriendCounts:
-        facebookID = result['uid']
-        facebookUser = userDictionary[str(facebookID)]
+        facebookID = str(result['uid'])
+        facebookUser = userDictionary[facebookID]
         mutualFriendCount = result['mutual_friend_count']
-        potentialMatch = PotentialMatch(profile=profile, facebookUser=facebookUser, numMutualFriends=mutualFriendCount, potentialMatchUpdate=potentialMatchUpdate)
+        isMutualityConnection = facebookID in mutualityUserIDSet
+        potentialMatch = PotentialMatch(profile=profile, facebookUser=facebookUser, numMutualFriends=mutualFriendCount, potentialMatchUpdate=potentialMatchUpdate, isMutualityConnection=isMutualityConnection)
         potentialMatches.append(potentialMatch)
     bulkSave(potentialMatches)
 
