@@ -19,6 +19,7 @@ def OrderByNumberOfMutualFriends(profile,friendList):
 
     query = "SELECT uid,mutual_friend_count FROM user WHERE uid IN (%s) ORDER BY mutual_friend_count DESC" % idsString
     numMutualFriendList =  graph.fql(query)
+    print numMutualFriendList
     orderedFriendList = []
     for friendData in numMutualFriendList:
         id = str(friendData["uid"])

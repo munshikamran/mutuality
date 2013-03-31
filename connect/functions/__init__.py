@@ -13,9 +13,11 @@ from removeUserFavorite import RemoveUserFavorite
 from getUserFavorites import GetUserFavorites
 from getMutualityUsers import GetNonFriendUsersInArea, GetNonFriendSingleUsersInArea
 from viewUser import ViewUser
-from getViewedUsers import GetViewedUsers
+from getViewedUsers import GetViewedUsers, GetAllViewedUsers
 from getMeetPeople import GetMeetPeople
 from getProfileAuthToken import GetProfileAuthToken
 from getMeetPeopleProfile import GetMeetPeopleProfile
 from updateProfile import UpdateProfile
 from viewPage import ViewPage, PageHasBeenViewed
+from getNumberOfMutualFriends import GetNumberOfMutualFriends
+from updatePotentialMatches import UpdatePotentialMatches

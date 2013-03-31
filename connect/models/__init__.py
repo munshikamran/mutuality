@@ -7,3 +7,5 @@ from facebookUserMatchReason import FacebookUserMatchReason
 from userFavorite import UserFavorite
 from userViewed import UserViewed
 from pageView import PageView
+from potentialMatchUpdate import PotentialMatchUpdate
+from potentialMatch import PotentialMatch
