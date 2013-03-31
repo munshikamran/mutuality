@@ -219,7 +219,7 @@ var loadMessageThreadIntoUI = function(messageThread) {
 		}
 	for (var i = messagePos; i >= 0; i--) {
 		var messageOwner = messageThread[i].sender.facebookID;
-		var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 90, 90) + ')';
+		var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 100, 100) + ')';
 		var time = formatTime(messageThread[i].sent_at);
 		//console.log(time);
 		//console.log($('.single-message').length);	
@@ -247,6 +247,7 @@ var loadMessageThreadIntoUI = function(messageThread) {
 				$('.single-message').eq(0).attr({
 						'data-messageposition': i
 					});
+				$('.message-load').empty();
 				$('.message-load').append('<div class="load-messages row"><a href="#">Load previous messages</a></div>');
 				//$('.load-messages').addClass("fix-position");
 				break;
@@ -330,17 +331,15 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 		//introduceYourself("10701292", "Elly Egli");
 
 		//Load overflow messages
-		$(document).on('click', '.load-messages', function (event) { 
+		$(document).on('click', '.load-messages', function (event) {
 			event.stopPropagation();
-			$(this).hide();
+			$('.message-load').empty();
+			//$(this).hide();
 			$(".message-thread").addClass("scroll");
 			var otherFbId = $('.message-list').find('li.active').data('facebookid');
-			
 			Mutuality.getMessagesWithOther(otherFbId, loadMessageThreadIntoUI);
-
 			//$('.message-thread').animate({
 			//	scrollTop: $('.single-message').eq(0).offset().top}, 2000);
-		
 		});
 
 		//Activate preview, load messages, and mutual friends once clicked
@@ -351,7 +350,7 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 			$(this).siblings('li').removeClass("cf active").addClass("cf inactive");
 			$(this).removeClass("cf inactive").addClass("cf active");
 			var otherFbId = $('.message-list').find('li.active').data('facebookid');
-			var otherName = $('.message-list').find('li.active').data('name');		
+			var otherName = $('.message-list').find('li.active').data('name');
 			loadThread(otherFbId);
 			loadFriends(otherFbId, otherName);
 		});
