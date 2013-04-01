@@ -10,7 +10,7 @@ ADMINS = (
 )
 
 DEVELOPMENT_MODE = False
-SHOULD_LOCKDOWN = True
+SHOULD_LOCKDOWN = False
 ENVIRONMENT=os.environ.get('ENVIRONMENT')
 if ENVIRONMENT:
     # determine if stage or prod
