@@ -25,6 +25,14 @@ function loadPage() {
 	});
 }	
 
+ function checkToLoadMessageBox () {
+ 	$('.message-load').empty();
+ 	var messagePos = $('.single-message').eq(0).data('messageposition') 
+	if(messagePos > 0) {
+ 		$('.message-load').append('<div class="load-messages row"><a href="#">Load previous messages</a></div>');
+ 	}
+ }
+
 function existingPerson (facebookid, messages, success) {
 		var index = -1;
 		for (i = 0; i < messages.length; i++) {
@@ -144,11 +152,8 @@ function loadPageThirdCase (facebookID, name, messages) {
 		var newName = parseMessageForName(messages, i);
 		var newFormattedMessage = formatMessageForPreview(messages[i].body);
 		addProfilePreview (newFbId, newName, newFormattedMessage, "cf inactive");
-	}
-
-	
+	}	
 }
-
 
 function addProfilePreview (facebookID, name, formattedMessage, state) {
 	var profileImage = 'background-image: url(' + Mutuality.getProfilePictureURL(facebookID, 90, 90) + ')';
@@ -209,6 +214,7 @@ var initAskAboutCarousel = function () {
 
 //Load full message exchange into the UI
 var loadMessageThreadIntoUI = function(messageThread) {
+	console.log(messageThread);
 	var totalHeight = 0;
 	var messageHeight = 0;
 	var messagePos;
@@ -217,19 +223,17 @@ var loadMessageThreadIntoUI = function(messageThread) {
 		} else {
 			messagePos = $('.single-message').eq(0).data('messageposition');
 		}
-	for (var i = messagePos; i >= 0; i--) {
-		var messageOwner = messageThread[i].sender.facebookID;
+	for (messagePos; messagePos >= 0; messagePos--) {
+		var messageOwner = messageThread[messagePos].sender.facebookID;
 		var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 100, 100) + ')';
-		var time = formatTime(messageThread[i].sent_at);
-		//console.log(time);
-		//console.log($('.single-message').length);	
+		var time = formatTime(messageThread[messagePos].sent_at);
+
 			if ($('.single-message').length !== 0) { 
 				messageHeight = $('.single-message').eq(0).height();
-				//console.log(messageHeight);
 				totalHeight = totalHeight + messageHeight;
-				//console.log(totalHeight);
 			}
-		if (totalHeight < 400 || i === messagePos) {
+		console.log(totalHeight);	
+		if (totalHeight < 400) {
 		$('.message-thread').prepend(
 			$('<div>').addClass('single-message row').append(
 				$('<div>').addClass('two columns').append(
@@ -240,20 +244,21 @@ var loadMessageThreadIntoUI = function(messageThread) {
 					($('<small>').html(time))
 					)).append(
 					($('<div>').addClass('ten columns').html(
-						"<p>" + messageThread[i].body + "</p>"	
+						"<p>" + messageThread[messagePos].body + "</p>"	
 						)
 						)));
-			} else {
-				$('.single-message').eq(0).attr({
-						'data-messageposition': i
+		$('.single-message').eq(0).attr({
+						'data-messageposition': messagePos
 					});
-				$('.message-load').empty();
-				$('.message-load').append('<div class="load-messages row"><a href="#">Load previous messages</a></div>');
-				//$('.load-messages').addClass("fix-position");
-				break;
-			}
+			// } else {
+			// 	$('.single-message').eq(0).attr({
+			// 			'data-messageposition': messagePos
+			// 		});
+			// 	break;
 		}
 	}
+	checkToLoadMessageBox();
+}
 
 var loadSentMessage = function(messageThread) {
 	var sentMessage = messageThread[messageThread.length-1];
@@ -334,11 +339,10 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 		//Load overflow messages
 		$(document).on('click', '.load-messages', function (event) {
 			event.stopPropagation();
-			$('.message-load').empty();
-			//$(this).hide();
 			$(".message-thread").addClass("scroll");
 			var otherFbId = $('.message-list').find('li.active').data('facebookid');
 			Mutuality.getMessagesWithOther(otherFbId, loadMessageThreadIntoUI);
+			checkToLoadMessageBox();
 			//$('.message-thread').animate({
 			//	scrollTop: $('.single-message').eq(0).offset().top}, 2000);
 		});
@@ -382,14 +386,13 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 		});
 
 		$('#ask-about').on('click', 'a', function() {
-			var position = $(this).data('id')
-			var name = $(this).data('name')
-			var facebookID = $(this).data('facebookid')
-			mixpanel.track("Asked friend", {"source":"messages","position":position, "name":name, "facebookID":facebookID})
-		})
-
+			var position = $(this).data('id');
+			var name = $(this).data('name');
+			var facebookID = $(this).data('facebookid');
+			mixpanel.track("Asked friend", {"source":"messages","position":position, "name":name, "facebookID":facebookID});
+		});
 	
-	});  
+	});	  
 /* End Main Code */
 
 })(jQuery);
