@@ -20,4 +20,5 @@ from getMeetPeopleProfile import GetMeetPeopleProfile
 from updateProfile import UpdateProfile
 from viewPage import ViewPage, PageHasBeenViewed
 from getNumberOfMutualFriends import GetNumberOfMutualFriends
+from createPotentialBatch import CreatePotentialBatch
 from updatePotentialMatches import UpdatePotentialMatches

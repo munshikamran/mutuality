@@ -1,4 +1,4 @@
-from connect.functions import GetProfileAuthToken
+from connect.functions.getProfileAuthToken import GetProfileAuthToken
 import facebook
 
 

@@ -1,7 +1,6 @@
-from connect.functions import GetNonFriendUsersInArea
-from connect.functions import GetFriendsOfFriendsInArea
-from connect.functions import GetAllViewedUsers
-from connect.functions import GetNumberOfMutualFriends
+from connect.functions.getMutualityUsers import GetNonFriendUsersInArea
+from connect.functions.getFriendsOfFriends import GetFriendsOfFriendsInArea
+from connect.functions.getNumberOfMutualFriends import GetNumberOfMutualFriends
 from connect.models import FacebookUser
 from connect.models import PotentialMatch
 from connect.models import PotentialMatchUpdate
@@ -18,14 +17,8 @@ def UpdatePotentialMatches(profile):
         facebookUserIDSet.add(person.facebookID)
 
     combinedUserIDSet = facebookUserIDSet.union(mutualityUserIDSet)
-    #remove users who have already been seen
-    viewedUsers = GetAllViewedUsers(profile)
-    viewedUserSet = set()
-    for viewedUser in viewedUsers:
-        viewedUserSet.add(viewedUser.facebookID)
-    combinedUserIDSet = combinedUserIDSet.difference(viewedUserSet)
 
-    freshUsers = FacebookUser.objects.filter(facebookID__in=list(combinedUserIDSet)).exclude(facebookID__in=viewedUsers)
+    freshUsers = FacebookUser.objects.filter(facebookID__in=list(combinedUserIDSet))
 #     create  a list of ids for all users so we can get the mutual friend counts
     userDictionary = {}
     for freshUser in freshUsers:
