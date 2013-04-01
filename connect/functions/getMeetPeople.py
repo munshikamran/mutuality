@@ -60,8 +60,8 @@ def GetMeetPeople(profile, filter):
     potentialMatches = PotentialMatch.objects.filter(potentialMatchBatch=batch).select_related('facebookUser')
     if filter == MEET_PEOPLE_FILTER.DATING:
         genderToExclude = profile.gender
-        relationshipStatusesToExclude = [RELATIONSHIP_STATUS.RELATIONSHIP,RELATIONSHIP_STATUS.ENGAGED,RELATIONSHIP_STATUS.MARRIED]
-        potentialMatches = potentialMatches.exclude(facebookUser__gender=genderToExclude, facebookUser__relationshipStatus__in=relationshipStatusesToExclude)
+        relationshipStatusesToExclude = [RELATIONSHIP_STATUS.RELATIONSHIP, RELATIONSHIP_STATUS.ENGAGED, RELATIONSHIP_STATUS.MARRIED]
+        potentialMatches = potentialMatches.exclude(facebookUser__gender=genderToExclude).exclude(facebookUser__relationshipStatus__in=relationshipStatusesToExclude)
     # TODO filter out users who have been seen
     viewedUsers = []
     freshUsers = []
