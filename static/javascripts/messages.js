@@ -306,6 +306,7 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 						'href': '#',
 						'data-facebookid':friendID,
 						'data-name':otherName,
+						'data-id':i,
 						'onclick': Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, friendID, messageString, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
 					}).append(
 						$('<span>').attr({
@@ -378,7 +379,15 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 			if (event.which === 13) {
 				$('input.messages.button').click();
 			}
-		});	
+		});
+
+		$('#ask-about').on('click', 'a', function() {
+			var position = $(this).data('id')
+			var name = $(this).data('name')
+			var facebookID = $(this).data('facebookid')
+			mixpanel.track("Asked friend", {"source":"messages","position":position, "name":name, "facebookID":facebookID})
+		})
+
 	
 	});  
 /* End Main Code */
