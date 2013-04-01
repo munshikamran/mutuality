@@ -538,6 +538,13 @@
 		});
 	}
 
+	// $('#ask-about').on('click', 'a', function() {
+	// 		var position = $(this).data('id')
+	// 		var name = $(this).data('name')
+	// 		var facebookID = $(this).data('facebookid')
+	// 		mixpanel.track("Asked friend", {"source":"meet-people","position":position, "name":name, "facebookID":facebookID})
+	// })
+
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });
  	$('.ask-about-modal').css({ zIndex: 0 });
