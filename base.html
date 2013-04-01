@@ -309,6 +309,11 @@ $(window).load(function(){
    mixpanel.identify(Mutuality.cache.profile.facebookID);
    mixpanel.name_tag(Mutuality.cache.profile.name);
 })
+
+$('#menu-logout').on('click', 'a', function(){
+  mixpanel.track("Logged out"); 
+})
+
 </script>
 
   {% block extrascript %} 
