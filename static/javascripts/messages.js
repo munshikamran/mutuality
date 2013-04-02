@@ -232,7 +232,6 @@ var loadMessageThreadIntoUI = function(messageThread) {
 				messageHeight = $('.single-message').eq(0).height();
 				totalHeight = totalHeight + messageHeight;
 			}
-		console.log(totalHeight);	
 		if (totalHeight < 400) {
 		$('.message-thread').prepend(
 			$('<div>').addClass('single-message row').append(
