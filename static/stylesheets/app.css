@@ -6572,7 +6572,7 @@ form.custom div.custom.dropdown ul li.selected:hover {
 .profiles a > span h3 {
   display: inline-block;
   float: left;
-  margin: 9px 0 13px 35px;
+  margin: 9px 0 13px 20px;
   color: #222;
   white-space: pre;
   overflow: hidden;
