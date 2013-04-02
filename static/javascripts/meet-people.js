@@ -349,8 +349,14 @@
 }).appendTo(liElem);
     		var aElemModal = $('<a>', {class: 'askModalLink', onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringIntro, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElemModal);
-    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElem);
-    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElemModal);
+    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElem);
+    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElemModal);
+			
+			$('#ask-about').find('a').eq(i).attr({			
+						'data-facebookid':mutualFriends[i].facebookID,
+						'data-name':mutualFriends[i].name,
+						'data-id':i,	
+						})
 		}
 
 		var currentClick =  $('.askModalLink').attr('onclick');
@@ -540,12 +546,12 @@
 		});
 	}
 
-	// $('#ask-about').on('click', 'a', function() {
-	// 		var position = $(this).data('id')
-	// 		var name = $(this).data('name')
-	// 		var facebookID = $(this).data('facebookid')
-	// 		mixpanel.track("Asked friend", {"source":"meet-people","position":position, "name":name, "facebookID":facebookID})
-	// })
+	 $('#ask-about').on('click', 'a', function() {
+	 		var position = $(this).data('id')
+	 		var name = $(this).data('name')
+	 		var facebookID = $(this).data('facebookid')
+	 		mixpanel.track("Asked friend", {"source":"meet-people","position":position, "name":name, "facebookID":facebookID})
+	 })
 
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });

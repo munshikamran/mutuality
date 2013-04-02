@@ -6477,6 +6477,7 @@ form.custom div.custom.dropdown ul li.selected:hover {
   color: #444444;
   text-decoration: underline;
   font-weight: 700;
+  cursor: pointer;
   background: url(../images/ui-icons-sprite.png) 0 -234px no-repeat;
 }
 
@@ -6581,6 +6582,102 @@ form.custom div.custom.dropdown ul li.selected:hover {
 
 /* line 233, ../sass/app.scss */
 .profile-location {
+  display: inline-block;
+  float: left;
+  margin: 12px 12px 11px;
+  padding-left: 0;
+  color: #222;
+  background: url(../images/ui-icons-sprite.png) -4px -287px no-repeat;
+  width: 18px;
+  height: 24px;
+  border-bottom: none;
+}
+
+.meet-people-profiles {
+  list-style: none;
+  margin: 0 0 15px;
+}
+
+/* line 208, ../sass/app.scss */
+.meet-people-profiles li {
+  width: 368px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ccc;
+  background: white;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 5px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 5px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 5px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+}
+
+/* line 214, ../sass/app.scss */
+.meet-people-profiles li.loader {
+  background: white url(../images/loader.gif) no-repeat center center;
+}
+
+/* line 215, ../sass/app.scss */
+.meet-people-profiles a {
+  display: block;
+  position: relative;
+  padding: 10px;
+  font-weight: 700;
+  height: 370px;
+  width: 370px;
+}
+
+/* line 216, ../sass/app.scss */
+.meet-people-profiles a.loaded {
+  width: auto;
+  height: auto;
+}
+
+/* line 217, ../sass/app.scss */
+.meet-people-profiles img {
+  position: relative;
+  display: block;
+  width: 350px;
+  height: 350px;
+  margin: 0 auto;
+}
+
+/* line 218, ../sass/app.scss */
+.meet-people-profiles a > span {
+  position: absolute;
+  width: 346px;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.75);
+    /*
+  @include filter-gradient(#ffffff, #ffffff, vertical);
+    $experimental-support-for-svg: true;
+    @include background-image(
+      linear-gradient(
+        top,
+        rgba(255,255,255,1) 3%,
+        rgba(255,255,255,0) 90%
+      )
+    );
+  */
+}
+
+/* line 232, ../sass/app.scss */
+.meet-people-profiles a > span h3 {
+  display: inline-block;
+  float: left;
+  margin: 9px 0 13px 35px;
+  color: #222;
+  white-space: pre;
+  overflow: hidden;
+  max-width: 86%;
+}
+
+/* line 233, ../sass/app.scss */
+.meet-people-profiles-location {
   display: inline-block;
   float: left;
   margin: 12px 12px 11px;

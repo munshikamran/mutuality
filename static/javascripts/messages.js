@@ -296,7 +296,7 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 	$('.profile-name').html("Ask About " + name[0]);
 	for (var i = 0; i < mutualFriends.length; i++) {
 		var friendID = mutualFriends[i].facebookID;
-		var friendName = mutualFriends[i].name.split(" ")[0];
+		var friendName = mutualFriends[i].name; //.split(" ")[0];
 		var messageString = "Can you tell me more about " + otherName + "?";
 		var mutualFriendImage = 'background-image: url(' + Mutuality.getProfilePictureURL(friendID, 100, 100) + ')';
 		var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple."
