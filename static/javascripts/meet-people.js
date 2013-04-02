@@ -490,9 +490,6 @@
    // Show the loading modal, and hide the page contents while async calls fire
    $("#main").hide();
    triggerModal();
-   if ($('#noTour').length === 0) {
-		$('#joyRideTipContent').joyride();
-	}
    
    if($.cookie("UpdateFriendListCalled") !== "true") {
 	    Mutuality.updateFriendList(0, function(){
@@ -501,7 +498,9 @@
 			Mutuality.getMeetPeople(0, 0, function(friends){
 		    	Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
-				
+				if ($('#noTour').length === 0) {
+					$('#joyRideTipContent').joyride();
+				}
 				mixpanel.track("Login success");
 			});
 			Mutuality.getFavoritesList(function(favorites){
@@ -519,6 +518,9 @@
 			if (friends.length > 0){
 	    		Mutuality.mpcache.fofList = friends;
 				meetPeopleSuccess(friends);
+				if ($('#noTour').length === 0) {
+					$('#joyRideTipContent').joyride();
+				}
 				mixpanel.track("Login success");
 			}
 			else {
@@ -537,6 +539,13 @@
 			}
 		});
 	}
+
+	// $('#ask-about').on('click', 'a', function() {
+	// 		var position = $(this).data('id')
+	// 		var name = $(this).data('name')
+	// 		var facebookID = $(this).data('facebookid')
+	// 		mixpanel.track("Asked friend", {"source":"meet-people","position":position, "name":name, "facebookID":facebookID})
+	// })
 
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });
