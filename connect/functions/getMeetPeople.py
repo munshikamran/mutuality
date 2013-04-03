@@ -15,7 +15,10 @@ def GetMeetPeople(profile, filter):
 
     if not PotentialBatch.objects.filter(profile=profile, date_expiration__gt=datetime.now()).exists():
         CreatePotentialBatch(profile)
-    batch = PotentialBatch.objects.filter(profile=profile).order_by('-date_created')[0]
+    batch = None
+    potentialBatches = PotentialBatch.objects.filter(profile=profile).order_by('-date_created')
+    if potentialBatches.exists():
+        batch = potentialBatches[0]
     potentialMatches = PotentialMatch.objects.filter(potentialMatchBatch=batch).select_related('facebookUser')
     if not potentialMatches.exists():
         return "We cannot find any matches for you"

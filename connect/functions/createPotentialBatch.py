@@ -7,14 +7,15 @@ from datetime import datetime, timedelta
 
 
 def CreatePotentialBatch(profile):
-    if not PotentialMatchUpdate.objects.filter(profile=profile).exists():
+    if not PotentialMatch.objects.filter(profile=profile).exists():
         UpdatePotentialMatches(profile)
 #     get potential matches for profile, remove users that have been seen
     viewedUsers = GetAllViewedUsers(profile)
     potentialMatches = PotentialMatch.objects.filter(profile=profile).exclude(facebookUser__in=viewedUsers)
     potentialMatches.order_by('-isMutualityConnection', '-numMutualFriends')
     if potentialMatches.count() < 1:
-        return "No matches available"
+        print "no matches available"
+        return None
 
     expirationDate = datetime.now() + timedelta(days=1)
 
