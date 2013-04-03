@@ -229,7 +229,7 @@
 	    	Mutuality.mpcache.current = currentlyFocusedElem.attr("facebookID");
 	    	console.log("Current Person: "+currentlyFocusedElem.attr("facebookID"));
 
-	    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === false){
+	    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === true){
 	    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModal2"><i></i>Get Introduced</a>');
 	    	}
 	    	else {
