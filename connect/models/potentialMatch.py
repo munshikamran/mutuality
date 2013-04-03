@@ -9,10 +9,10 @@ from connect.models.potentialBatch import PotentialBatch
 class PotentialMatch(models.Model):
     profile = models.ForeignKey(Profile, related_name='potential_match_for')
     facebookUser = models.ForeignKey(FacebookUser, related_name='potential_match_with')
-    potentialMatchUpdate = models.ForeignKey(PotentialMatchUpdate, related_name='potential_match_update')
     potentialMatchBatch = models.ForeignKey(PotentialBatch, related_name='potential_match_batch', null=True)
     numMutualFriends = models.IntegerField()
     isMutualityConnection = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
             app_label = 'connect'

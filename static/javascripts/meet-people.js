@@ -229,6 +229,13 @@
 	    	Mutuality.mpcache.current = currentlyFocusedElem.attr("facebookID");
 	    	console.log("Current Person: "+currentlyFocusedElem.attr("facebookID"));
 
+	    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === false){
+	    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModal2"><i></i>Get Introduced</a>');
+	    	}
+	    	else {
+	    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
+	    		$("#introduce").html('<a href="'+url+'" class="button"><i></i>Introduce Yourself</a>');
+	    	}
 
     		//console.log(Mutuality.mpcache.profileCacheData);	    	
     		//Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){console.log("set viewed = " + success );});
@@ -349,19 +356,26 @@
 }).appendTo(liElem);
     		var aElemModal = $('<a>', {class: 'askModalLink', onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringIntro, "www.mymutuality.com?src=meetPeople_getIntro", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElemModal);
-    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElem);
-    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElemModal);
-			
-			$('#ask-about').find('a').eq(i).attr({			
+    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElem);
+    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name.split(" ")[0], style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElemModal);
+    		
+    		// Append to onclick to make the modal disappear
+    		var currentClick =  aElemModal.attr('onclick');
+			var newClick =  currentClick + " $('.close-reveal-modal').trigger('click');"
+			aElemModal.attr('onclick',  newClick);
+						$('#ask-about').find('a').eq(i).attr({			
 						'data-facebookid':mutualFriends[i].facebookID,
 						'data-name':mutualFriends[i].name,
 						'data-id':i,	
-						})
+						});
+			aElem.attr('onclick',  newClick);
+						$('#ask-about').find('a').eq(i).attr({			
+						'data-facebookid':mutualFriends[i].facebookID,
+						'data-name':mutualFriends[i].name,
+						'data-id':i,	
+						});
 		}
 
-		var currentClick =  $('.askModalLink').attr('onclick');
-		var newClick =  currentClick + " $('.close-reveal-modal').trigger('click');"
-		$('.askModalLink').attr('onclick',  newClick);
 		$('.tooltip').tooltipster();
 		initAskAboutCarousel();
 		initAskAboutCarouselModal();
@@ -491,6 +505,12 @@
             $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
         });
     }
+
+    var createMutualityUserLookUp = function(friends){
+    	for (i=0;i<friends.length;i++){
+    		Mutuality.cache.mutualityUserLookup[friends[i].facebookID] = friends[i].isMutualityUser;
+    	}
+    }
  /* End Helper Functions */
 
 /* Begin Main Code */
@@ -504,6 +524,7 @@
 	   		Mutuality.loadFriendsList(populateCTA);
 			Mutuality.getMeetPeople(0, 0, function(friends){
 		    	Mutuality.mpcache.fofList = friends;
+		    	createMutualityUserLookUp(friends);
 				meetPeopleSuccess(friends);
 				if ($('#noTour').length === 0) {
 					$('#joyRideTipContent').joyride();
@@ -524,6 +545,7 @@
 		Mutuality.getMeetPeople(0, 0, function(friends){
 			if (friends.length > 0){
 	    		Mutuality.mpcache.fofList = friends;
+	    		createMutualityUserLookUp(friends);
 				meetPeopleSuccess(friends);
 				if ($('#noTour').length === 0) {
 					$('#joyRideTipContent').joyride();
