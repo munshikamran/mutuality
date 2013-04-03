@@ -98,7 +98,7 @@ var Mutuality = (function($){
    var module = 
    {
       basePath : '',
-      cache: { current: ["", ""], profile: {}, friends: {}, leftSlotLocked: false, rightSlotLocked: false },
+      cache: { current: ["", ""], profile: {}, friends: {}, mutualityUserLookup: {}, leftSlotLocked: false, rightSlotLocked: false },
       mpcache: { current: "", fofList: {}, favoritesList: {}, currentLoc: 0, profileCacheData: {} },
       history : [],
       token : null,
