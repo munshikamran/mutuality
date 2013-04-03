@@ -232,7 +232,6 @@ var loadMessageThreadIntoUI = function(messageThread) {
 				messageHeight = $('.single-message').eq(0).height();
 				totalHeight = totalHeight + messageHeight;
 			}
-		console.log(totalHeight);	
 		if (totalHeight < 400) {
 		$('.message-thread').prepend(
 			$('<div>').addClass('single-message row').append(
@@ -296,7 +295,7 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 	$('.profile-name').html("Ask About " + name[0]);
 	for (var i = 0; i < mutualFriends.length; i++) {
 		var friendID = mutualFriends[i].facebookID;
-		var friendName = mutualFriends[i].name.split(" ")[0];
+		var friendName = mutualFriends[i].name; //.split(" ")[0];
 		var messageString = "Can you tell me more about " + otherName + "?";
 		var mutualFriendImage = 'background-image: url(' + Mutuality.getProfilePictureURL(friendID, 100, 100) + ')';
 		var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple."
@@ -324,6 +323,18 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 		initAskAboutCarousel();
 }
 
+var friendsOfFriendsSuccess = function(friends){
+	if (friends.length > 0){
+	    friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
+	    $('#four-images img').each(function(i) {
+	        $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
+	    });
+	}
+	else{
+	    $("#meet-people-cta").css('display','none');
+	}
+};
+
 /* End Helper functions */
 
 /* Begin Messages Main Code */
@@ -331,7 +342,7 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 	$(document).ready(function() {	
 		//Load correct message previews, message thread, and mutual friends
 		loadPage();
-
+		Mutuality.getMeetPeople(0, 0, friendsOfFriendsSuccess);
 		//introduceYourself("1451700007", "Taylor Woods");
 		//introduceYourself("613170158", "Angela Cough");
 		//introduceYourself("10701292", "Elly Egli");

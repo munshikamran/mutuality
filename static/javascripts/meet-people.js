@@ -363,6 +363,17 @@
     		var currentClick =  aElemModal.attr('onclick');
 			var newClick =  currentClick + " $('.close-reveal-modal').trigger('click');"
 			aElemModal.attr('onclick',  newClick);
+						$('#ask-about').find('a').eq(i).attr({			
+						'data-facebookid':mutualFriends[i].facebookID,
+						'data-name':mutualFriends[i].name,
+						'data-id':i,	
+						});
+			aElem.attr('onclick',  newClick);
+						$('#ask-about').find('a').eq(i).attr({			
+						'data-facebookid':mutualFriends[i].facebookID,
+						'data-name':mutualFriends[i].name,
+						'data-id':i,	
+						});
 		}
 
 		$('.tooltip').tooltipster();
@@ -457,8 +468,9 @@
 			"			if(currentPerson.attr('facebookid') =='"+favorites[i].facebookID+"'){"+
 			"				currentPerson.css('background-position',  '0 -16px');} " +
 			"	});}";  
+	    	var facebookLink = Mutuality.getFacebookPageURL(favorites[i].facebookID)
 	    	var liElem = $('<li>', {class:'meet-profile', facebookID:favorites[i].facebookID}).appendTo(meetProfilesElem);
-    		var aElem = $('<a>', {href:'#', class:"loaded"}).appendTo(liElem);
+    		var aElem = $('<a>', {href:'#',class:"loaded"}).appendTo(liElem);
     		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(favorites[i].facebookID, 350, 350)}).appendTo(aElem);
     		var spanElem = $('<span>', {class:"match-profile-details"}).appendTo(aElem);
     		var inFavorites = Mutuality.mpcache.favoritesList[favorites[i].facebookID];
@@ -557,12 +569,12 @@
 		});
 	}
 
-	// $('#ask-about').on('click', 'a', function() {
-	// 		var position = $(this).data('id')
-	// 		var name = $(this).data('name')
-	// 		var facebookID = $(this).data('facebookid')
-	// 		mixpanel.track("Asked friend", {"source":"meet-people","position":position, "name":name, "facebookID":facebookID})
-	// })
+	 $('#ask-about').on('click', 'a', function() {
+	 		var position = $(this).data('id')
+	 		var name = $(this).data('name')
+	 		var facebookID = $(this).data('facebookid')
+	 		mixpanel.track("Asked friend", {"source":"meet-people","position":position, "name":name, "facebookID":facebookID})
+	 })
 
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });

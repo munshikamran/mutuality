@@ -9,8 +9,13 @@
                var rightFriend = Mutuality.getFriendProfile( Mutuality.cache.current[1] );
                var leftimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[0], 165, 165);
                var rightimgURL = Mutuality.getProfilePictureURL(Mutuality.cache.current[1], 165, 165);
-               var leftNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, leftFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "http://www.mymutuality.com/makematches", "http://i.imgur.com/Hcy3Clo.jpg");
-               var rightNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, rightFriend.facebookID, "Check out mutuality! I think you would enjoy meeting one of my mutual friends.", "http://www.mymutuality.com/makematches", "http://i.imgur.com/Hcy3Clo.jpg");
+               var leftName = leftFriend.name.split(" ")[0]
+               var rightName = rightFriend.name.split(" ")[0]
+               var headerLeft = "You should meet " + rightName + " on Mutuality"
+               var headerRight = "You should meet " + leftName + " on Mutuality"
+               var description =  "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple."
+               var leftNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, leftFriend.facebookID, headerLeft, "http://www.mymutuality.com/makematches", "http://i.imgur.com/Hcy3Clo.jpg", description);
+               var rightNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, rightFriend.facebookID, headerRight, "http://www.mymutuality.com/makematches", "http://i.imgur.com/Hcy3Clo.jpg", description);
 
                $('#nudge-left .match-name').text( leftFriend.name );
                $('#nudge-left .introduce-thumb').css({backgroundImage: 'url('+leftimgURL+')'});
