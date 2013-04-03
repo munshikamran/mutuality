@@ -12,7 +12,7 @@ def CreatePotentialBatch(profile):
 #     get potential matches for profile, remove users that have been seen
     viewedUsers = GetAllViewedUsers(profile)
     potentialMatches = PotentialMatch.objects.filter(profile=profile).exclude(facebookUser__in=viewedUsers)
-    potentialMatches.order_by('-isMutualityConnection', '-numMutualFriends')
+    potentialMatches = potentialMatches.order_by('-isMutualityConnection', '-numMutualFriends')
     if potentialMatches.count() < 1:
         print "no matches available"
         return None
