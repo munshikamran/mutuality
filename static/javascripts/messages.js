@@ -311,7 +311,7 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 						'data-facebookid':friendID,
 						'data-name':otherName,
 						'data-id':i,
-						'onclick': Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, friendID, messageString, "www.mymutuality.com", "http://i.imgur.com/Hcy3Clo.jpg", description)
+						'onclick': Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, friendID, messageString, "www.mymutuality.com?src=messages_ask_about", "http://i.imgur.com/Hcy3Clo.jpg", description)
 					}).append(
 						$('<span>').attr({
 								class: "profile-thumb tooltip",
