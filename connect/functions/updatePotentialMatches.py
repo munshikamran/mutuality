@@ -27,16 +27,16 @@ def UpdatePotentialMatches(profile):
     potentialMatches = []
     if len(mutualFriendCounts) < 1:
         return 'no potential matches were found'
-    potentialMatchUpdate = PotentialMatchUpdate(profile=profile)
-    potentialMatchUpdate.save()
     for result in mutualFriendCounts:
         facebookID = str(result['uid'])
         facebookUser = userDictionary[facebookID]
         mutualFriendCount = result['mutual_friend_count']
         isMutualityConnection = facebookID in mutualityUserIDSet
-        potentialMatch = PotentialMatch(profile=profile, facebookUser=facebookUser, numMutualFriends=mutualFriendCount, potentialMatchUpdate=potentialMatchUpdate, isMutualityConnection=isMutualityConnection)
+        potentialMatch = PotentialMatch(profile=profile, facebookUser=facebookUser, numMutualFriends=mutualFriendCount, isMutualityConnection=isMutualityConnection)
         potentialMatches.append(potentialMatch)
     bulkSave(potentialMatches)
+    potentialMatchUpdate = PotentialMatchUpdate(profile=profile)
+    potentialMatchUpdate.save()
 
 
 
