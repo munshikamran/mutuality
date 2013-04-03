@@ -400,7 +400,7 @@ var friendsOfFriendsSuccess = function(friends){
 			var position = $(this).data('id');
 			var name = $(this).data('name');
 			var facebookID = $(this).data('facebookid');
-			mixpanel.track("Asked friend", {"source":"messages","position":position, "name":name, "facebookID":facebookID});
+			mixpanel.track("Asked friend", {"Source":"Messages", "Element":"Ask about","Position":position, "Name":name, "FacebookID":facebookID});
 		});
 	
 	});	  

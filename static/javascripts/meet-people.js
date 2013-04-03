@@ -363,7 +363,7 @@
     		var currentClick =  aElemModal.attr('onclick');
 			var newClick =  currentClick + " $('.close-reveal-modal').trigger('click');"
 			aElemModal.attr('onclick',  newClick);
-						$('#ask-about').find('a').eq(i).attr({			
+						$('.askModalLink').eq(i).attr({			
 						'data-facebookid':mutualFriends[i].facebookID,
 						'data-name':mutualFriends[i].name,
 						'data-id':i,	
@@ -569,11 +569,18 @@
 		});
 	}
 
+	 $('.ask-about-modal').on('click', 'a', function() {
+	 		var position = $(this).data('id');
+	 		var name = $(this).data('name');
+	 		var facebookID = $(this).data('facebookid');
+			mixpanel.track("Asked friend", {"Source":"Meet-people", "Element":"Get introduced", "Position":position, "Name":name, "FacebookID":facebookID}); 		
+	 })
+
 	 $('#ask-about').on('click', 'a', function() {
-	 		var position = $(this).data('id')
-	 		var name = $(this).data('name')
-	 		var facebookID = $(this).data('facebookid')
-	 		mixpanel.track("Asked friend", {"source":"meet-people","position":position, "name":name, "facebookID":facebookID})
+	 		var position = $(this).data('id');
+	 		var name = $(this).data('name');
+	 		var facebookID = $(this).data('facebookid');
+	 		mixpanel.track("Asked friend", {"Source":"Meet-people", "Element":"Ask about","Position":position, "Name":name, "FacebookID":facebookID});
 	 })
 
 	//Style adjustments
