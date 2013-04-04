@@ -2,6 +2,9 @@ from connect.models import Profile,Friendship,FacebookUser
 from getProfileAuthToken import GetProfileAuthToken
 import facebook
 import sys
+from django.db import connection, transaction
+
+
 def UpdateFriendListHasBeenCalled(profile):
     return Friendship.objects.filter(user=profile).exists()
 
@@ -24,7 +27,9 @@ def UpdateFriendList(profile,**kwargs):
             facebookUsers.append(facebookUser)
             friendship = createFriendShip(profile,facebookUser)
             friendships.append(friendship)
-        FacebookUser.objects.filter(pk__in=facebookIDs).delete()
+
+        deleteWithoutCascaseFacebookUsersWithIDs(facebookIDs)
+        # we don't have to worry about cascading deletions for Friendship objects
         Friendship.objects.filter(user=profile,friend__in=facebookIDs).delete()
         bulkSave(facebookUsers,friendships)
         return True
@@ -56,5 +61,15 @@ def bulkSave(facebookUsers,friendships):
         stopIdx = (i+1)*bulkSize
         FacebookUser.objects.bulk_create(facebookUsers[startIdx:stopIdx])
         Friendship.objects.bulk_create(friendships[startIdx:stopIdx])
+
+# if we do not delete facebook users without cascade then the delete will also delete the friendship objects for other users
+def deleteWithoutCascaseFacebookUsersWithIDs(facebookIDs):
+    if len(facebookIDs) == 0:
+        return
+    idString = str(facebookIDs).replace("[","(").replace("]",")")
+    sql = 'DELETE FROM connect_facebookuser where facebookid IN {0}'.format(idString)
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    return True
 
 
