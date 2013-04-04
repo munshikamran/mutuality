@@ -2,33 +2,47 @@ from celery import task
 from django.core.mail import send_mail
 import settings
 import smtplib
+from connect.functions import GetFriendIDs
+from connect.models import Profile
+
+def new_user_joined(profile):
+    send_user_joined_email.delay(profile)
+    send_welcome_email.delay(profile)
+    # excute this in the future so we know that we already have the user's friendlist in the db
+    send_friend_joined_email.apply_async(args=[profile], countdown=60)
+    return True
+
 
 @task
 def send_user_joined_email(profile):
-	recipients = ['jeffreymames@gmail.com', 'jazjit.singh@gmail.com', 'kamran.munshi@gmail.com']
-	subject = 'A New User Joined Mutuality!'
-	message = '{0} joined Mutuality'.format(profile.name)
-	return send_mail(subject, message, 'info@mutuality.com', recipients, fail_silently=False)
+    recipients = ['jeffreymames@gmail.com', 'jazjit.singh@gmail.com', 'kamran.munshi@gmail.com']
+    subject = 'A New User Joined Mutuality!'
+    message = '{0} joined Mutuality'.format(profile.name)
+    return send_mail(subject, message, 'info@mutuality.com', recipients, fail_silently=False)
 
-
-def sendWelcomeMessage(from_address,to_address):
-    html = '''<html><title>Welcome to Mutuality</title><body style = "margin:0px 0px 0px 0px;padding: 0px 0px 0px 0px; font-family: Tahoma, Geneva, sans-serif;"><!-- Start Main Table --><table width = "100%" height="100%" cellpadding = "0" style="padding:20px 0px 20px 0px" bgcolor="#FFFFFF"><table align="center"><tr><td width="460px" height="50px"><!-- Start Header --><table width="460px" cellpadding="0px" cellspacing="0" bgcolor="#6ba4c5" style = "color:#FFFFFF; font-weight: regular; padding: 16px 0px 16px 14px; font-family: Tahoma, Geneva, sans-serif;"><tr><td><a href='http://www.mymutuality.com?src=email_welcome'><img src="images/logo.jpg" width="130" height="35" alt="Button" border="0"></a></td></tr></table></td></tr></table><!-- End Header --><!-- Start Next Section --><table align="center"><tr><td width="460px" height="100px"><table cellpadding="0" cellspacing="0" width="460px" bgcolor="FFFFFF"><tr><td width="200" height="100" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 10px 10px 0px 15px; font-size: 16px; color:#000; font-weight:regular"><span style="font-size:34px; color:#989898; font-weight=regular">Welcome!</span><br><br><span style="width:460px; font-weight:regular">Creep.com? Never again.</span><br><span style="width:460px;"></span><br><br></td><td width="260" height="100" cellspacing="0" bgcolor="FFFFFF"><img src="images/carousel.jpg" alt="Image blocked" border="0"></td></tr></table></td></tr><tr><td><table cellpadding="0" cellspacing="0" width="460" bgcolor="FFFFFF"><tr><td width="200" height="120" bgcolor="FFFFFF" style="padding: 0px 0px 0px 20px"><img src="images/connected.jpg" alt="Image blocked" border="0"></td><td width="260" align="center" height="120" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 18px; color:#000; font-weight:regular">You are connected<br>to everyone you see.</td></tr></table></td></tr><tr><td><table cellpadding="0" cellspacing="0" width="460" bgcolor="FFFFFF"><tr><td width="260" align="center" height="120" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 18px; color:#000; font-weight:regular">Curious about someone?<br>Just ask a mutual friend.</td><td width="200" height="120" bgcolor="FFFFFF" style="padding: 0px 0px 0px 20px"><img src="images/ask.jpg" alt="Image blocked" border="0"></td></tr></table></td></tr><tr><td><table cellpadding="0" cellspacing="0" width="460" bgcolor="FFFFFF"><tr><td width="460px" align="left" height="20px" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 20px 0px 20px 0px; font-size:16px; color:#000; font-weight:regular">Mutuality (finally) makes meeting cool people safe and simple.<br><br>If you have any questions about Mutuality, please reply to us at <a href="mailto:info@mymutuality.com">info@mymutuality.com</a>.<br><br>Thanks,<br><br>The Mutuality Team</td></tr></table></td></tr></table><table width="460" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF"><tr><td width="50"></td><td width="410" align="right" height="30" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 6px; color:#DDD; font-weight:regular; border-top:1px solid #DDD">This email was sent by Mutuality. Mutuality helps you meet cool people through your mutual friends.<br>If you received this in error, please click <a href="#" style="color:#ccc">here</a> to unsubscribe.</td></tr></table></table></body></html>'''
-    text = "Welcome to Mutuality!\n\nOn Mutuality, you are connected to everyone you see. If you want to learn more about somebody, you can quickly ask a mutual friend about them.\n\nMutuality (finally) makes meeting cool people safe and simple.  If you have any questions or comments, please reply to us at info@mymutuality.com.\n\nBest,\n\nThe Mutuality Team"
-    subject = "Welcome to Mutuality"
-    from_header = "Mutuality"
-    message = create_html_mail(html, text, subject, from_header, to_address)
+@task
+def send_welcome_email(profile):
+    from_address = 'mutuality@myMutuality.com'
+    to_address = profile.user.email
+    message = create_welcome_message(from_address, to_address)
     return send_message(message, from_address, to_address)
 
-def sendFriendJoinedMessage(from_address, to_address, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF):
-    estimatedFoFPotential = totalNumberOfFriends*10
-    percentage = (currentNumberOfFoF*100/estimatedFoFPotential)
-    oneMinusPercentage = 100-percentage
-    html = '''<html><title>{0} joined you on Mutuality</title><body style = "margin:0px 0px 0px 0px; padding: 0px 0px 0px 0px; font-family: Tahoma, Geneva, sans-serif;"><!-- Start Header --><table width="560px" height="70" align="center" cellpadding="0px" cellspacing="0" bgcolor="#FFFFFF" style = "color:#000; font-weight: regular; padding: 0px 0px 0px 14px; font-family: Tahoma, Geneva, sans-serif;"><tr><td width="110px" height="70px"><a href="http://www.mymutuality.com?src=addFriendEmail_logo"><img src="images/logo.jpg" width="95" height="40" alt="Logo" border="0"></a></td><td valign="bottom" width="410px" height="70px" style="font-size:14px; border-bottom: 1px solid #DDD; line-height:110%">{1} has joined you on Mutuality<br><br></td></tr></table><!-- End Header --><!-- Start Next Section --><table cellpadding="0" cellspacing="0" align="center" width="540px" bgcolor="FFFFFF"><tr><td width="120" height="130" align="right" valign="top" bgcolor="FFFFFF" style="padding:15px 0px 0px 0px"><img src="https://graph.facebook.com/{2}/picture?width=75&height=75"></td><td width="260" height="130" valign="top" align="right" cellspacing="0" bgcolor="FFFFFF" style="padding:15px 0px 0px 0px; font-size:14px">You are now connected to <span style="font-size:18px;font-weight:bold">{3}</span> more friends-of-friends in Seattle<table width="400" height="100" align="right" cellpadding="0px" cellspacing="0" style="padding:0px 0px 0px 20px"><tr><td valign="bottom" height="40px"><table width="150px" height="20px" valign="bottom" align="left" cellpadding="0px" cellspacing="0"><tr><td width="{4}%" height="20px" bgcolor="#0065a5"></td><td width="{5}%" height="20px" bgcolor="#DDD"></td></tr></table></td><td valign="bottom" style="font-size:11px; padding:5px 0px 0px 20px">Seattle network is now <span style="font-size:14px;font-weight:bold">{6}%</span> complete<br><a href="http://www.mymutuality.com?src=addFriendEmail_inviteFriendLink">Invite more friends</a></td><tr><td valign="top" style="font-size:9px">({7} connections out of {8})</td></tr></table></table><table width="560" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF"><tr><td width="50"></td><td width="410" align="right" height="30" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 6px; color:#DDD; font-weight:regular; border-top:1px solid #DDD">This email was sent by Mutuality. Mutuality helps you meet cool people through your mutual friends.<br>If you received this in error, please click <a href="#" style="color:#ccc">here</a> to unsubscribe.</td></tr><!-- </table> --></body></html>'''.format(friendName, friendName, friendFacebookID, numberOfNewFriends, percentage,oneMinusPercentage, percentage, currentNumberOfFoF, estimatedFoFPotential)
-    text = "Test"
-    subject = "(+{0}) {1} joined you on Mutuality".format(numberOfNewFriends, friendName)
-    from_header = "Mutuality"
-    message = create_html_mail(html, text, subject, from_header,to_address)
-    return send_message(message,from_address,to_address)
+@task
+def send_friend_joined_email(joined_user_profile):
+    from_address = 'mutuality@myMutuality.com'
+    friendIDs = GetFriendIDs(joined_user_profile)
+    friendsOnMutuality = Profile.objects.filter(facebookID__in=friendIDs)
+    for profile in friendsOnMutuality:
+        to_address = profile.user.email
+        friendName = joined_user_profile.name
+        friendFacebookID = joined_user_profile.facebookID
+        numberOfNewFriends = 20
+        totalNumberOfFriends = 30 
+        currentNumberOfFoF = 100
+        message = create_friend_joined_message(from_address, to_address, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF)
+        return send_message(message, from_address, to_address)
+
+
 
 def create_html_mail (html, text, subject, from_header, to_header):
     """Create a mime-message that will render HTML in popular
@@ -87,8 +101,28 @@ def create_html_mail (html, text, subject, from_header, to_header):
     return msg
 
 def send_message(message, from_address, to_address):
-	server = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
-	server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-	server.sendmail(from_address, to_address, message)
-	server.quit()
+    server = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
+    server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+    sent = server.sendmail(from_address, to_address, message)
+    server.quit()
+    return sent
+
+
+# HTML messages
+def create_welcome_message(from_address, to_address):
+    html = '''<html><title>Welcome to Mutuality</title><body style = "margin:0px 0px 0px 0px;padding: 0px 0px 0px 0px; font-family: Tahoma, Geneva, sans-serif;"><!-- Start Main Table --><table width = "100%" height="100%" cellpadding = "0" style="padding:20px 0px 20px 0px" bgcolor="#FFFFFF"><table align="center"><tr><td width="460px" height="50px"><!-- Start Header --><table width="460px" cellpadding="0px" cellspacing="0" bgcolor="#6ba4c5" style = "color:#FFFFFF; font-weight: regular; padding: 16px 0px 16px 14px; font-family: Tahoma, Geneva, sans-serif;"><tr><td><a href='http://www.mymutuality.com?src=email_welcome'><img src="images/logo.jpg" width="130" height="35" alt="Button" border="0"></a></td></tr></table></td></tr></table><!-- End Header --><!-- Start Next Section --><table align="center"><tr><td width="460px" height="100px"><table cellpadding="0" cellspacing="0" width="460px" bgcolor="FFFFFF"><tr><td width="200" height="100" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 10px 10px 0px 15px; font-size: 16px; color:#000; font-weight:regular"><span style="font-size:34px; color:#989898; font-weight=regular">Welcome!</span><br><br><span style="width:460px; font-weight:regular">Creep.com? Never again.</span><br><span style="width:460px;"></span><br><br></td><td width="260" height="100" cellspacing="0" bgcolor="FFFFFF"><img src="images/carousel.jpg" alt="Image blocked" border="0"></td></tr></table></td></tr><tr><td><table cellpadding="0" cellspacing="0" width="460" bgcolor="FFFFFF"><tr><td width="200" height="120" bgcolor="FFFFFF" style="padding: 0px 0px 0px 20px"><img src="images/connected.jpg" alt="Image blocked" border="0"></td><td width="260" align="center" height="120" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 18px; color:#000; font-weight:regular">You are connected<br>to everyone you see.</td></tr></table></td></tr><tr><td><table cellpadding="0" cellspacing="0" width="460" bgcolor="FFFFFF"><tr><td width="260" align="center" height="120" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 18px; color:#000; font-weight:regular">Curious about someone?<br>Just ask a mutual friend.</td><td width="200" height="120" bgcolor="FFFFFF" style="padding: 0px 0px 0px 20px"><img src="images/ask.jpg" alt="Image blocked" border="0"></td></tr></table></td></tr><tr><td><table cellpadding="0" cellspacing="0" width="460" bgcolor="FFFFFF"><tr><td width="460px" align="left" height="20px" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 20px 0px 20px 0px; font-size:16px; color:#000; font-weight:regular">Mutuality (finally) makes meeting cool people safe and simple.<br><br>If you have any questions about Mutuality, please reply to us at <a href="mailto:info@mymutuality.com">info@mymutuality.com</a>.<br><br>Thanks,<br><br>The Mutuality Team</td></tr></table></td></tr></table><table width="460" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF"><tr><td width="50"></td><td width="410" align="right" height="30" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 6px; color:#DDD; font-weight:regular; border-top:1px solid #DDD">This email was sent by Mutuality. Mutuality helps you meet cool people through your mutual friends.<br>If you received this in error, please click <a href="#" style="color:#ccc">here</a> to unsubscribe.</td></tr></table></table></body></html>'''
+    text = "Welcome to Mutuality!\n\nOn Mutuality, you are connected to everyone you see. If you want to learn more about somebody, you can quickly ask a mutual friend about them.\n\nMutuality (finally) makes meeting cool people safe and simple.  If you have any questions or comments, please reply to us at info@mymutuality.com.\n\nBest,\n\nThe Mutuality Team"
+    subject = "Welcome to Mutuality"
+    from_header = "Mutuality"
+    return create_html_mail(html, text, subject, from_header, to_address)
+
+def create_friend_joined_message(from_address, to_address, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF):
+    estimatedFoFPotential = totalNumberOfFriends*10
+    percentage = (currentNumberOfFoF*100/estimatedFoFPotential)
+    oneMinusPercentage = 100-percentage
+    html = '''<html><title>{0} joined you on Mutuality</title><body style = "margin:0px 0px 0px 0px; padding: 0px 0px 0px 0px; font-family: Tahoma, Geneva, sans-serif;"><!-- Start Header --><table width="560px" height="70" align="center" cellpadding="0px" cellspacing="0" bgcolor="#FFFFFF" style = "color:#000; font-weight: regular; padding: 0px 0px 0px 14px; font-family: Tahoma, Geneva, sans-serif;"><tr><td width="110px" height="70px"><a href="http://www.mymutuality.com?src=addFriendEmail_logo"><img src="images/logo.jpg" width="95" height="40" alt="Logo" border="0"></a></td><td valign="bottom" width="410px" height="70px" style="font-size:14px; border-bottom: 1px solid #DDD; line-height:110%">{1} has joined you on Mutuality<br><br></td></tr></table><!-- End Header --><!-- Start Next Section --><table cellpadding="0" cellspacing="0" align="center" width="540px" bgcolor="FFFFFF"><tr><td width="120" height="130" align="right" valign="top" bgcolor="FFFFFF" style="padding:15px 0px 0px 0px"><img src="https://graph.facebook.com/{2}/picture?width=75&height=75"></td><td width="260" height="130" valign="top" align="right" cellspacing="0" bgcolor="FFFFFF" style="padding:15px 0px 0px 0px; font-size:14px">You are now connected to <span style="font-size:18px;font-weight:bold">{3}</span> more friends-of-friends in Seattle<table width="400" height="100" align="right" cellpadding="0px" cellspacing="0" style="padding:0px 0px 0px 20px"><tr><td valign="bottom" height="40px"><table width="150px" height="20px" valign="bottom" align="left" cellpadding="0px" cellspacing="0"><tr><td width="{4}%" height="20px" bgcolor="#0065a5"></td><td width="{5}%" height="20px" bgcolor="#DDD"></td></tr></table></td><td valign="bottom" style="font-size:11px; padding:5px 0px 0px 20px">Seattle network is now <span style="font-size:14px;font-weight:bold">{6}%</span> complete<br><a href="http://www.mymutuality.com?src=addFriendEmail_inviteFriendLink">Invite more friends</a></td><tr><td valign="top" style="font-size:9px">({7} connections out of {8})</td></tr></table></table><table width="560" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF"><tr><td width="50"></td><td width="410" align="right" height="30" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 6px; color:#DDD; font-weight:regular; border-top:1px solid #DDD">This email was sent by Mutuality. Mutuality helps you meet cool people through your mutual friends.<br>If you received this in error, please click <a href="#" style="color:#ccc">here</a> to unsubscribe.</td></tr><!-- </table> --></body></html>'''.format(friendName, friendName, friendFacebookID, numberOfNewFriends, percentage,oneMinusPercentage, percentage, currentNumberOfFoF, estimatedFoFPotential)
+    text = "Test"
+    subject = "(+{0}) {1} joined you on Mutuality".format(numberOfNewFriends, friendName)
+    from_header = "Mutuality"
+    return create_html_mail(html, text, subject, from_header,to_address)
 
