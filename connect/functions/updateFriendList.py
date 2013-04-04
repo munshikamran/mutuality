@@ -67,7 +67,7 @@ def deleteWithoutCascaseFacebookUsersWithIDs(facebookIDs):
     if len(facebookIDs) == 0:
         return
     idString = str(facebookIDs).replace("[","(").replace("]",")")
-    sql = 'DELETE FROM connect_facebookuser where facebookid IN {0}'.format(idString)
+    sql = 'DELETE IGNORE FROM connect_facebookuser where facebookid IN {0}'.format(idString)
     cursor = connection.cursor()
     cursor.execute(sql)
     return True
