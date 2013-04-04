@@ -28,10 +28,6 @@ def UpdateFriendList(profile,**kwargs):
             friendship = createFriendShip(profile,facebookUser)
             friendships.append(friendship)
 
-        deleteWithoutCascaseFacebookUsersWithIDs(facebookIDs)
-        # we don't have to worry about cascading deletions for Friendship objects
-        Friendship.objects.filter(user=profile,friend__in=facebookIDs).delete()
-        bulkSave(facebookUsers,friendships)
         return True
     except:
         print "Unexpected error:", sys.exc_info()
@@ -46,30 +42,15 @@ def getFriendListFromFacebook(profile,**kwargs):
 
 
 def createFacebookUser(friendFacebookData):
-    facebookUser = FacebookUser(facebookID = friendFacebookData['id'])
+    facebookUser, created = FacebookUser.objects.get_or_create(facebookID = friendFacebookData['id'])
     facebookUser.updateUsingFacebookDictionary(friendFacebookData)
+    facebookUser.save()
     return facebookUser
 
 def createFriendShip(profile,facebookUser):
-    friendship = Friendship(user = profile,friend = facebookUser)
+    friendship, created = Friendship.objects.get_or_create(user = profile,friend = facebookUser)
+    friendship.save()
     return friendship
 
-def bulkSave(facebookUsers,friendships):
-    bulkSize = 500
-    for i in range(len(facebookUsers)/bulkSize+1):
-        startIdx = i*bulkSize
-        stopIdx = (i+1)*bulkSize
-        FacebookUser.objects.bulk_create(facebookUsers[startIdx:stopIdx])
-        Friendship.objects.bulk_create(friendships[startIdx:stopIdx])
-
-# if we do not delete facebook users without cascade then the delete will also delete the friendship objects for other users
-def deleteWithoutCascaseFacebookUsersWithIDs(facebookIDs):
-    if len(facebookIDs) == 0:
-        return
-    idString = str(facebookIDs).replace("[","(").replace("]",")")
-    sql = 'DELETE IGNORE FROM connect_facebookuser where facebookid IN {0}'.format(idString)
-    cursor = connection.cursor()
-    cursor.execute(sql)
-    return True
 
 
