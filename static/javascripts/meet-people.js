@@ -229,7 +229,7 @@
 	    	Mutuality.mpcache.current = currentlyFocusedElem.attr("facebookID");
 	    	console.log("Current Person: "+currentlyFocusedElem.attr("facebookID"));
 
-	    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === true){
+	    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === false){
 	    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModal2"><i></i>Get Introduced</a>');
 	    	}
 	    	else {
@@ -413,7 +413,7 @@
 				$("#profile-dob").attr('class', '');
 			}
 			else {
-				$("#profile-dob").html('<i class="birthday"></i>Birthday');
+				$("#profile-dob").html('<i class="birthday"></i>Age');
 				$("#profile-dob").attr('class', 'inactive');			
 			}			
 			if(extendedProfile.college) {
