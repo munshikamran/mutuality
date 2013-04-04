@@ -376,7 +376,7 @@ var friendsOfFriendsSuccess = function(friends){
 		});
 
 		//Activate preview, load messages, and mutual friends once clicked
-		$('.message-list ul').on('click', 'li', function () {
+		$('.message-list ul').on('click', 'li', function (event) {
 			event.stopPropagation();
 			$('.message-thread').empty();
 			$('.ask-about').empty();
