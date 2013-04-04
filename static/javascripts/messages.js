@@ -1,3 +1,7 @@
+(function($) {
+/* Begin Helper functions */
+// After AJAX call for finding friends of friends, load random four images into meet people call to action
+
 function newConversationCheck() {
 	var facebookID = getParameterByName("fbid");
 	if (facebookID ===""){
@@ -7,14 +11,9 @@ function newConversationCheck() {
 	}
 }
 
-var newConversationBoolean = newConversationCheck();
-
-(function($) {
-/* Begin Helper functions */
-// After AJAX call for finding friends of friends, load random four images into meet people call to action
-function loadPage() {
+function loadPage(convoBoolean) {
 	Mutuality.getThreadPreviews(function(messages) {
-		if (newConversationBoolean===false) {
+		if (convoBoolean===false) {
 			loadPageFirstCase(messages);
 		} else {
 			var facebookID = getParameterByName("fbid");
@@ -354,7 +353,11 @@ var friendsOfFriendsSuccess = function(friends){
 		//Load correct message previews, message thread, and mutual friends
 		// var newConversationBoolean = newConversationCheck();
 		// console.log(newConversationBoolean);
-		loadPage();
+		
+
+
+		var convoBoolean = newConversationCheck();
+		loadPage(convoBoolean);
 		//console.log(loadCase);
 		Mutuality.getMeetPeople(0, 0, friendsOfFriendsSuccess);
 		//introduceYourself("1451700007", "Taylor Woods");

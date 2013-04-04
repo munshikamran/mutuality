@@ -457,11 +457,9 @@ var Mutuality = (function($){
     {
          var self = this;
          self.__post('api/getMessagesWithOther/', { token: this.token, facebookID: fbID }, function( response ){
-             console.log("working");
              if(response)
              {
                  if(success instanceof Function) success.call(self, response);
-                 console.log("working");
              }
              else
              {
