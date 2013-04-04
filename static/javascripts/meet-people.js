@@ -14,7 +14,9 @@
 			auto : false,
 			width: 695,
 			height: 400,
-			circular: true,
+			circular: false,
+   			infinite: false,
+			width   : "100%",
 			align: 'center',
 			prev: { button: "#page-prev" },
 			next: { button: "#page-next" },
@@ -521,7 +523,7 @@
    if($.cookie("UpdateFriendListCalled") !== "true") {
 	    Mutuality.updateFriendList(0, function(){
 	    	$.cookie("UpdateFriendListCalled", "true");
-	   		Mutuality.loadFriendsList(populateCTA);
+	   		Mutuality.loadFriendsList(4, populateCTA);
 			Mutuality.getMeetPeople(0, 0, function(friends){
 		    	Mutuality.mpcache.fofList = friends;
 		    	createMutualityUserLookUp(friends);
@@ -541,7 +543,7 @@
 		});
 	}
 	else {
-		Mutuality.loadFriendsList(populateCTA);
+		Mutuality.loadFriendsList(4, populateCTA);
 		Mutuality.getMeetPeople(0, 0, function(friends){
 			if (friends.length > 0){
 	    		Mutuality.mpcache.fofList = friends;

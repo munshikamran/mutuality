@@ -10,16 +10,20 @@ class GetFriendsList(APIView):
     """
     Get the user's Friend List.
     """
-    def get_object(self, pk):
+    def get_object(self, pk, numFriends):
         try:
             profile = Profile.objects.get(facebookID=pk)
-            facebookUserList = GetFriendList(profile)
+            numFriends = int(numFriends)
+            if (numFriends == 0):
+                facebookUserList = GetFriendList(profile)
+            else:
+                facebookUserList = GetFriendList(profile, numFriends)
             return facebookUserList
         except Profile.DoesNotExist:
             raise Http404
 
     def post(self, request, format=None):
-        facebookUserList = self.get_object(request.DATA['token'])
+        facebookUserList = self.get_object(request.DATA['token'], request.DATA['numFriends'])
         serializer = FacebookUserSerializer(facebookUserList)
         return Response(serializer.data)
 

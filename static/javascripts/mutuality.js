@@ -204,13 +204,13 @@ var Mutuality = (function($){
         return sendJS;       
       },
       // Get the list of facebook friends for the current user
-      loadFriendsList: function( success )
+      loadFriendsList: function( num, success )
       {
          if(!this.token) return;
          var self = this;
          var url = 'api/getFriendList/';
 
-         this.__post(url, {token: this.token}, function(response){
+         this.__post(url, {token: this.token, numFriends: num }, function(response){
 
             Mutuality.cache.friends = response;
             if(success instanceof Function) success.call(self, response);
