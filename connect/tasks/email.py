@@ -22,14 +22,14 @@ def send_user_joined_email(profile):
 
 @task
 def send_welcome_email(profile):
-    from_address = 'mutuality@mymutuality.com'
+    from_address = 'info@mymutuality.com'
     to_address = profile.user.email
     message = create_welcome_message(from_address, to_address)
     return send_message(message, from_address, to_address)
 
 @task
 def send_friend_joined_email(joined_user_profile):
-    from_address = 'mutuality@mymutuality.com'
+    from_address = 'info@mymutuality.com'
     friendIDs = GetFriendIDs(joined_user_profile)
     friendsOnMutuality = Profile.objects.filter(facebookID__in=friendIDs)
     print friendsOnMutuality
