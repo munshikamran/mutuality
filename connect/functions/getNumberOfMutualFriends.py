@@ -5,7 +5,7 @@ import facebook
 def GetNumberOfMutualFriends(profile, facebookIDList):
     if len(facebookIDList) < 1:
         print "list most not be empty"
-        return False
+        return []
     graph = facebook.GraphAPI(GetProfileAuthToken(profile))
     idsString = ""
     for fbID in facebookIDList[0:len(facebookIDList)-1]:

@@ -14,15 +14,14 @@ class GetMeetPeopleAPI(APIView):
         try:
             profile = Profile.objects.get(facebookID=pk)
             if (viewed == "0" and dating == "0"):
-                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP)
-                print facebookUserList
-                return facebookUserList.freshUsers
+                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP).potentialMatches
+                return facebookUserList
             elif (viewed == "1" and dating == "0"):
-                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP)
-                return facebookUserList.viewedUsers
+                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP).potentialMatches
+                return facebookUserList
             elif (viewed == "0" and dating == "1"):
-                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.DATING)
-                return facebookUserList.freshUsers
+                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.DATING).potentialMatches
+                return facebookUserList
         except Profile.DoesNotExist:
             raise Http404
 

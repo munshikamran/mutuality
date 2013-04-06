@@ -7,3 +7,4 @@ class MeetPeopleResponse:
 #        new users are ordered by number of mutual friends. The user with the most mutual friends with
 #        the requesting user is first in the list
         self.potentialMatches = potentialMatches
+        self.message = message

@@ -32,10 +32,12 @@ def GetMeetPeople(profile, meetPeopleFilter):
     if not potentialMatches.exists():
         return MeetPeopleResponse([], MeetPeopleResponse.SEEN_ALL_MATCHES_MESSAGE)
 
+    facebookUsers = []
     for potentialMatch in potentialMatches:
         facebookUser = potentialMatch.facebookUser
         facebookUser.isMutualityUser = potentialMatch.isMutualityConnection
+        facebookUsers.append(facebookUser)
 
-    meetPeopleResponse = MeetPeopleResponse(potentialMatches, MeetPeopleResponse.SUCCESS_MESSAGE)
+    meetPeopleResponse = MeetPeopleResponse(facebookUsers, MeetPeopleResponse.SUCCESS_MESSAGE)
     return meetPeopleResponse
 
