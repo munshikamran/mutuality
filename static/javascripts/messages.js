@@ -360,8 +360,6 @@ var friendsOfFriendsSuccess = function(friends){
 		loadPage(convoBoolean);
 		//console.log(loadCase);
 		Mutuality.getMeetPeople(0, 0, friendsOfFriendsSuccess);
-
-		console.log(context_dict['URL']);
 		//introduceYourself("1451700007", "Taylor Woods");
 		//introduceYourself("613170158", "Angela Cough");
 		//introduceYourself("10701292", "Elly Egli");
