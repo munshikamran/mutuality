@@ -208,7 +208,6 @@ def privacy(request):
 def fbinfo(request):
     """ A view for returning a dict of info about FB and user status """
     info = {}
-    context_dict['URL'] = settings.URL
     if request.user.is_authenticated():
         info['User Authenticated'] = 'Yes'
         if request.user.has_usable_password():
