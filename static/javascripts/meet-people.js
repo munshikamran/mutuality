@@ -381,7 +381,7 @@
 				newUlElemModal = $('<ul>', {style: "margin-right: 0px; list-style-type: none;"}).appendTo(askaboutElemModal);
 			}
 
-			var liElem = $('<li>', {}).appendTo(newUlElem);
+			var liElem = $('<li>', {style:'z-index:0;'}).appendTo(newUlElem);
 			var liElemModal = $('<li>', {}).appendTo(newUlElemModal);
     		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com?src=meetPeople_askAbout", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElem);
@@ -616,7 +616,6 @@
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });
  	$('.ask-about-modal').css({ zIndex: 0 });
- 	//$('#introduce').click(function(){initAskAboutCarousel();});
 
 /* End Main Code */
 

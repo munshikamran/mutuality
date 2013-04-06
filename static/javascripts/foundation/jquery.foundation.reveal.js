@@ -70,7 +70,7 @@
            * @type {Boolean}
            * @default true
            */
-          closeOnBackgroundClick: true,
+          closeOnBackgroundClick: false,
           /**
            * Specify a class name for the 'close modal' element.
            * This element will close an open modal.
