@@ -114,7 +114,7 @@ class DefaultFacebookCallback(BaseFacebookCallback):
             profile = self.update_profile_from_graph(request, access, token, user)
             profile.save()
             # Send out Welcome message to this user that has newly been created
-            SendMessage(profile, profile.facebookID, "Welcome! I'm one of the co-founders. Please stay in touch.")
+            SendMessage(profile, profile.facebookID, "Welcome! I'm one of the co-founders of Mutuality. Please feel free to message us with any comments or questions.")
 
 
         else:

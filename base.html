@@ -20,13 +20,12 @@
     var mixPanelInit;
     var parser = document.createElement('a');
     parser.href = $("#main").data("url")
-    if (parser.hostname === "localhost" || parser.hostname==="vast-thicket-3000.herokuapp.com") {
+    if (parser.hostname.indexOf("localhost") !== -1 || parser.hostname.indexOf("vast")!== -1) {
       mixPanelInit = "e37f977beea8b083ac0bc587910af6a6"
     } else {
       mixPanelInit = "2c016968167f5dc85b02e758553ab355"
     }
-    console.log(mixPanelInit);
-    //mixPanelInit = 
+  
   </script>
 
     <!-- Mixpanel JS -->

@@ -124,7 +124,7 @@ def create_friend_joined_message(from_address, to_address, friendName, friendFac
     text = "Greetings,\n\n{0} has joined you on Mutuality.\n\nYou are now connected to {1} more friends-of-friends in Seattle for a total of {2} friends-of-friends in Seattle. Your network is now {3} percent complete.\n\nBest,\n\nThe Mutuality Team".format(friendName,numberOfNewFriends,currentNumberOfFoF,percentage)
     subject = "(+{0}) {1} joined you on Mutuality".format(numberOfNewFriends, friendName)
     from_header = "Mutuality"
-    return create_html_mail(html, text, subject, from_header,to_address)
+    return create_html_mail(html, text, subject, from_header, to_address)
 
 def create_inactive_message(to_address, newFriend, mutualFriendNumber, mutualFriendOne, mutualFriendTwo, mutualFriendThree):
     from_header = "Mutuality"
