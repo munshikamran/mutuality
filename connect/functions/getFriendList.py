@@ -19,9 +19,6 @@ def GetFriendList(profile, *args):
 
 
 def GetFriendIDs(profile):
-    friendships = list(Friendship.objects.filter(user=profile).values_list('friend'))
-    friendIDList = []
-    for friendship in friendships:
-        friendIDList.append(friendship[0])
-    return friendIDList
+    friendListIDs = Friendship.objects.filter(user=profile).values_list('friend_id', flat=True)
+    return friendListIDs
 
