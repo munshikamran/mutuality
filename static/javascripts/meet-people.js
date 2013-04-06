@@ -27,8 +27,8 @@
 			scroll: {
 				items: 1,
 				duration: 400,
-				onBefore: function( data ) {
-					
+				onBefore: function( data ) {						
+								
 					if (data.items.visible.prevObject.length > 3) {
 		            	// hide the text for blurred results
 			            $('.match-profile-details', data.items.visible.eq( 0 )).hide();
@@ -53,6 +53,35 @@
 							data.items.visible.eq( 2 ).removeAttr('focused');
 						}, 10);
 					}
+
+					// If you are at the front of the list, do not show previous button
+					/*var pos = $("#meet-profiles").triggerHandler("currentPosition");
+					console.log(pos);
+					if (pos === 1){
+						$("#page-prev").hide();
+						setTimeout(function(){
+							var items = $("#meet-profiles").triggerHandler("currentVisible");
+							items.prevObject.eq(0).css({ opacity: 0 });
+							console.log(items.prevObject.eq(0).css('opacity'));
+						}, 200);
+						
+					} else {
+						$("#page-prev").show();
+					}
+
+					if (pos === (data.items.visible.prevObject.length - 3)){
+						$("#page-next").hide();
+						setTimeout(function(){
+							var items = $("#meet-profiles").triggerHandler("currentVisible");
+							console.log(items);
+							items.prevObject.eq(3).css({ opacity: 0 });
+							console.log(items.prevObject.eq(3).css('opacity'));
+						}, 10);
+						
+					} else {
+						$("#page-next").show();
+					}*/
+
 				},
 				onAfter:function( data ) {
 				   $('img', data.items.visible.eq( 1 )).css(_noblur);		
@@ -493,7 +522,6 @@
     }
 
     // Set a favorite
-    // TODO: Keep the star highlighted
     var setFavorite = function (fbID){
     	Mutuality.setFavorite(fbID, function(success){
     		console.log(success);
@@ -520,9 +548,9 @@
    $("#main").hide();
    triggerModal();
    
-   if($.cookie("UpdateFriendListCalled") !== "true") {
+   if($.cookie("UpdateFriendListCalled-" + Mutuality.cache.profile.facebookID) !== "true") {
 	    Mutuality.updateFriendList(0, function(){
-	    	$.cookie("UpdateFriendListCalled", "true");
+	    	$.cookie("UpdateFriendListCalled" + Mutuality.cache.profile.facebookID, "true");
 	   		Mutuality.loadFriendsList(4, populateCTA);
 			Mutuality.getMeetPeople(0, 0, function(friends){
 		    	Mutuality.mpcache.fofList = friends;
