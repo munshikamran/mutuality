@@ -103,8 +103,8 @@
 	var asyncCacheCalls = function(fbID){
 		Mutuality.getMeetPeopleProfile(fbID, function(extendedProfile){
 			Mutuality.getMutualFriendList(fbID, function(mutualFriends){
-	        	//console.log("Calls returned for " + fbID);
 				loadMeetPeopleProfileInfoToCache(fbID, mutualFriends, extendedProfile);
+				hideModal();
 			});
 		});
 	}
@@ -203,9 +203,9 @@
 	// When the fav filter is selected, load the favorites into the UI
 	$('#fav-filter').bind('change', function(e){
 		if ($('#fav-filter').val() == "Favorites"){
-			//triggerModal();
+			triggerModal("myModalLoading");
 			Mutuality.getFavoritesList(function(favorites){
-        		loadNewDataIntoCarousel(favorites);
+        		meetPeopleSuccess(favorites);
         		for (i=0;i<favorites.length; i++){
         			if (!Mutuality.mpcache.favoritesList[favorites[i].facebookID]) {
         				Mutuality.mpcache.favoritesList[favorites[i].facebookID] = true;
@@ -213,21 +213,22 @@
 				}
    			});
     	} else if ($('#fav-filter').val() == "Viewed") {
-		    //triggerModal();
+		    triggerModal("myModalLoading");
     		Mutuality.getMeetPeople(1, 0, function(viewedUsers){
-    			loadNewDataIntoCarousel(viewedUsers);
+    			meetPeopleSuccess(viewedUsers);
     		});
     	}
     	else if ($('#fav-filter').val() == "Dating") {
-    		triggerModal();
+    		triggerModal("myModal");
     		Mutuality.getMeetPeople(0, 1, function(datingFriends){
-    			loadNewDataIntoCarousel(datingFriends);
+    			meetPeopleSuccess(datingFriends);
     		});
+
     	}
     	else{
-    		triggerModal();
+    		triggerModal("myModal");
     		Mutuality.getMeetPeople(0, 0, function(meetPeopleList) {
-    			loadNewDataIntoCarousel(meetPeopleList);
+				meetPeopleSuccess(meetPeopleList);
     		});
     	}
 	});
@@ -235,10 +236,10 @@
 /* End Event Code */
 /* Begin Helper functions */
 
-	var triggerModal = function(){
+	var triggerModal = function(id){
 	   $("#page-next").hide();
 	   $("#page-prev").hide();
-   	   $("#triggerModal").trigger('click');
+   	   $("#trigger" + id).trigger('click');
 	}
 
 	var hideModal = function(){
@@ -261,7 +262,7 @@
 	    	console.log("Current Person: "+currentlyFocusedElem.attr("facebookID"));
 
 	    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === false){
-	    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModal2"><i></i>Get Introduced</a>');
+	    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a>');
 	    	}
 	    	else {
 	    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
@@ -310,12 +311,13 @@
 					loadProfileInfoIntoUI(facebookID, Mutuality.mpcache.profileCacheData[facebookID].extendedProfile);
 					$('#page-next').show();
 					$('#page-prev').show();
+					hideModal();
 			});
 		});
 	}
 
 	// Fetch the list of friends returned from getMeetPeople, put into carousel, store in cache
-	var fetchMeetPeopleProfileInfoAndShowUI = function (facebookID, friends){
+	var fetchMeetPeopleProfileInfoAndShowUI = function (facebookID, friends, initialLoad){
 		Mutuality.getMeetPeopleProfile(facebookID, function(extendedProfile){
 			Mutuality.getMutualFriendList(facebookID, function(mutualFriends){
 					loadMeetPeopleProfileInfoToCache(facebookID, mutualFriends, extendedProfile);
@@ -359,8 +361,9 @@
 			    	$("#main").show();
 		    		$('.tooltip').tooltipster();
 			    	initCarousel();
-			    	$('#page-next').trigger('click');
-
+			    	if(true){
+			    		$('#page-next').trigger('click');
+			    	}
 				});
 		});
 	}
@@ -472,16 +475,18 @@
 	}
 
     // After AJAX call for getMeetPeople, load that into meet people page cache
-    var meetPeopleSuccess = function(friends){
+    var meetPeopleSuccess = function(friends, initialLoad){
     	if (friends.length > 1){
     		console.log("Meet People Success = " + friends[2].facebookID)
-    		fetchMeetPeopleProfileInfoAndShowUI(friends[2].facebookID, friends);
+    		$("#meet-profiles").html("");
+    		fetchMeetPeopleProfileInfoAndShowUI(friends[2].facebookID, friends, initialLoad);
     	}
     }
 
     // Load the favorites into the UI
-    var loadNewDataIntoCarousel = function (favorites){
+    /*var loadNewDataIntoCarousel = function (favorites){
     	$("#meet-profiles").html("");
+    	$("#meet-profiles").hide();
 
     	for (i=0; i<MAX_CAROUSEL_NUM&&i<favorites.length; i++){
 		var setFavoriteFunctionString = 
@@ -516,10 +521,14 @@
     		var hElem = $('<h3>', {id:"left-profile-name", html:favorites[i].name}).appendTo(spanElem);
     	}
 
-    	hideModal();
+    	initCarousel();
+		$("#meet-profiles").show();
+    	$('#page-next').trigger('click');
     	$('#page-next').trigger('click');
 
-    }
+    	hideModal();
+
+    }*/
 
     // Set a favorite
     var setFavorite = function (fbID){
@@ -546,7 +555,7 @@
 /* Begin Main Code */
    // Show the loading modal, and hide the page contents while async calls fire
    $("#main").hide();
-   triggerModal();
+   triggerModal("myModal");
    
    if($.cookie("UpdateFriendListCalled-" + Mutuality.cache.profile.facebookID) !== "true") {
 	    Mutuality.updateFriendList(0, function(){
@@ -555,7 +564,7 @@
 			Mutuality.getMeetPeople(0, 0, function(friends){
 		    	Mutuality.mpcache.fofList = friends;
 		    	createMutualityUserLookUp(friends);
-				meetPeopleSuccess(friends);
+				meetPeopleSuccess(friends, true);
 				if ($('#noTour').length === 0) {
 					$('#joyRideTipContent').joyride();
 				}
@@ -576,7 +585,7 @@
 			if (friends.length > 0){
 	    		Mutuality.mpcache.fofList = friends;
 	    		createMutualityUserLookUp(friends);
-				meetPeopleSuccess(friends);
+				meetPeopleSuccess(friends, true);
 				if ($('#noTour').length === 0) {
 					$('#joyRideTipContent').joyride();
 				}

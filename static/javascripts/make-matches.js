@@ -320,8 +320,8 @@
 
    // Load friendslist and friends of friends via AJAX and populate the left and right
    // slots with a random match if the call already hasn't been made
-    Mutuality.loadFriendsList(null, function(){});
+    Mutuality.loadFriendsList(0, function(){});
     Mutuality.getMeetPeople(0, 0, friendsOfFriendsSuccess);
     Mutuality.loadNewMatch('male', 'female', Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
-    //Mutuality.sendMessage('1240230066', 'hey sexy dude', function(response){console.log(response);});
+    
 })(jQuery);
