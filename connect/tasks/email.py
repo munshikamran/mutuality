@@ -32,6 +32,7 @@ def send_friend_joined_email(joined_user_profile):
     from_address = 'mutuality@myMutuality.com'
     friendIDs = GetFriendIDs(joined_user_profile)
     friendsOnMutuality = Profile.objects.filter(facebookID__in=friendIDs)
+    print friendsOnMutuality
     for profile in friendsOnMutuality:
         to_address = profile.user.email
         friendName = joined_user_profile.name
@@ -40,7 +41,9 @@ def send_friend_joined_email(joined_user_profile):
         totalNumberOfFriends = 30 
         currentNumberOfFoF = 100
         message = create_friend_joined_message(from_address, to_address, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF)
-        return send_message(message, from_address, to_address)
+        sent=send_message(message, from_address, to_address)
+        print "send to".format(profile.name)
+
 
 
 
