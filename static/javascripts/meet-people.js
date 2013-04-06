@@ -14,8 +14,8 @@
 			auto : false,
 			width: 695,
 			height: 400,
-			circular: false,
-   			infinite: false,
+			/*circular: false,
+   			infinite: false,*/
 			width   : "100%",
 			align: 'center',
 			prev: { button: "#page-prev" },
