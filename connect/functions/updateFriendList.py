@@ -2,7 +2,6 @@ from connect.models import Profile,Friendship,FacebookUser
 from getProfileAuthToken import GetProfileAuthToken
 import facebook
 import sys
-from django.db import connection, transaction
 
 
 def UpdateFriendListHasBeenCalled(profile):
@@ -16,18 +15,34 @@ def UpdateFriendListHasBeenCalled(profile):
 # e.g. 2 update friendlist with limit and offset
 # UpdateFriendList(profile, **{limit" : 10, "offset" : 10})
 def UpdateFriendList(profile,**kwargs):
+    """
+
+    :param profile:
+    :param kwargs:
+    :return:
+    """
     try:
+        facebookIDs = set()
+        friendListData = getFriendListFromFacebook(profile,**kwargs)
+        friendDataDictionary = {}
+        for friend in friendListData:
+            facebookIDs.add(friend['id'])
+            friendDataDictionary[friend['id']] = friend
+        fbUserInDatabase = FacebookUser.objects.filter(facebookID__in=facebookIDs).values_list('facebookID', flat=True)
+        fbUserNeedInsert = facebookIDs.difference(fbUserInDatabase)
+        friendshipsInDatabase = Friendship.objects.filter(user=profile, friend__in=facebookIDs).values_list('friend', flat=True)
+        friendshipNeedInsert = facebookIDs.difference(friendshipsInDatabase)
         facebookUsers = []
         friendships = []
-        facebookIDs = []
-        friendListData = getFriendListFromFacebook(profile,**kwargs)
-        for friend in friendListData:
-            facebookIDs.append(friend['id'])
-            facebookUser = createFacebookUser(friend)
+        for facebookID in fbUserNeedInsert:
+            facebookUser = createFacebookUser(friendDataDictionary[facebookID])
             facebookUsers.append(facebookUser)
-            friendship = createFriendShip(profile,facebookUser)
+        for facebookID in friendshipNeedInsert:
+            friendship = Friendship(user=profile, friend_id=facebookID)
             friendships.append(friendship)
 
+        bulkSave(facebookUsers, friendships)
+        # should also go through fbUser in database and update
         return True
     except:
         print "Unexpected error:", sys.exc_info()
@@ -42,15 +57,21 @@ def getFriendListFromFacebook(profile,**kwargs):
 
 
 def createFacebookUser(friendFacebookData):
-    facebookUser, created = FacebookUser.objects.get_or_create(facebookID = friendFacebookData['id'])
+    facebookUser = FacebookUser(facebookID = friendFacebookData['id'])
     facebookUser.updateUsingFacebookDictionary(friendFacebookData)
-    facebookUser.save()
     return facebookUser
 
-def createFriendShip(profile,facebookUser):
-    friendship, created = Friendship.objects.get_or_create(user = profile,friend = facebookUser)
-    friendship.save()
-    return friendship
+
+def bulkSave(facebookUsers,friendships):
+    bulkSize = 500
+    for i in range(len(facebookUsers)/bulkSize+1):
+        startIdx = i*bulkSize
+        stopIdx = (i+1)*bulkSize
+        FacebookUser.objects.bulk_create(facebookUsers[startIdx:stopIdx])
+    for i in range(len(friendships)/bulkSize+1):
+        startIdx = i*bulkSize
+        stopIdx = (i+1)*bulkSize
+        Friendship.objects.bulk_create(friendships[startIdx:stopIdx])
 
 
 

@@ -81,7 +81,7 @@
 					window.location = "/meetpeople/";
 					mixpanel.alias(Mutuality.cache.profile.facebookID);
 					mixpanel.identify(Mutuality.cache.profile.facebookID);
-					mixpanel.track("Registered");
+					mixpanel.track("Facebook Connect", {"Mode":"Registration"});
 				}
 			});
 		}
