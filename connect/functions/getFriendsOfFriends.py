@@ -5,13 +5,10 @@ from getFriendList import GetFriendIDs
 from common.enums import RELATIONSHIP_STATUS
 
 def GetFriendsOfFriends(profile):
-    friendIDs = GetFriendIDs(profile)
+    friendIDs = set(GetFriendIDs(profile))
     friendsOnMutuality = Profile.objects.filter(facebookID__in=friendIDs)
-    friendshipsOfFriends = list(Friendship.objects.filter(user__in=friendsOnMutuality).exclude(friend__in=friendIDs+[profile.facebookID]).values_list('friend'))
-    friendsOfFriendsIDs = []
-    for friendship in friendshipsOfFriends:
-        friendsOfFriendsIDs.append(friendship[0])
-
+    friendIDs.add(profile.facebookID)
+    friendsOfFriendsIDs = Friendship.objects.filter(user__in=friendsOnMutuality).exclude(friend__in=friendIDs).values_list('friend_id')
     friendsOfFriendsList = FacebookUser.objects.filter(facebookID__in=friendsOfFriendsIDs)
     return friendsOfFriendsList
 

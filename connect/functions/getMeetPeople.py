@@ -8,10 +8,11 @@ from datetime import datetime
 from common.enums import RELATIONSHIP_STATUS
 
 
-def GetMeetPeople(profile, filter):
+def GetMeetPeople(profile, meetPeopleFilter):
     # check if the users friend list has been uploaded
     if not Friendship.objects.filter(user=profile).exists():
-        return "Your friendlist has not been uploaded yet"
+        # the user has no friends or UpdateFriendList hasn't been called
+        return MeetPeopleResponse([], MeetPeopleResponse.NO_FRIENDS_MESSAGE)
 
     if not PotentialBatch.objects.filter(profile=profile, date_expiration__gt=datetime.now()).exists():
         CreatePotentialBatch(profile)
@@ -20,20 +21,21 @@ def GetMeetPeople(profile, filter):
     if potentialBatches.exists():
         batch = potentialBatches[0]
     potentialMatches = PotentialMatch.objects.filter(potentialMatchBatch=batch).select_related('facebookUser')
-    if not potentialMatches.exists():
-        return "We cannot find any matches for you"
     
-    if filter == MEET_PEOPLE_FILTER.DATING:
+    if meetPeopleFilter == MEET_PEOPLE_FILTER.DATING:
         genderToExclude = profile.gender
-        relationshipStatusesToExclude = [RELATIONSHIP_STATUS.RELATIONSHIP, RELATIONSHIP_STATUS.ENGAGED, RELATIONSHIP_STATUS.MARRIED]
-        potentialMatches = potentialMatches.exclude(facebookUser__gender=genderToExclude).exclude(facebookUser__relationshipStatus__in=relationshipStatusesToExclude)
-    # TODO filter out users who have been seen
-    viewedUsers = []
-    freshUsers = []
+        relationshipStatusesToExclude = [RELATIONSHIP_STATUS.RELATIONSHIP, RELATIONSHIP_STATUS.ENGAGED,
+                                         RELATIONSHIP_STATUS.MARRIED]
+        potentialMatches = potentialMatches.exclude(facebookUser__gender=genderToExclude).exclude(
+            facebookUser__relationshipStatus__in=relationshipStatusesToExclude)
+
+    if not potentialMatches.exists():
+        return MeetPeopleResponse([], MeetPeopleResponse.SEEN_ALL_MATCHES_MESSAGE)
+
     for potentialMatch in potentialMatches:
         facebookUser = potentialMatch.facebookUser
         facebookUser.isMutualityUser = potentialMatch.isMutualityConnection
-        freshUsers.append(facebookUser)
-    meetPeopleResponse = MeetPeopleResponse(freshUsers, viewedUsers)
+
+    meetPeopleResponse = MeetPeopleResponse(potentialMatches, MeetPeopleResponse.SUCCESS_MESSAGE)
     return meetPeopleResponse
 
