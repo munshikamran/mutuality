@@ -4,8 +4,9 @@ from common.enums import RELATIONSHIP_STATUS
 
 def GetNonFriendUsersInArea(profile):
 #    do not return users who are friends
-    friendIDs = GetFriendIDs(profile)
-    usersInArea = Profile.objects.filter(state=profile.state).exclude(facebookID__in=set(friendIDs).add(profile.facebookID))
+    friendIDs = set(GetFriendIDs(profile))
+    friendIDs.add(profile.facebookID)
+    usersInArea = Profile.objects.filter(state=profile.state).exclude(facebookID__in=friendIDs)
     return usersInArea
 
 
