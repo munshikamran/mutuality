@@ -123,7 +123,7 @@ def messages(request):
 
 def about(request):
     info = {}
-    context_dict['URL'] = settings.URL
+    #context_dict['URL'] = settings.URL
     if request.user.is_authenticated():
         info['User Authenticated'] = 'Yes'
         if request.user.has_usable_password():
@@ -151,7 +151,7 @@ def about(request):
 
 def faq(request):
     info = {}
-    context_dict['URL'] = settings.URL
+    #context_dict['URL'] = settings.URL
     if request.user.is_authenticated():
         info['User Authenticated'] = 'Yes'
         if request.user.has_usable_password():
@@ -179,7 +179,7 @@ def faq(request):
 
 def privacy(request):
     info = {}
-    context_dict['URL'] = settings.URL
+    #context_dict['URL'] = settings.URL
     if request.user.is_authenticated():
         info['User Authenticated'] = 'Yes'
         if request.user.has_usable_password():

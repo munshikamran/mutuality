@@ -56,7 +56,7 @@ margin: -15px 0px -260px -150px ! important;
 }
 
 .filters {
-  margin: 0px 0px 0px 0px !important;
+  margin: 12px 0px 0px 0px !important;
 }
 
 .fav {
@@ -235,7 +235,7 @@ margin: -15px 0px -260px -150px ! important;
 }
 
 .askNub {
-  margin: 40px 0px 0px 210px !important;
+  margin: 40px 0px 0px 205px !important;
   border-color: #fff;
   border-color: #fff !important;
   border-bottom-color: transparent !important;
@@ -245,7 +245,7 @@ margin: -15px 0px -260px -150px ! important;
 }
 
 .introNub {
-  margin: 40px 0px 0px 220px !important;
+  margin: 40px 0px 0px 215px !important;
   border-color: #fff;
   border-color: #fff !important;
   border-bottom-color: transparent !important;
@@ -311,14 +311,14 @@ margin: -15px 0px -260px -150px ! important;
 .joyride-next-tip:hover {
   color: rgb(255,255,255) !important;
   border: solid 1px rgb(0,60,180) !important;
-  background: rgb(43,128,255);
-  background: -moz-linear-gradient(top, rgb(43,128,255) 0%, rgb(29,102,211) 100%);
+  background: rgb(107,164,197);
+  background: -moz-linear-gradient(top, rgb(107,164,197) 0%, rgb(29,102,211) 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(43,128,255)), color-stop(100%,rgb(29,102,211)));
-  background: -webkit-linear-gradient(top, rgb(43,128,255) 0%,rgb(29,102,211) 100%);
-  background: -o-linear-gradient(top, rgb(43,128,255) 0%,rgb(29,102,211) 100%);
-  background: -ms-linear-gradient(top, rgb(43,128,255) 0%,rgb(29,102,211) 100%);
+  background: -webkit-linear-gradient(top, rgb(107,164,197) 0%,rgb(29,102,211) 100%);
+  background: -o-linear-gradient(top, rgb(107,164,197) 0%,rgb(29,102,211) 100%);
+  background: -ms-linear-gradient(top, rgb(107,164,197) 0%,rgb(29,102,211) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2b80ff', endColorstr='#1d66d3',GradientType=0 );
-  background: linear-gradient(top, rgb(43,128,255) 0%,rgb(29,102,211) 100%);
+  background: linear-gradient(top, rgb(107,164,197) 0%,rgb(29,102,211) 100%);
 }
 
 .joyride-timer-indicator-wrap {
