@@ -14,6 +14,7 @@ from common.enums.site_pages import SITE_PAGES
 def index(request):
     context_dict = {}
     context_dict['request'] = request
+    context_dict['URL'] = settings.URL
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
         print 
@@ -68,6 +69,7 @@ def makematches(request):
     context_dict = {}
     context_dict['info'] = fbinfo(request)
     context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
+    context_dict['URL'] = settings.URL
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
         try:
@@ -86,6 +88,7 @@ def meetpeople(request):
     context_dict = {}
     context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
     context_dict['info'] = fbinfo(request)
+    context_dict['URL'] = settings.URL
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
         try:
@@ -120,6 +123,7 @@ def messages(request):
 
 def about(request):
     info = {}
+    context_dict['URL'] = settings.URL
     if request.user.is_authenticated():
         info['User Authenticated'] = 'Yes'
         if request.user.has_usable_password():
@@ -147,6 +151,7 @@ def about(request):
 
 def faq(request):
     info = {}
+    context_dict['URL'] = settings.URL
     if request.user.is_authenticated():
         info['User Authenticated'] = 'Yes'
         if request.user.has_usable_password():
@@ -174,6 +179,7 @@ def faq(request):
 
 def privacy(request):
     info = {}
+    context_dict['URL'] = settings.URL
     if request.user.is_authenticated():
         info['User Authenticated'] = 'Yes'
         if request.user.has_usable_password():
@@ -202,6 +208,7 @@ def privacy(request):
 def fbinfo(request):
     """ A view for returning a dict of info about FB and user status """
     info = {}
+    context_dict['URL'] = settings.URL
     if request.user.is_authenticated():
         info['User Authenticated'] = 'Yes'
         if request.user.has_usable_password():
