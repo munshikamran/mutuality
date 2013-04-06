@@ -444,7 +444,7 @@
 				$("#profile-dob").attr('class', '');
 			}
 			else {
-				$("#profile-dob").html('<i class="birthday"></i>Birthday');
+				$("#profile-dob").html('<i class="birthday"></i>Age');
 				$("#profile-dob").attr('class', 'inactive');			
 			}			
 			if(extendedProfile.college) {

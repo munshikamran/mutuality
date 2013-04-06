@@ -15,6 +15,7 @@ class GetMeetPeopleAPI(APIView):
             profile = Profile.objects.get(facebookID=pk)
             if (viewed == "0" and dating == "0"):
                 facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP)
+                print facebookUserList
                 return facebookUserList.freshUsers
             elif (viewed == "1" and dating == "0"):
                 facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP)

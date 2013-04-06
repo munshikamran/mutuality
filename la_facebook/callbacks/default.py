@@ -6,7 +6,7 @@ from django.contrib.auth import login
 from la_facebook.la_fb_logging import logger
 from la_facebook.models import UserAssociation
 from la_facebook.callbacks.base import BaseFacebookCallback
-from connect.tasks import send_user_joined_email
+from connect.tasks import new_user_joined
 
 from connect.functions import SendMessage
 
@@ -100,7 +100,7 @@ class DefaultFacebookCallback(BaseFacebookCallback):
         facebookUser.save()
         # send an email to admins if new user
         if created:
-            send_user_joined_email.delay(profile)
+            new_user_joined(profile)
         return profile
 
     def create_profile(self, request, access, token, user):
@@ -114,7 +114,7 @@ class DefaultFacebookCallback(BaseFacebookCallback):
             profile = self.update_profile_from_graph(request, access, token, user)
             profile.save()
             # Send out Welcome message to this user that has newly been created
-            SendMessage(profile, profile.facebookID, "Welcome to Mutuality! I'm one of the co-founders of Mutuality. If you have comments or questions, please write us a message below.")
+            SendMessage(profile, profile.facebookID, "Welcome! I'm one of the co-founders of Mutuality. Please feel free to message us with any comments or questions.")
 
 
         else:

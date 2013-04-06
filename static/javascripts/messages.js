@@ -1,24 +1,28 @@
-
 (function($) {
-
 /* Begin Helper functions */
 // After AJAX call for finding friends of friends, load random four images into meet people call to action
 
-function loadPage() {
+function newConversationCheck() {
+	var facebookID = getParameterByName("fbid");
+	if (facebookID ===""){
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function loadPage(convoBoolean) {
 	Mutuality.getThreadPreviews(function(messages) {
-		//cache["messages"] = messages
-		//console.log(cache.messages);
-		var facebookID = getParameterByName("fbid");
-		var name = getParameterByName("name");
-		console.log(facebookID);
-		if (facebookID==="") {
+		if (convoBoolean===false) {
 			loadPageFirstCase(messages);
 		} else {
+			var facebookID = getParameterByName("fbid");
+			var name = getParameterByName("name");
 			existingPerson(facebookID, messages, function(index){
 				if (index !== -1) {
 					loadPageSecondCase(facebookID, name, messages, index);
 				} else {
-					loadPageThirdCase(facebookID, name, messages);
+					loadPageThirdCase(facebookID, name, messages);	
 				}
 			});
 		}
@@ -46,9 +50,27 @@ function existingPerson (facebookid, messages, success) {
 }
 
 //Load messages and mutual friends for selected person
-function loadThread (facebookID) {
+function loadThread (facebookID, index) {
+	convoBoolean = $('.message-list li').eq(index).data("convoboolean");
+	if (convoBoolean === true) {
+		var thumbImage ='background-image: url(' + Mutuality.getProfilePictureURL(facebookID, 100, 100) + ')';
+		$('.message-thread').append(
+			$('<div>').addClass('single-message row').append(
+				$('<div>').addClass('two columns').append(
+					$('<span>').attr({
+						class: "profile-thumb",
+						style:  thumbImage
+					}), 
+					($('<small>').html("Now"))
+					)).append(
+					($('<div>').addClass('ten columns').html(
+						"<p></p>"	
+						)
+						)));
+	} else {
 	Mutuality.getMessagesWithOther(facebookID, loadMessageThreadIntoUI);
-} 
+	}
+}
 
 function loadFriends (facebookID, name) {
 	Mutuality.getMutualFriendList(facebookID, function(mutualFriends) {
@@ -79,7 +101,7 @@ function loadPageFirstCase (messages) {
 		var firstPersonName = parseMessageForName(messages, 0);
 
 		//Load the first person's message thread and mutual friends
-		loadThread(firstPersonID);
+		loadThread(firstPersonID, 0);
 		loadFriends(firstPersonID, firstPersonName);
 
 	for (var i = 0; i < messages.length; i++) {
@@ -115,7 +137,7 @@ function formatMessageForPreview (messageBody) {
 function loadPageSecondCase (facebookID, name, messages, index) {
 	var firstName = name.split(" ")[0];
 	var formattedMessage = formatMessageForPreview(messages[index].body);
-	loadThread(facebookID);
+	loadThread(facebookID, index);
 	loadFriends(facebookID, firstName);
 	addProfilePreview(facebookID, name, formattedMessage, "cf active");
 	messages.splice(index,1);
@@ -132,34 +154,23 @@ function loadPageThirdCase (facebookID, name, messages) {
 	var formattedMessage = "...";
 	var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(facebookID, 90, 90) + ')';
 	loadFriends(facebookID,firstName);
-	addProfilePreview(facebookID, name, formattedMessage, "cf active")
-	$('.message-thread').append(
-			$('<div>').addClass('single-message row').append(
-				$('<div>').addClass('two columns').append(
-					$('<span>').attr({
-						class: "profile-thumb",
-						style:  thumbImage
-					}), 
-					($('<small>').html("Now"))
-					)).append(
-					($('<div>').addClass('ten columns').html(
-						"<p></p>"	
-						)
-						)));
+	addProfilePreview(facebookID, name, formattedMessage, "cf active", true)
+	loadThread(facebookID,0);
 
 	for (var i = 0; i < messages.length; i++) {
 		var newFbId = parseMessageForId(messages, i);
 		var newName = parseMessageForName(messages, i);
 		var newFormattedMessage = formatMessageForPreview(messages[i].body);
-		addProfilePreview (newFbId, newName, newFormattedMessage, "cf inactive");
+		addProfilePreview (newFbId, newName, newFormattedMessage, "cf inactive", false);
 	}	
 }
 
-function addProfilePreview (facebookID, name, formattedMessage, state) {
+function addProfilePreview (facebookID, name, formattedMessage, state, convoBoolean) {
 	var profileImage = 'background-image: url(' + Mutuality.getProfilePictureURL(facebookID, 90, 90) + ')';
 	$('.message-list ul').append($('<li>').attr({
 		'data-facebookid':facebookID,
-		'data-name':name
+		'data-name':name,
+		'data-convoBoolean':convoBoolean
 	}).addClass(state).append($('<a>').attr('href','#').append(
 						$('<span>').attr({
 							class: "profile-thumb",
@@ -214,7 +225,6 @@ var initAskAboutCarousel = function () {
 
 //Load full message exchange into the UI
 var loadMessageThreadIntoUI = function(messageThread) {
-	console.log(messageThread);
 	var totalHeight = 0;
 	var messageHeight = 0;
 	var messagePos;
@@ -341,7 +351,14 @@ var friendsOfFriendsSuccess = function(friends){
 	// Get and show full message thread when relevant preview li element is clicked
 	$(document).ready(function() {	
 		//Load correct message previews, message thread, and mutual friends
-		loadPage();
+		// var newConversationBoolean = newConversationCheck();
+		// console.log(newConversationBoolean);
+		
+
+
+		var convoBoolean = newConversationCheck();
+		loadPage(convoBoolean);
+		//console.log(loadCase);
 		Mutuality.getMeetPeople(0, 0, friendsOfFriendsSuccess);
 		//introduceYourself("1451700007", "Taylor Woods");
 		//introduceYourself("613170158", "Angela Cough");
@@ -359,7 +376,7 @@ var friendsOfFriendsSuccess = function(friends){
 		});
 
 		//Activate preview, load messages, and mutual friends once clicked
-		$('.message-list ul').on('click', 'li', function () {
+		$('.message-list ul').on('click', 'li', function (event) {
 			event.stopPropagation();
 			$('.message-thread').empty();
 			$('.ask-about').empty();
@@ -367,7 +384,8 @@ var friendsOfFriendsSuccess = function(friends){
 			$(this).removeClass("cf inactive").addClass("cf active");
 			var otherFbId = $('.message-list').find('li.active').data('facebookid');
 			var otherName = $('.message-list').find('li.active').data('name');
-			loadThread(otherFbId);
+			var index = $(this).index();
+			loadThread(otherFbId, index);
 			loadFriends(otherFbId, otherName);
 		});
 
@@ -384,7 +402,7 @@ var friendsOfFriendsSuccess = function(friends){
 					mixpanel.track("Message sent");
 				
 				} else {
-				   alert("Error: can't send message");	
+				   alert("Message send failure. Please email us at info@mymutuality.com");	
 				}
 			});
 		});
