@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 import settings
 import smtplib
 from connect.functions import GetFriendIDs
-from connect.models import Profile
+from connect.models import Profile, FacebookUser, PotentialMatch
 
 def new_user_joined(profile):
     send_user_joined_email.delay(profile)
@@ -37,9 +37,10 @@ def send_friend_joined_email(joined_user_profile):
         to_address = profile.user.email
         friendName = joined_user_profile.name
         friendFacebookID = joined_user_profile.facebookID
-        numberOfNewFriends = 20
-        totalNumberOfFriends = 30 
-        currentNumberOfFoF = 100
+        friendsFriends = GetFriendIDs(profile)
+        numberOfNewFriends = FacebookUser.objects.filter(facebookID__in=(set(friendIDs).difference(friendsFriends))).count()
+        totalNumberOfFriends = len(friendsFriends)
+        currentNumberOfFoF = PotentialMatch.objects.filter(profile=profile).count()
         message = create_friend_joined_message(from_address, to_address, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF)
         sent=send_message(message, from_address, to_address)
         print "send to".format(profile.name)
