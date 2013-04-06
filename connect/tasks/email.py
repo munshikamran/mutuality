@@ -38,7 +38,7 @@ def send_friend_joined_email(joined_user_profile):
         friendName = joined_user_profile.name
         friendFacebookID = joined_user_profile.facebookID
         friendsFriends = GetFriendIDs(profile)
-        numberOfNewFriends = FacebookUser.objects.filter(facebookID__in=(set(friendIDs).difference(friendsFriends)), state=Profile.state).count()
+        numberOfNewFriends = FacebookUser.objects.filter(facebookID__in=(set(friendIDs).difference(friendsFriends)), state=profile.state).count()
         totalNumberOfFriends = len(friendsFriends)
         currentNumberOfFoF = PotentialMatch.objects.filter(profile=profile).count()
         message = create_friend_joined_message(from_address, to_address, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF)
