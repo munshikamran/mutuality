@@ -80,7 +80,7 @@ def markMutualityUsers(facebookUsers):
 
 
 def markFavorited(profile, facebookUsers):
-    favoriteIDs = set(UserFavorite.objects.filter(user=profile).values_list('favorite_id'))
+    favoriteIDs = set(UserFavorite.objects.filter(user=profile).values_list('favorite_id', flat=True))
     for facebookUser in facebookUsers:
         facebookUser.isFavorite = facebookUser.facebookID in favoriteIDs
     return facebookUsers
