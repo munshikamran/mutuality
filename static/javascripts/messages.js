@@ -334,6 +334,7 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 }
 
 var friendsOfFriendsSuccess = function(friends){
+	console.log(friends);
 	if (friends.length > 0){
 	    friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
 	    $('#four-images img').each(function(i) {
@@ -355,11 +356,11 @@ var friendsOfFriendsSuccess = function(friends){
 		// console.log(newConversationBoolean);
 		
 
-
 		var convoBoolean = newConversationCheck();
 		loadPage(convoBoolean);
 		//console.log(loadCase);
-		Mutuality.getMeetPeople(0, 0, friendsOfFriendsSuccess);
+		//Mutuality.loadFriendsList(0, function(){});
+		Mutuality.getMeetPeople(0, 0, 0, friendsOfFriendsSuccess);
 		//introduceYourself("1451700007", "Taylor Woods");
 		//introduceYourself("613170158", "Angela Cough");
 		//introduceYourself("10701292", "Elly Egli");
