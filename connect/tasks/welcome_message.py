@@ -1,4 +1,5 @@
 from connect.models import Profile
+from connect.functions.sendMessage import SendMessage
 from random import randint
 from celery import task
 
