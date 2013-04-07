@@ -30,6 +30,7 @@
 					<section id="main" data-URL={{ URL }} style="min-height: 400px;" class="row">
 						<a href="#" id="triggermyModal" data-reveal-id="myModal"></a>
 						<a href="#" id="triggermyModalLoading" data-reveal-id="myModalLoading"></a>
+						<a href="#" id="triggermyModalViewed" data-reveal-id="myModalViewed"></a>
 
 						<div id="carousel" class="nine columns">
 
@@ -124,6 +125,19 @@
             </div>
         </div>
         <a class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
+    </div>    
+    <div id="myModalViewed" class="reveal-modal large">
+        <h4>Looks like you've seen everyone in the list today!</h4>
+        <div class="row">
+            <div id="nudge-left" style:"text-align:center">
+                <a href="#" class="title">
+                    <span class="match-name">Check back tomorrow for more matches.</span>
+                    <br />
+                    <span  id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(P.S. click here to invite your friends and get more matches tomorrow!)</a></span>
+                </a>
+            </div>
+        </div>
+        <a class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();"><small>Got it!</small> &times;</a>
     </div>
     <div id="myModalIntroduce" class="reveal-modal medium">
         <aside id="user-profile" style="three columns">

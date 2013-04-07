@@ -10,22 +10,25 @@ class GetMeetPeopleAPI(APIView):
     """
     Get the user's meet people list, but only the fresh users for the Friendship filter.
     """
-    def get_object(self, pk, viewed, dating):
+    def get_object(self, pk, viewed, dating, favorites):
         try:
             profile = Profile.objects.get(facebookID=pk)
-            if (viewed == "0" and dating == "0"):
+            if (viewed == "0" and dating == "0" and favorites == "0"):
                 facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP).potentialMatches
                 return facebookUserList
-            elif (viewed == "1" and dating == "0"):
-                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP).potentialMatches
+            elif (viewed == "1" and dating == "0" and favorites == "0"):
+                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.VIEWED).potentialMatches
                 return facebookUserList
-            elif (viewed == "0" and dating == "1"):
+            elif (viewed == "0" and dating == "1" and favorites == "0"):
                 facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.DATING).potentialMatches
+                return facebookUserList
+            elif (viewed == "0" and dating == "0" and favorites == "1"):
+                facebookUserList = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FAVORITES).potentialMatches
                 return facebookUserList
         except Profile.DoesNotExist:
             raise Http404
 
     def post(self, request, format=None):
-        facebookUserList = self.get_object(request.DATA['token'], request.DATA['viewed'], request.DATA['dating'])
+        facebookUserList = self.get_object(request.DATA['token'], request.DATA['viewed'], request.DATA['dating'], request.DATA['favorites'])
         serializer = FacebookUserMeetPeopleSerializer(facebookUserList)
         return Response(serializer.data)

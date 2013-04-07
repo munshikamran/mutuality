@@ -99,7 +99,7 @@ var Mutuality = (function($){
    {
       basePath : '',
       cache: { current: ["", ""], profile: {}, friends: {}, mutualityUserLookup: {}, leftSlotLocked: false, rightSlotLocked: false },
-      mpcache: { current: "", fofList: {}, favoritesList: {}, currentLoc: 0, profileCacheData: {} },
+      mpcache: { current: "", fofList: {}, datingList: {}, currentLoc: 0, profileCacheData: {}, viewedCacheData: {} },
       history : [],
       token : null,
       init: function( token, basePath, success )
@@ -325,11 +325,11 @@ var Mutuality = (function($){
            });
        },
       // Get meet people list (fresh users, friendship)
-      getMeetPeople: function(v, d, success )
+      getMeetPeople: function(v, d, f, success )
       {
            var self = this;
 
-           self.__post('api/getMeetPeople/', { token: this.token, viewed: v, dating: d }, function( response ){
+           self.__post('api/getMeetPeople/', { token: this.token, viewed: v, dating: d, favorites: f}, function( response ){
                if(response)
                {
                    if(success instanceof Function) success.call(self, response);
