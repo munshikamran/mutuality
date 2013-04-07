@@ -217,12 +217,14 @@
     	else if ($('#fav-filter').val() == "Dating") {
     		triggerModal("myModal");
     		Mutuality.getMeetPeople(0, 1, 0, function(datingFriends){
+    			Mutuality.mpcache.datingList = datingFriends;
     			meetPeopleSuccess(datingFriends);
     		});
     	}
     	else{
     		triggerModal("myModal");
     		Mutuality.getMeetPeople(0, 0, 0, function(meetPeopleList) {
+    			Mutuality.mpcache.fofList = meetPeopleList;
 				meetPeopleSuccess(meetPeopleList);
     		});
     	}
@@ -264,10 +266,23 @@
 	    		$("#introduce").html('<a href="'+url+'" class="button"><i></i>Introduce Yourself</a>');
 	    	}
 
-	    	if($('#fav-filter').val() == "Dating" || $('#fav-filter').val() == "All"){
+	    	if($('#fav-filter').val() == "Dating"){
 	    		//console.log(Mutuality.mpcache.profileCacheData);	    	
 	    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
-	    			console.log("set viewed = " + success );
+	    			//console.log("set viewed = " + success );
+	    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
+	    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.datingList.length){
+	    				//alert("viewed everyone");
+	    				triggerModal("myModalViewed");
+						Mutuality.mpcache.viewedCacheData = {};
+	    			}
+	    		});
+    		}
+
+    		if($('#fav-filter').val() == "All"){
+	    		//console.log(Mutuality.mpcache.profileCacheData);	    	
+	    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
+	    			//console.log("set viewed = " + success );
 	    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
 	    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.fofList.length){
 	    				//alert("viewed everyone");
@@ -356,7 +371,7 @@
 			    		}
 			    		else{
 			    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title:"Toggle Favorite", facebookID: friends[i].facebookID, style:"background-position: 0 -16px", onclick:setFavoriteFunctionString}).appendTo(spanElem);
-			    			console.log("yes a favorite");
+			    			//console.log("yes a favorite");
 			    		}
 			    		var hElem = $('<h3>', {id:"left-profile-name", html:friends[i].name}).appendTo(spanElem);
 			    	}
