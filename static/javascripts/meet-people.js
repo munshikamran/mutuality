@@ -378,7 +378,7 @@
 
 					//Show the main content, dismiss the modal, init tooltips
 			    	hideModal();
-			    	$("#main").show();
+			    	//$("#main").show();
 		    		$('.tooltip').tooltipster();
 			    	initCarousel();
 		    		$('#page-next').trigger('click');
@@ -526,7 +526,7 @@
 
 /* Begin Main Code */
    // Show the loading modal, and hide the page contents while async calls fire
-   $("#main").hide();
+   //$("#main").hide();
    triggerModal("myModal");
    
    if($.cookie("UpdateFriendListCalled-" + Mutuality.cache.profile.facebookID) !== "true") {

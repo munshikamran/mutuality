@@ -7261,6 +7261,7 @@ input[type=text]:focus + .search-results {
 #profile-stats {
   clear: both;
   min-width: 800px;
+  min-height: 110px;
   padding-top: 30px;
   background: url(../images/stats-bg.jpg) 25px top no-repeat;
 }
@@ -8458,3 +8459,155 @@ html {
   -ms-transform: scale(1.1, 1.1);
   transform: scale(1.1, 1.1);
 }
+
+/* Loading Animation CSS */
+.loading-1 {
+  position: relative;
+  z-index: 1;
+  width: 100px;
+  height: 100px;
+}
+.circle-1 {
+  background-color: rgba(0,0,0,0);
+  border: 5px solid #4096b6;
+  opacity: .9;
+  border-top: 5px solid rgba(0,0,0,0);
+  border-left: 5px solid rgba(0,0,0,0);
+  border-radius: 65px;
+  box-shadow: 0 0 50px rgba(186,16,117,0.4);
+  position: absolute;
+  z-index: 2;
+  left: 12px;
+  top: 13px;
+  width: 65px;
+  height: 65px;
+  -moz-animation: spin1 1s infinite linear;
+  -webkit-animation: spin1 1s infinite linear;
+}
+.fade-1 {
+  position: absolute;
+  z-index: 3;
+  top: 31px;
+  left: 29px;
+  width: 40px;
+  height: 40px;
+  display: block;
+  opacity: .25;
+  -moz-animation: fade1 3s infinite linear;
+  -webkit-animation: fade1 3s infinite linear;
+}
+@-moz-keyframes spin1 {
+  0% { -moz-transform: rotate(0deg); }
+  100% { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin1 {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@-moz-keyframes fade1 {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: .25; }
+}
+@-webkit-keyframes fade1 {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: .25; }
+}
+
+.loading-2 {
+  position: relative;
+  z-index: 1;
+  width: 100px;
+  height: 100px;
+}
+.circle-2 {
+  background-color: rgba(0,0,0,0);
+  border: 5px solid #4096b6;
+  opacity: .9;
+  border-top: 5px solid rgba(0,0,0,0);
+  border-left: 5px solid rgba(0,0,0,0);
+  border-radius: 65px;
+  box-shadow: 0 0 50px #4096b6;
+  position: absolute;
+  z-index: 2;
+  left: 12px;
+  top: 13px;
+  width: 100px;
+  height: 100px;
+  -moz-animation: spin2 1s infinite linear;
+  -webkit-animation: spin2 1s infinite linear;
+}
+.fade-2 {
+  position: absolute;
+  z-index: 1;
+  top: 34px;
+  left: 31px;
+  width: 60px;
+  height: 60px;
+  display: block;
+  opacity: 1;
+}
+@-moz-keyframes spin2 {
+  0% { -moz-transform: rotate(0deg); }
+  100% { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin2 {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+
+#one {
+  -moz-animation: one 8s infinite linear;
+  -webkit-animation: one 8s infinite linear;
+}
+@-moz-keyframes one {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+@-webkit-keyframes one {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+
+#two {
+  -moz-animation: two 4s infinite linear;
+  -webkit-animation: two 4s infinite linear;
+}
+@-moz-keyframes two {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+@-webkit-keyframes two {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+
+#three {
+  -moz-animation: three 4s infinite linear;
+  -webkit-animation: three 4s infinite linear;
+}
+@-moz-keyframes three {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+@-webkit-keyframes three {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+
+#four {
+  -moz-animation: four 4s infinite linear;
+  -webkit-animation: four 4s infinite linear;
+}
+@-moz-keyframes four {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+@-webkit-keyframes four {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
