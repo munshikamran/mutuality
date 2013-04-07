@@ -202,6 +202,7 @@
 
 	// When the fav filter is selected, load the favorites into the UI
 	$('#fav-filter').bind('change', function(e){
+		Mutuality.mpcache.viewedCacheData = {};
 		if ($('#fav-filter').val() == "Favorites"){
 			triggerModal("myModalLoading");
 			Mutuality.getFavoritesList(function(favorites){
@@ -269,8 +270,18 @@
 	    		$("#introduce").html('<a href="'+url+'" class="button"><i></i>Introduce Yourself</a>');
 	    	}
 
-    		//console.log(Mutuality.mpcache.profileCacheData);	    	
-    		//Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){console.log("set viewed = " + success );});
+	    	if($('#fav-filter').val() == "Dating" || $('#fav-filter').val() == "Friends"){
+	    		//console.log(Mutuality.mpcache.profileCacheData);	    	
+	    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
+	    			console.log("set viewed = " + success );
+	    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
+	    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.fofList.length){
+	    				//alert("viewed everyone");
+	    				triggerModal("myModalViewed");
+						Mutuality.mpcache.viewedCacheData = {};
+	    			}
+	    		});
+    		}
 
 	    	if(Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current]) {
 	    		// Cache hit, so load directly from cache!
@@ -317,7 +328,7 @@
 	}
 
 	// Fetch the list of friends returned from getMeetPeople, put into carousel, store in cache
-	var fetchMeetPeopleProfileInfoAndShowUI = function (facebookID, friends, initialLoad){
+	var fetchMeetPeopleProfileInfoAndShowUI = function (facebookID, friends){
 		Mutuality.getMeetPeopleProfile(facebookID, function(extendedProfile){
 			Mutuality.getMutualFriendList(facebookID, function(mutualFriends){
 					loadMeetPeopleProfileInfoToCache(facebookID, mutualFriends, extendedProfile);
@@ -361,9 +372,8 @@
 			    	$("#main").show();
 		    		$('.tooltip').tooltipster();
 			    	initCarousel();
-			    	if(true){
-			    		$('#page-next').trigger('click');
-			    	}
+		    		$('#page-next').trigger('click');
+
 				});
 		});
 	}
@@ -475,11 +485,11 @@
 	}
 
     // After AJAX call for getMeetPeople, load that into meet people page cache
-    var meetPeopleSuccess = function(friends, initialLoad){
+    var meetPeopleSuccess = function(friends){
     	if (friends.length > 1){
     		console.log("Meet People Success = " + friends[2].facebookID)
     		$("#meet-profiles").html("");
-    		fetchMeetPeopleProfileInfoAndShowUI(friends[2].facebookID, friends, initialLoad);
+    		fetchMeetPeopleProfileInfoAndShowUI(friends[2].facebookID, friends);
     	}
     }
 

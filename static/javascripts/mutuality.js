@@ -99,7 +99,7 @@ var Mutuality = (function($){
    {
       basePath : '',
       cache: { current: ["", ""], profile: {}, friends: {}, mutualityUserLookup: {}, leftSlotLocked: false, rightSlotLocked: false },
-      mpcache: { current: "", fofList: {}, favoritesList: {}, currentLoc: 0, profileCacheData: {} },
+      mpcache: { current: "", fofList: {}, favoritesList: {}, currentLoc: 0, profileCacheData: {}, viewedCacheData: {} },
       history : [],
       token : null,
       init: function( token, basePath, success )
