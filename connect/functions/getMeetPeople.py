@@ -29,7 +29,7 @@ def GetMeetPeople(profile, meetPeopleFilter):
 
     facebookUsers = markFavorited(profile, facebookUsers)
     facebookUsers = markMutualityUsers(facebookUsers)
-    facebookUsers = markViewed(facebookUsers)
+    facebookUsers = markViewed(profile, facebookUsers)
     meetPeopleResponse = MeetPeopleResponse(facebookUsers, MeetPeopleResponse.SUCCESS_MESSAGE)
     return meetPeopleResponse
 
