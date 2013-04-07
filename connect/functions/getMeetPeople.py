@@ -29,6 +29,7 @@ def GetMeetPeople(profile, meetPeopleFilter):
 
     facebookUsers = markFavorited(profile, facebookUsers)
     facebookUsers = markMutualityUsers(facebookUsers)
+    facebookUsers = markViewed(facebookUsers)
     meetPeopleResponse = MeetPeopleResponse(facebookUsers, MeetPeopleResponse.SUCCESS_MESSAGE)
     return meetPeopleResponse
 
@@ -83,6 +84,12 @@ def markFavorited(profile, facebookUsers):
     favoriteIDs = set(UserFavorite.objects.filter(user=profile).values_list('favorite_id', flat=True))
     for facebookUser in facebookUsers:
         facebookUser.isFavorite = facebookUser.facebookID in favoriteIDs
+    return facebookUsers
+
+def markViewed(profile, facebookUsers):
+    viewedIDs = set(UserViewed.objects.filter(user=profile).values_list('viewed_id', flat=True))
+    for facebookUser in facebookUsers:
+        facebookUser.hasBeenViewed = facebookUser.facebookID in viewedIDs
     return facebookUsers
 
 
