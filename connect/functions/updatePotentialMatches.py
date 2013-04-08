@@ -24,6 +24,7 @@ def UpdatePotentialMatches(profile):
     for freshUser in freshUsers:
         userDictionary[freshUser.facebookID] = freshUser
     mutualFriendCounts = GetNumberOfMutualFriends(profile, userDictionary.keys())
+    print mutualFriendCounts
     potentialMatches = []
     if len(mutualFriendCounts) < 1:
         print 'no potential matches were found'
