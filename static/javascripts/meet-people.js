@@ -331,7 +331,6 @@
 		    		//console.log(Mutuality.mpcache.profileCacheData);	    	
 		    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
 		    			//console.log("set viewed = " + success );
-
 		    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
 		    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.datingList.length){
 		    				//alert("viewed everyone");
@@ -345,6 +344,18 @@
 		    		//console.log(Mutuality.mpcache.profileCacheData);	    	
 		    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
 		    			//console.log("set viewed = " + success );
+		    			$(".friend-count").show();
+		    			var curProf = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
+		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
+		    				var currentCount = parseInt($(".friend-count").html());
+		    				if(currentCount >= 0){
+		    					$(".friend-count").html(currentCount-1);
+		    				}
+		    				if(currentCount==0){
+		    					triggerModal("myModalViewed");
+		    				}
+		    			}
+
 		    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
 		    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.fofList.length){
 		    				//alert("viewed everyone");
@@ -614,7 +625,7 @@ var setModalBack = function(modalID){
 var setNewBadge = function(friends) {
 	var newCount = 0;
 	for (i=0;i<friends.length;i++){
-		if(friends[i].isViewed !== "true"){
+		if(friends[i].hasBeenViewed !== true){
 			newCount++;
 		}
 	}
@@ -676,6 +687,7 @@ var setNewBadge = function(friends) {
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });
  	$('.ask-about-modal').css({ zIndex: 0 });
+ 	$(".friend-count").hide();
 
 /* End Main Code */
 
