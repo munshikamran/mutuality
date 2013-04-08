@@ -8460,6 +8460,105 @@ html {
   transform: scale(1.1, 1.1);
 }
 
+.homepage {
+max-width:1200px;
+height: 750px;
+background: url(../images/homepageImage4.png);
+display:block;
+margin:0px auto;
+border-bottom:1px solid #DDD;
+}
+
+.homepage-headline {
+  color:#FFFFFF;
+  font-weight:lighter;
+  font-size:60px;
+  margin:150px 0px 0px 0px;
+  text-align: center;
+}
+
+.facebook-box {
+  height:240px;
+  width:500px;
+  float:right;
+  background: url(../images/homepage-connect-box.png) no-repeat;
+  margin:100px 0px 0px 0px;
+}
+
+.facebook-login{
+  height:80px;
+  width:360px;
+  margin:0px 0px 0px 50px;
+}
+
+.login-headline{
+   color:#FFFFFF;
+  font-weight:bold;
+  font-size:25px;
+  margin:30px 0px 0px 0px;
+  padding:0px 0px 35px 0px;
+  text-align:center;
+}
+
+.assurance {
+  color:#FFFFFF;
+  font-weight:bold;
+  font-size:15px;
+  margin:5px 0px 0px 0px;
+  text-align: center;
+}
+
+.homepage-footer{
+  position:absolute;
+  top:710;
+  color:#FFFFFF;
+  display:inline;
+  font-size: 12px;
+  font-weight:bold;
+}
+
+.homepage-footer a {
+  margin-right:50px;
+  color:#FFFFFF;
+}
+
+.copyright {
+  position:absolute;
+  top:710;
+  right:250;
+  color:#FFFFFF;
+  display:inline;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+.header{
+  display:inline;
+}
+
+.header-icons{
+  display:inline;
+  position:absolute;
+  top:35px;
+  right:15px;
+}
+
+.header-icons img {
+  padding:0px 10px;
+}
+
+.facebook-icon:hover {
+  background-image: url(../images/facebook-active.png); 
+}
+
+.twitter:hover{
+
+}
+
+.blog:hover{
+
+}
+
 /* Loading Animation CSS */
 .loading-1 {
   position: relative;
