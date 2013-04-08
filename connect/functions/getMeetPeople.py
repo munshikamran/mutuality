@@ -47,8 +47,10 @@ def getPotentialMatches(profile, meetPeopleFilter):
         genderToExclude = profile.gender
         relationshipStatusesToExclude = [RELATIONSHIP_STATUS.RELATIONSHIP, RELATIONSHIP_STATUS.ENGAGED,
                                          RELATIONSHIP_STATUS.MARRIED]
-        potentialMatches = potentialMatches.exclude(facebookUser__gender=genderToExclude).exclude(
-            facebookUser__relationshipStatus__in=relationshipStatusesToExclude)
+        potentialMatches = potentialMatches.exclude(facebookUser__gender=genderToExclude)
+        potentialMatches = potentialMatches.exclude(facebookUser__gender__isnull=True)
+        potentialMatches = potentialMatches.exclude(facebookUser__relationshipStatus__in=relationshipStatusesToExclude)
+        
     facebookUsers = []
     for potentialMatch in potentialMatches:
         facebookUsers.append(potentialMatch.facebookUser)
