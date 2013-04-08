@@ -26,8 +26,6 @@ def CreatePotentialBatch(profile):
     potentialBatch.save()
     for i in range(min(len(potentialMatches), batchSize)):
         potentialMatch = potentialMatches[i]
-        print i
-        print potentialMatch.facebookUser.name
         potentialMatch.potentialMatchBatch = potentialBatch
         potentialMatch.save()
     return potentialBatch

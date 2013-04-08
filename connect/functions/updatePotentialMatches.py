@@ -48,7 +48,6 @@ def UpdatePotentialMatches(profile):
 
 
 def bulkSave(potentialMatches):
-    print 'potential matches len={0}'.format(len(potentialMatches))
     bulkSize = 500
     for i in range(len(potentialMatches)/bulkSize+1):
         startIdx = i*bulkSize
