@@ -22,8 +22,11 @@ def CreatePotentialBatch(profile):
     batchSize = 20
     potentialBatch = PotentialBatch.objects.create(profile=profile, date_expiration=expirationDate)
     potentialBatch.save()
+    print 'number of potential matches={0}'.format(potentialMatches.count())
     for i in range(min(potentialMatches.count(), batchSize)):
         potentialMatch = potentialMatches[i]
+        print i
+        print potentialMatch.facebookUser.name
         potentialMatch.potentialMatchBatch = potentialBatch
         potentialMatch.save()
     return potentialBatch
