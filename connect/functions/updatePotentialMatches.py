@@ -48,10 +48,12 @@ def UpdatePotentialMatches(profile):
 
 
 def bulkSave(potentialMatches):
+    print 'potential matches len={0}'.format(len(potentialMatches))
     bulkSize = 500
     for i in range(len(potentialMatches)/bulkSize+1):
         startIdx = i*bulkSize
         stopIdx = (i+1)*bulkSize
+        print '{0} batch len={1}'.format(i, len(potentialMatches[startIdx:stopIdx]))
         PotentialMatch.objects.bulk_create(potentialMatches[startIdx:stopIdx])
 
 
