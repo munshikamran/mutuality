@@ -232,6 +232,8 @@
 		if ($('#fav-filter').val() == "Favorites"){
 			triggerModal("myModalLoading");    		
 			Mutuality.getMeetPeople(0, 0, 1, function(favorites){
+    			$(".friend-count").hide();
+
 				if(favorites.length > 0) {
     				meetPeopleSuccess(favorites);
     			}
@@ -241,6 +243,8 @@
     			}
     		});
     	} else if ($('#fav-filter').val() == "Viewed") {
+			$(".friend-count").show();
+
 		    triggerModal("myModalLoading");
     		Mutuality.getMeetPeople(1, 0, 0, function(viewedUsers){
 				if(viewedUsers.length > 0) {
@@ -331,12 +335,23 @@
 		    		//console.log(Mutuality.mpcache.profileCacheData);	    	
 		    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
 		    			//console.log("set viewed = " + success );
+		    			$(".friend-count").show();
+		    			var curProf = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
+		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
+		    				var currentCount = parseInt($(".friend-count").html());
+		    				if(currentCount >= 0){
+		    					$(".friend-count").html(currentCount-1);
+		    				}
+		    				if(currentCount==1){
+		    					triggerModal("myModalViewed");
+		    				}
+		    			}
 		    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
-		    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.datingList.length){
+		    			/*if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.datingList.length){
 		    				//alert("viewed everyone");
 		    				triggerModal("myModalViewed");
 							Mutuality.mpcache.viewedCacheData = {};
-		    			}
+		    			}*/
 		    		});
 	    		}
 
@@ -351,17 +366,17 @@
 		    				if(currentCount >= 0){
 		    					$(".friend-count").html(currentCount-1);
 		    				}
-		    				if(currentCount==0){
+		    				if(currentCount==1){
 		    					triggerModal("myModalViewed");
 		    				}
 		    			}
 
 		    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
-		    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.fofList.length){
+		    			/*if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.fofList.length){
 		    				//alert("viewed everyone");
 		    				triggerModal("myModalViewed");
 							Mutuality.mpcache.viewedCacheData = {};
-		    			}
+		    			}*/
 		    		});
 	    		}
 
@@ -479,7 +494,7 @@
 				newUlElemModal = $('<ul>', {style: "margin-right: 0px; list-style-type: none;"}).appendTo(askaboutElemModal);
 			}
 
-			var liElem = $('<li>', {style:'z-index:0;'}).appendTo(newUlElem);
+			var liElem = $('<li>', {style:'z-index:-1;'}).appendTo(newUlElem);
 			var liElemModal = $('<li>', {}).appendTo(newUlElemModal);
     		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com?src=meetPeople_askAbout", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElem);
