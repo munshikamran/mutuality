@@ -8461,9 +8461,13 @@ html {
 }
 
 .homepage {
-max-width:1200px;
-height: 750px;
-background: url(../images/homepageImage4.png);
+max-width:1500px;
+height: 1000px;
+background: url(../images/homepageImage4.png) no-repeat center center fixed;
+  -webkit-background-size:cover;
+  -moz-background-size:cover;
+  -o-background-size:cover;
+  background-size: cover;
 display:block;
 margin:0px auto;
 border-bottom:1px solid #DDD;
@@ -8482,6 +8486,7 @@ border-bottom:1px solid #DDD;
   width:500px;
   float:right;
   background: url(../images/homepage-connect-box.png) no-repeat;
+
   margin:100px 0px 0px 0px;
 }
 
