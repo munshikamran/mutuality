@@ -10,6 +10,26 @@
    var MAX_CAROUSEL_NUM = 100;
 
 	var initCarousel = function () {
+
+		// Add some dummy elements if the carousel has < 3 elements
+	 	var len = $('#meet-profiles li').length;
+		var tmpl = '<li class="meet-profile">\
+					<a href="#" class="loaded">\
+					<img src="" />\
+					<span class="match-profile-details">\
+					</span>\
+					</a>\
+					</li>';
+	
+		if(len == 3) {
+			$('#meet-profiles').prepend($(tmpl));
+		}
+		else if((len < 3 && len !== 1))
+		{
+		  $('#meet-profiles').prepend($(tmpl)).append($(tmpl));
+	  	}	
+
+	  	// Do the initializtion of the carousel 	
 		$('#meet-profiles').carouFredSel({
 			auto : false,
 			width: 695,
@@ -89,11 +109,13 @@
    					// Everytime we scroll the carousel- load data into cache	
 			        for(i=0; i<5&&i<data.items.visible.prevObject.length; i++){
 			        	var fbID = $(data.items.visible.prevObject[i]).attr("facebookid");
+			        	if(fbID){
 			        	if(!Mutuality.mpcache.profileCacheData[fbID]){
 							fbID = $(data.items.visible.prevObject[i]).attr("facebookid");
 							//console.log("Calls made for " + fbID);
 							asyncCacheCalls(fbID);
 						}
+					}
 			        }	   
 			   }
 			}
@@ -248,69 +270,83 @@
 	// Find out which person is currently focused and get their details
 	var setCurrentPerson = function (){
 		setTimeout(function (){
+
+			var curVisible = $("#meet-profiles").triggerHandler('currentVisible');
 			var currentlyFocusedElem = null;
-	    	$('#meet-profiles li').each(function(){
-	    		if($(this).attr("focused") == "true"){
-	    			currentlyFocusedElem = $(this);
-	    		}
-	    	});
+
+			if (curVisible.length < 3){
+				currentlyFocusedElem = $(curVisible.prevObject[0]);
+			}
+			else{
+		    	$('#meet-profiles li').each(function(){
+		    		if($(this).attr("focused") == "true"){
+		    			currentlyFocusedElem = $(this);
+		    		}
+		    	});
+	    	}
 
 	    	Mutuality.mpcache.current = currentlyFocusedElem.attr("facebookID");
 	    	console.log("Current Person: "+currentlyFocusedElem.attr("facebookID"));
 
-	    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === false){
-	    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a>');
-	    	}
-	    	else {
-	    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
-	    		$("#introduce").html('<a href="'+url+'" class="button"><i></i>Introduce Yourself</a>');
-	    	}
+	    	// Check to make sure that we have an id that's defined
+			if(Mutuality.mpcache.current){
 
-	    	if($('#fav-filter').val() == "Dating"){
-	    		//console.log(Mutuality.mpcache.profileCacheData);	    	
-	    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
-	    			//console.log("set viewed = " + success );
-	    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
-	    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.datingList.length){
-	    				//alert("viewed everyone");
-	    				triggerModal("myModalViewed");
-						Mutuality.mpcache.viewedCacheData = {};
-	    			}
-	    		});
-    		}
+		    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === false){
+		    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a>');
+		    	}
+		    	else {
+		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
+		    		$("#introduce").html('<a href="'+url+'" class="button"><i></i>Introduce Yourself</a>');
+		    	}
 
-    		if($('#fav-filter').val() == "All"){
-	    		//console.log(Mutuality.mpcache.profileCacheData);	    	
-	    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
-	    			//console.log("set viewed = " + success );
-	    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
-	    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.fofList.length){
-	    				//alert("viewed everyone");
-	    				triggerModal("myModalViewed");
-						Mutuality.mpcache.viewedCacheData = {};
-	    			}
-	    		});
-    		}
+		    	if($('#fav-filter').val() == "Dating"){
+		    		//console.log(Mutuality.mpcache.profileCacheData);	    	
+		    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
+		    			//console.log("set viewed = " + success );
+		    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
+		    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.datingList.length){
+		    				//alert("viewed everyone");
+		    				triggerModal("myModalViewed");
+							Mutuality.mpcache.viewedCacheData = {};
+		    			}
+		    		});
+	    		}
 
-	    	if(Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current]) {
-	    		// Cache hit, so load directly from cache!
-	    		// console.log("cache hit!")
-	    		loadMutualFriendsIntoUI(Mutuality.mpcache.current, Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].mutualFriends);
-				loadProfileInfoIntoUI(Mutuality.mpcache.current, Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].extendedProfile);
-	    	}
-	    	else {
-	    		//Cache miss
-	    		//Go fetch the data, and store it in the cache, then load into UI from cache
-	    		//console.log("cache miss.")
-	    		$('#page-next').hide();
-	    		$('#page-prev').hide();
-				setTimeout(function (){
-					fetchMeetPeopleProfileInfo(Mutuality.mpcache.current);
-				}, 130);
+	    		if($('#fav-filter').val() == "All"){
+		    		//console.log(Mutuality.mpcache.profileCacheData);	    	
+		    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
+		    			//console.log("set viewed = " + success );
+		    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
+		    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.fofList.length){
+		    				//alert("viewed everyone");
+		    				triggerModal("myModalViewed");
+							Mutuality.mpcache.viewedCacheData = {};
+		    			}
+		    		});
+	    		}
 
-	    	}
-	    }, 130);
-	    
+		    	if(Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current]) {
+		    		// Cache hit, so load directly from cache!
+		    		// console.log("cache hit!")
+		    		loadMutualFriendsIntoUI(Mutuality.mpcache.current, Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].mutualFriends);
+					loadProfileInfoIntoUI(Mutuality.mpcache.current, Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].extendedProfile);
+		    	}
+		    	else {
+		    		//Cache miss
+		    		//Go fetch the data, and store it in the cache, then load into UI from cache
+		    		//console.log("cache miss.")
+		    		$('#page-next').hide();
+		    		$('#page-prev').hide();
+					setTimeout(function (){
+						fetchMeetPeopleProfileInfo(Mutuality.mpcache.current);
+					}, 130);
+
+		    	}
+		}
+		else {
+			$('#page-prev').trigger('click');
+		}
+		}, 130);
 	}
 
 	// Store meet people profile and mutual friends into cache object
@@ -378,7 +414,7 @@
 
 					//Show the main content, dismiss the modal, init tooltips
 			    	hideModal();
-			    	$("#main").show();
+			    	//$("#main").show();
 		    		$('.tooltip').tooltipster();
 			    	initCarousel();
 		    		$('#page-next').trigger('click');
@@ -495,10 +531,14 @@
 
     // After AJAX call for getMeetPeople, load that into meet people page cache
     var meetPeopleSuccess = function(friends){
-    	if (friends.length > 1){
+    	if (friends.length > 2){
     		console.log("Meet People Success = " + friends[2].facebookID)
     		$("#meet-profiles").html("");
     		fetchMeetPeopleProfileInfoAndShowUI(friends[2].facebookID, friends);
+    	}
+    	else{
+    		$("#meet-profiles").html("");
+    		fetchMeetPeopleProfileInfoAndShowUI(friends[0].facebookID, friends);
     	}
     }
 
@@ -526,7 +566,7 @@
 
 /* Begin Main Code */
    // Show the loading modal, and hide the page contents while async calls fire
-   $("#main").hide();
+   //$("#main").hide();
    triggerModal("myModal");
    
    if($.cookie("UpdateFriendListCalled-" + Mutuality.cache.profile.facebookID) !== "true") {

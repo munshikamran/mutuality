@@ -107,8 +107,15 @@
             <div id="nudge-left" style:"text-align:center">
                 <a href="#" class="title">
                     <span class="match-name">This may take a few seconds</span>
-                    <span class="introduce-thumb" style="background-image: url({{ MEDIA_URL }}/images/loader.gif);"></span>
-                    <span  id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite your friends!)</a></span>
+                	<div style="width:140px;text-align:center;margin: 0 auto">
+               			<div class="loading-2">
+		          			<div class="circle-2"></div>
+				          	<img id="one" class="fade-2" src="{{ MEDIA_URL }}/images/m.svg" />
+			    		</div>
+			    	</div>
+			    	<br />
+			    	<br />
+				<span id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite your friends!)</a></span>
                 </a>
             </div>
         </div>
@@ -120,7 +127,17 @@
             <div id="nudge-left" style:"text-align:center">
                 <a href="#" class="title">
                     <span class="match-name">Just a second!</span>
-                    <span class="introduce-thumb" style="background-image: url({{ MEDIA_URL }}/images/loader.gif);"></span>
+                    <span class="introduce-thumb-modified">
+                	<div style="width:140px;text-align:center;margin: 0 auto">
+               			<div class="loading-2">
+		          			<div class="circle-2"></div>
+				          	<img id="one" class="fade-2" src="{{ MEDIA_URL }}/images/m.svg" />
+			    		</div>
+			    	</div>
+			    	<br />
+			    	<br />
+				</div>
+				</span>
                 </a>
             </div>
         </div>
