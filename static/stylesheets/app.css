@@ -6841,6 +6841,7 @@ form.custom div.custom.dropdown ul li.selected:hover {
 
 /* line 278, ../sass/app.scss */
 .search-results a {
+  cursor:pointer;
   display: block;
   padding: 5px 8px;
   line-height: 0;
@@ -8639,10 +8640,10 @@ border-bottom:1px solid #DDD;
 .fade-2 {
   position: absolute;
   z-index: 1;
-  top: 13px;
-  left: 12px;
-  width: 100px;
-  height: 100px;
+  top: 18px;
+  left: 16px;
+  width: 91px;
+  height: 91px;
   display: block;
   opacity: 1;
   /*float: left;
