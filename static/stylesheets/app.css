@@ -8469,8 +8469,8 @@ html {
 }
 
 .homepage {
-max-width:1400px;
-height: 800px;
+max-width:2400px;
+height: 2400px;
 background: url(../images/homepageImage6.jpg) no-repeat center center fixed;
   -webkit-background-size:cover;
   -moz-background-size:cover;
