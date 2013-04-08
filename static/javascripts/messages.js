@@ -334,7 +334,6 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 }
 
 var friendsOfFriendsSuccess = function(friends){
-	console.log(friends);
 	if (friends.length > 0){
 	    friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
 	    $('#four-images img').each(function(i) {
@@ -364,6 +363,8 @@ var friendsOfFriendsSuccess = function(friends){
 		//introduceYourself("1451700007", "Taylor Woods");
 		//introduceYourself("613170158", "Angela Cough");
 		//introduceYourself("10701292", "Elly Egli");
+
+		
 
 		//Load overflow messages
 		$(document).on('click', '.load-messages', function (event) {

@@ -1,38 +1,80 @@
-{% extends "base.html" %}
-{% block title %} Home {% endblock %}
-{% block content %}
-	<section id="page-title" class="row">
-		<div class="eight columns">
-			<h2>Welcome to Mutuality!</h2>
-		</div>
-		<hr />
-	</section>
-	<section id="main" data-URL={{ URL }} class="row">
-		<div class="eight columns" style="height: 250px;">
-			<h4>Mutuality is all about meeting someone through your existing network of friends.</h4>
-			<p> Note: This site is currently in pre-alpha.  Please keep the site's contents strictly confidential.  Enjoy!</p>
-		</div>
-		{% if user.is_authenticated %}
-	        {% if profile %}
-				<p>You're logged in. </p>  
-				Go <a href="/makematches/">make some matches</a> or <a href="/meetpeople/"> meet people</a>!</p>.
-	        {% endif %}
-	    {% else %}
-	    <div style="text-align:center;">
-		    <a href="{% url la_facebook_login %}?next={{ next }}" OnClick="mixpanel.track('Facebook Connect');"><img src="{{ MEDIA_URL }}/images/facebookconnect.png"></a>
-		    <br/>
-		    <span>We never post to Facebook.</span>
-		</div>
-	</section>
-		</div>
-	</div>
+
+<title>Home - Mutuality</title>
+<head>
+ 	<link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/app.css">
+</head>
+<body>
+	<div id="container">
+		<header>
+		</header>	
+	<div class="homepage">
+				<div class="row">	
+					<div class="header twelve columns" style="padding:20px 0px 0px 0px">
+						<img src="/images/homepageLogo.png">
+						<div class="header-icons">	
+							<a href="https://www.facebook.com/MyMutuality"><img src="/images/facebook_dark.png" class="facebook-icon"></a>
+							<a href="https://twitter.com/mymutuality"><img src="/images/twitter02_dark.png" class="twitter"></a>
+							<a href="http://mymutuality.wordpress.com/"><img src="/images/blog_dark.png" class="blog"></a>
+					</div>	
+				</div>
+
+				<div class = "row">
+					<div class="twelve columns">
+						<div class="homepage-headline">
+							A BETTER WAY TO CONNECT
+						</div>
+					</div>	
+				</div>
+
+				<div class="row">
+					<div class="facebook-box six columns">
+						<div class="login-headline">
+							Start Right Here
+						</div>	
+						<div class="facebook-login">
+							<a href="{% url la_facebook_login %}?next={{ next }}" OnClick="mixpanel.track('Facebook Connect');"><img src="images/facebook-login.png"></a>
+						</div>
+						<div class="assurance">
+							(We never post to Facebook)
+						</div>	
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="homepage-footer">
+						<a href="/about">About</a>
+						<a href="/privacy">Privacy</a>
+					</div>	
+					<div class="copyright">	
+						<span>&copy; 2013 Mutuality Inc. All rights reserved.</span>
+					</div>	
+				</div>		
+	</div>	
+</body>	
+
+<!--         <section class="homepage" data-URL={{ URL }} class="row">
+                <div class="eight columns" style="height: 250px;">
+                        <h4>Mutuality is all about meeting someone through your existing network of friends.</h4>
+                        <p> Note: This site is currently in pre-alpha.  Please keep the site's contents strictly confidential.  Enjoy!</p>
+                </div>
+                {% if user.is_authenticated %}
+                {% if profile %}
+                                <p>You're logged in. </p>  
+                                Go <a href="/makematches/">make some matches</a> or <a href="/meetpeople/"> meet people</a>!</p>.
+                {% endif %}
+            {% else %}
+            <div style="text-align:center;">
+                    <a href="{% url la_facebook_login %}?next={{ next }}" OnClick="mixpanel.track('Facebook Connect');"><img src="{{ MEDIA_URL }}/images/facebookconnect.png"></a>
+                    <br/>
+                    <span>We never post to Facebook.</span>
+                </div>
+        </section>
+                </div>
+        </div>
 </div>
 </div>
+{% endif %} -->
+
 <script type="text/javascript">
-    mixpanel.track("Homepage loaded")
+   // mixpanel.track("Homepage loaded")
 </script>
-{% endif %}
-
-{% endblock %}
-
-
