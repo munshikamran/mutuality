@@ -6275,19 +6275,27 @@ form.custom div.custom.dropdown ul li.selected:hover {
 
 .friend-count {
  position: absolute;
-  top: -10px;
-  right: 4px;
+  top: -8px;
+  right: 5px;
   display: block;
   width: 20px;
   height: 20px;
-  padding: 6px 5px 3px 6px;
-  font-size: 12px;
+  padding: 5px 0px 0px 6px;
+  font-size: 13px;
   line-height: .8em;
   font-weight: 700;
   color: #fff;
   border-radius: 50%;
   background: #4096b6;
   z-index: 1;
+}
+
+#single-digit {
+  padding:5px 0px 0px 6px;
+}
+
+#double-digit {
+  padding: 5px 0px 0px 3px;
 }
 
 /* line 161, ../sass/app.scss */
@@ -8631,13 +8639,28 @@ border-bottom:1px solid #DDD;
 .fade-2 {
   position: absolute;
   z-index: 1;
-  top: 34px;
-  left: 31px;
-  width: 60px;
-  height: 60px;
+  top: 13px;
+  left: 12px;
+  width: 100px;
+  height: 100px;
   display: block;
   opacity: 1;
+  /*float: left;
+  background-size: 100%;*/
+  /*-webkit-transition: all 100ms;
+  -moz-transition: all 100ms;
+  -o-transition: all 100ms;
+  transition: all 100ms;*/
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  /*border-radius: 50%;*/
+  /*-webkit-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;*/
 }
+
 @-moz-keyframes spin2 {
   0% { -moz-transform: rotate(0deg); }
   100% { -moz-transform: rotate(360deg); }
@@ -8663,8 +8686,8 @@ border-bottom:1px solid #DDD;
 
 
 #two {
-  -moz-animation: two 4s infinite linear;
-  -webkit-animation: two 4s infinite linear;
+  -moz-animation: two 6s infinite linear;
+  -webkit-animation: two 6s infinite linear;
 }
 @-moz-keyframes two {
   0%, 50%, 100% { opacity: 1; }
@@ -8677,8 +8700,8 @@ border-bottom:1px solid #DDD;
 
 
 #three {
-  -moz-animation: three 4s infinite linear;
-  -webkit-animation: three 4s infinite linear;
+  -moz-animation: three 6s infinite linear;
+  -webkit-animation: three 6s infinite linear;
 }
 @-moz-keyframes three {
   0%, 50%, 100% { opacity: 1; }
@@ -8691,8 +8714,8 @@ border-bottom:1px solid #DDD;
 
 
 #four {
-  -moz-animation: four 4s infinite linear;
-  -webkit-animation: four 4s infinite linear;
+  -moz-animation: four 6s infinite linear;
+  -webkit-animation: four 6s infinite linear;
 }
 @-moz-keyframes four {
   0%, 50%, 100% { opacity: 1; }

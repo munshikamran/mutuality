@@ -8,7 +8,7 @@
 							<h2>Meet People</h2>
 						</div>
 						<form id="four-filters" class="four columns custom">
-							<span class="friend-count"></span>
+							<span class="friend-count" id="double-digit"></span>
 							<select id="fav-filter" style="display:none;">
 								<option id="all" value="All" selected="selected">Friends</option><option id="dating" value="Dating">Dating</option>
 								<option id="favorites" value="Favorites">Favorites</option><option id="viewed" value="Viewed">Viewed</option>
@@ -108,9 +108,12 @@
                 <a href="#" class="title">
                     <span class="match-name">This may take a few seconds</span>
                 	<div id="loadingDiv" style="width:140px;text-align:center;margin: 0 auto">
-               			<div class="loading-2">
+               			<div id="analyzeModal" class="loading-2">
 		          			<div class="circle-2"></div>
-				          	<img id="one" class="fade-2" src="{{ MEDIA_URL }}/images/m.svg" />
+				          	<img id="one" class="fade-2"/>
+				          	<img id="two" class="fade-2"/>
+				          	<img id="three" class="fade-2"/>
+				          	<img id="four" class="fade-2"/>
 			    		</div>
 			    	</div>
 			    	<br />
@@ -130,7 +133,10 @@
                 	<div id="loadingDiv" style="width:140px;text-align:center;margin: 0 auto">
                			<div class="loading-2">
 		          			<div class="circle-2"></div>
-				          	<img id="one" class="fade-2" src="{{ MEDIA_URL }}/images/m.svg" />
+				          	<img id="one" class="fade-2"/>
+				          	<img id="one" class="fade-2"/>
+				          	<img id="one" class="fade-2"/>
+				          	<img id="one" class="fade-2"/>
 			    		</div>
 			    	</div>
 			    	<br />
