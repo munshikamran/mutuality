@@ -24,7 +24,6 @@ def UpdatePotentialMatches(profile):
     for freshUser in freshUsers:
         userDictionary[freshUser.facebookID] = freshUser
     mutualFriendCounts = GetNumberOfMutualFriends(profile, userDictionary.keys())
-    print mutualFriendCounts
     potentialMatches = []
     if len(mutualFriendCounts) < 1:
         print 'no potential matches were found'
@@ -32,11 +31,13 @@ def UpdatePotentialMatches(profile):
     existingPotentialMatches = set(PotentialMatch.objects.filter(profile=profile).values_list('facebookUser_id', flat=True))
     for result in mutualFriendCounts:
         facebookID = str(result['uid'])
-        if not facebookID in existingPotentialMatches:
+        mutualFriendCount = result['mutual_friend_count']
+        if (not facebookID in existingPotentialMatches) and mutualFriendCount > 0:
             facebookUser = userDictionary[facebookID]
-            mutualFriendCount = result['mutual_friend_count']
             isMutualityConnection = facebookID in mutualityUserIDSet
-            potentialMatch = PotentialMatch(profile=profile, facebookUser=facebookUser, numMutualFriends=mutualFriendCount, isMutualityConnection=isMutualityConnection)
+            potentialMatch = PotentialMatch(profile=profile, facebookUser=facebookUser,
+                                            numMutualFriends=mutualFriendCount,
+                                            isMutualityConnection=isMutualityConnection)
             potentialMatches.append(potentialMatch)
     bulkSave(potentialMatches)
     potentialMatchUpdate = PotentialMatchUpdate(profile=profile)
