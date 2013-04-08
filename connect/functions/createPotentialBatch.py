@@ -10,20 +10,21 @@ def CreatePotentialBatch(profile):
     if not PotentialMatch.objects.filter(profile=profile).exists():
         UpdatePotentialMatches(profile)
 #     get potential matches for profile, remove users that have been seen
+    batchSize = 20
     viewedUsers = GetAllViewedUsers(profile)
     potentialMatches = PotentialMatch.objects.filter(profile=profile).exclude(facebookUser__in=viewedUsers)
-    potentialMatches = potentialMatches.order_by('-isMutualityConnection', '-numMutualFriends')
+    potentialMatches = potentialMatches.order_by('-isMutualityConnection', '-numMutualFriends')[:batchSize]
     if potentialMatches.count() < 1:
         print "no matches available"
         return None
-
+    # weird problem with duplicates when QuerySet with order_by is allowed to evaluate lazily.
+    # casting to list avoids this issue
+    potentialMatches = list(potentialMatches)
     expirationDate = datetime.now() + timedelta(days=1)
 
-    batchSize = 20
     potentialBatch = PotentialBatch.objects.create(profile=profile, date_expiration=expirationDate)
     potentialBatch.save()
-    print 'number of potential matches={0}'.format(potentialMatches.count())
-    for i in range(min(potentialMatches.count(), batchSize)):
+    for i in range(min(len(potentialMatches), batchSize)):
         potentialMatch = potentialMatches[i]
         print i
         print potentialMatch.facebookUser.name
