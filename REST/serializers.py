@@ -27,6 +27,7 @@ class FacebookUserMeetPeopleSerializer(serializers.Serializer):
     date_updated = serializers.DateTimeField()
     isMutualityUser = serializers.BooleanField()
     isFavorite = serializers.BooleanField()
+    hasBeenViewed = serializers.BooleanField()
 
 class FacebookUserSerializer(serializers.ModelSerializer):
     class Meta:
