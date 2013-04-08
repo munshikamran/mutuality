@@ -8,7 +8,7 @@
 							<h2>Meet People</h2>
 						</div>
 						<form id="four-filters" class="four columns custom">
-							<!-- <span class="friend-count">3</span> -->
+							<span class="friend-count"></span>
 							<select id="fav-filter" style="display:none;">
 								<option id="all" value="All" selected="selected">Friends</option><option id="dating" value="Dating">Dating</option>
 								<option id="favorites" value="Favorites">Favorites</option><option id="viewed" value="Viewed">Viewed</option>
@@ -107,7 +107,7 @@
             <div id="nudge-left" style:"text-align:center">
                 <a href="#" class="title">
                     <span class="match-name">This may take a few seconds</span>
-                	<div style="width:140px;text-align:center;margin: 0 auto">
+                	<div id="loadingDiv" style="width:140px;text-align:center;margin: 0 auto">
                			<div class="loading-2">
 		          			<div class="circle-2"></div>
 				          	<img id="one" class="fade-2" src="{{ MEDIA_URL }}/images/m.svg" />
@@ -119,7 +119,7 @@
                 </a>
             </div>
         </div>
-        <a class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
+        <a id="modalClose" class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
     </div>
     <div id="myModalLoading" class="reveal-modal medium">
         <h4>Loading...</h4>
@@ -127,8 +127,7 @@
             <div id="nudge-left" style:"text-align:center">
                 <a href="#" class="title">
                     <span class="match-name">Just a second!</span>
-                    <span class="introduce-thumb-modified">
-                	<div style="width:140px;text-align:center;margin: 0 auto">
+                	<div id="loadingDiv" style="width:140px;text-align:center;margin: 0 auto">
                			<div class="loading-2">
 		          			<div class="circle-2"></div>
 				          	<img id="one" class="fade-2" src="{{ MEDIA_URL }}/images/m.svg" />
@@ -136,12 +135,12 @@
 			    	</div>
 			    	<br />
 			    	<br />
+					<span id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite your friends!)</a></span>
 				</div>
-				</span>
                 </a>
             </div>
+            <a id="modalClose" class="close-reveal-modal" style="display:none;" ><small>OK</small> &times;</a>
         </div>
-        <a class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
     </div>    
     <div id="myModalViewed" class="reveal-modal large">
         <h4>Check back tomorrow for 20 more matches</h4>
@@ -153,8 +152,8 @@
                     <span  id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(P.S. click here to invite your friends and get more matches tomorrow!)</a></span>
                 </a>
             </div>
+            <a class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();"><small>Got it!</small> &times;</a>
         </div>
-        <a class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();"><small>Got it!</small> &times;</a>
     </div>
     <div id="myModalIntroduce" class="reveal-modal medium">
         <aside id="user-profile" style="three columns">

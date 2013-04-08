@@ -225,29 +225,61 @@
 	// When the fav filter is selected, load the favorites into the UI
 	$('#fav-filter').bind('change', function(e){
 		Mutuality.mpcache.viewedCacheData = {};
+
+		//Reset the modal if it has changed
+		$("#modalClose").trigger("click");
+
 		if ($('#fav-filter').val() == "Favorites"){
 			triggerModal("myModalLoading");    		
 			Mutuality.getMeetPeople(0, 0, 1, function(favorites){
-    			meetPeopleSuccess(favorites);
+    			$(".friend-count").hide();
+
+				if(favorites.length > 0) {
+    				meetPeopleSuccess(favorites);
+    			}
+    			else {
+    				setModalWhenError("Sorry, but you have no favorites!");
+    				setModalBack();
+    			}
     		});
     	} else if ($('#fav-filter').val() == "Viewed") {
+			$(".friend-count").show();
+
 		    triggerModal("myModalLoading");
     		Mutuality.getMeetPeople(1, 0, 0, function(viewedUsers){
-    			meetPeopleSuccess(viewedUsers);
+				if(viewedUsers.length > 0) {
+    				meetPeopleSuccess(viewedUsers);
+    			}
+    			else {
+    				setModalWhenError("Sorry, but it seems like you haven't viewed anyone yet!");
+    				setModalBack();
+    			}    		
     		});
     	}
     	else if ($('#fav-filter').val() == "Dating") {
     		triggerModal("myModal");
     		Mutuality.getMeetPeople(0, 1, 0, function(datingFriends){
-    			Mutuality.mpcache.datingList = datingFriends;
-    			meetPeopleSuccess(datingFriends);
+				if(datingFriends.length > 0) {
+    				Mutuality.mpcache.datingList = datingFriends;
+    				meetPeopleSuccess(datingFriends);
+    			}
+    			else {
+    				setModalWhenError("Sorry, but we didn't find anyone!");
+    				setModalBack();
+    			}
     		});
     	}
     	else{
     		triggerModal("myModal");
     		Mutuality.getMeetPeople(0, 0, 0, function(meetPeopleList) {
-    			Mutuality.mpcache.fofList = meetPeopleList;
-				meetPeopleSuccess(meetPeopleList);
+    			if(meetPeopleList.length > 0) {
+    				Mutuality.mpcache.fofList = meetPeopleList;
+    				meetPeopleSuccess(meetPeopleList);
+    			}
+    			else {
+    				setModalWhenError("Sorry, but we didn't find anyone!");
+    				setModalBack();
+    			}
     		});
     	}
 	});
@@ -303,12 +335,23 @@
 		    		//console.log(Mutuality.mpcache.profileCacheData);	    	
 		    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
 		    			//console.log("set viewed = " + success );
+		    			$(".friend-count").show();
+		    			var curProf = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
+		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
+		    				var currentCount = parseInt($(".friend-count").html());
+		    				if(currentCount >= 0){
+		    					$(".friend-count").html(currentCount-1);
+		    				}
+		    				if(currentCount==1){
+		    					triggerModal("myModalViewed");
+		    				}
+		    			}
 		    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
-		    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.datingList.length){
+		    			/*if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.datingList.length){
 		    				//alert("viewed everyone");
 		    				triggerModal("myModalViewed");
 							Mutuality.mpcache.viewedCacheData = {};
-		    			}
+		    			}*/
 		    		});
 	    		}
 
@@ -316,12 +359,24 @@
 		    		//console.log(Mutuality.mpcache.profileCacheData);	    	
 		    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
 		    			//console.log("set viewed = " + success );
+		    			$(".friend-count").show();
+		    			var curProf = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
+		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
+		    				var currentCount = parseInt($(".friend-count").html());
+		    				if(currentCount >= 0){
+		    					$(".friend-count").html(currentCount-1);
+		    				}
+		    				if(currentCount==1){
+		    					triggerModal("myModalViewed");
+		    				}
+		    			}
+
 		    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
-		    			if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.fofList.length){
+		    			/*if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.fofList.length){
 		    				//alert("viewed everyone");
 		    				triggerModal("myModalViewed");
 							Mutuality.mpcache.viewedCacheData = {};
-		    			}
+		    			}*/
 		    		});
 	    		}
 
@@ -342,10 +397,10 @@
 					}, 130);
 
 		    	}
-		}
-		else {
-			$('#page-prev').trigger('click');
-		}
+			}
+			else {
+				$('#page-prev').trigger('click');
+			}
 		}, 130);
 	}
 
@@ -439,7 +494,7 @@
 				newUlElemModal = $('<ul>', {style: "margin-right: 0px; list-style-type: none;"}).appendTo(askaboutElemModal);
 			}
 
-			var liElem = $('<li>', {style:'z-index:0;'}).appendTo(newUlElem);
+			var liElem = $('<li>', {style:'z-index:-1;'}).appendTo(newUlElem);
 			var liElemModal = $('<li>', {}).appendTo(newUlElemModal);
     		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com?src=meetPeople_askAbout", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElem);
@@ -562,6 +617,35 @@
     		Mutuality.cache.mutualityUserLookup[friends[i].facebookID] = friends[i].isMutualityUser;
     	}
     }
+
+    var setModalWhenError = function (text){
+		$(".reveal-modal h4").text(text);
+		$(".loading-2").css("display", "none");
+		$(".match-name").hide();
+		$("#inviteFriends").show();
+		$(".close-reveal-modal").show();
+    }
+
+var setModalBack = function(modalID){
+	$("#modalClose").click(function (){
+			if(modalID == "myModal"){$(".reveal-modal h4").text("Analyzing your friend network...");}
+			else{$(".reveal-modal h4").text("Loading...");}
+			$(".loading-2").css("display", "block");
+			$(".match-name").show();
+			$("#inviteFriends").show();
+			$(".close-reveal-modal").hide();
+	});
+}
+
+var setNewBadge = function(friends) {
+	var newCount = 0;
+	for (i=0;i<friends.length;i++){
+		if(friends[i].hasBeenViewed !== true){
+			newCount++;
+		}
+	}
+	$(".friend-count").html(newCount);
+}
  /* End Helper Functions */
 
 /* Begin Main Code */
@@ -575,6 +659,7 @@
 	   		Mutuality.loadFriendsList(4, populateCTA);
 			Mutuality.getMeetPeople(0, 0, 0, function(friends){
 		    	Mutuality.mpcache.fofList = friends;
+		    	setNewBadge(friends);
 		    	createMutualityUserLookUp(friends);
 				meetPeopleSuccess(friends, true);
 				if ($('#noTour').length === 0) {
@@ -589,18 +674,13 @@
 		Mutuality.getMeetPeople(0, 0, 0, function(friends){
 			if (friends.length > 0){
 	    		Mutuality.mpcache.fofList = friends;
+	    		setNewBadge(friends);
 	    		createMutualityUserLookUp(friends);
 				meetPeopleSuccess(friends, true);
 				if ($('#noTour').length === 0) {
 					$('#joyRideTipContent').joyride();
 				}
 				mixpanel.track("Login success");
-			}
-			else {
-				$("#myModal h4").text("Sorry, but no people were found!");
-				$(".introduce-thumb").hide();
-				$(".match-name").hide();
-				$("#inviteFriends").show();
 			}
 		});
 	}
@@ -622,6 +702,7 @@
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });
  	$('.ask-about-modal').css({ zIndex: 0 });
+ 	$(".friend-count").hide();
 
 /* End Main Code */
 
