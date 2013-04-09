@@ -615,6 +615,9 @@
     		$("#meet-profiles").html("");
     		fetchMeetPeopleProfileInfoAndShowUI(friends[2].facebookID, friends);
     	}
+    	else if (friends.length == 0){
+    		setModalWhenError("Sorry, but we didn't find anyone!  Check back soon.");
+    	}
     	else{
     		$("#meet-profiles").html("");
     		fetchMeetPeopleProfileInfoAndShowUI(friends[0].facebookID, friends);
