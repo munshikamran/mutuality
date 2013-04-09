@@ -16,3 +16,4 @@ URL = 'www.mymutuality.com'
 
 # celery
 BROKER_URL = 'amqp://rrcoynid:0IF8M5sDPBRvx8YRfMqK2HnZO_-LZJEZ@tiger.cloudamqp.com/rrcoynid'
+BROKER_POOL_LIMIT = 1
