@@ -688,7 +688,7 @@ var setNewBadge = function(friends) {
    	addFriendPicturesForLoadingAnimations(friends);
    	triggerModal("myModal");
    });
-   
+   mixpanel.track("Login success");
    if($.cookie("UpdateFriendListCalled-" + Mutuality.cache.profile.facebookID) !== "true") {
 	    Mutuality.updateFriendList(0, function(){
 	    	$.cookie("UpdateFriendListCalled" + Mutuality.cache.profile.facebookID, "true");
@@ -701,7 +701,7 @@ var setNewBadge = function(friends) {
 				if ($('#noTour').length === 0) {
 					$('#joyRideTipContent').joyride();
 				}
-				mixpanel.track("Login success");
+				
 			});
 		});
 	}
@@ -716,7 +716,6 @@ var setNewBadge = function(friends) {
 				if ($('#noTour').length === 0) {
 					$('#joyRideTipContent').joyride();
 				}
-				mixpanel.track("Login success");
 			}
 		});
 	}
