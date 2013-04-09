@@ -225,6 +225,7 @@ var initAskAboutCarousel = function () {
 
 //Load full message exchange into the UI
 var loadMessageThreadIntoUI = function(messageThread) {
+	console.log(messageThread);
 	var totalHeight = 0;
 	var messageHeight = 0;
 	var messagePos;
@@ -236,7 +237,7 @@ var loadMessageThreadIntoUI = function(messageThread) {
 	for (messagePos; messagePos >= 0; messagePos--) {
 		var messageOwner = messageThread[messagePos].sender.facebookID;
 		var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 100, 100) + ')';
-		var time = formatTime(1365485701000);
+		var time = formatTime(messageThread[messagePos].sent_timestamp);
 
 			if ($('.single-message').length !== 0) { 
 				messageHeight = $('.single-message').eq(0).height();
@@ -273,7 +274,7 @@ var loadSentMessage = function(messageThread) {
 	var sentMessage = messageThread[messageThread.length-1];
 	var messageOwner = sentMessage.sender.facebookID;
 	var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 90, 90) + ')';
-	var time = formatTime(1365485701000);
+	var time = formatTime(sentMessage.sent_timestamp);
 	var newMessagePos = $('.single-message').eq(0).data('messageposition') + 1;
 	var messageAdded = false;
 	if ($('.message-thread').height() > 450) {
