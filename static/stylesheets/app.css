@@ -5925,6 +5925,7 @@ h3, h4 {
   background-image: -o-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
   background-image: linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
 }
+
 /* line 26, ../sass/app.scss */
 .button:hover {
   color: #666;
