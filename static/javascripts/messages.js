@@ -181,9 +181,9 @@ function addProfilePreview (facebookID, name, formattedMessage, state, convoBool
 						)));
 }
 
-function formatTime (dateString) {
+function formatTime (unixTimeStamp) {
 	var a_p = "";
-	var d = new Date(dateString);
+	var d = new Date(unixTimeStamp);
 	var curr_hour = d.getHours();
 
 	if (curr_hour < 12) {
@@ -236,7 +236,7 @@ var loadMessageThreadIntoUI = function(messageThread) {
 	for (messagePos; messagePos >= 0; messagePos--) {
 		var messageOwner = messageThread[messagePos].sender.facebookID;
 		var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 100, 100) + ')';
-		var time = formatTime(messageThread[messagePos].sent_at);
+		var time = formatTime(1365485701000);
 
 			if ($('.single-message').length !== 0) { 
 				messageHeight = $('.single-message').eq(0).height();
@@ -273,7 +273,7 @@ var loadSentMessage = function(messageThread) {
 	var sentMessage = messageThread[messageThread.length-1];
 	var messageOwner = sentMessage.sender.facebookID;
 	var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 90, 90) + ')';
-	var time = formatTime(sentMessage.sent_at);
+	var time = formatTime(1365485701000);
 	var newMessagePos = $('.single-message').eq(0).data('messageposition') + 1;
 	var messageAdded = false;
 	if ($('.message-thread').height() > 450) {
