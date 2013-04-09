@@ -225,7 +225,6 @@ var initAskAboutCarousel = function () {
 
 //Load full message exchange into the UI
 var loadMessageThreadIntoUI = function(messageThread) {
-	console.log(messageThread);
 	var totalHeight = 0;
 	var messageHeight = 0;
 	var messagePos;

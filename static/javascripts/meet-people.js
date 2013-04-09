@@ -293,7 +293,7 @@
 
 	var setFriendCountStyle = function () {
 		var currentVal = $('.friend-count').html();
-		if (currentVal <= 9) {
+		if (currentVal <= 10) {
 			$('.friend-count').removeAttr('id');
 			$('.friend-count').attr('id','single-digit');
 		} else {
