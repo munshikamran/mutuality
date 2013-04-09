@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db.models import signals
 from connect.models import Profile
 from django.utils.translation import ugettext_lazy as _
+from time import mktime
 
 class MessageManager(models.Manager):
 
@@ -80,12 +81,17 @@ class Message(models.Model):
     def save(self, force_insert=False, force_update=False):
         if not self.id:
             self.sent_at = datetime.datetime.now()
-        super(Message, self).save(force_insert, force_update) 
+        super(Message, self).save(force_insert, force_update)
     
     class Meta:
         ordering = ['-sent_at']
         verbose_name = _("Message")
         verbose_name_plural = _("Messages")
+
+    @property
+    def sent_timestamp(self):
+        return mktime(self.sent_at.timetuple())*1000
+
         
 def inbox_count_for(user):
     """

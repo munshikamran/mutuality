@@ -51,8 +51,9 @@ class UserFavoriteSerializer(serializers.ModelSerializer):
 class MessagesSerializer(serializers.ModelSerializer):
     sender = ProfileSerializer()
     recipient = ProfileSerializer()
+    sent_timestamp = serializers.Field()
     class Meta:
             model = Message
-            fields = ('subject', 'body', 'recipient', 'sender', 'parent_msg', 'sent_at', 'read_at', 'replied_at', 'sender_deleted_at', 'recipient_deleted_at')
+            fields = ('body', 'recipient', 'sender', 'sent_timestamp')
 
 
