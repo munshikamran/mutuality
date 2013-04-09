@@ -207,14 +207,14 @@
         }
 	});
 
-    $(".search-results li strong").bind('click', function(e) {
+    $(".search-results li a").bind('click', function(e) {
         console.log($(this));
         var parentID = $(this).parents("div").attr('id');
         console.log(parentID);
         var side = parentID.indexOf("right") != -1 ? "right" : "left";
-        var name = $(this).data('name')['name'];
-        var facebookID = $(this).data('facebookID')['facebookID'];
-        var location = $(this).data('location')['location'];
+        var name = $(this).find('strong').data('name')['name'];
+        var facebookID = $(this).find('strong').data('facebookID')['facebookID'];
+        var location = $(this).find('strong').data('location')['location'];
         var imgURL = Mutuality.getProfilePictureURL(facebookID, 350, 350);
 
         var friend = $('#'+side+'-match-profiles');

@@ -230,10 +230,9 @@
 		$("#modalClose").trigger("click");
 
 		if ($('#fav-filter').val() == "Favorites"){
+			$(".friend-count").hide();
 			triggerModal("myModalLoading");    		
 			Mutuality.getMeetPeople(0, 0, 1, function(favorites){
-    			$(".friend-count").hide();
-
 				if(favorites.length > 0) {
     				meetPeopleSuccess(favorites);
     			}
@@ -243,8 +242,7 @@
     			}
     		});
     	} else if ($('#fav-filter').val() == "Viewed") {
-			$(".friend-count").show();
-
+			$(".friend-count").hide();
 		    triggerModal("myModalLoading");
     		Mutuality.getMeetPeople(1, 0, 0, function(viewedUsers){
 				if(viewedUsers.length > 0) {
@@ -286,6 +284,23 @@
 
 /* End Event Code */
 /* Begin Helper functions */
+	function addFriendPicturesForLoadingAnimations(friends) {
+        friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
+        $('#analyzeModal img').each(function(i) {
+            $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 200, 200));
+        });
+    }
+
+	var setFriendCountStyle = function () {
+		var currentVal = $('.friend-count').html();
+		if (currentVal <= 9) {
+			$('.friend-count').removeAttr('id');
+			$('.friend-count').attr('id','single-digit');
+		} else {
+			$('.friend-count').removeAttr('id');
+			$('.friend-count').attr('id','double-digit');
+		}
+	}
 
 	var triggerModal = function(id){
 	   $("#page-next").hide();
@@ -337,14 +352,19 @@
 		    			//console.log("set viewed = " + success );
 		    			$(".friend-count").show();
 		    			var curProf = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
+	    				var currentCount = parseInt($(".friend-count").html());
+	    				if(currentCount == 0){$(".friend-count").hide();}
+
 		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
-		    				var currentCount = parseInt($(".friend-count").html());
-		    				if(currentCount >= 0){
+		    				if(currentCount==1){
+			    					triggerModal("myModalViewed");
+			    					$(".friend-count").hide();
+		    				}
+		    				setFriendCountStyle();
+		    				if(currentCount > 0){
 		    					$(".friend-count").html(currentCount-1);
 		    				}
-		    				if(currentCount==1){
-		    					triggerModal("myModalViewed");
-		    				}
+
 		    			}
 		    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
 		    			/*if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.datingList.length){
@@ -361,13 +381,17 @@
 		    			//console.log("set viewed = " + success );
 		    			$(".friend-count").show();
 		    			var curProf = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
+	    				var currentCount = parseInt($(".friend-count").html());
+	    				if(currentCount == 0){$(".friend-count").hide();}
+
 		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
-		    				var currentCount = parseInt($(".friend-count").html());
-		    				if(currentCount >= 0){
-		    					$(".friend-count").html(currentCount-1);
-		    				}
+		    				console.log(currentCount);
 		    				if(currentCount==1){
 		    					triggerModal("myModalViewed");
+		    				}
+		    				setFriendCountStyle();
+		    				if(currentCount > 0){
+		    					$(".friend-count").html(currentCount-1);
 		    				}
 		    			}
 
@@ -591,6 +615,9 @@
     		$("#meet-profiles").html("");
     		fetchMeetPeopleProfileInfoAndShowUI(friends[2].facebookID, friends);
     	}
+    	else if (friends.length == 0){
+    		setModalWhenError("Sorry, but we didn't find anyone!  Check back soon.");
+    	}
     	else{
     		$("#meet-profiles").html("");
     		fetchMeetPeopleProfileInfoAndShowUI(friends[0].facebookID, friends);
@@ -645,13 +672,22 @@ var setNewBadge = function(friends) {
 		}
 	}
 	$(".friend-count").html(newCount);
+	if(newCount == 0){
+		$(".friend-count").hide();
+	}
+	else{
+		setFriendCountStyle();
+	}
 }
  /* End Helper Functions */
 
 /* Begin Main Code */
    // Show the loading modal, and hide the page contents while async calls fire
    //$("#main").hide();
-   triggerModal("myModal");
+   Mutuality.loadFriendsList(4, function (friends) {
+   	addFriendPicturesForLoadingAnimations(friends);
+   	triggerModal("myModal");
+   });
    
    if($.cookie("UpdateFriendListCalled-" + Mutuality.cache.profile.facebookID) !== "true") {
 	    Mutuality.updateFriendList(0, function(){

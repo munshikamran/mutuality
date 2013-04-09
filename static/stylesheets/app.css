@@ -5925,6 +5925,7 @@ h3, h4 {
   background-image: -o-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
   background-image: linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
 }
+
 /* line 26, ../sass/app.scss */
 .button:hover {
   color: #666;
@@ -6275,19 +6276,27 @@ form.custom div.custom.dropdown ul li.selected:hover {
 
 .friend-count {
  position: absolute;
-  top: -10px;
-  right: 4px;
+  top: -8px;
+  right: 5px;
   display: block;
   width: 20px;
   height: 20px;
-  padding: 6px 5px 3px 6px;
-  font-size: 12px;
+  padding: 5px 0px 0px 6px;
+  font-size: 13px;
   line-height: .8em;
   font-weight: 700;
   color: #fff;
   border-radius: 50%;
   background: #4096b6;
   z-index: 1;
+}
+
+#single-digit {
+  padding:5px 0px 0px 6px;
+}
+
+#double-digit {
+  padding: 5px 0px 0px 3px;
 }
 
 /* line 161, ../sass/app.scss */
@@ -6833,6 +6842,7 @@ form.custom div.custom.dropdown ul li.selected:hover {
 
 /* line 278, ../sass/app.scss */
 .search-results a {
+  cursor:pointer;
   display: block;
   padding: 5px 8px;
   line-height: 0;
@@ -8461,8 +8471,8 @@ html {
 }
 
 .homepage {
-max-width:1400px;
-height: 800px;
+max-width:2400px;
+height: 2400px;
 background: url(../images/homepageImage6.jpg) no-repeat center center fixed;
   -webkit-background-size:cover;
   -moz-background-size:cover;
@@ -8579,8 +8589,8 @@ border-bottom:1px solid #DDD;
 .fade-1 {
   position: absolute;
   z-index: 3;
-  top: 31px;
-  left: 29px;
+  top: 28px;
+  left: 24px;
   width: 40px;
   height: 40px;
   display: block;
@@ -8631,13 +8641,28 @@ border-bottom:1px solid #DDD;
 .fade-2 {
   position: absolute;
   z-index: 1;
-  top: 34px;
-  left: 31px;
-  width: 60px;
-  height: 60px;
+  top: 18px;
+  left: 16px;
+  width: 91px;
+  height: 91px;
   display: block;
   opacity: 1;
+  /*float: left;
+  background-size: 100%;*/
+  /*-webkit-transition: all 100ms;
+  -moz-transition: all 100ms;
+  -o-transition: all 100ms;
+  transition: all 100ms;*/
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  /*border-radius: 50%;*/
+  /*-webkit-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;*/
 }
+
 @-moz-keyframes spin2 {
   0% { -moz-transform: rotate(0deg); }
   100% { -moz-transform: rotate(360deg); }
@@ -8663,8 +8688,8 @@ border-bottom:1px solid #DDD;
 
 
 #two {
-  -moz-animation: two 4s infinite linear;
-  -webkit-animation: two 4s infinite linear;
+  -moz-animation: two 6s infinite linear;
+  -webkit-animation: two 6s infinite linear;
 }
 @-moz-keyframes two {
   0%, 50%, 100% { opacity: 1; }
@@ -8677,8 +8702,8 @@ border-bottom:1px solid #DDD;
 
 
 #three {
-  -moz-animation: three 4s infinite linear;
-  -webkit-animation: three 4s infinite linear;
+  -moz-animation: three 6s infinite linear;
+  -webkit-animation: three 6s infinite linear;
 }
 @-moz-keyframes three {
   0%, 50%, 100% { opacity: 1; }
@@ -8691,8 +8716,8 @@ border-bottom:1px solid #DDD;
 
 
 #four {
-  -moz-animation: four 4s infinite linear;
-  -webkit-animation: four 4s infinite linear;
+  -moz-animation: four 6s infinite linear;
+  -webkit-animation: four 6s infinite linear;
 }
 @-moz-keyframes four {
   0%, 50%, 100% { opacity: 1; }
