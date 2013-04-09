@@ -15,4 +15,5 @@ DATABASES['default'] =  dj_database_url.config()
 URL = 'www.mymutuality.com'
 
 # celery
-BROKER_URL = 'amqp://rrcoynid:0IF8M5sDPBRvx8YRfMqK2HnZO_-LZJEZ@tiger.cloudamqp.com/rrcoynid'
+BROKER_URL = 'amqp://nfhtezck:VA2WoDvlivIMoZnISotQzFFZS9F16tv6@tiger.cloudamqp.com/nfhtezck'
+BROKER_POOL_LIMIT = None

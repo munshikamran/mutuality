@@ -1,2 +1,2 @@
-web: gunicorn -w 3 wsgi
+web: gunicorn -w 8 -t 30  wsgi
 worker: python manage.py celery worker --loglevel=info
