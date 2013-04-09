@@ -12,9 +12,9 @@
 					<div class="header twelve columns" style="padding:20px 0px 0px 0px">
 						<img src="/images/homepageLogo.png">
 						<div class="header-icons">	
-							<a href="https://www.facebook.com/MyMutuality"><img src="/images/facebook_dark.png" onmouseover="this.src='/images/facebook_active.png'" onmouseout="this.src='/images/facebook_dark.png'"></a>
-							<a href="https://twitter.com/mymutuality"><img src="/images/twitter02_dark.png" onmouseover="this.src='/images/twitter02_active.png'" onmouseout="this.src='/images/twitter02_dark.png'"></a>
-							<a href="http://mymutuality.wordpress.com/"><img src="/images/blog_dark.png" onmouseover="this.src='/images/blog_active.png'" onmouseout="this.src='/images/blog_dark.png'"></a>
+							<a href="https://www.facebook.com/MyMutuality" target="_blank"><img src="/images/facebook_dark.png" onmouseover="this.src='/images/facebook_active.png'" onmouseout="this.src='/images/facebook_dark.png'"></a>
+							<a href="https://twitter.com/mymutuality" target="_blank"><img src="/images/twitter02_dark.png" onmouseover="this.src='/images/twitter02_active.png'" onmouseout="this.src='/images/twitter02_dark.png'"></a>
+							<a href="http://mymutuality.wordpress.com/" target="_blank"><img src="/images/blog_dark.png" onmouseover="this.src='/images/blog_active.png'" onmouseout="this.src='/images/blog_dark.png'"></a>
 					</div>	
 				</div>
 
@@ -90,6 +90,14 @@
       mixPanelInit = "2c016968167f5dc85b02e758553ab355"
     }
     mixpanel.init(mixPanelInit);
-  	mixpanel.track("Homepage loaded");   
+  	mixpanel.track("Homepage loaded"); 
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-39862044-1', 'mymutuality.com');
+  ga('send', 'pageview');
     
 </script>
