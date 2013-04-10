@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from la_facebook.models import UserAssociation
 from connect.models import Profile
 from django.shortcuts import redirect
@@ -22,6 +23,7 @@ def index(request):
             if request.user.is_authenticated():
                 profile = request.user.get_profile()
                 context_dict['profile'] = profile
+                return HttpResponseRedirect("/meetpeople/")
         except Profile.DoesNotExist:
             pass
     return render_to_response('index.html', context_dict, context_instance=RequestContext(request))
