@@ -234,6 +234,8 @@
 			triggerModal("myModalLoading");    		
 			Mutuality.getMeetPeople(0, 0, 1, function(favorites){
 				if(favorites.length > 0) {
+    				Mutuality.mpcache.fofList = favorites;
+    				createMutualityUserLookUp(favorites);
     				meetPeopleSuccess(favorites);
     			}
     			else {
@@ -247,6 +249,7 @@
     		Mutuality.getMeetPeople(1, 0, 0, function(viewedUsers){
 				if(viewedUsers.length > 0) {
     				Mutuality.mpcache.fofList = viewedUsers;
+    				createMutualityUserLookUp(viewedUsers);
     				meetPeopleSuccess(viewedUsers);
     			}
     			else {
@@ -260,6 +263,7 @@
     		Mutuality.getMeetPeople(0, 1, 0, function(datingFriends){
 				if(datingFriends.length > 0) {
     				Mutuality.mpcache.datingList = datingFriends;
+    				createMutualityUserLookUp(datingFriends);
     				meetPeopleSuccess(datingFriends);
     			}
     			else {
@@ -515,12 +519,12 @@
 			askaboutElem = $('#ask-about');
 			askaboutElemModal = $('.ask-about-modal');
 			if (i % 6 == 0){
-				newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo(askaboutElem);
+				newUlElem = $('<ul>', {style: "margin-right: 0px; z-index: 0;"}).appendTo(askaboutElem);
 				newUlElemModal = $('<ul>', {style: "margin-right: 0px; list-style-type: none;"}).appendTo(askaboutElemModal);
 			}
 
-			var liElem = $('<li>', {style:'z-index:-1;'}).appendTo(newUlElem);
-			var liElemModal = $('<li>', {}).appendTo(newUlElemModal);
+			var liElem = $('<li>', {style:'z-index:0;'}).appendTo(newUlElem);
+			var liElemModal = $('<li>', {style:'z-index:1;'}).appendTo(newUlElemModal);
     		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com?src=meetPeople_askAbout", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElem);
     		var aElemModal = $('<a>', {class: 'askModalLink', onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringIntro, "www.mymutuality.com?src=meetPeople_getIntro", "http://i.imgur.com/Hcy3Clo.jpg", description)
