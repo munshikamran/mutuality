@@ -1,6 +1,7 @@
 from connect.functions.getMutualityUsers import GetNonFriendUsersInArea
 from connect.functions.getFriendsOfFriends import GetFriendsOfFriendsInArea
 from connect.functions.getNumberOfMutualFriends import GetNumberOfMutualFriends
+from connect.models import Profile
 from connect.models import FacebookUser
 from connect.models import PotentialMatch
 from connect.models import PotentialMatchUpdate
@@ -43,6 +44,10 @@ def UpdatePotentialMatches(profile):
     potentialMatchUpdate = PotentialMatchUpdate(profile=profile)
     potentialMatchUpdate.save()
     # TODO also update existing potential matches
+
+    # update isMutualityConnection
+    profileIDs = Profile.objects.all().values_list('facebookID', flat=True)
+    PotentialMatch.objects.filter(facebookUser__in=profileIDs).update(isMutualityConnection=True)
     return potentialMatches
 
 
