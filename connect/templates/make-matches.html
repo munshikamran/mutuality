@@ -240,28 +240,28 @@
     </section>
 {% endblock %}
 {% block extrahtml %}
-    <div id="myModal" class="reveal-modal large">
-        <h4>Awesome! Why don't you message them?</h4>
+    <div id="myModal" class="reveal-modal medium">
+        <h4>Why don't you message one of them?</h4>
         <div class="row">
-            <div id="nudge-left" class="four columns">
+            <div id="nudge-left" class="six columns">
                 <a  class="title">
                     Nudge <span class="match-name">Brian</span>
                     <span class="introduce-thumb" style="background-image: url();"></span>
                 </a>
             </div>
-            <div id="nudge-right" class="four columns">
+            <div id="nudge-right" class="six columns">
                 <a  class="title">
                     Nudge <span class="match-name">Betty</span>
                     <span class="introduce-thumb" style="background-image: url();"></span>
                 </a>
             </div>
-            <div id="nudge-both" class="four columns">
+<!--             <div id="nudge-both" class="four columns">
                 <a  class="title">
                     Nudge Both
                     <span class="introduce-thumb both right" style="background-image: url();"></span>
                     <span class="introduce-thumb both" style="background-image: url();"></span>
                 </a>
-            </div>
+            </div> -->
         </div>
 
         <a class="close-reveal-modal"><small>No Thanks</small> &times;</a>
@@ -310,7 +310,7 @@
         });
 
         function sendRequestViaMultiFriendSelector() {
-           var message = 'To see more connections, invite your friends to join Mutuality.';
+           var message = 'Invite your friends to see more connections.';
            FB.ui({method: 'apprequests',
                message: message
            }, requestCallback);

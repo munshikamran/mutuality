@@ -17,11 +17,11 @@
                var leftNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, leftFriend.facebookID, headerLeft, "http://www.mymutuality.com/makematches", "http://i.imgur.com/Hcy3Clo.jpg", description);
                var rightNudgeURL= Mutuality.getSendNudgeURL(this.cache.facebookID, rightFriend.facebookID, headerRight, "http://www.mymutuality.com/makematches", "http://i.imgur.com/Hcy3Clo.jpg", description);
 
-               $('#nudge-left .match-name').text( leftFriend.name );
+               $('#nudge-left .match-name').text( leftFriend.name.split(" ")[0] );
                $('#nudge-left .introduce-thumb').css({backgroundImage: 'url('+leftimgURL+')'});
                $('#nudge-left .introduce-thumb').attr('onclick', leftNudgeURL);
 
-               $('#nudge-right .match-name').text( rightFriend.name );
+               $('#nudge-right .match-name').text( rightFriend.name.split(" ")[0] );
                $('#nudge-right .introduce-thumb').css({backgroundImage: 'url('+rightimgURL+')'});
                $('#nudge-right .introduce-thumb').attr('onclick', rightNudgeURL);
 
