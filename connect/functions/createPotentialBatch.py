@@ -4,6 +4,7 @@ from connect.models import PotentialBatch
 from connect.functions.updatePotentialMatches import UpdatePotentialMatches
 from connect.functions import GetAllViewedUsers
 from datetime import datetime, timedelta
+import pytz
 
 
 def CreatePotentialBatch(profile):
@@ -20,7 +21,7 @@ def CreatePotentialBatch(profile):
     # weird problem with duplicates when QuerySet with order_by is allowed to evaluate lazily.
     # casting to list avoids this issue
     potentialMatches = list(potentialMatches)
-    expirationDate = datetime.now() + timedelta(days=1)
+    expirationDate = getTimeAtNoon()
 
     potentialBatch = PotentialBatch.objects.create(profile=profile, date_expiration=expirationDate)
     potentialBatch.save()
@@ -29,6 +30,28 @@ def CreatePotentialBatch(profile):
         potentialMatch.potentialMatchBatch = potentialBatch
         potentialMatch.save()
     return potentialBatch
+
+
+def getTimeAtNoon():
+    timezone = pytz.timezone('US/Pacific')
+    currentDateTime = datetime.now(timezone)
+    pastNoon = currentDateTime.hour >= 12
+    referenceDate = currentDateTime
+    if pastNoon:
+        tomorrowDateTime = currentDateTime + timedelta(days=1)
+        referenceDate = tomorrowDateTime
+    year = referenceDate.year
+    month = referenceDate.month
+    day = referenceDate.day
+    timeAtNoon = datetime(year, month, day, 12, 0, tzinfo=timezone)
+    utc = pytz.timezone('UTC')
+    utcDateTime = utc.normalize(timeAtNoon.astimezone(utc))
+    naiveDateTime = datetime(utcDateTime.year, utcDateTime.month, utcDateTime.day,
+                             utcDateTime.hour, utcDateTime.minute)
+    return naiveDateTime
+
+
+
 
 
 
