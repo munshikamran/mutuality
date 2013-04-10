@@ -5,6 +5,7 @@ from connect.functions.updatePotentialMatches import UpdatePotentialMatches
 from connect.functions import GetAllViewedUsers
 from datetime import datetime, timedelta
 import pytz
+import settings
 
 
 def CreatePotentialBatch(profile):
@@ -33,8 +34,8 @@ def CreatePotentialBatch(profile):
 
 
 def getTimeAtNoon():
-    timezone = pytz.timezone('US/Pacific')
-    currentDateTime = datetime.now(timezone)
+    pacific = pytz.timezone('US/Pacific')
+    currentDateTime = datetime.now(pacific)
     pastNoon = currentDateTime.hour >= 12
     referenceDate = currentDateTime
     if pastNoon:
@@ -43,11 +44,11 @@ def getTimeAtNoon():
     year = referenceDate.year
     month = referenceDate.month
     day = referenceDate.day
-    timeAtNoon = datetime(year, month, day, 12, 0, tzinfo=timezone)
-    utc = pytz.timezone('UTC')
-    utcDateTime = utc.normalize(timeAtNoon.astimezone(utc))
-    naiveDateTime = datetime(utcDateTime.year, utcDateTime.month, utcDateTime.day,
-                             utcDateTime.hour, utcDateTime.minute)
+    timeAtNoon = datetime(year, month, day, 12, 0, tzinfo=pacific)
+    timezone = pytz.timezone(settings.TIME_ZONE)
+    timezoneDateTime = timezone.normalize(timeAtNoon.astimezone(timezone))
+    naiveDateTime = datetime(timezoneDateTime.year, timezoneDateTime.month, timezoneDateTime.day,
+                             timezoneDateTime.hour, timezoneDateTime.minute)
     return naiveDateTime
 
 
