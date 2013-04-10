@@ -246,6 +246,7 @@
 		    triggerModal("myModalLoading");
     		Mutuality.getMeetPeople(1, 0, 0, function(viewedUsers){
 				if(viewedUsers.length > 0) {
+    				Mutuality.mpcache.fofList = viewedUsers;
     				meetPeopleSuccess(viewedUsers);
     			}
     			else {
@@ -293,7 +294,7 @@
 
 	var setFriendCountStyle = function () {
 		var currentVal = $('.friend-count').html();
-		if (currentVal <= 9) {
+		if (currentVal <= 10) {
 			$('.friend-count').removeAttr('id');
 			$('.friend-count').attr('id','single-digit');
 		} else {
@@ -475,8 +476,9 @@
 							"				currentPerson.css('background-position',  '0 -16px');} " +
 							"	});}";    		
 
+			    		var friendFbLink = "http://www.facebook.com/" + friends[i].facebookID;
 			    		var liElem = $('<li>', {class:'meet-profile', facebookID:friends[i].facebookID}).appendTo(meetProfilesElem);
-			    		var aElem = $('<a>', { class:"loaded"}).appendTo(liElem);
+			    		var aElem = $('<a>', {class:"loaded", href:friendFbLink, target:"_blank"}).appendTo(liElem);
 			    		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(friends[i].facebookID, 350, 350)}).appendTo(aElem);
 			    		var spanElem = $('<span>', {class:"match-profile-details"}).appendTo(aElem);
 			    		var inFavorites = friends[i].isFavorite;
