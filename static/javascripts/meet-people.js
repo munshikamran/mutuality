@@ -246,6 +246,7 @@
 		    triggerModal("myModalLoading");
     		Mutuality.getMeetPeople(1, 0, 0, function(viewedUsers){
 				if(viewedUsers.length > 0) {
+    				Mutuality.mpcache.fofList = viewedUsers;
     				meetPeopleSuccess(viewedUsers);
     			}
     			else {
