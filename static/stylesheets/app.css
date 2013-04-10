@@ -8640,6 +8640,7 @@ border-bottom:1px solid #DDD;
 }
 .fade-2 {
   position: absolute;
+  border-radius: 50%;
   z-index: 1;
   top: 18px;
   left: 16px;
@@ -8647,17 +8648,17 @@ border-bottom:1px solid #DDD;
   height: 91px;
   display: block;
   opacity: 1;
-  /*float: left;
-  background-size: 100%;*/
-  /*-webkit-transition: all 100ms;
+  float: left;
+  background-size: 100%;
+  -webkit-transition: all 100ms;
   -moz-transition: all 100ms;
   -o-transition: all 100ms;
-  transition: all 100ms;*/
+  transition: all 100ms;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
-  /*border-radius: 50%;*/
+ 
   /*-webkit-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
   -moz-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
   box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;*/
