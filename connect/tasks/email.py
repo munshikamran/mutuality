@@ -50,7 +50,7 @@ def send_friend_joined_email(joined_user_profile):
 
 
 def send_message(message):
-    s = sendgrid.Sendgrid(settings.EMAIL_HOST, settings.EMAIL_HOST_PASSWORD, secure=True)
+    s = sendgrid.Sendgrid(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD, secure=True)
     return s.smtp.send(message)
 
 
