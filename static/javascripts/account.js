@@ -36,13 +36,13 @@
 	var showMessage = function(type){
 		$('.'+ type +'-trigger').click(function(){
 			  hideAllMessages();				  
-			  $('.'+type).animate({top:"0"}, 500);
+			  $('.'+type).animate({top:"0"}, 300);
+			  setTimeout(function(){$('.'+type).animate({top: -$(this).outerHeight()}, 300)}, 1000);
 		});
 	}
 /* End Helper functions */
 
 /* Begin Account Main Code */
-
 	// Initially, hide them all
 	hideAllMessages();
 
@@ -53,15 +53,25 @@
 
 	// When message is clicked, hide it
 	$('.message').click(function(){			  
-		  $(this).animate({top: -$(this).outerHeight()}, 500);
+		  $(this).animate({top: -$(this).outerHeight()}, 300);
 	});	
 
-
-	if(Mutuality.cache.profile == 'female'){
-		$("#reg-male").removeAttr('selected');
-		$("#reg-female").attr('selected', 'selected');
-	}
 	console.log(Mutuality.cache.profile);
+	if(Mutuality.cache.profile.gender == 'female'){
+		$("#reg-sex a").eq(0).attr('class', 'selector');
+		$("#reg-sex a").eq(0).html("");
+		$("#reg-sex a").eq(1).attr('class', 'current');
+		$("#reg-sex a").eq(1).html("Female");
+	}
+
+	if(Mutuality.cache.profile.relationshipStatus.indexOf("Relationship") !== -1){
+		$("#reg-relationship").val()
+		$("#reg-relationship a").eq(0).attr('class', 'selector');
+		$("#reg-relationship a").eq(0).html("");
+		$("#reg-relationship a").eq(1).attr('class', 'current');
+		$("#reg-relationship a").eq(1).html("In a Relationship");
+	}
+
 	$("#reg-firstname").val(Mutuality.cache.profile.name);
 	$("#reg-location").val(Mutuality.cache.profile.location);
 	$("#location-ajax").html(Mutuality.cache.profile.location);
@@ -89,8 +99,7 @@
 			$('#location-error').show();
 			$('.error-trigger').trigger('click');
 		}
-	});
-   
+	});  
 /* End Main Code */
 
 })(jQuery);
