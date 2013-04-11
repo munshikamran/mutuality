@@ -8470,9 +8470,15 @@ html {
   transform: scale(1.1, 1.1);
 }
 
+#homepage-body{
+  height:100%;
+}
+
 .homepage {
-max-width:2400px;
-height: 800px;
+min-height:100%; 
+position:relative;
+/*max-width:2400px;
+height: 2400px;*/
 background: url(../images/homepageImage6.jpg) no-repeat center center fixed;
   -webkit-background-size:cover;
   -moz-background-size:cover;
@@ -8525,8 +8531,11 @@ border-bottom:1px solid #DDD;
 
 .homepage-footer{
   position:absolute;
-  top:710;
+  bottom:0px;
+  width:100%;
+  height: 60px;
   color:#FFFFFF;
+  padding-left:50px;
   display:inline;
   font-size: 12px;
   font-weight:bold;
@@ -8538,11 +8547,10 @@ border-bottom:1px solid #DDD;
 }
 
 .copyright {
-  position:absolute;
-  top:710;
-  right:250;
   color:#FFFFFF;
   display:inline;
+  float:right;
+  margin-right:50px;
   font-weight: normal;
   font-size: 12px;
 }
