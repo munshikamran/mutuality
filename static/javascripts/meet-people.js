@@ -348,7 +348,7 @@
 		    	}
 		    	else {
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
-		    		$("#introduce").html('<a href="'+url+'" class="intro-yourself button"><i class="intro-yourself"></i>Introduce Yourself</a>');
+		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Introduce Yourself</a>');
 		    	}
 
 		    	if($('#fav-filter').val() == "Dating"){
