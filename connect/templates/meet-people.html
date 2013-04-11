@@ -127,10 +127,10 @@
     <div id="myModalLoading" class="reveal-modal medium">
         <h4>Loading...</h4>
         <div class="row">
-            <div id="nudge-left" style:"text-align:center">
+            <div id="nudge-left" style="text-align:center">
                 <a href="#" class="title">
                     <span class="match-name">Just a second!</span>
-                	<div id="loadingDiv" style="width:140px;text-align:center;margin: 0 auto">
+                	<div id="loadingDiv" style="width:90px;text-align:center;margin: 0 auto">
                			<div class="loading-1">
           					<div class="circle-1"></div>
           					<img class="fade-1" src="{{ MEDIA_URL }}/images/m.svg">
@@ -219,7 +219,7 @@
         });
 
 		function sendRequestViaMultiFriendSelector() {
-			var message = 'To see more connections, invite your friends to join Mutuality.';
+			var message = 'Invite your friends to see more connections.';
 			FB.ui({method: 'apprequests',
 			   message: message
 			}, requestCallback);
