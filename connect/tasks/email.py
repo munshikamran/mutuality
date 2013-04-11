@@ -36,16 +36,19 @@ def send_friend_joined_email(joined_user_profile):
     friendIDs = GetFriendIDs(joined_user_profile)
     friendsOnMutuality = Profile.objects.filter(facebookID__in=friendIDs)
     for profile in friendsOnMutuality:
-        to_address = profile.user.email
-        to_name = profile.name
-        friendName = joined_user_profile.name
-        friendFacebookID = joined_user_profile.facebookID
-        friendsFriends = GetFriendIDs(profile)
-        numberOfNewFriends = FacebookUser.objects.filter(facebookID__in=(set(friendIDs).difference(friendsFriends)), state=profile.state).count()
-        totalNumberOfFriends = len(friendsFriends)
-        currentNumberOfFoF = PotentialMatch.objects.filter(profile=profile).count()
-        message = create_friend_joined_message(from_address, to_address, to_name, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF)
-        send_message(message)
+        try:
+            to_address = profile.user.email
+            to_name = profile.name
+            friendName = joined_user_profile.name
+            friendFacebookID = joined_user_profile.facebookID
+            friendsFriends = GetFriendIDs(profile)
+            numberOfNewFriends = FacebookUser.objects.filter(facebookID__in=(set(friendIDs).difference(friendsFriends)), state=profile.state).count()
+            totalNumberOfFriends = len(friendsFriends)
+            currentNumberOfFoF = PotentialMatch.objects.filter(profile=profile).count()
+            message = create_friend_joined_message(from_address, to_address, to_name, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF)
+            send_message(message)
+        except:
+            print "something went wrong when sending email to {0}'s friend {1}".format(joined_user_profile.name, profile.name)
 
 
 def send_message(message):
