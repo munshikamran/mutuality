@@ -348,7 +348,7 @@
 		    	}
 		    	else {
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
-		    		$("#introduce").html('<a href="'+url+'" class="button"><i></i>Introduce Yourself</a>');
+		    		$("#introduce").html('<a href="'+url+'" class="intro-yourself button"><i class="intro-yourself"></i>Introduce Yourself</a>');
 		    	}
 
 		    	if($('#fav-filter').val() == "Dating"){
@@ -480,9 +480,9 @@
 							"				currentPerson.css('background-position',  '0 -16px');} " +
 							"	});}";    		
 
-			    		var friendFbLink = "http://www.facebook.com/" + friends[i].facebookID;
+	
 			    		var liElem = $('<li>', {class:'meet-profile', facebookID:friends[i].facebookID}).appendTo(meetProfilesElem);
-			    		var aElem = $('<a>', {class:"loaded", href:friendFbLink, target:"_blank"}).appendTo(liElem);
+			    		var aElem = $('<a>', {class:"loaded"}).appendTo(liElem);
 			    		var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(friends[i].facebookID, 350, 350)}).appendTo(aElem);
 			    		var spanElem = $('<span>', {class:"match-profile-details"}).appendTo(aElem);
 			    		var inFavorites = friends[i].isFavorite;
