@@ -11,7 +11,7 @@ def new_user_joined(profile):
     send_user_joined_email.delay(profile)
     send_welcome_email.delay(profile)
     # excute this in the future so we know that we already have the user's friendlist in the db
-    send_friend_joined_email.apply_async(args=[profile], countdown=60)
+    send_friend_joined_email.apply_async(args=[profile], countdown=60*10)
     return True
 
 
@@ -28,30 +28,32 @@ def send_welcome_email(profile):
     to_address = profile.user.email
     to_name = profile.name
     message = create_welcome_message(from_address, to_address, to_name)
-    return send_message(message)
+    send_message(message)
 
 @task
 def send_friend_joined_email(joined_user_profile):
     from_address = 'info@mymutuality.com'
     friendIDs = GetFriendIDs(joined_user_profile)
     friendsOnMutuality = Profile.objects.filter(facebookID__in=friendIDs)
-    print friendsOnMutuality
     for profile in friendsOnMutuality:
-        to_address = profile.user.email
-        to_name = profile.name
-        friendName = joined_user_profile.name
-        friendFacebookID = joined_user_profile.facebookID
-        friendsFriends = GetFriendIDs(profile)
-        numberOfNewFriends = FacebookUser.objects.filter(facebookID__in=(set(friendIDs).difference(friendsFriends)), state=profile.state).count()
-        totalNumberOfFriends = len(friendsFriends)
-        currentNumberOfFoF = PotentialMatch.objects.filter(profile=profile).count()
-        message = create_friend_joined_message(from_address, to_address, to_name, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF)
-        return send_message(message)
+        try:
+            to_address = profile.user.email
+            to_name = profile.name
+            friendName = joined_user_profile.name
+            friendFacebookID = joined_user_profile.facebookID
+            friendsFriends = GetFriendIDs(profile)
+            numberOfNewFriends = FacebookUser.objects.filter(facebookID__in=(set(friendIDs).difference(friendsFriends)), state=profile.state).count()
+            totalNumberOfFriends = len(friendsFriends)
+            currentNumberOfFoF = PotentialMatch.objects.filter(profile=profile).count()
+            message = create_friend_joined_message(from_address, to_address, to_name, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF)
+            send_message(message)
+        except:
+            print "something went wrong when sending email to {0}'s friend {1}".format(joined_user_profile.name, profile.name)
 
 
 def send_message(message):
     s = sendgrid.Sendgrid(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD, secure=True)
-    return s.smtp.send(message)
+    s.smtp.send(message)
 
 
 # HTML messages
