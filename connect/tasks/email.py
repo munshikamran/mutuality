@@ -37,6 +37,7 @@ def send_friend_joined_email(joined_user_profile):
     friendsOnMutuality = Profile.objects.filter(facebookID__in=friendIDs)
     print friendsOnMutuality
     for profile in friendsOnMutuality:
+        print profile.name
         to_address = profile.user.email
         to_name = profile.name
         friendName = joined_user_profile.name
