@@ -343,7 +343,7 @@
 	    	// Check to make sure that we have an id that's defined
 			if(Mutuality.mpcache.current){
 
-		    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === true){
+		    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === false){
 		    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a>');
 		    	}
 		    	else {
