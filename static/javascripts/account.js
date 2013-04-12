@@ -64,7 +64,7 @@
 		$("#reg-sex a").eq(1).html("Female");
 	}
 
-	if(Mutuality.cache.profile.relationshipStatus.indexOf("Relationship") !== -1){
+	if(Mutuality.cache.profile.relationshipStatus === null){
 		$("#reg-relationship").val()
 		$("#reg-relationship a").eq(0).attr('class', 'selector');
 		$("#reg-relationship a").eq(0).html("");
@@ -88,10 +88,10 @@
 				$('.success-trigger').trigger('click');
 	            var url = window.location.href; 
 				if(url.indexOf("register") !== -1) { 
-					window.location = "/meetpeople/";
 					mixpanel.alias(Mutuality.cache.profile.facebookID);
 					mixpanel.identify(Mutuality.cache.profile.facebookID);
 					mixpanel.track("Registration");
+					window.location = "/meetpeople/";
 				}
 			});
 		}
