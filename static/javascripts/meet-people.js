@@ -645,7 +645,9 @@
     var populateCTA = function(friends){
         friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
         $('#four-images img').each(function(i) {
-            $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
+        	if (i < friends.length) {
+            	$(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
+        	}
         });
     }
 
@@ -658,6 +660,7 @@
     var setModalWhenError = function (text){
 		$(".reveal-modal h4").text(text);
 		$(".loading-2").css("display", "none");
+		$(".loading-1").css("display", "none");
 		$(".match-name").hide();
 		$("#inviteFriends").show();
 		$(".close-reveal-modal").show();
@@ -665,9 +668,10 @@
 
 var setModalBack = function(modalID){
 	$("#modalClose").click(function (){
-			if(modalID == "myModal"){$(".reveal-modal h4").text("Analyzing your friend network...");}
+			if(modalID == "myModal"){$(".reveal-modal h4").text("Loading...");}
 			else{$(".reveal-modal h4").text("Loading...");}
 			$(".loading-2").css("display", "block");
+			$(".loading-1").css("display", "block");
 			$(".match-name").show();
 			$("#inviteFriends").show();
 			$(".close-reveal-modal").hide();
@@ -699,9 +703,11 @@ var setNewBadge = function(friends) {
    	triggerModal("myModal");
    });
    mixpanel.track("Login success");
-   if($.cookie("UpdateFriendListCalled-" + Mutuality.cache.profile.facebookID) !== "true") {
+   var cookieName = "UpdateFriendListCalled" + Mutuality.cache.profile.facebookID;
+
+   if($.cookie(cookieName) !== "true") {
 	    Mutuality.updateFriendList(0, function(){
-	    	$.cookie("UpdateFriendListCalled" + Mutuality.cache.profile.facebookID, "true");
+	    	$.cookie(cookieName, "true");
 	   		Mutuality.loadFriendsList(4, populateCTA);
 			Mutuality.getMeetPeople(0, 0, 0, function(friends){
 		    	Mutuality.mpcache.fofList = friends;
