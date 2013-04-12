@@ -56,50 +56,55 @@
 		  $(this).animate({top: -$(this).outerHeight()}, 300);
 	});	
 
-	console.log(Mutuality.cache.profile);
-	if(Mutuality.cache.profile.gender == 'female'){
-		$("#reg-sex a").eq(0).attr('class', 'selector');
-		$("#reg-sex a").eq(0).html("");
-		$("#reg-sex a").eq(1).attr('class', 'current');
-		$("#reg-sex a").eq(1).html("Female");
-	}
+	//Sometimes getProfile takes a moment to return, so we should wait
+	setTimeout(function(){
+		if(Mutuality.cache.profile){
+			if(Mutuality.cache.profile.gender == 'female'){
+				$("#reg-sex a").eq(0).attr('class', 'selector');
+				$("#reg-sex a").eq(0).html("");
+				$("#reg-sex a").eq(1).attr('class', 'current');
+				$("#reg-sex a").eq(1).html("Female");
+			}
 
-	if(Mutuality.cache.profile.relationshipStatus === null){
-		$("#reg-relationship").val()
-		$("#reg-relationship a").eq(0).attr('class', 'selector');
-		$("#reg-relationship a").eq(0).html("");
-		$("#reg-relationship a").eq(1).attr('class', 'current');
-		$("#reg-relationship a").eq(1).html("In a Relationship");
-	}
-
-	$("#reg-firstname").val(Mutuality.cache.profile.name);
-	$("#reg-location").val(Mutuality.cache.profile.location);
-	$("#location-ajax").html(Mutuality.cache.profile.location);
-
-	$("#save-button").click(function(){
-		if($('#location-ajax').html() !== ""){
-			$('#location-error').hide();
-			var profileDict = {};
-			profileDict['location'] = $("#reg-location").val();
-			profileDict['relationship_status'] = $("#reg-relationship :selected").text();
-			profileDict['gender'] = $("#reg-sex :selected").text();
-			console.log(profileDict);
-			Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
-				$('.success-trigger').trigger('click');
-	            var url = window.location.href; 
-				if(url.indexOf("register") !== -1) { 
-					mixpanel.alias(Mutuality.cache.profile.facebookID);
-					mixpanel.identify(Mutuality.cache.profile.facebookID);
-					mixpanel.track("Registration");
-					window.location = "/meetpeople/";
+			if(Mutuality.cache.profile.relationshipStatus !== null){
+				if(Mutuality.cache.profile.relationshipStatus.indexOf("Relationship") !== -1){
+					$("#reg-relationship a").eq(0).attr('class', 'selector');
+					$("#reg-relationship a").eq(0).html("");
+					$("#reg-relationship a").eq(1).attr('class', 'current');
+					$("#reg-relationship a").eq(1).html("In a Relationship");
 				}
-			});
+			}
+
+			$("#reg-firstname").val(Mutuality.cache.profile.name);
+			$("#reg-location").val(Mutuality.cache.profile.location);
+			$("#location-ajax").html(Mutuality.cache.profile.location);
 		}
-		else{
-			$('#location-error').show();
-			$('.error-trigger').trigger('click');
-		}
-	});  
+
+		$("#save-button").click(function(){
+			if($('#location-ajax').html() !== ""){
+				$('#location-error').hide();
+				var profileDict = {};
+				profileDict['location'] = $("#reg-location").val();
+				profileDict['relationship_status'] = $("#reg-relationship :selected").text();
+				profileDict['gender'] = $("#reg-sex :selected").text();
+				console.log(profileDict);
+				Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
+					$('.success-trigger').trigger('click');
+		            var url = window.location.href; 
+					if(url.indexOf("register") !== -1) { 
+						mixpanel.alias(Mutuality.cache.profile.facebookID);
+						mixpanel.identify(Mutuality.cache.profile.facebookID);
+						mixpanel.track("Registration");
+						window.location = "/meetpeople/";
+					}
+				});
+			}
+			else{
+				$('#location-error').show();
+				$('.error-trigger').trigger('click');
+			}
+		});  
+	}, 100);
 /* End Main Code */
 
 })(jQuery);
