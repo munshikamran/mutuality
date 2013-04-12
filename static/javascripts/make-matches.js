@@ -36,21 +36,23 @@
                 });
            });
        }
-       else {
-           var reasons = new Array();
-           var subject  = Mutuality.cache.current[0];
-           var object = Mutuality.cache.current[1];
-           reasons.push({enum: "TOO_FAR", subject: subject, object: object}); // Temporary reason
-           Mutuality.rateMatchThumbsDown(reasons, function(){
-                   $("#rating-success").fadeIn(200, function() {
-                       $("#rating-success").delay(2000).fadeOut(200, function() {
-                           $("#rating-buttons").fadeIn(200);
-                           $("#random-button").removeClass('disabled');
-                           $("#random-button").trigger('click');
-                       });
-                   });
-           });
-       }
+       // else {
+        
+          // }
+           // var reasons = new Array();
+           // var subject  = Mutuality.cache.current[0];
+           // var object = Mutuality.cache.current[1];
+           // reasons.push({enum: "TOO_FAR", subject: subject, object: object}); // Temporary reason
+           // Mutuality.rateMatchThumbsDown(reasons, function(){
+           //         $("#rating-success").fadeIn(200, function() {
+           //             $("#rating-success").delay(2000).fadeOut(200, function() {
+           //                 $("#rating-buttons").fadeIn(200);
+           //                 $("#random-button").removeClass('disabled');
+           //                 $("#random-button").trigger('click');
+           //             });
+           //         });
+           // });
+       // }
 
    };
 
@@ -80,15 +82,23 @@
 	// Thumbs down
 	$("#rating-down").bind('click', function(e) {	   
 	  e.preventDefault();
-		$("#rating-buttons").fadeOut(200, function() {
-      $("#random-button").attr('class', 'disabled');
-      thumbRate.call(this,e, false);
-		});
+    mixpanel.track("Match rated",{"Rating":"Down"})
+	 if ($('#random-button').attr('class') !== "disabled"){
+      $('#random-button').attr('class', 'disabled');
+      var leftSex = $("#left-match-sex").val() == "Guys" ? 'male' : 'female';
+      var rightSex = $("#right-match-sex").val() == "Guys" ? 'male' : 'female';
+      Mutuality.loadNewMatch(leftSex, rightSex, Mutuality.cache.leftSlotLocked, Mutuality.cache.rightSlotLocked, matchSuccess);
+  }
+    // $("#rating-buttons").fadeOut(200, function() {
+  //     $("#random-button").attr('class', 'disabled');
+  //     thumbRate.call(this,e, false);
+		// });
 	});
 	
 	// Thumbs up
 	$('#rating-up').bind('click', function(e){
 	   e.preventDefault();
+     mixpanel.track("Match rated",{"Rating":"Up"})
 	   $("#rating-buttons").fadeOut(200, function() {
       $("#random-button").attr('class', 'disabled');
       thumbRate.call(this,e, true);
