@@ -349,6 +349,9 @@
 		    	else {
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
 		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Introduce Yourself</a>');
+		    //		$('.loaded').append('<img id="mutuality-badge" src="http://localhost:8000/images/Mutuality-Badge.png"/>');	
+		    //		$('.match-profile-details').attr('id', 'mutuality-profile-span');
+		    //		$('#left-profile-name').attr('id', 'mutuality-profile-text');
 		    	}
 
 		    	if($('#fav-filter').val() == "Dating"){
