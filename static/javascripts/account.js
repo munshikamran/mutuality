@@ -66,6 +66,24 @@
 				$("#reg-sex a").eq(1).html("Female");
 			}
 
+
+	$("#save-button").click(function(){
+		if($('#location-ajax').html() !== ""){
+			$('#location-error').hide();
+			var profileDict = {};
+			profileDict['location'] = $("#reg-location").val();
+			profileDict['relationship_status'] = $("#reg-relationship :selected").text();
+			profileDict['gender'] = $("#reg-sex :selected").text();
+			console.log(profileDict);
+			Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
+				$('.success-trigger').trigger('click');
+	            var url = window.location.href; 
+				if(url.indexOf("register") !== -1) { 
+					mixpanel.track("Registration");
+					mixpanel.alias(Mutuality.cache.profile.facebookID);
+					mixpanel.identify(Mutuality.cache.profile.facebookID);
+					window.location = "/meetpeople/";
+
 			if(Mutuality.cache.profile.relationshipStatus !== null){
 				if(Mutuality.cache.profile.relationshipStatus.indexOf("Relationship") !== -1){
 					$("#reg-relationship a").eq(0).attr('class', 'selector');
@@ -92,9 +110,9 @@
 					$('.success-trigger').trigger('click');
 		            var url = window.location.href; 
 					if(url.indexOf("register") !== -1) { 
+						mixpanel.track("Registration");
 						mixpanel.alias(Mutuality.cache.profile.facebookID);
 						mixpanel.identify(Mutuality.cache.profile.facebookID);
-						mixpanel.track("Registration");
 						window.location = "/meetpeople/";
 					}
 				});
