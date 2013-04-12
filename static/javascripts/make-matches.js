@@ -43,7 +43,7 @@
            reasons.push({enum: "TOO_FAR", subject: subject, object: object}); // Temporary reason
            Mutuality.rateMatchThumbsDown(reasons, function(){
                    $("#rating-success").fadeIn(200, function() {
-                       $("#rating-success").delay(2000).fadeOut(200, function() {
+                       $("#rating-success").delay(400).fadeOut(200, function() {
                            $("#rating-buttons").fadeIn(200);
                            $("#random-button").removeClass('disabled');
                            $("#random-button").trigger('click');
@@ -310,7 +310,9 @@
         if (friends.length > 0){
             friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
             $('#four-images img').each(function(i) {
+              if (i < friends.length) {
                 $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
+              }
             });
         }
         else{
