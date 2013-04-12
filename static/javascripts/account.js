@@ -110,9 +110,9 @@
 					$('.success-trigger').trigger('click');
 		            var url = window.location.href; 
 					if(url.indexOf("register") !== -1) { 
+						mixpanel.track("Registration");
 						mixpanel.alias(Mutuality.cache.profile.facebookID);
 						mixpanel.identify(Mutuality.cache.profile.facebookID);
-						mixpanel.track("Registration");
 						window.location = "/meetpeople/";
 					}
 				});
