@@ -45,7 +45,8 @@ def send_friend_joined_email(joined_user_profile):
             numberOfNewFriends = FacebookUser.objects.filter(facebookID__in=(set(friendIDs).difference(friendsFriends)), state=profile.state).count()
             totalNumberOfFriends = len(friendsFriends)
             currentNumberOfFoF = PotentialMatch.objects.filter(profile=profile).count()
-            message = create_friend_joined_message(from_address, to_address, to_name, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF)
+            location = profile.location
+            message = create_friend_joined_message(from_address, to_address, to_name, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF, location)
             send_message(message)
         except:
             print "something went wrong when sending email to {0}'s friend {1}".format(joined_user_profile.name, profile.name)
