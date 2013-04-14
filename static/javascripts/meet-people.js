@@ -210,6 +210,10 @@
 		$('#ask-about').html("");
 		$('.ask-about-modal').html("");
 		setCurrentPerson();
+		var friendCount = $('.friend-count').html();
+		if (friendCount === "0") {
+			$('#refresh-reminder').slideDown();
+		}
 		mixpanel.track("Next-Prev",{"Button":"Next"});
 	});
 
@@ -289,6 +293,55 @@
 
 /* End Event Code */
 /* Begin Helper functions */
+
+function countDown(end, cur){
+        container = $("#timer");
+        endDate = new Date(end);
+        curDate = new Date(cur);
+
+        context = this;
+
+        var twoDigitConversion = function(n) {
+        	return ("0" + n).slice(-2);
+        }
+
+		var formatResults = function(day, hour, minute, second){
+		    
+		    var displayString = twoDigitConversion(hour) + ":" + twoDigitConversion(minute) +":" + twoDigitConversion(second);
+		    return displayString;
+		}
+
+		var update = function(){
+		    context.curDate.setSeconds(context.curDate.getSeconds()+1);
+		    var timediff = (context.endDate-context.curDate)/1000; 
+
+		    // Check if timer expired:
+		     if (timediff<0){ 
+		        var timerValueZero = formatResults(0,0,0,0);
+		        $('#timer').html(timerValueZero);
+		    }
+
+		    var oneMinute=60; //minute unit in seconds
+		    var oneHour=60*60; //hour unit in seconds
+		    var oneDay=60*60*24; //day unit in seconds
+
+		    var dayfield=Math.floor(timediff/oneDay);
+		    var hourfield=Math.floor((timediff-dayfield*oneDay)/oneHour);
+		    var minutefield=Math.floor((timediff-dayfield*oneDay-hourfield*oneHour)/oneMinute);
+		    var secondfield=Math.floor((timediff-dayfield*oneDay-hourfield*oneHour-minutefield*oneMinute));
+
+		   var timerValue = formatResults(dayfield, hourfield, minutefield, secondfield);
+		   $('#timer').html(timerValue);
+
+		    // Call recursively
+		    setTimeout(update, 1000);
+		};
+
+	// Call the recursive loop
+	update();
+
+}
+
 	function addFriendPicturesForLoadingAnimations(friends) {
         friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
         $('#analyzeModal img').each(function(i) {
@@ -704,7 +757,7 @@ var setNewBadge = function(friends) {
    });
    mixpanel.track("Login success");
    var cookieName = "UpdateFriendListCalled" + Mutuality.cache.profile.facebookID;
-
+   countDown(1365876000000, new Date().getTime());
    if($.cookie(cookieName) !== "true") {
 	    Mutuality.updateFriendList(0, function(){
 	    	$.cookie(cookieName, "true");
