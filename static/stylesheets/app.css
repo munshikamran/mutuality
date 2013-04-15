@@ -8800,3 +8800,20 @@ border-bottom:1px solid #DDD;
   background-image: linear-gradient(top, #6cb7ce 0%, #2a9abf 100%);
 }
 
+div#question{
+  width:15px;
+  height:20px;
+  margin:-2px -3px;
+  display:inline-block;
+  background:url(../images/Question.png) no-repeat;
+  background-size: 15px 15px;
+}
+
+div#question:hover{
+  width:15px;
+  height:20px;
+  margin:-2px -3px;
+  display:inline-block;
+  background:url(../images/QuestionHover.png) no-repeat;
+  background-size:15px 15px;
+}
