@@ -555,6 +555,10 @@
 		}
 
 		$('.tooltip').tooltipster();
+		$('.tooltipster-icon').tooltipster({
+			theme: '.tooltipster-shadow',
+			position: 'bottom-right'
+		}); 
 		initAskAboutCarousel();
 		initAskAboutCarouselModal();
 	}
