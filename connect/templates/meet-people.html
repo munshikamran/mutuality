@@ -8,7 +8,7 @@
 							<h2>Meet People</h2>
 						</div>
 						<form id="four-filters" class="four columns custom">
-							<span class="friend-count" id="double-digit"></span>
+							<span class="friend-count" id="double-digit" style="display:none;"></span>
 							<select id="fav-filter" style="display:none;">
 								<option id="all" value="All" selected="selected">Friends</option><option id="dating" value="Dating">Dating</option>
 								<option id="favorites" value="Favorites">Favorites</option><option id="viewed" value="Viewed">Viewed</option>
@@ -121,8 +121,8 @@
 				<span id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite your friends!)</a></span>
                 </a>
             </div>
+            <a id="modalClose" class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
         </div>
-        <a id="modalClose" class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
     </div>
     <div id="myModalLoading" class="reveal-modal medium">
         <h4>Loading...</h4>

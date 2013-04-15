@@ -240,7 +240,7 @@
     			}
     			else {
     				setModalWhenError("Sorry, but you have no favorites!");
-    				setModalBack();
+    				//setModalBack();
     			}
     		});
     	} else if ($('#fav-filter').val() == "Viewed") {
@@ -667,8 +667,8 @@
 
 var setModalBack = function(modalID){
 	$("#modalClose").click(function (){
-			if(modalID == "myModal"){$(".reveal-modal h4").text("Loading...");}
-			else{$(".reveal-modal h4").text("Loading...");}
+			//if(modalID == "myModal"){$(".reveal-modal h4").text("Loading...");}
+			$(".reveal-modal h4").text("Loading...");
 			$(".loading-2").css("display", "block");
 			$(".loading-1").css("display", "block");
 			$(".match-name").show();
@@ -678,6 +678,7 @@ var setModalBack = function(modalID){
 }
 
 var setNewBadge = function(friends) {
+
 	var newCount = 0;
 	for (i=0;i<friends.length;i++){
 		if(friends[i].hasBeenViewed !== true){
