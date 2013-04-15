@@ -8212,7 +8212,7 @@ html {
   color: #fff;
 }
 
-.tooltipster-shadow {
+/*.tooltipster-shadow {
   border-radius: 5px;
   background: #fff;
   box-shadow: 0px 0px 14px rgba(0,0,0,0.3);
@@ -8223,7 +8223,7 @@ html {
   font-size: 14px;
   line-height: 16px;
   padding: 8px 10px;
-}
+}*/
 
 /* Use this next selector to style things like font-size and line-height: */
 /* line 771, ../sass/app.scss */
@@ -8831,8 +8831,40 @@ div#question:hover{
   background-size:15px 15px;
 }
 
-.tooltip-question{
-  height:40px;
-  width:70px;
+.tooltip-question {
+    height:auto;
+    width:auto;
+}
 
+.tooltipster-question .tooltipster-content {
+  font-size: 12px;
+  border-radius:3px;
+  border:1px solid #54a6c2;
+  background:#fff;
+  /*font-weight: 700;*/
+  /*text-align: center;*/
+  
+  /*padding: 5px 10px;*/
+  /*display: block;*/
+  /*width: auto;*/
+  /*white-space: nowrap;*/
+  box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.3);
+}
+.question-header {
+    height:20px;
+    width:auto;
+    font-size:12px;
+    line-height:10px;
+    /*font-weight:light;*/
+    display:block;
+    padding:5px 5px;
+    font-weight:bolder;
+    color:#FFF;
+    background-color:#54a6c2;
+}
+.question-body {
+    display:block;
+    line-height: 12px;
+    font-size:11px;
+    padding:3px 5px;
 }

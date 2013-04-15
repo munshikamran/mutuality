@@ -556,8 +556,11 @@
 
 		$('.tooltip').tooltipster();
 		$('.tooltipster-icon').tooltipster({
-			theme: '.tooltipster-shadow',
-			position: 'bottom-right'
+			theme: '.tooltipster-question',
+			position: 'top-right',
+			arrow:true,
+			arrowColor:'#FFF',
+			maxWidth:150
 		}); 
 		initAskAboutCarousel();
 		initAskAboutCarouselModal();
