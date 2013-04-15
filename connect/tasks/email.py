@@ -4,6 +4,7 @@ import settings
 import smtplib
 from connect.functions import GetFriendIDs
 from connect.models import Profile, FacebookUser, PotentialMatch
+from emails.models import Email
 import sendgrid
 
 
@@ -28,7 +29,7 @@ def send_welcome_email(profile):
     to_address = profile.user.email
     to_name = profile.name
     message = create_welcome_message(from_address, to_address, to_name)
-    send_message(message)
+    send_message(message, profile.user, Email.WELCOME)
 
 @task
 def send_friend_joined_email(joined_user_profile):
@@ -47,12 +48,16 @@ def send_friend_joined_email(joined_user_profile):
             currentNumberOfFoF = PotentialMatch.objects.filter(profile=profile).count()
             city = profile.location.split(',')[0]
             message = create_friend_joined_message(from_address, to_address, to_name, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF, city)
-            send_message(message)
+            send_message(message, profile.user, Email.FRIEND_JOINED)
         except:
             print "something went wrong when sending email to {0}'s friend {1}".format(joined_user_profile.name, profile.name)
 
 
-def send_message(message):
+def send_message(message, to_user, email_type):
+    email = Email(user=to_user, subject=message.subject, text_body=message.text,
+                  html_body=message.html, to_address=message.to[0], from_address=message.from_address,
+                  email_type=email_type)
+    email.save()
     s = sendgrid.Sendgrid(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD, secure=True)
     s.smtp.send(message)
 
