@@ -392,7 +392,7 @@
 		    			//console.log("set viewed = " + success );
 		    			var curProf = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
 	    				var currentCount = parseInt($(".friend-count").html());
-	    				if(currentCount == 0){$(".friend-count").hide();}
+	    				if(currentCount !== 0){$(".friend-count").show();}
 
 		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
 		    				console.log(currentCount);
