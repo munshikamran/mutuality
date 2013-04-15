@@ -240,7 +240,7 @@
     			}
     			else {
     				setModalWhenError("Sorry, but you have no favorites!");
-    				//setModalBack();
+    				setModalBack();
     			}
     		});
     	} else if ($('#fav-filter').val() == "Viewed") {
@@ -342,14 +342,15 @@
 
 	    	// Check to make sure that we have an id that's defined
 			if(Mutuality.mpcache.current){
-
+				$('.loaded').append('<img id="mutuality-badge" src="http://www.mymutuality.com/images/Mutuality-Badge.png"/>');		
 		    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === false){
 		    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a>');
+		    		$('img#mutuality-badge').hide();	
 		    	}
 		    	else {
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
 		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Introduce Yourself</a>');
-		    //		$('.loaded').append('<img id="mutuality-badge" src="http://localhost:8000/images/Mutuality-Badge.png"/>');	
+		    		$('img#mutuality-badge').show();	
 		    //		$('.match-profile-details').attr('id', 'mutuality-profile-span');
 		    //		$('#left-profile-name').attr('id', 'mutuality-profile-text');
 		    	}
