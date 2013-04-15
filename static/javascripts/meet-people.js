@@ -562,6 +562,20 @@
 			arrowColor:'#FFF',
 			maxWidth:150
 		}); 
+		$('.meet-people-question').tooltipster({
+			theme: '.tooltipster-question',
+			position: 'top-left',
+			arrow:true,
+			arrowColor:'#FFF',
+			maxWidth:150
+		}); 
+		$('.filter-question').tooltipster({
+			theme: '.tooltipster-question',
+			position: 'top',
+			arrow:true,
+			arrowColor:'#FFF',
+			maxWidth:150
+		}); 
 		initAskAboutCarousel();
 		initAskAboutCarouselModal();
 	}

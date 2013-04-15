@@ -8836,6 +8836,13 @@ div#question:hover{
     width:auto;
 }
 
+.filter-question{
+  position:absolute;
+  right:-5px;
+  top:-5px;
+  cursor:pointer;
+}
+
 .tooltipster-question .tooltipster-content {
   font-size: 12px;
   border-radius:3px;
@@ -8867,4 +8874,10 @@ div#question:hover{
     line-height: 12px;
     font-size:11px;
     padding:3px 5px;
+}
+
+.meet-people-question {
+    position:absolute;
+    cursor:pointer;
+
 }
