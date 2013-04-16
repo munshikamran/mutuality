@@ -14,6 +14,6 @@ import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
 URL = 'vast-thicket-3000.herokuapp.com'
 
-# celery
-BROKER_URL = 'amqp://nfhtezck:VA2WoDvlivIMoZnISotQzFFZS9F16tv6@tiger.cloudamqp.com/nfhtezck'
-BROKER_POOL_LIMIT = None
+# # celery
+# BROKER_URL = 'amqp://nfhtezck:VA2WoDvlivIMoZnISotQzFFZS9F16tv6@tiger.cloudamqp.com/nfhtezck'
+# BROKER_POOL_LIMIT = None

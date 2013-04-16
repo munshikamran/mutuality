@@ -1,6 +1,5 @@
-from datetime import datetime
 from django.db import models
-from connect.models import Profile
+from connect.models.profile import Profile
 
 
 class PotentialMatchUpdate(models.Model):
