@@ -1,8 +1,6 @@
-from datetime import datetime
 from django.db import models
-from connect.models import Profile
-from connect.models import FacebookUser
-from connect.models import PotentialMatchUpdate
+from connect.models.profile import Profile
+from connect.models.facebookuser import FacebookUser
 from connect.models.potentialBatch import PotentialBatch
 
 
