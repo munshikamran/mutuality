@@ -8,7 +8,7 @@
 							<h2>Meet People</h2>
 						</div>
 						<form id="four-filters" class="four columns custom">
-							<span class="friend-count" id="double-digit"></span>
+							<span class="friend-count" id="double-digit" style="display:none;"></span>
 							<select id="fav-filter" style="display:none;">
 								<option id="all" value="All" selected="selected">Friends</option><option id="dating" value="Dating">Dating</option>
 								<option id="favorites" value="Favorites">Favorites</option><option id="viewed" value="Viewed">Viewed</option>
@@ -37,8 +37,8 @@
 							<ul id="meet-profiles" class="meet-people-profiles">
 								
 							</ul>
-							<a href="#" id="page-prev">Previous</a>
-							<a href="#" id="page-next">Next</a>
+							<a href="#" id="page-prev" style="display:none;">Previous</a>
+							<a href="#" id="page-next" style="display:none;">Next</a>
 						</div>
 
 						<aside id="user-profile" class="three columns">
@@ -121,8 +121,8 @@
 				<span id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite your friends!)</a></span>
                 </a>
             </div>
+            <a id="modalClose" class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
         </div>
-        <a id="modalClose" class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
     </div>
     <div id="myModalLoading" class="reveal-modal medium">
         <h4>Loading...</h4>
@@ -217,17 +217,6 @@
            appId  : '{{ FACEBOOK_APP_ID }}',
            frictionlessRequests: true
         });
-
-		function sendRequestViaMultiFriendSelector() {
-			var message = 'Invite your friends to see more connections.';
-			FB.ui({method: 'apprequests',
-			   message: message
-			}, requestCallback);
-		}
-       	function requestCallback(response) {}
-
-       // Attach the facebook friend invite to things on the page
-       $("#inviteFriends a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");
 
     </script>
 {% endblock %}	

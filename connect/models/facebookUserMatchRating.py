@@ -1,8 +1,7 @@
 from django.db import models
-from connect.models.facebookUserMatch import FacebookUserMatch
+from facebookUserMatch import FacebookUserMatch
 
-
-class FacebookUserMatchRating(models.Model):
+class FacebookUserMatchRating( models.Model ):
     match = models.ForeignKey(FacebookUserMatch)
     thumbsUp = models.NullBooleanField(null=True)
 

@@ -4,7 +4,7 @@ from datetime import datetime
 from common.enums import RELATIONSHIP_STATUS
 from common.enums import GENDER
 from common.stateAbbreviationMapping import stateAbbreviations
-from connect.models.facebookuser import FacebookUser
+from facebookuser import FacebookUser
 
 
 class Profile(models.Model):
