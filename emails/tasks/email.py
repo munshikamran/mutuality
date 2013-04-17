@@ -7,14 +7,6 @@ from emails.models import Email
 import sendgrid
 
 
-def new_user_joined(profile):
-    send_user_joined_email.delay(profile)
-    send_welcome_email.delay(profile)
-    # excute this in the future so we know that we already have the user's friendlist in the db
-    send_friend_joined_email.apply_async(args=[profile], countdown=60*10)
-    return True
-
-
 @task
 def send_user_joined_email(profile):
     recipients = ['jeffreymames@gmail.com', 'jazjit.singh@gmail.com', 'kamran.munshi@gmail.com']

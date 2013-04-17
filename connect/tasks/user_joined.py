@@ -7,5 +7,5 @@ def user_joined(profile):
     send_welcome_email.delay(profile)
     send_welcome_message.delay(profile)
        # excute this in the future so we know that we already have the user's friendlist in the db
-    send_friend_joined_email.apply_async(args=[profile], countdown=60)
+    send_friend_joined_email.apply_async(args=[profile], countdown=60*10)
     return True
