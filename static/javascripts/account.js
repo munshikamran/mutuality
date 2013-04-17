@@ -81,7 +81,6 @@
 
     var url = window.location.href;
     if(url.indexOf("register") !== -1) {
-        $("#register-button").show();
         $("#register-button").click(function(){
             if($('#location-ajax').html() !== ""){
                 $('#location-error').hide();
