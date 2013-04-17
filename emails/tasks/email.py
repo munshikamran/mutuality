@@ -7,6 +7,7 @@ from connect.functions.getMutualFriendList import GetMutualFriendListWithFaceboo
 from connect.models.profile import Profile
 from connect.models.facebookuser import FacebookUser
 from connect.models.potentialMatch import PotentialMatch
+from connect.functions.getMeetPeople import GetMeetPeople
 from emails.models import Email
 
 
@@ -59,6 +60,23 @@ def send_new_message_email(message):
     email = create_new_message_message(from_address, to_address, to_name, sender_name,
                                        mutual_friend_count, mutual_friend_name)
     send_message(email, message.recipient.user, Email.NEW_MESSAGE)
+
+
+@task
+def send_inactive_email(profile):
+    from common.enums.meetPeopleFilters import MEET_PEOPLE_FILTER
+    from_address = 'info@mymutuality.com'
+    to_address = profile.user.email
+    to_name = profile.name
+    new_friend = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP).potentialMatches[0]
+    new_friend_name = new_friend.name
+    new_friend_facebookID = new_friend.facebookID
+    mutual_friend_list = GetMutualFriendListWithFacebookUserID(profile, new_friend.facebookID)
+    mutual_friend_count = len(mutual_friend_list)
+    mutual_friend_name = mutual_friend_list[0].name
+    email = create_inactive_message(from_address, to_address, to_name, new_friend_name,
+                                    new_friend_facebookID, mutual_friend_count, mutual_friend_name)
+    send_message(email, profile.user, Email.USER_INACTIVE)
 
 
 def send_message(message, to_user, email_type):
