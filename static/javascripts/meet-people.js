@@ -557,6 +557,27 @@
 		}
 
 		$('.tooltip').tooltipster();
+		$('.tooltipster-icon').tooltipster({
+			theme: '.tooltipster-question',
+			position: 'top-right',
+			arrow:true,
+			arrowColor:'#FFF',
+			maxWidth:150
+		}); 
+		$('.meet-people-question').tooltipster({
+			theme: '.tooltipster-question',
+			position: 'top-left',
+			arrow:true,
+			arrowColor:'#FFF',
+			maxWidth:150
+		}); 
+		$('.filter-question').tooltipster({
+			theme: '.tooltipster-question',
+			position: 'top',
+			arrow:true,
+			arrowColor:'#FFF',
+			maxWidth:150
+		}); 
 		initAskAboutCarousel();
 		initAskAboutCarouselModal();
 	}
@@ -718,9 +739,9 @@ var setNewBadge = function(friends) {
 		    	setNewBadge(friends);
 		    	createMutualityUserLookUp(friends);
 				meetPeopleSuccess(friends, true);
-				if ($('#noTour').length === 0) {
-					$('#joyRideTipContent').joyride();
-				}
+				// if ($('#noTour').length === 0) {
+				// 	$('#joyRideTipContent').joyride();
+				// }
 				
 			});
 		});
@@ -733,9 +754,9 @@ var setNewBadge = function(friends) {
 	    		setNewBadge(friends);
 	    		createMutualityUserLookUp(friends);
 				meetPeopleSuccess(friends, true);
-				if ($('#noTour').length === 0) {
-					$('#joyRideTipContent').joyride();
-				}
+				// if ($('#noTour').length === 0) {
+				// 	$('#joyRideTipContent').joyride();
+				// }
 			}
 		});
 	}
