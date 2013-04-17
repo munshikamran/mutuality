@@ -13,7 +13,7 @@ def GetMutualFriendList(profile1,profile2):
 
 #get the mutual friendlist between a Mutuality user and an arbitrary Facebook user
 #list is ordered by number of mutual friends shared
-def GetMutualFriendListWithFacebookUserID(profile,facebookUserID):
+def GetMutualFriendListWithFacebookUserID(profile, facebookUserID):
     graph = facebook.GraphAPI(GetProfileAuthToken(profile))
     mutualFriendsData = graph.get_connections("me","mutualFriends/"+str(facebookUserID))["data"]
     friendList = []

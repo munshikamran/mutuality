@@ -1,8 +1,9 @@
 from celery import task
 from django.core.mail import send_mail
 import settings
-from connect.functions import GetFriendIDs
+from connect.functions import GetFriendIDs, GetMutualFriendListWithFacebookUserID
 from connect.models import Profile, FacebookUser, PotentialMatch
+from messages.models import Message
 from emails.models import Email
 import sendgrid
 
@@ -42,6 +43,17 @@ def send_friend_joined_email(joined_user_profile):
             send_message(message, profile.user, Email.FRIEND_JOINED)
         except:
             print "something went wrong when sending email to {0}'s friend {1}".format(joined_user_profile.name, profile.name)
+
+
+@task
+def send_new_message_email(message):
+    from_address = 'info@mymutuality.com'
+    messageSender = message.sender.name
+    mutualFriendList = GetMutualFriendListWithFacebookUserID(message.recipient, message.sender.facebookID)
+    mutualFriendNumber = len(mutualFriendList)
+    mutualFriend = mutualFriendList[0].name
+    email = create_new_message_message(from_address, messageSender, mutualFriendNumber, mutualFriend)
+    send_message(email, message.recipient.user, Email.NEW_MESSAGE)
 
 
 def send_message(message, to_user, email_type):
@@ -96,6 +108,6 @@ def create_new_message_message(from_address, messageSender, mutualFriendNumber, 
     subject = "New message from {0}".format(messageSender)
     text = "Greetings,\n\n{0} just sent you a message on Mutuality. You and {1} share {2} mutual friends including {3}.\n\nView the message at www.mymutuality.com/messages.\n\nBest,\n\nThe Mutuality Team".format(messageSender.name,messageSenderFirstName,mutualFriendNumber,mutualFriend.name)
     html = '''<html><title>New message from {0}</title><body style = "margin:0px 0px 0px 0px; padding: 0px 0px 0px 0px; font-family: Tahoma, Geneva, sans-serif;"><!-- Start Main Table --><table width = "560px" height="170px" align="center" cellpadding="0" cellspacing="0" style="padding:10px 0px 10px 0px" bgcolor="#FFFFFF"><tr height="35px"><td align = "left" width="560px" cellpadding="0px" cellspacing="0" bgcolor="#6ba4c5" style = "color:#FFFFFF; font-weight: regular; padding: 1px 0px 0px 14px; font-family: Tahoma, Geneva, sans-serif;"><a href='http://www.mymutuality.com?src=email_new-message'><img src="http://www.mymutuality.com/images/LogoMedium.jpg" width="126" height="" alt="Logo" border="0"></a></td></tr><tr><td bgcolor="FFFFFF" height="30px" width="560px" align="left" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 10px 0px 15px; font-size: 16px; color:#000; font-weight:regular">{1} just sent you a message on Mutuality</td></tr><tr><td align="left" height="20px" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 15px; font-size: 12px; color:#000; font-weight:regular">You and {2} share <span style="font-size:18px; font-weight:bold">{3}</span> mutual friends including<span style="font-weight:bold">{4}.</td></tr><tr><td align="left" height="30" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 15px 0px 15px; font-size: 16px; color:#000; font-weight:regular"><a href="http://www.mymutuality.com/messages?email_new-message">View the message on Mutuality</a></td></tr></table><table width="560" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF"><tr><td width="50"></td><td width="410" align="right" height="30" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 6px; color:#DDD; font-weight:regular; border-top:1px solid #DDD">This email was sent by Mutuality. Mutuality helps you meet cool people through your mutual friends.<br>If you received this in error, please click <a href="#" style="color:#ccc">here</a> to unsubscribe.</td></tr></table></body></html>'''.format(messageSender, messageSender, messageSenderFirstName, mutualFriendNumber, mutualFriend.name)
-    message=sendgrid.Message(from_header, subject, text, html)
+    message = sendgrid.Message(from_header, subject, text, html)
     message.add_category([Email.NEW_MESSAGE])
     return message
