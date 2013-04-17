@@ -8,4 +8,4 @@ class BeaconCategory(models.Model):
         app_label = 'connect'
 
     def __unicode__(self):
-        return "%s" % (self.name)
+        return "%s" % self.name
