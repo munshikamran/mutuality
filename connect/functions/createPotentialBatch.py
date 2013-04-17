@@ -2,7 +2,7 @@ from connect.models import PotentialMatch
 from connect.models import PotentialMatchUpdate
 from connect.models import PotentialBatch
 from connect.functions.updatePotentialMatches import UpdatePotentialMatches
-from connect.functions import GetAllViewedUsers
+from connect.functions.getViewedUsers import GetAllViewedUsers
 from datetime import datetime, timedelta
 import pytz
 import settings
