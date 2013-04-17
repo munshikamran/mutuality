@@ -9,6 +9,7 @@ from connect.models.facebookuser import FacebookUser
 from connect.models.potentialMatch import PotentialMatch
 from connect.functions.getMeetPeople import GetMeetPeople
 from emails.models import Email
+from datetime import datetime, timedelta
 
 
 @task
@@ -60,6 +61,16 @@ def send_new_message_email(message):
     email = create_new_message_message(from_address, to_address, to_name, sender_name,
                                        mutual_friend_count, mutual_friend_name)
     send_message(email, message.recipient.user, Email.NEW_MESSAGE)
+
+
+def send_all_inactive_emails():
+    past = datetime.now() - timedelta(days=5)
+    inactive_profiles = Profile.objects.filter(user__last_login__lte=past)
+    for profile in inactive_profiles[0:1]:
+        #     check if we have already sent email
+        already_sent = Email.objects.filter(user=profile.user, email_type=Email.USER_INACTIVE, sent_at__gte=past).exists()
+        if not already_sent:
+            send_inactive_email.delay(profile)
 
 
 @task
