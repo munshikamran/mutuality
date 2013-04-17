@@ -8861,10 +8861,25 @@ border-bottom:1px solid #DDD;
 }
 
 .beacon-image {
-   height:40px; 
-   width:40px; 
+   height:50px; 
+   width:50px; 
    display:block;
-   margin:10px auto;
+ /*  margin:0px auto;*/
+  border: 2px solid white;
+  float: right;
+  background-size: 100%;
+  -webkit-transition: all 100ms;
+  -moz-transition: all 100ms;
+  -o-transition: all 100ms;
+  transition: all 100ms;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
 }
 
 #beacon-image-div{
