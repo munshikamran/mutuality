@@ -1,0 +1,1 @@
+from connect.tasks.user_joined import *
