@@ -10,3 +10,6 @@ from pageView import PageView
 from potentialMatchUpdate import PotentialMatchUpdate
 from potentialMatch import PotentialMatch
 from potentialBatch import PotentialBatch
+from beacon import Beacon
+from beaconCategory import BeaconCategory
+from beaconUserLike import BeaconUserLike
