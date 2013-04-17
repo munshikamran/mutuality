@@ -8892,3 +8892,9 @@ div#question:hover{
   cursor:pointer;
   margin: 8px 0px 0px 255px !important;
 }
+
+.search-question {
+  position:absolute;
+  cursor:pointer;
+  margin: -50px 0px 0px 175px !important;
+}

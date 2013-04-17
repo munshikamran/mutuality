@@ -319,8 +319,14 @@
           $('.lock-question').tooltipster({
             theme:'.tooltipster-question',
             maxWidth:150,
-            position:'top-left'
+            position:'top-right'
           });
+           $('.search-question').tooltipster({
+            theme:'.tooltipster-question',
+            maxWidth:150,
+            position:'bottom-left'
+          });
+
         }
 
     };
