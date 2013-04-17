@@ -1,18 +1,10 @@
 from celery import task
 from django.core.mail import send_mail
 import settings
-import smtplib
 from connect.functions import GetFriendIDs
 from connect.models import Profile, FacebookUser, PotentialMatch
+from emails.models import Email
 import sendgrid
-
-
-def new_user_joined(profile):
-    send_user_joined_email.delay(profile)
-    send_welcome_email.delay(profile)
-    # excute this in the future so we know that we already have the user's friendlist in the db
-    send_friend_joined_email.apply_async(args=[profile], countdown=60*10)
-    return True
 
 
 @task
@@ -28,7 +20,7 @@ def send_welcome_email(profile):
     to_address = profile.user.email
     to_name = profile.name
     message = create_welcome_message(from_address, to_address, to_name)
-    send_message(message)
+    send_message(message, profile.user, Email.WELCOME)
 
 @task
 def send_friend_joined_email(joined_user_profile):
@@ -45,13 +37,18 @@ def send_friend_joined_email(joined_user_profile):
             numberOfNewFriends = FacebookUser.objects.filter(facebookID__in=(set(friendIDs).difference(friendsFriends)), state=profile.state).count()
             totalNumberOfFriends = len(friendsFriends)
             currentNumberOfFoF = PotentialMatch.objects.filter(profile=profile).count()
-            message = create_friend_joined_message(from_address, to_address, to_name, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF)
-            send_message(message)
+            city = profile.location.split(',')[0]
+            message = create_friend_joined_message(from_address, to_address, to_name, friendName, friendFacebookID, numberOfNewFriends, totalNumberOfFriends, currentNumberOfFoF, city)
+            send_message(message, profile.user, Email.FRIEND_JOINED)
         except:
             print "something went wrong when sending email to {0}'s friend {1}".format(joined_user_profile.name, profile.name)
 
 
-def send_message(message):
+def send_message(message, to_user, email_type):
+    email = Email(user=to_user, subject=message.subject, text_body=message.text,
+                  html_body=message.html, to_address=message.to[0], from_address=message.from_address,
+                  email_type=email_type)
+    email.save()
     s = sendgrid.Sendgrid(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD, secure=True)
     s.smtp.send(message)
 
@@ -64,7 +61,7 @@ def create_welcome_message(from_address, to_address, to_name):
     from_header = from_address
     message = sendgrid.Message(from_header, subject, text, html)
     message.add_to(to_address, to_name)
-    message.add_category(["Welcome"])
+    message.add_category([Email.WELCOME])
     return message
 
 
@@ -73,31 +70,32 @@ def create_friend_joined_message(from_address, to_address, to_name, friendName, 
     percentage = (currentNumberOfFoF*100/estimatedFoFPotential)
     oneMinusPercentage = 100-percentage
     html = '''<html><title>{0} joined you on Mutuality</title><body style = "margin:0px 0px 0px 0px; padding: 0px 0px 0px 0px; font-family: Tahoma, Geneva, sans-serif;"><!-- Start Header --><table width="560px" height="70" align="center" cellpadding="0px" cellspacing="0" bgcolor="#FFFFFF" style = "color:#000; font-weight: regular; padding: 0px 0px 0px 14px; font-family: Tahoma, Geneva, sans-serif;"><tr><td width="110px" height="70px"><a href="http://www.mymutuality.com?src=addFriendEmail_logo"><img src="http://www.mymutuality.com/images/smallLogo.jpg" width="95" height="40" alt="Logo" border="0"></a></td><td valign="bottom" width="410px" height="70px" style="font-size:14px; border-bottom: 1px solid #DDD; line-height:110%">{1} has joined you on Mutuality<br><br></td></tr></table><!-- End Header --><!-- Start Next Section --><table cellpadding="0" cellspacing="0" align="center" width="540px" bgcolor="FFFFFF"><tr><td width="120" height="130" align="right" valign="top" bgcolor="FFFFFF" style="padding:15px 0px 0px 0px"><img src="https://graph.facebook.com/{2}/picture?width=75&height=75"></td><td width="260" height="130" valign="top" align="right" cellspacing="0" bgcolor="FFFFFF" style="padding:15px 0px 0px 0px; font-size:14px">You are now connected to <span style="font-size:18px;font-weight:bold">{3}</span> more friends-of-friends in {4}<table width="400" height="100" align="right" cellpadding="0px" cellspacing="0" style="padding:0px 0px 0px 20px"><tr><td valign="bottom" height="40px"><table width="150px" height="20px" valign="bottom" align="left" cellpadding="0px" cellspacing="0"><tr><td width="{5}%" height="20px" bgcolor="#0065a5"></td><td width="{6}%" height="20px" bgcolor="#DDD"></td></tr></table></td><td valign="bottom" style="font-size:11px; padding:5px 0px 0px 20px">{7} network is now <span style="font-size:14px;font-weight:bold">{8}%</span> complete<br><a href="http://www.mymutuality.com?src=addFriendEmail_inviteFriendLink">Invite more friends</a></td><tr><td valign="top" style="font-size:9px">({9} connections out of {10})</td></tr></table></table><table width="560" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF"><tr><td width="50"></td><td width="410" align="right" height="30" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 6px; color:#DDD; font-weight:regular; border-top:1px solid #DDD">This email was sent by Mutuality. Mutuality helps you meet cool people through your mutual friends.<br>If you received this in error, please click <a href="#" style="color:#ccc">here</a> to unsubscribe.</td></tr><!-- </table> --></body></html>'''.format(friendName, friendName, friendFacebookID, numberOfNewFriends, city, percentage,oneMinusPercentage, city, percentage, currentNumberOfFoF, estimatedFoFPotential)
-    text = "Greetings,\n\n{0} has joined you on Mutuality.\n\nYou are now connected to {1} more friends-of-friends in {2} for a total of {3} friends-of-friends in {4}. Your network is now {5} percent complete.\n\nBest,\n\nThe Mutuality Team".format(friendName,numberOfNewFriends,city,currentNumberOfFoF,percentage)
+    text = "Greetings,\n\n{0} has joined you on Mutuality.\n\nYou are now connected to {1} more friends-of-friends in {2} for a total of {3} friends-of-friends in {4}. Your network is now {5} percent complete.\n\nBest,\n\nThe Mutuality Team".format(friendName,numberOfNewFriends,city,currentNumberOfFoF,city, percentage)
     subject = "(+{0}) {1} joined you on Mutuality".format(numberOfNewFriends, friendName)
     from_header = from_address
     message = sendgrid.Message(from_header, subject, text, html)
     message.add_to(to_address, to_name)
-    message.add_category(["Friend joined"])
+    message.add_category([Email.FRIEND_JOINED])
     return message
 
 
-def create_inactive_message(from_address, to_name, newFriend, mutualFriendNumber, mutualFriendOne, mutualFriendTwo, mutualFriendThree):
+def create_inactive_message(from_address, to_name, newFriend, mutualFriendNumber, mutualFriend):
     from_header = from_address
     newFriendFirstName = newFriend.name.split()[0]
     subject = "Have you met my friend {0} ({1})?".format(newFriendFirstName, mutualFriendNumber)
-    text = "Greetings,\n\nMeet {0}. You and {1} share {2} mutual friends including {3}, {4}, and {5}.\n\nCheck out www.mymutuality.com to learn more about {6} and see 19 more friends-of-friends.\n\nBest,\n\nThe Mutuality Team".format(newFriend,newFriendFirstName,mutualFriendNumber, mutualFriendOne.name, mutualFriendTwo.name, mutualFriendThree.name,newFriendFirstName)
-    html ='''<html><title>Have you met my friend {0}?</title><body style = "margin:0px 0px 0px 0px; padding: 0px 0px 0px 0px; font-family: Tahoma, Geneva, sans-serif;"><!-- Start Main Table --><table width = "100%" height="100%" cellpadding = "0" style="padding:10px 0px 10px 0px" bgcolor="#FFFFFF"><table align = "center" width="560px" height="35px" cellpadding="0px" cellspacing="0" bgcolor="#6ba4c5" style = "color:#FFFFFF; font-weight: regular; padding: 1px 0px 0px 14px; font-family: Tahoma, Geneva, sans-serif;"><tr><td><a href='http://www.mymutuality.com?src=email_inactive'><img src="http://www.mymutuality.com/images/LogoMedium.jpg" width="126" height="" alt="Logo" border="0"></a></td></tr></table><table width="560px" height = "200px" align="center"><tr><td width="340px" height="200px"><table cellpadding="0" cellspacing="0" width="340px" height="200px" bgcolor="FFFFFF"><tr><td bgcolor="FFFFFF" align="left" style="font-family: Tahoma, Geneva, sans-serif; padding: 5px 10px 0px 15px; font-size: 24px; color:#000; font-weight:regular">{1}</td></tr><tr><td align="left" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 10px 0px 15px; font-size: 12px; color:#000; font-weight:regular">You and {2} share <span style="font-size:18px; font-weight:bold">{3}</span> mutual friends including<br><span style="font-weight:bold">{4}, {5},</span> and <span style="font-weight:bold">{6}</span></td></tr><tr><td align="left" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 10px 10px 0px 15px; font-size: 12px; color:#000; font-weight:regular"><table cellpadding="0" cellspacing="0" width="340px" bgcolor="FFFFFF"><tr><td><img src = "https://graph.facebook.com/{7}/picture?width=75&height=75"></td><td><img src = "https://graph.facebook.com/{8}/picture?width=75&height=75"></td><td><img src = "https://graph.facebook.com/{9}/picture?width=75&height=75"></td></tr></table></td></tr></table></td><td width="200px" height="200px"><img src="https://graph.facebook.com/{10}/picture?width=160&height=160"></td></tr></table><table align="center"><tr><td align="center" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 10px 10px 20px 15px; font-size: 14px; color:#000; font-weight:regular"><a href="http://www.mymutuality.com?email_inactive-bottom">Click here</a> to learn more about {11} and see 19 more friends-of-friends</td></tr></table><table width="560" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF"><tr><td width="50"></td><td width="410" align="right" height="30" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 6px; color:#DDD; font-weight:regular; border-top:1px solid #DDD">This email was sent by Mutuality. Mutuality helps you meet cool people through your mutual friends.<br>If you received this in error, please click <a href="#" style="color:#ccc">here</a> to unsubscribe.</td></tr></table></table></body></html>'''.format(newFriendFirstName, newFriend.name, newFriendFirstName, mutualFriendNumber, mutualFriendOne.name, mutualFriendTwo.name, mutualFriendThree.name,mutualFriendOne.facebookID, mutualFriendTwo.facebookID, mutualFriendThree.facebookID,newFriend.facebookID,newFriendFirstName)
+    text = "Greetings,\n\nMeet {0}. You and {1} share {2} mutual friends including {3}.\n\nCheck out www.mymutuality.com to learn more about {4} and see 19 more friends-of-friends.\n\nBest,\n\nThe Mutuality Team".format(newFriend,newFriendFirstName,mutualFriendNumber, mutualFriend.name,newFriendFirstName)
+    html ='''<html><title>Have you met my friend {0}?</title><body style = "margin:0px 0px 0px 0px; padding: 0px 0px 0px 0px; font-family: Tahoma, Geneva, sans-serif;"><!-- Start Main Table --><table width = "100%" height="100%" cellpadding = "0" style="padding:10px 0px 10px 0px" bgcolor="#FFFFFF"><table align = "center" width="560px" height="35px" cellpadding="0px" cellspacing="0" bgcolor="#6ba4c5" style = "color:#FFFFFF; font-weight: regular; padding: 1px 0px 0px 14px; font-family: Tahoma, Geneva, sans-serif;"><tr><td><a href='http://www.mymutuality.com?src=email_inactive'><img src="http://www.mymutuality.com/images/LogoMedium.jpg" width="126" height="" alt="Logo" border="0"></a></td></tr></table><table width="560px" height = "200px" align="center"><tr><td width="340px" height="200px"><table cellpadding="0" cellspacing="0" width="340px" height="200px" bgcolor="FFFFFF"><tr><td bgcolor="FFFFFF" align="left" style="font-family: Tahoma, Geneva, sans-serif; padding: 5px 10px 0px 15px; font-size: 24px; color:#000; font-weight:regular">{1}</td></tr><tr><td align="left" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 10px 0px 15px; font-size: 12px; color:#000; font-weight:regular">You and {2} share <span style="font-size:18px; font-weight:bold">{3}</span> mutual friends including<br><span style="font-weight:bold">{4}.</span></td></tr></table></td><td width="200px" height="200px"><img src="https://graph.facebook.com/{5}/picture?width=160&height=160"></td></tr></table><table align="center"><tr><td align="center" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 10px 10px 20px 15px; font-size: 14px; color:#000; font-weight:regular"><a href="http://www.mymutuality.com?email_inactive-bottom">Click here</a> to learn more about {6} and see 19 more friends-of-friends</td></tr></table><table width="560" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF"><tr><td width="50"></td><td width="410" align="right" height="30" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 6px; color:#DDD; font-weight:regular; border-top:1px solid #DDD">This email was sent by Mutuality. Mutuality helps you meet cool people through your mutual friends.<br>If you received this in error, please click <a href="#" style="color:#ccc">here</a> to unsubscribe.</td></tr></table></table></body></html>'''.format(newFriendFirstName, newFriend.name, newFriendFirstName, mutualFriendNumber, mutualFriend.name, newFriend.facebookID, newFriendFirstName)
     message = sendgrid.Message(from_header, subject, text, html)
-    message.add_category(["New Friends"])
+    message.add_category([Email.USER_INACTIVE])
     return message
 
-# def create_new_message_message(messageSender, mutualFriendNumber, mutualFriend):
-#     from_header = "Mutuality"
-#     messageSenderFirstName = messageSender.name.split()[0]
-#     subject = "New message from {0}".format(messageSender)
-#     text = "Greetings,\n\n{0} just sent you a message on Mutuality. You and {1} share {2} mutual friends including {3}.\n\nView the message at www.mymutuality.com/messages.\n\nBest,\n\nThe Mutuality Team".format(messageSender.name,messageSenderFirstName,mutualFriendNumber,mutualFriend.name)
-#     html = '''<html><title>New message from {0}</title><body style = "margin:0px 0px 0px 0px; padding: 0px 0px 0px 0px; font-family: Tahoma, Geneva, sans-serif;"><!-- Start Main Table --><table width = "560px" height="170px" align="center" cellpadding="0" cellspacing="0" style="padding:10px 0px 10px 0px" bgcolor="#FFFFFF"><tr height="35px"><td align = "left" width="560px" cellpadding="0px" cellspacing="0" bgcolor="#6ba4c5" style = "color:#FFFFFF; font-weight: regular; padding: 1px 0px 0px 14px; font-family: Tahoma, Geneva, sans-serif;"><a href='http://www.mymutuality.com?src=email_new-message'><img src="http://www.mymutuality.com/images/LogoMedium.jpg" width="126" height="" alt="Logo" border="0"></a></td></tr><tr><td bgcolor="FFFFFF" height="30px" width="560px" align="left" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 10px 0px 15px; font-size: 16px; color:#000; font-weight:regular">{1} just sent you a message on Mutuality</td></tr><tr><td align="left" height="20px" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 15px; font-size: 12px; color:#000; font-weight:regular">You and {2} share <span style="font-size:18px; font-weight:bold">{3}</span> mutual friends including<span style="font-weight:bold">{4}.</td></tr><tr><td align="left" height="30" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 15px 0px 15px; font-size: 16px; color:#000; font-weight:regular"><a href="http://www.mymutuality.com/messages?email_new-message">View the message on Mutuality</a></td></tr></table><table width="560" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF"><tr><td width="50"></td><td width="410" align="right" height="30" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 6px; color:#DDD; font-weight:regular; border-top:1px solid #DDD">This email was sent by Mutuality. Mutuality helps you meet cool people through your mutual friends.<br>If you received this in error, please click <a href="#" style="color:#ccc">here</a> to unsubscribe.</td></tr></table></body></html>'''.format(messageSender, messageSender, messageSenderFirstName, mutualFriendNumber, mutualFriend.name)     message=sendgrid.Message(from_header, subject, text, html)
-#     message.add_category(["New Message"])
-#     return message
 
+def create_new_message_message(from_address, messageSender, mutualFriendNumber, mutualFriend):
+    from_header = from_address
+    messageSenderFirstName = messageSender.name.split()[0]
+    subject = "New message from {0}".format(messageSender)
+    text = "Greetings,\n\n{0} just sent you a message on Mutuality. You and {1} share {2} mutual friends including {3}.\n\nView the message at www.mymutuality.com/messages.\n\nBest,\n\nThe Mutuality Team".format(messageSender.name,messageSenderFirstName,mutualFriendNumber,mutualFriend.name)
+    html = '''<html><title>New message from {0}</title><body style = "margin:0px 0px 0px 0px; padding: 0px 0px 0px 0px; font-family: Tahoma, Geneva, sans-serif;"><!-- Start Main Table --><table width = "560px" height="170px" align="center" cellpadding="0" cellspacing="0" style="padding:10px 0px 10px 0px" bgcolor="#FFFFFF"><tr height="35px"><td align = "left" width="560px" cellpadding="0px" cellspacing="0" bgcolor="#6ba4c5" style = "color:#FFFFFF; font-weight: regular; padding: 1px 0px 0px 14px; font-family: Tahoma, Geneva, sans-serif;"><a href='http://www.mymutuality.com?src=email_new-message'><img src="http://www.mymutuality.com/images/LogoMedium.jpg" width="126" height="" alt="Logo" border="0"></a></td></tr><tr><td bgcolor="FFFFFF" height="30px" width="560px" align="left" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 10px 0px 15px; font-size: 16px; color:#000; font-weight:regular">{1} just sent you a message on Mutuality</td></tr><tr><td align="left" height="20px" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 15px; font-size: 12px; color:#000; font-weight:regular">You and {2} share <span style="font-size:18px; font-weight:bold">{3}</span> mutual friends including<span style="font-weight:bold">{4}.</td></tr><tr><td align="left" height="30" bgcolor="FFFFFF" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 15px 0px 15px; font-size: 16px; color:#000; font-weight:regular"><a href="http://www.mymutuality.com/messages?email_new-message">View the message on Mutuality</a></td></tr></table><table width="560" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF"><tr><td width="50"></td><td width="410" align="right" height="30" style="font-family: Tahoma, Geneva, sans-serif; padding: 0px 0px 0px 0px; font-size: 6px; color:#DDD; font-weight:regular; border-top:1px solid #DDD">This email was sent by Mutuality. Mutuality helps you meet cool people through your mutual friends.<br>If you received this in error, please click <a href="#" style="color:#ccc">here</a> to unsubscribe.</td></tr></table></body></html>'''.format(messageSender, messageSender, messageSenderFirstName, mutualFriendNumber, mutualFriend.name)
+    message=sendgrid.Message(from_header, subject, text, html)
+    message.add_category([Email.NEW_MESSAGE])
+    return message
