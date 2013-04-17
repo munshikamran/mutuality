@@ -1,7 +1,7 @@
-from getFriendList import GetFriendList
+from connect.functions.getFriendList import GetFriendList
 from connect.models import FacebookUser
-from getProfileAuthToken import GetProfileAuthToken
-from orderByNumberOfMutualFriends import OrderByNumberOfMutualFriends
+from connect.functions.getProfileAuthToken import GetProfileAuthToken
+from connect.functions.orderByNumberOfMutualFriends import OrderByNumberOfMutualFriends
 import facebook
 
 #get the mutual friendlist between two Mutuality users

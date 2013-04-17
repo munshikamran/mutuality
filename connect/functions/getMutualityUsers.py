@@ -1,5 +1,5 @@
-from connect.models import Profile
-from connect.functions import GetFriendIDs
+from connect.models.profile import Profile
+from connect.functions.getFriendList import GetFriendIDs
 from common.enums import RELATIONSHIP_STATUS
 
 def GetNonFriendUsersInArea(profile):

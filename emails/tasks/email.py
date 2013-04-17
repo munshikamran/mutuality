@@ -1,11 +1,13 @@
+import settings
+import sendgrid
 from celery import task
 from django.core.mail import send_mail
-import settings
-from connect.functions import GetFriendIDs, GetMutualFriendListWithFacebookUserID
-from connect.models import Profile, FacebookUser, PotentialMatch
-from messages.models import Message
+from connect.functions.getFriendList import GetFriendIDs
+from connect.functions.getMutualFriendList import GetMutualFriendListWithFacebookUserID
+from connect.models.profile import Profile
+from connect.models.facebookuser import FacebookUser
+from connect.models.potentialMatch import PotentialMatch
 from emails.models import Email
-import sendgrid
 
 
 @task
@@ -46,7 +48,7 @@ def send_friend_joined_email(joined_user_profile):
 
 
 @task
-def send_new_message_email(message):
+def send_new_message_email(sender_name, mutual_friend_count, mutual_friend_name):
     from_address = 'info@mymutuality.com'
     messageSender = message.sender.name
     mutualFriendList = GetMutualFriendListWithFacebookUserID(message.recipient, message.sender.facebookID)
