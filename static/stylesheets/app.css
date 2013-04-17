@@ -8897,26 +8897,26 @@ border-bottom:1px solid #DDD;
 #beacon-like-div {
   display:block;
   height:25px;
-  width:85%;
+  width:90%;
   background:#f9f9f9;
   clear:both;
 }
 
 #beacon-nub {
   position:absolute;
-  margin:-12px 0px 0px 114px;
+  margin:-12px 0px 0px 125px;
   height:15px;
   width:25px;
 }
 
 #like-text {
-  font-size:12px;
+  font-size:10px;
   vertical-align:70%;
   cursor:pointer;
 }
 
 #like-text:hover {
-  font-size:12px;
+  font-size:10px;
   vertical-align:70%;
   text-decoration:underline;
 }
@@ -8931,20 +8931,26 @@ border-bottom:1px solid #DDD;
  /* display:block-inline;
   height:25px;*/
   /*text-align:center;*/
-  margin:25% 0% 17% 35%;
+  margin:35% 0% 17% 35%;
   float:right;
+  height:8px;
+  width:8px;
 }
 
 #like-number {
   font-size:10px;
   color:#989898;
-  vertical-align:85%;
-  text-align:right;
+  display:block;
+  margin:9px 0px 0px 0px;
 }
 
-#like-block{
+#like-block {
   display:inline-block;
   height:25px;
   width:50%;
+  float:right;
 }
 
+#beacon-title {
+  margin-bottom:10px;
+}
