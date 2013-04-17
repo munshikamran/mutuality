@@ -8800,3 +8800,151 @@ border-bottom:1px solid #DDD;
   background-image: linear-gradient(top, #6cb7ce 0%, #2a9abf 100%);
 }
 
+/* line 540, ../sass/app.scss */
+#beacon {
+  height: 150px;
+  display:block;
+}
+
+/* line 541, ../sass/app.scss */
+#beacon ul {
+  height: 150px;
+  width: 213px;
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* line 542, ../sass/app.scss */
+#beacon li {
+  margin: 2px;
+  float: left;
+  z-index: 0;
+}
+
+/* line 543, ../sass/app.scss */
+#beacon a {
+  display: inline-block;
+  padding: 3px;
+  width: 65px;
+  height: 65px;
+}
+
+/* line 544, ../sass/app.scss */
+#beacon .profile-thumb {
+  width: 60px;
+  height: 60px;
+  border-width: 3px;
+}
+
+/* line 545, ../sass/app.scss */
+#beacon .profile-thumb:hover {
+  border-width: 4px;
+  border-color: #4fa8c4;
+  -webkit-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+  -moz-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+  box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+}
+
+.beacon-image {
+   height:40px; 
+   width:40px; 
+   display:block;
+   margin:10px auto;
+}
+
+#beacon-image-div{
+  width: 30%;
+  height:60px;
+  display:inline-block;
+  float:left;
+}
+
+#beacon-info{
+  height:60px;
+  width:70%;
+  display:inline-block;
+  float:right;
+}
+
+#at-span{
+  display:block;
+}
+
+#at-image {
+  display:block;
+  margin-right:auto;
+  margin-left:auto;
+  margin-top:5px;
+  margin-bottom:5px;
+}
+
+#activity {
+  display:block;
+  font-size:16px;
+  font-weight:bolder;
+  text-align:center;
+}
+
+#place {
+  display:block;
+  font-size:16px;
+  font-weight:lighter;
+  text-align:center;
+}
+
+#beacon-like-div {
+  display:block;
+  height:25px;
+  width:85%;
+  background:#f9f9f9;
+  clear:both;
+}
+
+#beacon-nub {
+  position:absolute;
+  margin:-12px 0px 0px 114px;
+  height:15px;
+  width:25px;
+}
+
+#like-text {
+  font-size:12px;
+  vertical-align:70%;
+  cursor:pointer;
+}
+
+#like-text:hover {
+  font-size:12px;
+  vertical-align:70%;
+  text-decoration:underline;
+}
+
+#like-span{
+  height:25px;
+  display:inline-block;
+  width:15%;
+}
+
+#like-button{
+ /* display:block-inline;
+  height:25px;*/
+  /*text-align:center;*/
+  margin:25% 0% 17% 35%;
+  float:right;
+}
+
+#like-number {
+  font-size:10px;
+  color:#989898;
+  vertical-align:85%;
+  text-align:right;
+}
+
+#like-block{
+  display:inline-block;
+  height:25px;
+  width:50%;
+}
+

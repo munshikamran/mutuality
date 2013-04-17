@@ -62,8 +62,22 @@
 								<a href="#" id="ask-prev" class="four offset-by-one columns small button">&larr; Prev</a>
 								<a href="#" id="ask-next" class="four offset-by-two columns small button">Next &rarr;</a>
 							</div>
-							<div>
+							<div id="beacon">
 								<h6><span class="profile-name"></span>'s Beacon</h6>
+								<div id="beacon-image-div">
+									<img class="beacon-image" src="{{ MEDIA_URL }}/images/john.jpg">
+								</div>	
+								<div id="beacon-info">
+									<span id="activity">Poker</span>
+									<span id="at-span"><img id="at-image" src="{{ MEDIA_URL }}/images/As.png"></span>
+									<span id="place">Capitol Hill</span>
+								</div>
+								<div id="beacon-like-div">
+									<img id="beacon-nub" src="{{ MEDIA_URL }}/images/Beacon-Nub.png">
+									<span id="like-span"><img id="like-button" src="{{ MEDIA_URL }}/images/like-button.png"></span>
+									<span id="like-text">Like</span>
+									<span id="like-block"><span id="like-number">4 people like this</span></span>
+								</div>	
 							</div>	
 
 						</aside>
