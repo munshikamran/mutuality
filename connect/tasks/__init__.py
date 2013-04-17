@@ -1,3 +1,2 @@
-from email import *
-from welcome_message import *
-from user_joined import *
+from connect.tasks.user_joined import *
+from connect.tasks.update_potential_matches import *

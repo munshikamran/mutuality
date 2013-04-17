@@ -8212,6 +8212,19 @@ html {
   color: #fff;
 }
 
+/*.tooltipster-shadow {
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0px 0px 14px rgba(0,0,0,0.3);
+  color: #2c2c2c;
+}
+.tooltipster-shadow .tooltipster-content {
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 8px 10px;
+}*/
+
 /* Use this next selector to style things like font-size and line-height: */
 /* line 771, ../sass/app.scss */
 .tooltipster-default .tooltipster-content {
@@ -8234,7 +8247,7 @@ html {
 /* If you're using the icon option, use this next selector to style them */
 /* line 793, ../sass/app.scss */
 .tooltipster-icon {
-  cursor: help;
+  cursor: pointer;
   margin-left: 4px;
 }
 
@@ -8800,3 +8813,88 @@ border-bottom:1px solid #DDD;
   background-image: linear-gradient(top, #6cb7ce 0%, #2a9abf 100%);
 }
 
+div#question{
+  width:15px;
+  height:20px;
+  margin:-2px -3px;
+  display:inline-block;
+  background:url(../images/Question.png) no-repeat;
+  background-size: 15px 15px;
+}
+
+div#question:hover{
+  width:15px;
+  height:20px;
+  margin:-2px -3px;
+  display:inline-block;
+  background:url(../images/QuestionHover.png) no-repeat;
+  background-size:15px 15px;
+}
+
+.tooltip-question {
+    height:auto;
+    width:auto;
+}
+
+.filter-question{
+  position:absolute;
+  right:-5px;
+  top:-5px;
+  cursor:pointer;
+}
+
+.tooltipster-question .tooltipster-content {
+  font-size: 12px;
+  border-radius:3px;
+  border:1px solid #54a6c2;
+  background:#fff;
+  /*font-weight: 700;*/
+  /*text-align: center;*/
+  
+  /*padding: 5px 10px;*/
+  /*display: block;*/
+  /*width: auto;*/
+  /*white-space: nowrap;*/
+  box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.3);
+}
+.question-header {
+    height:20px;
+    width:auto;
+    font-size:12px;
+    line-height:10px;
+    /*font-weight:light;*/
+    display:block;
+    padding:5px 5px;
+    font-weight:bolder;
+    color:#FFF;
+    background-color:#54a6c2;
+}
+.question-body {
+    display:block;
+    line-height: 12px;
+    font-size:11px;
+    padding:3px 5px;
+}
+
+.meet-people-question {
+    position:absolute;
+    cursor:pointer;
+}
+
+.gender-question {
+  position:absolute;
+  cursor:pointer;
+  margin: -40px 0px 0px 105px !important;
+}
+
+.lock-question {
+  position:absolute;
+  cursor:pointer;
+  margin: 8px 0px 0px 255px !important;
+}
+
+.search-question {
+  position:absolute;
+  cursor:pointer;
+  margin: -50px 0px 0px 175px !important;
+}
