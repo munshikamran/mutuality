@@ -1,3 +1,1 @@
-from connect.tasks.user_joined import user_joined
 from connect.tasks.update_potential_matches import update_all_potential_matches
-from connect.tasks.message_sent import message_sent
