@@ -90,7 +90,7 @@
                 profileDict['gender'] = $("#reg-sex :selected").text();
                 console.log(profileDict);
                 Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
-                    mixpanel.track("Registration");
+                    //mixpanel.track("Registration");
                     mixpanel.alias(Mutuality.cache.profile.facebookID);
                     mixpanel.identify(Mutuality.cache.profile.facebookID);
                     $('.success-trigger').trigger('click');
