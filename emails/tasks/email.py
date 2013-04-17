@@ -48,7 +48,7 @@ def send_friend_joined_email(joined_user_profile):
 
 
 @task
-def send_new_message_email(sender_name, mutual_friend_count, mutual_friend_name):
+def send_new_message_email(message):
     from_address = 'info@mymutuality.com'
     messageSender = message.sender.name
     mutualFriendList = GetMutualFriendListWithFacebookUserID(message.recipient, message.sender.facebookID)
