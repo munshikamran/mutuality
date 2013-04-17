@@ -735,9 +735,9 @@ var setNewBadge = function(friends) {
 		    	setNewBadge(friends);
 		    	createMutualityUserLookUp(friends);
 				meetPeopleSuccess(friends, true);
-				if ($('#noTour').length === 0) {
-					$('#joyRideTipContent').joyride();
-				}
+				// if ($('#noTour').length === 0) {
+				// 	$('#joyRideTipContent').joyride();
+				// }
 				
 			});
 		});
@@ -750,9 +750,9 @@ var setNewBadge = function(friends) {
 	    		setNewBadge(friends);
 	    		createMutualityUserLookUp(friends);
 				meetPeopleSuccess(friends, true);
-				if ($('#noTour').length === 0) {
-					$('#joyRideTipContent').joyride();
-				}
+				// if ($('#noTour').length === 0) {
+				// 	$('#joyRideTipContent').joyride();
+				// }
 			}
 		});
 	}

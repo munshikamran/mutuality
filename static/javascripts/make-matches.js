@@ -311,6 +311,16 @@
            }
 
           $('.tooltip').tooltipster();
+          $('.gender-question').tooltipster({
+            theme:'.tooltipster-question',
+            maxWidth:150,
+            position:'top-left'
+          });
+          $('.lock-question').tooltipster({
+            theme:'.tooltipster-question',
+            maxWidth:150,
+            position:'top-left'
+          });
         }
 
     };

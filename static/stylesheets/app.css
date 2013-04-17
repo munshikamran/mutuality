@@ -8879,5 +8879,16 @@ div#question:hover{
 .meet-people-question {
     position:absolute;
     cursor:pointer;
+}
 
+.gender-question {
+  position:absolute;
+  cursor:pointer;
+  margin: -40px 0px 0px 105px !important;
+}
+
+.lock-question {
+  position:absolute;
+  cursor:pointer;
+  margin: 8px 0px 0px 255px !important;
 }
