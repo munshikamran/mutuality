@@ -1,5 +1,5 @@
 from emails.tasks.email import send_user_joined_email, send_welcome_email, send_friend_joined_email
-from emails.tasks.welcome_message import send_welcome_message
+from connect.tasks.welcome_message import send_welcome_message
 
 
 def user_joined(profile):

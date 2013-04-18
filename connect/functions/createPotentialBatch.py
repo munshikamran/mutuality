@@ -2,8 +2,9 @@ from connect.models import PotentialMatch
 from connect.models import PotentialMatchUpdate
 from connect.models import PotentialBatch
 from connect.functions.updatePotentialMatches import UpdatePotentialMatches
-from connect.functions import GetAllViewedUsers
+from connect.functions.getViewedUsers import GetAllViewedUsers
 from datetime import datetime, timedelta
+from common.enums import GENDER
 import pytz
 import settings
 
@@ -14,9 +15,22 @@ def CreatePotentialBatch(profile):
 #     get potential matches for profile, remove users that have been seen
     batchSize = 20
     viewedUsers = GetAllViewedUsers(profile)
-    potentialMatches = PotentialMatch.objects.filter(profile=profile).exclude(facebookUser__in=viewedUsers)
-    potentialMatches = potentialMatches.order_by('-isMutualityConnection', '-numMutualFriends')[:batchSize]
-    if potentialMatches.count() < 1:
+    userGender = profile.gender
+    if not userGender:
+        userGender = GENDER.MALE
+    sameGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile, facebookUser__gender__in=[userGender, None]).exclude(facebookUser__in=viewedUsers)
+    sameGenderPotentialMatches = sameGenderPotentialMatches.order_by('-isMutualityConnection',
+                                                                     '-numMutualFriends')[:batchSize/2]
+
+    otherGender = GENDER.FEMALE
+    if userGender == GENDER.FEMALE:
+        otherGender = GENDER.MALE
+    otherGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile, facebookUser__gender=otherGender).exclude(facebookUser__in=viewedUsers)
+    otherGenderPotentialMatches = otherGenderPotentialMatches.order_by('-isMutualityConnection',
+                                                                 '-numMutualFriends')[:batchSize/2]
+
+    potentialMatches = set(sameGenderPotentialMatches).union(set(otherGenderPotentialMatches))
+    if len(potentialMatches) < 1:
         print "no matches available"
         return None
     # weird problem with duplicates when QuerySet with order_by is allowed to evaluate lazily.

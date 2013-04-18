@@ -4,7 +4,7 @@ from REST.serializers import MeetPeopleProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from connect.functions import GetMeetPeopleProfile
+from connect.functions.getMeetPeopleProfile import GetMeetPeopleProfile
 
 class GetMeetPeopleProfileAPI(APIView):
     """
