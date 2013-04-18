@@ -18,7 +18,7 @@ def CreatePotentialBatch(profile):
     userGender = profile.gender
     if not userGender:
         userGender = GENDER.MALE
-    sameGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile, gender__in=[userGender, None]).exclude(facebookUser__in=viewedUsers)
+    sameGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile, facebookUser__gender__in=[userGender, None]).exclude(facebookUser__in=viewedUsers)
     sameGenderPotentialMatches = sameGenderPotentialMatches.order_by('-isMutualityConnection',
                                                                      '-numMutualFriends')[:batchSize/2]
 
@@ -26,8 +26,8 @@ def CreatePotentialBatch(profile):
     if userGender == GENDER.FEMALE:
         otherGender = GENDER.MALE
     otherGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile).exclude(facebookUser__in=viewedUsers,
-                                                                                         gender=otherGender)
-    otherGenderPotentialMatches = sameGenderPotentialMatches.order_by('-isMutualityConnection',
+                                                                                         facebookUser__gender=otherGender)
+    otherGenderPotentialMatches = otherGenderPotentialMatches.order_by('-isMutualityConnection',
                                                                  '-numMutualFriends')[:batchSize/2]
 
     potentialMatches = set(sameGenderPotentialMatches).union(set(otherGenderPotentialMatches))
