@@ -79,30 +79,49 @@
  			}
  		}, 75);
 
-	$("#save-button").click(function(){
-		if($('#location-ajax').html() !== ""){
-			$('#location-error').hide();
-			var profileDict = {};
-			profileDict['location'] = $("#reg-location").val();
-			profileDict['relationship_status'] = $("#reg-relationship :selected").text();
-			profileDict['gender'] = $("#reg-sex :selected").text();
-			console.log(profileDict);
-			Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
-				$('.success-trigger').trigger('click');
-	            var url = window.location.href; 
-				if(url.indexOf("register") !== -1) { 
-					mixpanel.track("Registration");
-					mixpanel.alias(Mutuality.cache.profile.facebookID);
-					mixpanel.identify(Mutuality.cache.profile.facebookID);
-					window.location = "/meetpeople/";
-				}	
-			});
-		}
-		else {
-			$('#location-error').show();
-			$('.error-trigger').trigger('click');
-		}
-	});
+    var url = window.location.href;
+    if(url.indexOf("register") !== -1) {
+        $("#register-button").click(function(){
+            if($('#location-ajax').html() !== ""){
+                $('#location-error').hide();
+                var profileDict = {};
+                profileDict['location'] = $("#reg-location").val();
+                profileDict['relationship_status'] = $("#reg-relationship :selected").text();
+                profileDict['gender'] = $("#reg-sex :selected").text();
+                console.log(profileDict);
+                Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
+                    //mixpanel.track("Registration");
+                    mixpanel.alias(Mutuality.cache.profile.facebookID);
+                    mixpanel.identify(Mutuality.cache.profile.facebookID);
+                    $('.success-trigger').trigger('click');
+                    window.location = "/meetpeople/";
+                });
+            }
+            else {
+                $('#location-error').show();
+                $('.error-trigger').trigger('click');
+            }
+        });
+    }
+    else{
+        $("#save-button").click(function(){
+            if($('#location-ajax').html() !== ""){
+                $('#location-error').hide();
+                var profileDict = {};
+                profileDict['location'] = $("#reg-location").val();
+                profileDict['relationship_status'] = $("#reg-relationship :selected").text();
+                profileDict['gender'] = $("#reg-sex :selected").text();
+                console.log(profileDict);
+                Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
+                    $('.success-trigger').trigger('click');
+                });
+            }
+            else {
+                $('#location-error').show();
+                $('.error-trigger').trigger('click');
+            }
+        });
+    }
 
 /* End Main Code */
 
