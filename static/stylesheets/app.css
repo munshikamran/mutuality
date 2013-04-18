@@ -7924,6 +7924,31 @@ form#registration textarea {
   box-shadow: none;
 }
 
+#reg-sex.custom.dropdown {
+  width:100px !important;
+}
+
+#reg-sex.custom.dropdown.open a {
+  width:100px !important;
+}
+
+#reg-relationship.custom.dropdown {
+  width:100px !important;
+}
+
+#reg-relationship.custom.dropdown.open a {
+  width:100px !important;
+}
+
+#reg-relationship.custom.dropdown.open ul {
+  width:170px !important;
+}
+
+
+form#registration input[type=text] {
+  width:250px
+}
+
 /* line 691, ../sass/app.scss */
 form#registration textarea {
   min-height: 150px;
@@ -8897,4 +8922,8 @@ div#question:hover{
   position:absolute;
   cursor:pointer;
   margin: -50px 0px 0px 175px !important;
+}
+
+#beacon-title {
+
 }
