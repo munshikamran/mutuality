@@ -108,6 +108,7 @@ INSTALLED_APPS = (
 	'django.contrib.admindocs',
 	# MUTUALITY RELATED APPLICATIONS
 	'connect',
+    'emails',
     'la_facebook',
     'messages',
     'rest_framework',

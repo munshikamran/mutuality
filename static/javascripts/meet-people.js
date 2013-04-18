@@ -110,12 +110,12 @@
 			        for(i=0; i<5&&i<data.items.visible.prevObject.length; i++){
 			        	var fbID = $(data.items.visible.prevObject[i]).attr("facebookid");
 			        	if(fbID){
-			        	if(!Mutuality.mpcache.profileCacheData[fbID]){
-							fbID = $(data.items.visible.prevObject[i]).attr("facebookid");
-							//console.log("Calls made for " + fbID);
-							asyncCacheCalls(fbID);
+				        	if(!Mutuality.mpcache.profileCacheData[fbID]){
+								fbID = $(data.items.visible.prevObject[i]).attr("facebookid");
+								//console.log("Calls made for " + fbID);
+								asyncCacheCalls(fbID);
+							}
 						}
-					}
 			        }	   
 			   }
 			}
@@ -412,21 +412,23 @@ function countDown(end, cur){
 		    		//console.log(Mutuality.mpcache.profileCacheData);	    	
 		    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
 		    			//console.log("set viewed = " + success );
-		    			$(".friend-count").show();
 		    			var curProf = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
 	    				var currentCount = parseInt($(".friend-count").html());
-	    				if(currentCount == 0){$(".friend-count").hide();}
+	    				if(currentCount !== 0){$(".friend-count").show();}
 
 		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
-		    				if(currentCount==1){
+		    				if(currentCount == 1){
 			    					triggerModal("myModalViewed");
 			    					$(".friend-count").hide();
 		    				}
 		    				setFriendCountStyle();
 		    				if(currentCount > 0){
-		    					$(".friend-count").html(currentCount-1);
+		    					newCount = currentCount-1;
+		    					$(".friend-count").html(newCount);
+		    					if(newCount == 0){
+		    						$(".friend-count").hide();
+		    					}		    				
 		    				}
-
 		    			}
 		    			Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] = true;
 		    			/*if(Object.keys(Mutuality.mpcache.viewedCacheData).length == Mutuality.mpcache.datingList.length){
@@ -441,19 +443,22 @@ function countDown(end, cur){
 		    		//console.log(Mutuality.mpcache.profileCacheData);	    	
 		    		Mutuality.setUserViewed(Mutuality.mpcache.current, function(success){
 		    			//console.log("set viewed = " + success );
-		    			$(".friend-count").show();
 		    			var curProf = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
 	    				var currentCount = parseInt($(".friend-count").html());
-	    				if(currentCount == 0){$(".friend-count").hide();}
+	    				if(currentCount !== 0){$(".friend-count").show();}
 
 		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
 		    				console.log(currentCount);
-		    				if(currentCount==1){
+		    				if(currentCount == 1){
 		    					triggerModal("myModalViewed");
 		    				}
 		    				setFriendCountStyle();
 		    				if(currentCount > 0){
-		    					$(".friend-count").html(currentCount-1);
+		    					newCount = currentCount-1;
+		    					$(".friend-count").html(newCount);
+		    					if(newCount == 0){
+		    						$(".friend-count").hide();
+		    					}
 		    				}
 		    			}
 
@@ -473,9 +478,9 @@ function countDown(end, cur){
 					loadProfileInfoIntoUI(Mutuality.mpcache.current, Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].extendedProfile);
 		    	}
 		    	else {
-		    		//Cache miss
-		    		//Go fetch the data, and store it in the cache, then load into UI from cache
-		    		//console.log("cache miss.")
+		    		// Cache miss
+		    		// Go fetch the data, and store it in the cache, then load into UI from cache
+		    		// console.log("cache miss.")
 		    		$('#page-next').hide();
 		    		$('#page-prev').hide();
 					setTimeout(function (){
@@ -506,9 +511,6 @@ function countDown(end, cur){
 					loadMeetPeopleProfileInfoToCache(facebookID, mutualFriends, extendedProfile);
 					loadMutualFriendsIntoUI(facebookID, Mutuality.mpcache.profileCacheData[facebookID].mutualFriends);
 					loadProfileInfoIntoUI(facebookID, Mutuality.mpcache.profileCacheData[facebookID].extendedProfile);
-					$('#page-next').show();
-					$('#page-prev').show();
-					hideModal();
 			});
 		});
 	}
@@ -555,11 +557,11 @@ function countDown(end, cur){
 			    	}
 
 					//Show the main content, dismiss the modal, init tooltips
-			    	hideModal();
 			    	//$("#main").show();
 		    		$('.tooltip').tooltipster();
 			    	initCarousel();
 		    		$('#page-next').trigger('click');
+			    	hideModal();
 
 				});
 		});
@@ -608,6 +610,27 @@ function countDown(end, cur){
 		}
 
 		$('.tooltip').tooltipster();
+		$('.tooltipster-icon').tooltipster({
+			theme: '.tooltipster-question',
+			position: 'top-right',
+			arrow:true,
+			arrowColor:'#FFF',
+			maxWidth:150
+		}); 
+		$('.meet-people-question').tooltipster({
+			theme: '.tooltipster-question',
+			position: 'top-left',
+			arrow:true,
+			arrowColor:'#FFF',
+			maxWidth:150
+		}); 
+		$('.filter-question').tooltipster({
+			theme: '.tooltipster-question',
+			position: 'top',
+			arrow:true,
+			arrowColor:'#FFF',
+			maxWidth:150
+		}); 
 		initAskAboutCarousel();
 		initAskAboutCarouselModal();
 	}
@@ -667,19 +690,19 @@ function countDown(end, cur){
 			$("#profile-stats ul").show();
 			$("#profile-stats ul li").show();
 
-			$(".profile-name").html(basicProfile.name);
+			$(".profile-name").html(basicProfile.name.split(" ")[0]);
 			$("#profile-fb a").attr('onclick', Mutuality.getFacebookPageURL(basicProfile.facebookID));
 	}
 
     // After AJAX call for getMeetPeople, load that into meet people page cache
     var meetPeopleSuccess = function(friends){
-    	if (friends.length > 2){
+    	if (friends.length == 0){
+    		setModalWhenError("Sorry, but we didn't find anyone!  Check back soon.");
+    	}
+    	else if (friends.length > 2){
     		console.log("Meet People Success = " + friends[2].facebookID)
     		$("#meet-profiles").html("");
     		fetchMeetPeopleProfileInfoAndShowUI(friends[2].facebookID, friends);
-    	}
-    	else if (friends.length == 0){
-    		setModalWhenError("Sorry, but we didn't find anyone!  Check back soon.");
     	}
     	else{
     		$("#meet-profiles").html("");
@@ -721,8 +744,8 @@ function countDown(end, cur){
 
 var setModalBack = function(modalID){
 	$("#modalClose").click(function (){
-			if(modalID == "myModal"){$(".reveal-modal h4").text("Loading...");}
-			else{$(".reveal-modal h4").text("Loading...");}
+			//if(modalID == "myModal"){$(".reveal-modal h4").text("Loading...");}
+			$(".reveal-modal h4").text("Loading...");
 			$(".loading-2").css("display", "block");
 			$(".loading-1").css("display", "block");
 			$(".match-name").show();
@@ -733,14 +756,16 @@ var setModalBack = function(modalID){
 
 var setNewBadge = function(friends) {
 	var newCount = 0;
+	console.log(friends);
 	for (i=0;i<friends.length;i++){
 		if(friends[i].hasBeenViewed !== true){
 			newCount++;
 		}
 	}
 	$(".friend-count").html(newCount);
-	if(newCount == 0){
-		$(".friend-count").hide();
+
+	if(newCount !== 0){
+		$(".friend-count").show();
 	}
 	else{
 		setFriendCountStyle();
@@ -767,9 +792,9 @@ var setNewBadge = function(friends) {
 		    	setNewBadge(friends);
 		    	createMutualityUserLookUp(friends);
 				meetPeopleSuccess(friends, true);
-				if ($('#noTour').length === 0) {
-					$('#joyRideTipContent').joyride();
-				}
+				// if ($('#noTour').length === 0) {
+				// 	$('#joyRideTipContent').joyride();
+				// }
 				
 			});
 		});
@@ -782,9 +807,9 @@ var setNewBadge = function(friends) {
 	    		setNewBadge(friends);
 	    		createMutualityUserLookUp(friends);
 				meetPeopleSuccess(friends, true);
-				if ($('#noTour').length === 0) {
-					$('#joyRideTipContent').joyride();
-				}
+				// if ($('#noTour').length === 0) {
+				// 	$('#joyRideTipContent').joyride();
+				// }
 			}
 		});
 	}

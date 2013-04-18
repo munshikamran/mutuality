@@ -34,7 +34,7 @@
 							Start Right Here
 						</div>	
 						<div class="facebook-login">
-							<a href="{% url la_facebook_login %}?next={{ next }}" onClick='mixpanel.track("Facebook Connect")';><img src="images/facebook-login.png"></a>
+							<a href="{% url la_facebook_login %}?next={{ next }}" id="facebookConnect"><img src="images/facebook-login.png"></a>
 						</div>
 						<div class="assurance">
 							(We never post to Facebook)
@@ -88,7 +88,8 @@
       mixPanelInit = "2c016968167f5dc85b02e758553ab355"
     }
     mixpanel.init(mixPanelInit);
-  	mixpanel.track("Homepage loaded"); 
+  	mixpanel.track("Homepage loaded");
+  	mixpanel.track_links("#facebookConnect", "Facebook Connect"); 
 
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
