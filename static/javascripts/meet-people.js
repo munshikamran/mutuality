@@ -637,7 +637,7 @@
 			$("#profile-stats ul").show();
 			$("#profile-stats ul li").show();
 
-			$(".profile-name").html(basicProfile.name);
+			$(".profile-name").html(basicProfile.name.split(" ")[0]);
 			$("#profile-fb a").attr('onclick', Mutuality.getFacebookPageURL(basicProfile.facebookID));
 	}
 
