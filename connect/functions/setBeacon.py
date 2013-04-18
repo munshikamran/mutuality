@@ -8,5 +8,7 @@ def SetBeacon(profile, placeString, categoryName):
             beacon = Beacon(profile=profile, place=placeString, category=category)
             beacon.save()
             return True
+        else:
+            return False
     except:
         return False
