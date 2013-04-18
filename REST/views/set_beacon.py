@@ -8,11 +8,10 @@ class SetBeaconAPI(APIView):
     """
     Set a user's beacon.
     """
-    def get_object(self, pk, place, category):
+    def get_object(self, fbID, place, activity):
         try:
-            profile = Profile.objects.get(facebookID=pk)
-            hasBeaconSet = SetBeacon(profile, place, category)
-            #print hasBeaconSet
+            profile = Profile.objects.get(facebookID=fbID)
+            hasBeaconSet = SetBeacon(profile, place, activity)
             return hasBeaconSet
         except Profile.DoesNotExist:
             raise Http404
@@ -20,6 +19,5 @@ class SetBeaconAPI(APIView):
             return False
 
     def post(self, request, format=None):
-        hasBeaconSet = self.get_object(request.DATA['token'], request.DATA['place'], request.DATA['category'])
-        print hasBeaconSet
+        hasBeaconSet = self.get_object(request.DATA['token'], request.DATA['place'], request.DATA['activity'])
         return hasBeaconSet

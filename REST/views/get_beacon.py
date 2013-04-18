@@ -10,9 +10,9 @@ class GetBeaconAPI(APIView):
     """
     Get a user's beacon.
     """
-    def get_object(self, pk):
+    def get_object(self, fbID):
         try:
-            profile = Profile.objects.get(facebookID=pk)
+            profile = Profile.objects.get(facebookID=fbID)
             beacon = GetBeacon(profile)
             return beacon
         except Profile.DoesNotExist:

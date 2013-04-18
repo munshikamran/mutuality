@@ -13,3 +13,4 @@ from potentialBatch import PotentialBatch
 from beacon import Beacon
 from beaconCategory import BeaconCategory
 from beaconUserLike import BeaconUserLike
+from beaconActivity import BeaconActivity

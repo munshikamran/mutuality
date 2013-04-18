@@ -22,3 +22,6 @@ from viewPage import ViewPage, PageHasBeenViewed
 from getNumberOfMutualFriends import GetNumberOfMutualFriends
 from createPotentialBatch import CreatePotentialBatch
 from updatePotentialMatches import UpdatePotentialMatches
+from setBeacon import SetBeacon
+from likeBeacon import LikeBeacon
+from getBeacon import GetBeacon

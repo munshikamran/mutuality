@@ -514,10 +514,10 @@ var Mutuality = (function($){
      },
 
     //Set a Beacon
-    setBeacon: function( beaconPlace, beaconCategory, success )
+    setBeacon: function( beaconPlace, beaconActivity, beaconCategory, success )
     {
          var self = this;
-         self.__post('api/setBeacon/', { token: this.token, place: beaconPlace, category: beaconCategory }, function( response ){
+         self.__post('api/setBeacon/', { token: this.token, place: beaconPlace, activity: beaconActivity, categoryName: beaconCategory }, function( response ){
              if(response == true)
              {
                  if(success instanceof Function) success.call(self, response);
