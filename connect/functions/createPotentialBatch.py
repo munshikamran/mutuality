@@ -25,8 +25,7 @@ def CreatePotentialBatch(profile):
     otherGender = GENDER.FEMALE
     if userGender == GENDER.FEMALE:
         otherGender = GENDER.MALE
-    otherGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile).exclude(facebookUser__in=viewedUsers,
-                                                                                         facebookUser__gender=otherGender)
+    otherGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile, facebookUser__gender=otherGender).exclude(facebookUser__in=viewedUsers)
     otherGenderPotentialMatches = otherGenderPotentialMatches.order_by('-isMutualityConnection',
                                                                  '-numMutualFriends')[:batchSize/2]
 
