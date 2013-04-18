@@ -1,5 +1,5 @@
 from django.db import models
-from connect.models import Profile
+from connect.models.profile import Profile
 
 
 class PotentialBatch(models.Model):

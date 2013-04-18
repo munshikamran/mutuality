@@ -493,7 +493,58 @@ var Mutuality = (function($){
          self.__post('api/setProfile/', { token: this.token, location: loc, relationship_status: relationship, gender: gen }, function( response ){
              if(success instanceof Function) success.call(self, response); 
          });
-     }
+     },
+
+    //Get a Beacon
+    getBeacon: function( success )
+    {
+         var self = this;
+
+         self.__post('api/getBeacon/', { token: this.token }, function( response ){
+             //console.log(response);
+             if(response == true)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 alert("Error: Failed to find a beacon.");
+             }
+         });
+     },
+
+    //Set a Beacon
+    setBeacon: function( beaconPlace, beaconCategory, success )
+    {
+         var self = this;
+         self.__post('api/setBeacon/', { token: this.token, place: beaconPlace, category: beaconCategory }, function( response ){
+             if(response == true)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 alert("Error: Failed to set a beacon.");
+             }
+         });
+     },
+
+     //Like a beacon
+    likeBeacon: function( fbID, success )
+    {
+         var self = this;
+
+         self.__post('api/likeBeacon/', { token: this.token, facebookID: fbID }, function( response ){
+             if(response == true)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 alert("Error: Failed to like beacon.");
+             }
+         });
+     } 
 
  };
    return module;

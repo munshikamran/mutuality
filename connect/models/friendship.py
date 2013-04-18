@@ -1,8 +1,9 @@
 from django.db import models
-from facebookuser import FacebookUser
+from connect.models.facebookuser import FacebookUser
+
 
 # Create your models here.
-class Friendship( models.Model ):
+class Friendship(models.Model):
     #id
     user = models.ForeignKey('Profile', related_name="friend_to" )
     friend = models.ForeignKey(FacebookUser, related_name="friend_from")

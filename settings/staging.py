@@ -12,8 +12,8 @@ FACEBOOK_APP_ID = '503402936389228'
 FACEBOOK_APP_SECRET = '00c92e60a39c18b6ead3f69dba7aa6f1'
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
-URL = 'www.mymutuality.com'
+URL = 'vast-thicket-3000.herokuapp.com'
 
-# celery
-BROKER_URL = 'amqp://nfhtezck:VA2WoDvlivIMoZnISotQzFFZS9F16tv6@tiger.cloudamqp.com/nfhtezck'
-BROKER_POOL_LIMIT = None
+# # celery
+# BROKER_URL = 'amqp://nfhtezck:VA2WoDvlivIMoZnISotQzFFZS9F16tv6@tiger.cloudamqp.com/nfhtezck'
+# BROKER_POOL_LIMIT = None

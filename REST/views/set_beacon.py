@@ -12,6 +12,7 @@ class SetBeaconAPI(APIView):
         try:
             profile = Profile.objects.get(facebookID=pk)
             hasBeaconSet = SetBeacon(profile, place, category)
+            #print hasBeaconSet
             return hasBeaconSet
         except Profile.DoesNotExist:
             raise Http404
@@ -20,4 +21,5 @@ class SetBeaconAPI(APIView):
 
     def post(self, request, format=None):
         hasBeaconSet = self.get_object(request.DATA['token'], request.DATA['place'], request.DATA['category'])
+        print hasBeaconSet
         return hasBeaconSet

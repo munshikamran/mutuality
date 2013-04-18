@@ -1,6 +1,7 @@
 from django.db import models
-from facebookuser import FacebookUser
-from profile import Profile
+from connect.models.facebookuser import FacebookUser
+
+
 class UserViewed( models.Model ):
     user = models.ForeignKey('Profile', related_name="viewed_by" )
     viewed = models.ForeignKey(FacebookUser, related_name="viewed_person")

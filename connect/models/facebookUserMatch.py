@@ -1,9 +1,9 @@
 from django.db import models
-from profile import Profile
-from facebookuser import FacebookUser
+from connect.models.profile import Profile
+from connect.models.facebookuser import FacebookUser
 
 
-class FacebookUserMatch( models.Model ):
+class FacebookUserMatch(models.Model):
     profile = models.ForeignKey(Profile)
     facebookUser1 = models.ForeignKey(FacebookUser, related_name="match_facebookUser1")
     facebookUser2 = models.ForeignKey(FacebookUser, related_name="match_facebookUser2")
