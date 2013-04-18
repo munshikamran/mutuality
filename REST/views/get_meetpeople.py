@@ -3,7 +3,7 @@ from connect.models import Profile
 from REST.serializers import FacebookUserMeetPeopleSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from connect.functions import GetMeetPeople
+from connect.functions.getMeetPeople import GetMeetPeople
 from common.enums import MEET_PEOPLE_FILTER
 
 class GetMeetPeopleAPI(APIView):

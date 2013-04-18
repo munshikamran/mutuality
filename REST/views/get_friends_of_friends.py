@@ -4,7 +4,7 @@ from REST.serializers import FacebookUserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from connect.functions import GetFriendsOfFriends
+from connect.functions.getFriendsOfFriends import GetFriendsOfFriends
 
 class GetFriendsOfFriendsList(APIView):
     """
