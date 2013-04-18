@@ -66,7 +66,7 @@ def send_new_message_email(message):
 def send_all_inactive_emails():
     past = datetime.now() - timedelta(days=5)
     inactive_profiles = Profile.objects.filter(user__last_login__lte=past)
-    for profile in inactive_profiles[0:10]:
+    for profile in inactive_profiles:
         try:
             #     check if we have already sent email
             already_sent = Email.objects.filter(user=profile.user, email_type=Email.USER_INACTIVE, sent_at__gte=past).exists()
