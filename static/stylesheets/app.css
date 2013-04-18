@@ -8924,6 +8924,9 @@ div#question:hover{
   margin: -50px 0px 0px 175px !important;
 }
 
-#beacon-title {
+#notification-radio {
+  display:inline-block;
+  float:left;
+  line-height: 3em;
 
 }
