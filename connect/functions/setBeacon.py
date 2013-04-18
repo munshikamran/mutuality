@@ -13,6 +13,7 @@ def SetBeacon(profile, placeString, activityName, **kwargs):
             # We should create a custom activity then
             if BeaconCategory.objects.filter(name=kwargs['categoryName']).exists():
                 cat = BeaconCategory.objects.get(name=kwargs['categoryName'])
+                print cat.name
                 activity = BeaconActivity(name=activityName, category=cat)
                 activity.save()
                 # and then use it for this beacon

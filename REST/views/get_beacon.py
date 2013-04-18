@@ -20,5 +20,6 @@ class GetBeaconAPI(APIView):
 
     def post(self, request, format=None):
         beacon = self.get_object(request.DATA['token'])
+        print beacon
         serializer = BeaconSerializer(beacon)
         return Response(serializer.data)

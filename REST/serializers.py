@@ -53,14 +53,14 @@ class UserFavoriteSerializer(serializers.ModelSerializer):
 class BeaconCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = BeaconCategory
-        fields = ('user', 'favorite', 'date_created')
+        fields = ('name', 'picture_url')
 
 class BeaconSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
     category = BeaconCategorySerializer()
     class Meta:
         model = Beacon
-        fields = ('profile', 'place', 'category')
+        fields = ('user', 'place', 'activity', 'date_createds')
 
 class MessagesSerializer(serializers.ModelSerializer):
     sender = ProfileSerializer()
