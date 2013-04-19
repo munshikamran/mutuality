@@ -8963,14 +8963,14 @@ border-bottom:1px solid #DDD;
 }
 
 #like-text {
-  font-size:10px;
-  vertical-align:70%;
+  font-size:12px;
+  vertical-align:55%;
   cursor:pointer;
 }
 
 #like-text:hover {
-  font-size:10px;
-  vertical-align:70%;
+  font-size:12px;
+  vertical-align:55%;
   text-decoration:underline;
 }
 
@@ -8984,10 +8984,10 @@ border-bottom:1px solid #DDD;
  /* display:block-inline;
   height:25px;*/
   /*text-align:center;*/
-  margin:35% 0% 17% 35%;
+  margin:25% 0% 0% 35%;
   float:right;
-  height:8px;
-  width:8px;
+  height:12px;
+  width:12px;
 }
 
 #like-number {

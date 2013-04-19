@@ -6,6 +6,7 @@ from connect.models.userFavorite import UserFavorite
 from messages.models import Message
 from connect.models.beacon import Beacon
 from connect.models.beaconCategory import BeaconCategory
+from connect.models.beaconActivity import BeaconActivity
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,12 +56,19 @@ class BeaconCategorySerializer(serializers.ModelSerializer):
         model = BeaconCategory
         fields = ('name', 'picture_url')
 
+class BeaconActivitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = BeaconActivity
+        fields= ('name', 'category')
+
 class BeaconSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
     category = BeaconCategorySerializer()
+    activity = BeaconActivitySerializer()
     class Meta:
         model = Beacon
-        fields = ('user', 'place', 'activity', 'date_createds')
+        fields = ('user', 'place', 'activity', 'date_created')
 
 class MessagesSerializer(serializers.ModelSerializer):
     sender = ProfileSerializer()
