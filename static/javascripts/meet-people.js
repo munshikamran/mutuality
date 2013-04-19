@@ -319,19 +319,21 @@
    	   $(".close-reveal-modal").trigger('click');
 	}
 
-	var loadBeacon = function(){
-		//dummy variable for fb id -- switch to current for staging/prod
-		var fbID = Mutuality.token; 
-		//fbID = Mutuality.mpcache.current;
-			
+	var loadBeacon = function(fbID){
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
 			console.log(beaconObject);
 			var activity = beaconObject.activity.name;
 			var place = beaconObject.place;
+<<<<<<< HEAD
 			var likeNumber = 3248;
 			$('#beacon-activity').html(activity);
 			$('#activity').html(activity);
+=======
+			var likeNumber = 3;
+			$('#beacon-activity').html(activity.name);
+			$('#activity').html(activity.name);
+>>>>>>> e55a7c27da1203cf56449a8ed4b2d26dad59e9fb
 			$('#place').html(place);
 			$('#beacon-like-number').html(likeNumber);
 		});
@@ -371,7 +373,7 @@
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
 		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Introduce Yourself</a>');
 		    		$('img#mutuality-badge').show();
-		    		loadBeacon();
+		    		loadBeacon(Mutuality.token);
 		    		$('div#beacon').show();
 
 		    //		$('.match-profile-details').attr('id', 'mutuality-profile-span');

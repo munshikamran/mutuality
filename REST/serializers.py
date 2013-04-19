@@ -57,6 +57,12 @@ class BeaconCategorySerializer(serializers.ModelSerializer):
         fields = ('name', 'picture_url')
 
 class BeaconActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        category = BeaconCategorySerializer()
+        model = BeaconActivity
+        fields = 'name'
+
+class BeaconActivitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BeaconActivity
