@@ -16,4 +16,4 @@ def LikeBeacon(profile, facebookID):
         return False
 
 def GetBeaconLikeCount(beacon):
-    BeaconUserLike.objects.filter(beacon=beacon).count()
+    return BeaconUserLike.objects.filter(beacon=beacon).count()

@@ -543,9 +543,27 @@ var Mutuality = (function($){
                  alert("Error: Failed to like beacon.");
              }
          });
-     } 
+     },
 
- };
+   //Get a beacon's like count
+    getBeaconLikeCount: function( fbID, success )
+    {
+       var self = this;
+
+       self.__post('api/getBeaconLikeCount/', { token: this.token, fbID: fbID }, function( response ){
+           console.log(response)
+           if(response)
+           {
+               if(success instanceof Function) success.call(self, response);
+           }
+           else
+           {
+               alert("Error: Failed to get beacon like count.");
+           }
+       });
+    }
+
+   };
    return module;
 })(jQuery);
 
