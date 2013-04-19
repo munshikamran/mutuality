@@ -319,11 +319,7 @@
    	   $(".close-reveal-modal").trigger('click');
 	}
 
-	var loadBeacon = function(){
-		//dummy variable for fb id -- switch to current for staging/prod
-		var fbID = Mutuality.token; 
-		//fbID = Mutuality.mpcache.current;
-			
+	var loadBeacon = function(fbID){
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
 			console.log(beaconObject);
@@ -371,7 +367,7 @@
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
 		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Introduce Yourself</a>');
 		    		$('img#mutuality-badge').show();
-		    		loadBeacon();
+		    		loadBeacon(Mutuality.token);
 		    		$('div#beacon').show();
 
 		    //		$('.match-profile-details').attr('id', 'mutuality-profile-span');

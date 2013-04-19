@@ -19,6 +19,6 @@ class GetBeaconAPI(APIView):
             raise Http404
 
     def post(self, request, format=None):
-        beacon = self.get_object(request.DATA['token'])
+        beacon = self.get_object(request.DATA['fbID'])
         serializer = BeaconSerializer(beacon)
         return Response(serializer.data)
