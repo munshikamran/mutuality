@@ -326,8 +326,8 @@
 			var activity = beaconObject.activity;
 			var place = beaconObject.place;
 			var likeNumber = 3;
-			$('#beacon-activity').html(activity);
-			$('#activity').html(activity);
+			$('#beacon-activity').html(activity.name);
+			$('#activity').html(activity.name);
 			$('#place').html(place);
 			$('#beacon-like-number').html(likeNumber);
 		});
@@ -797,7 +797,7 @@ var setNewBadge = function(friends) {
 
 	 $('#like-text').on('click', function(){
 	 	//alert("fix like button!");
-	 	Mutuality.likeBeacon(Mutuality.mpcache.current, function(success) {
+	 	Mutuality.likeBeacon(Mutuality.token, function(success) {
 	 		$('#like-text').animate({"left":"+=50px"}, "slow");
 	 	});
 

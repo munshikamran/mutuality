@@ -4,10 +4,13 @@ from connect.models.profile import Profile
 
 def LikeBeacon(profile, facebookID):
     try:
-        otherProfile = Profile.objects.filter(facebookID=facebookID)
-        beacon = Beacon.objects.filter(profile=otherProfile).latest()
-        beaconUserLike = BeaconUserLike(profile=profile, beacon=beacon)
-        beaconUserLike.save()
+        otherProfile = Profile.objects.get(facebookID=facebookID)
+        print otherProfile.name
+        beacon = Beacon.objects.filter(user=otherProfile).latest('date_created')
+        print beacon
+        beaconUserLike, created = BeaconUserLike.objects.get_or_create(user=profile, beacon=beacon)
+        if created:
+            beaconUserLike.save()
         return True
     except:
         return False

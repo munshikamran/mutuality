@@ -533,8 +533,8 @@ var Mutuality = (function($){
     {
          var self = this;
 
-         self.__post('api/likeBeacon/', { token: this.token, facebookID: fbID }, function( response ){
-             if(response == true)
+         self.__post('api/likeBeacon/', { token: this.token, fbID: fbID }, function( response ){
+             if(response)
              {
                  if(success instanceof Function) success.call(self, response);
              }
