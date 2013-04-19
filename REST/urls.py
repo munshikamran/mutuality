@@ -22,6 +22,7 @@ from REST.views.set_profile import SetProfileAPI
 from REST.views.get_beacon import GetBeaconAPI
 from REST.views.set_beacon import SetBeaconAPI
 from REST.views.like_beacon import LikeBeaconAPI
+from REST.views.get_beacon_like_count import GetBeaconLikeCountAPI
 
 
 urlpatterns = patterns('REST.views',
@@ -47,6 +48,6 @@ urlpatterns = patterns('REST.views',
     url(r'^setProfile/$', SetProfileAPI.as_view()),
     url(r'^getBeacon/$', GetBeaconAPI.as_view()),
     url(r'^setBeacon/$', SetBeaconAPI.as_view()),
-    url(r'^likeBeacon/$', LikeBeaconAPI.as_view())
-
+    url(r'^likeBeacon/$', LikeBeaconAPI.as_view()),
+    url(r'^getBeaconLikeCount/$', GetBeaconLikeCountAPI.as_view())
 )

@@ -60,13 +60,7 @@ class BeaconActivitySerializer(serializers.ModelSerializer):
     class Meta:
         category = BeaconCategorySerializer()
         model = BeaconActivity
-        fields = 'name'
-
-class BeaconActivitySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = BeaconActivity
-        fields= ('name', 'category')
+        fields = ('name', 'category')
 
 class BeaconSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()

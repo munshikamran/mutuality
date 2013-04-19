@@ -325,17 +325,14 @@
 			console.log(beaconObject);
 			var activity = beaconObject.activity.name;
 			var place = beaconObject.place;
-<<<<<<< HEAD
 			var likeNumber = 3248;
 			$('#beacon-activity').html(activity);
 			$('#activity').html(activity);
-=======
-			var likeNumber = 3;
-			$('#beacon-activity').html(activity.name);
-			$('#activity').html(activity.name);
->>>>>>> e55a7c27da1203cf56449a8ed4b2d26dad59e9fb
 			$('#place').html(place);
-			$('#beacon-like-number').html(likeNumber);
+            Mutuality.getBeaconLikeCount(fbID, function(response){
+                var likeNumber = response;
+                $('#beacon-like-number').html(response);
+            });
 		});
 	}	
 
