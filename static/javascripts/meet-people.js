@@ -325,13 +325,16 @@
 			console.log(beaconObject);
 			var activity = beaconObject.activity.name;
 			var place = beaconObject.place;
-			var likeNumber = 3248;
 			$('#beacon-activity').html(activity);
 			$('#activity').html(activity);
 			$('#place').html(place);
             Mutuality.getBeaconLikeCount(fbID, function(response){
                 var likeNumber = response;
                 $('#beacon-like-number').html(response);
+                if (likeNumber===1) {
+                	$('#plural-agreement').html("person agrees");
+                }
+   			//if has liked beacon, show "You and X people agree" instead of "Yes"
             });
 		});
 	}	
@@ -370,6 +373,8 @@
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
 		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Introduce Yourself</a>');
 		    		$('img#mutuality-badge').show();
+		    		
+		    		//PROD: change this to Mutuality.mpcache.token
 		    		loadBeacon(Mutuality.token);
 		    		$('div#beacon').show();
 
@@ -800,9 +805,31 @@ var setNewBadge = function(friends) {
 
 	 $('#like-text').on('click', function(){
 	 	//alert("fix like button!");
-	 	Mutuality.likeBeacon(Mutuality.mpcache.current, function(success) {
-	 		alert("completed");
-	 		//$('#like-text').animate({"left":"+=50px"}, "slow");
+	 	Mutuality.likeBeacon(Mutuality.token, function(success) {
+	 		//alert("completed");
+	 		$('#animate-out').fadeOut();
+	 		$("#like-number").animate({ marginLeft: "-40%", opcaity: 0.9 },1000, function(){
+	 			Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
+	 			if (success!==1) {
+	 				$('#beacon-like-number').fadeOut();
+	 				$('#beacon-like-number').html(success);
+	 				$('#beacon-like-number').fadeIn();
+	 			} else {
+	 				$("#like-number").fadeOut();
+	 				$('#beacon-like-number').html(success)
+	 				$('#plural-agreement').html("person agrees");
+	 				$("#like-number").fadeIn();
+	 			}
+	 			
+	 		});
+	 		});
+	 		
+	 		
+	 		
+	 		//send message to user
+
+	 		//mixpanel track beacon (properties: whose is liked, what is liked, what place is liked, how many people like it)
+
 	 	});
 
 	 })

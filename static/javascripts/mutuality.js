@@ -551,8 +551,8 @@ var Mutuality = (function($){
        var self = this;
 
        self.__post('api/getBeaconLikeCount/', { token: this.token, fbID: fbID }, function( response ){
-           console.log(response)
-           if(response)
+           //console.log(response)
+           if(response >= 0)
            {
                if(success instanceof Function) success.call(self, response);
            }
