@@ -804,11 +804,11 @@ var setNewBadge = function(friends) {
 	 $('#like-text').on('click', function(){
 	 	//alert("fix like button!");
 	 	Mutuality.likeBeacon(Mutuality.mpcache.current, function(success) {
-	 		
+	 		alert("completed");
 	 		//$('#like-text').animate({"left":"+=50px"}, "slow");
 	 	});
 
-	 });
+	 })
 
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });
