@@ -327,9 +327,9 @@
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
 			console.log(beaconObject);
-			var activity = beaconObject.activity;
+			var activity = beaconObject.activity.name;
 			var place = beaconObject.place;
-			var likeNumber = 3;
+			var likeNumber = 3248;
 			$('#beacon-activity').html(activity);
 			$('#activity').html(activity);
 			$('#place').html(place);
@@ -802,7 +802,8 @@ var setNewBadge = function(friends) {
 	 $('#like-text').on('click', function(){
 	 	//alert("fix like button!");
 	 	Mutuality.likeBeacon(Mutuality.mpcache.current, function(success) {
-	 		$('#like-text').animate({"left":"+=50px"}, "slow");
+	 		
+	 		//$('#like-text').animate({"left":"+=50px"}, "slow");
 	 	});
 
 	 });
