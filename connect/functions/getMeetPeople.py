@@ -30,7 +30,8 @@ def GetMeetPeople(profile, meetPeopleFilter):
     facebookUsers = markFavorited(profile, facebookUsers)
     facebookUsers = markMutualityUsers(facebookUsers)
     facebookUsers = markViewed(profile, facebookUsers)
-    meetPeopleResponse = MeetPeopleResponse(facebookUsers, MeetPeopleResponse.SUCCESS_MESSAGE)
+    expirationTimestamp = PotentialBatch.objects.filter(profile=profile).latest('date_expiration').expiration_timestamp
+    meetPeopleResponse = MeetPeopleResponse(facebookUsers, expirationTimestamp, MeetPeopleResponse.SUCCESS_MESSAGE)
     return meetPeopleResponse
 
 
