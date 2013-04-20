@@ -419,7 +419,8 @@ function countDown(end, cur){
 
 		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
 		    				if(currentCount == 1){
-			    					triggerModal("myModalViewed");
+			    					$('#refresh-reminder').slideDown();
+			    					//triggerModal("myModalViewed");
 			    					$(".friend-count").hide();
 		    				}
 		    				setFriendCountStyle();
@@ -451,7 +452,8 @@ function countDown(end, cur){
 		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
 		    				console.log(currentCount);
 		    				if(currentCount == 1){
-		    					triggerModal("myModalViewed");
+		    					$('#refresh-reminder').slideDown();
+		    					//triggerModal("myModalViewed");
 		    				}
 		    				setFriendCountStyle();
 		    				if(currentCount > 0){
@@ -784,12 +786,12 @@ var setNewBadge = function(friends) {
    });
    mixpanel.track("Login success");
    var cookieName = "UpdateFriendListCalled" + Mutuality.cache.profile.facebookID;
-   countDown(1365876000000, new Date().getTime());
    if($.cookie(cookieName) !== "true") {
 	    Mutuality.updateFriendList(0, function(){
 	    	$.cookie(cookieName, "true");
 	   		Mutuality.loadFriendsList(4, populateCTA);
 			Mutuality.getMeetPeople(0, 0, 0, function(friends){
+				countDown(friends.batchExpirationTimestamp, new Date().getTime());
                 if (friends.potentialMatches.length > 0){
                     Mutuality.mpcache.fofList = friends.potentialMatches;
                     setNewBadge(friends.potentialMatches);
@@ -805,6 +807,7 @@ var setNewBadge = function(friends) {
 	else {
 		Mutuality.loadFriendsList(4, populateCTA);
 		Mutuality.getMeetPeople(0, 0, 0, function(friends){
+			countDown(friends.batchExpirationTimestamp, new Date().getTime());
 			if (friends.potentialMatches.length > 0){
 	    		Mutuality.mpcache.fofList = friends.potentialMatches;
 	    		setNewBadge(friends.potentialMatches);
