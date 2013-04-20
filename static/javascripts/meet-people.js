@@ -233,10 +233,10 @@
 			$(".friend-count").hide();
 			triggerModal("myModalLoading");    		
 			Mutuality.getMeetPeople(0, 0, 1, function(favorites){
-				if(favorites.length > 0) {
-    				Mutuality.mpcache.fofList = favorites;
-    				createMutualityUserLookUp(favorites);
-    				meetPeopleSuccess(favorites);
+				if(favorites.potentialMatches.length > 0) {
+    				Mutuality.mpcache.fofList = favorites.potentialMatches;
+    				createMutualityUserLookUp(favorites.potentialMatches);
+    				meetPeopleSuccess(favorites.potentialMatches);
     			}
     			else {
     				setModalWhenError("Sorry, but you have no favorites!");
@@ -247,10 +247,10 @@
 			$(".friend-count").hide();
 		    triggerModal("myModalLoading");
     		Mutuality.getMeetPeople(1, 0, 0, function(viewedUsers){
-				if(viewedUsers.length > 0) {
-    				Mutuality.mpcache.fofList = viewedUsers;
-    				createMutualityUserLookUp(viewedUsers);
-    				meetPeopleSuccess(viewedUsers);
+				if(viewedUsers.potentialMatches.length > 0) {
+    				Mutuality.mpcache.fofList = viewedUsers.potentialMatches;
+    				createMutualityUserLookUp(viewedUsers.potentialMatches);
+    				meetPeopleSuccess(viewedUsers.potentialMatches);
     			}
     			else {
     				setModalWhenError("Sorry, but it seems like you haven't viewed anyone yet!");
@@ -261,10 +261,10 @@
     	else if ($('#fav-filter').val() == "Dating") {
     		triggerModal("myModal");
     		Mutuality.getMeetPeople(0, 1, 0, function(datingFriends){
-				if(datingFriends.length > 0) {
-    				Mutuality.mpcache.datingList = datingFriends;
-    				createMutualityUserLookUp(datingFriends);
-    				meetPeopleSuccess(datingFriends);
+				if(datingFriends.potentialMatches.length > 0) {
+    				Mutuality.mpcache.datingList = datingFriends.potentialMatches;
+    				createMutualityUserLookUp(datingFriends.potentialMatches);
+    				meetPeopleSuccess(datingFriends.potentialMatches);
     			}
     			else {
     				setModalWhenError("Sorry, but we didn't find anyone!");
@@ -275,9 +275,10 @@
     	else{
     		triggerModal("myModal");
     		Mutuality.getMeetPeople(0, 0, 0, function(meetPeopleList) {
-    			if(meetPeopleList.length > 0) {
-    				Mutuality.mpcache.fofList = meetPeopleList;
-    				meetPeopleSuccess(meetPeopleList);
+    			if(meetPeopleList.potentialMatches.length > 0) {
+    				Mutuality.mpcache.fofList = meetPeopleList.potentialMatches;
+                    createMutualityUserLookUp(meetPeopleList.potentialMatches);
+                    meetPeopleSuccess(meetPeopleList.potentialMatches);
     			}
     			else {
     				setModalWhenError("Sorry, but we didn't find anyone!");
@@ -643,6 +644,7 @@
 
     // After AJAX call for getMeetPeople, load that into meet people page cache
     var meetPeopleSuccess = function(friends){
+        //console.log(friends)
     	if (friends.length == 0){
     		setModalWhenError("Sorry, but we didn't find anyone!  Check back soon.");
     	}
@@ -735,25 +737,26 @@ var setNewBadge = function(friends) {
 	    	$.cookie(cookieName, "true");
 	   		Mutuality.loadFriendsList(4, populateCTA);
 			Mutuality.getMeetPeople(0, 0, 0, function(friends){
-		    	Mutuality.mpcache.fofList = friends;
-		    	setNewBadge(friends);
-		    	createMutualityUserLookUp(friends);
-				meetPeopleSuccess(friends, true);
-				// if ($('#noTour').length === 0) {
-				// 	$('#joyRideTipContent').joyride();
-				// }
-				
+                if (friends.potentialMatches.length > 0){
+                    Mutuality.mpcache.fofList = friends.potentialMatches;
+                    setNewBadge(friends.potentialMatches);
+                    createMutualityUserLookUp(friends.potentialMatches);
+                    meetPeopleSuccess(friends.potentialMatches, true);
+                    // if ($('#noTour').length === 0) {
+                    // 	$('#joyRideTipContent').joyride();
+                    // }
+                }
 			});
 		});
 	}
 	else {
 		Mutuality.loadFriendsList(4, populateCTA);
 		Mutuality.getMeetPeople(0, 0, 0, function(friends){
-			if (friends.length > 0){
-	    		Mutuality.mpcache.fofList = friends;
-	    		setNewBadge(friends);
-	    		createMutualityUserLookUp(friends);
-				meetPeopleSuccess(friends, true);
+			if (friends.potentialMatches.length > 0){
+	    		Mutuality.mpcache.fofList = friends.potentialMatches;
+	    		setNewBadge(friends.potentialMatches);
+	    		createMutualityUserLookUp(friends.potentialMatches);
+				meetPeopleSuccess(friends.potentialMatches, true);
 				// if ($('#noTour').length === 0) {
 				// 	$('#joyRideTipContent').joyride();
 				// }
