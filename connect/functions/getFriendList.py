@@ -1,4 +1,5 @@
-from connect.models import Friendship,FacebookUser
+from connect.models.friendship import Friendship
+from connect.models.facebookuser import FacebookUser
 from random import randint
 
 # returns friendlist of user. args should take in a single value which is the limit of the returned querySet

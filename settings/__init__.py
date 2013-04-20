@@ -18,6 +18,7 @@ if ENVIRONMENT:
 else:
     ENVIRONMENT = 'development'
     DEVELOPMENT_MODE = True
+    DEBUG = True
 
 
 MANAGERS = ADMINS

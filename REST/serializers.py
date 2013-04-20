@@ -29,6 +29,10 @@ class FacebookUserMeetPeopleSerializer(serializers.Serializer):
     isFavorite = serializers.BooleanField()
     hasBeenViewed = serializers.BooleanField()
 
+class MeetPeopleResponseSerializer(serializers.Serializer):
+    potentialMatches = FacebookUserMeetPeopleSerializer()
+    batchExpirationTimestamp = serializers.CharField()
+
 class FacebookUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = FacebookUser
