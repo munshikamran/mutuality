@@ -561,7 +561,43 @@ var Mutuality = (function($){
                alert("Error: Failed to get beacon like count.");
            }
        });
+    },
+
+    hasLikedBeacon: function( fbID, success )
+    {
+       var self = this;
+
+       self.__post('api/getHasLikedBeacon/', { token: this.token, fbID: fbID }, function( response ){
+           //console.log(response)
+           if(response !== null)
+           {
+               if(success instanceof Function) success.call(self, response);
+           }
+           else
+           {
+               alert("Error: Failed to check if beacon is liked");
+           }
+       });
     }
+
+
+    //Get a beacon's like count
+    // hasLikedBeacon: function( fbID, success )
+    // {
+    //    var self = this;
+
+    //    self.__post('api/getBeaconLikeCount/', { token: this.token, fbID: fbID }, function( response ){
+    //        //console.log(response)
+    //        if(response >= 0)
+    //        {
+    //            if(success instanceof Function) success.call(self, response);
+    //        }
+    //        else
+    //        {
+    //            alert("Error: Failed to get beacon like count.");
+    //        }
+    //    });
+    // }
 
    };
    return module;
