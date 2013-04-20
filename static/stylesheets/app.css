@@ -8813,6 +8813,22 @@ border-bottom:1px solid #DDD;
   background-image: linear-gradient(top, #6cb7ce 0%, #2a9abf 100%);
 }
 
+#refresh-reminder{
+  display:none;
+}
+
+#countdown {
+  margin:0px 30% 30px;
+  font-weight: normal;
+  text-align: center;
+}
+
+#timer {
+  font-size:16px;
+  font-weight:bold;
+  color:black;
+}
+
 div#question{
   width:15px;
   height:20px;
@@ -8898,3 +8914,4 @@ div#question:hover{
   cursor:pointer;
   margin: -50px 0px 0px 175px !important;
 }
+
