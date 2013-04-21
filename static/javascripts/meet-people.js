@@ -228,6 +228,7 @@
 
 	// When the fav filter is selected, load the favorites into the UI
 	$('#fav-filter').bind('change', function(e){
+        $("#ask-about").hide();
 		Mutuality.mpcache.viewedCacheData = {};
 
 		//Reset the modal if it has changed
@@ -500,11 +501,16 @@ function countDown(end, cur){
 
 	// Store meet people profile and mutual friends into cache object
     var loadMeetPeopleProfileInfoToCache = function (facebookID, mutualFriends, extendedProfile){
+
+        // Clear the cache so it doesn't become super large
+        if(Object.keys(Mutuality.mpcache.profileCacheData).length > 20){
+            Mutuality.mpcache.profileCacheData = {}
+        }
+
     	Mutuality.mpcache.profileCacheData[facebookID] = {
     		'mutualFriends' : mutualFriends,
     		'extendedProfile' : extendedProfile
     	}
-    	//console.log("Added " + facebookID);
     }
 
 	// Fetch the extended profile and mutual friends, store in cache, and then display in UI
@@ -560,7 +566,6 @@ function countDown(end, cur){
 			    	}
 
 					//Show the main content, dismiss the modal, init tooltips
-			    	//$("#main").show();
 		    		$('.tooltip').tooltipster();
 			    	initCarousel();
 		    		$('#page-next').trigger('click');
@@ -573,8 +578,8 @@ function countDown(end, cur){
 	// Just load the current person's mutual friends into the UI
 	var loadMutualFriendsIntoUI = function (facebookID, mutualFriends){
 		var newUlElem;
+        var newUlElemModal;
 		var currentPersonName = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
-		var messageStringIntro = "Hey can you introduce me to " + currentPersonName.name + "?";
 		var messageStringAsk = "Can you tell me more about " + currentPersonName.name + "?";
 		var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple."
 
@@ -583,7 +588,7 @@ function countDown(end, cur){
 			askaboutElemModal = $('.ask-about-modal');
 			if (i % 6 == 0){
 				newUlElem = $('<ul>', {style: "margin-right: 0px; z-index: 0;"}).appendTo(askaboutElem);
-				newUlElemModal = $('<ul>', {style: "margin-right: 0px; list-style-type: none;"}).appendTo(askaboutElemModal);
+				newUlElemModal = $('<ul>', {style: "margin-right: 0px; list-style-type: none; z-index:1;"}).appendTo(askaboutElemModal);
 			}
 
 			var liElem = $('<li>', {style:'z-index:0;'}).appendTo(newUlElem);
@@ -599,16 +604,16 @@ function countDown(end, cur){
     		var currentClick =  aElemModal.attr('onclick');
 			var newClick =  currentClick + " $('.close-reveal-modal').trigger('click');"
 			aElemModal.attr('onclick',  newClick);
-						$('.askModalLink').eq(i).attr({			
+            $('.askModalLink').eq(i).attr({
 						'data-facebookid':mutualFriends[i].facebookID,
 						'data-name':mutualFriends[i].name,
-						'data-id':i,	
+						'data-id':i
 						});
 			aElem.attr('onclick',  newClick);
-						$('#ask-about').find('a').eq(i).attr({			
+            $('#ask-about').find('a').eq(i).attr({
 						'data-facebookid':mutualFriends[i].facebookID,
 						'data-name':mutualFriends[i].name,
-						'data-id':i,	
+						'data-id':i
 						});
 		}
 
@@ -633,7 +638,9 @@ function countDown(end, cur){
 			arrow:true,
 			arrowColor:'#FFF',
 			maxWidth:150
-		}); 
+		});
+
+        $("#ask-about").show();
 		initAskAboutCarousel();
 		initAskAboutCarouselModal();
 	}
@@ -779,7 +786,6 @@ var setNewBadge = function(friends) {
 
 /* Begin Main Code */
    // Show the loading modal, and hide the page contents while async calls fire
-   //$("#main").hide();
    Mutuality.loadFriendsList(4, function (friends) {
    	addFriendPicturesForLoadingAnimations(friends);
    	triggerModal("myModal");
@@ -842,9 +848,6 @@ var setNewBadge = function(friends) {
 	 		mixpanel.track("Asked friend", {"Source":"Meet-people", "Element":"Ask about","Position":position, "Name":name, "FacebookID":facebookID});
 	 })
 
-	//Style adjustments
-	$('#ask-about').css({ zIndex: 0 });
- 	$('.ask-about-modal').css({ zIndex: 0 });
  	$(".friend-count").hide();
 
 /* End Main Code */
