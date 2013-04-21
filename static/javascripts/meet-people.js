@@ -791,8 +791,8 @@ var setNewBadge = function(friends) {
 	    	$.cookie(cookieName, "true");
 	   		Mutuality.loadFriendsList(4, populateCTA);
 			Mutuality.getMeetPeople(0, 0, 0, function(friends){
-				countDown(friends.batchExpirationTimestamp, new Date().getTime());
                 if (friends.potentialMatches.length > 0){
+                    countDown(friends.batchExpirationTimestamp, new Date().getTime());
                     Mutuality.mpcache.fofList = friends.potentialMatches;
                     setNewBadge(friends.potentialMatches);
                     createMutualityUserLookUp(friends.potentialMatches);
@@ -801,15 +801,19 @@ var setNewBadge = function(friends) {
                     // 	$('#joyRideTipContent').joyride();
                     // }
                 }
+                else{
+                    setModalWhenError("Sorry, but we didn't find anyone!");
+                    setModalBack();
+                }
 			});
 		});
 	}
 	else {
 		Mutuality.loadFriendsList(4, populateCTA);
 		Mutuality.getMeetPeople(0, 0, 0, function(friends){
-			countDown(friends.batchExpirationTimestamp, new Date().getTime());
 			if (friends.potentialMatches.length > 0){
-	    		Mutuality.mpcache.fofList = friends.potentialMatches;
+                countDown(friends.batchExpirationTimestamp, new Date().getTime());
+                Mutuality.mpcache.fofList = friends.potentialMatches;
 	    		setNewBadge(friends.potentialMatches);
 	    		createMutualityUserLookUp(friends.potentialMatches);
 				meetPeopleSuccess(friends.potentialMatches, true);
@@ -817,6 +821,10 @@ var setNewBadge = function(friends) {
 				// 	$('#joyRideTipContent').joyride();
 				// }
 			}
+            else{
+                setModalWhenError("Sorry, but we didn't find anyone!");
+                setModalBack();
+            }
 		});
 	}
 
