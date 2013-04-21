@@ -21,7 +21,7 @@ def GetMeetPeople(profile, meetPeopleFilter):
     if meetPeopleFilter == MEET_PEOPLE_FILTER.FRIENDSHIP or meetPeopleFilter == MEET_PEOPLE_FILTER.DATING:
         facebookUsers = getPotentialMatches(profile, meetPeopleFilter)
         if len(facebookUsers) < 1:
-            return MeetPeopleResponse([], MeetPeopleResponse.SEEN_ALL_MATCHES_MESSAGE)
+            return MeetPeopleResponse([], "", MeetPeopleResponse.SEEN_ALL_MATCHES_MESSAGE)
     elif meetPeopleFilter == MEET_PEOPLE_FILTER.VIEWED:
         facebookUsers = getViewedPeopleOrdered(profile)
     elif meetPeopleFilter == MEET_PEOPLE_FILTER.FAVORITES:

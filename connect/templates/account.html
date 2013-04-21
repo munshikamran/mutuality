@@ -22,7 +22,7 @@
 							  </div>
 							  
 							  <div class="ten columns">
-							    <input id="reg-firstname" type="text" value="" disabled="disabled" />
+							    <input id="reg-firstname" type="text" value="{{ profile.name }}" disabled="disabled" />
 							  </div>
 							  
 							  <!--<div class="five columns">
@@ -46,9 +46,9 @@
 							  </div>
 							  
 							  <div class="ten columns">
-							    <input id="reg-location" type="text" />
+							    <input id="reg-location" value="{{ profile.location }}" type="text" />
 							  </div>
-					          <div id="location-ajax" style="display:none;"></div>
+					          <div id="location-ajax" style="display:none;">{{ profile.location }}</div>
 					          <div id="location-error" style="display:none;">You must select a location from the dropdown.</div>
 							</div>
 
@@ -58,6 +58,7 @@
 							  </div>
 							  
 							  <div class="ten columns">
+                              {% if profile.gender == "male" %}
     							<select id="reg-sex" style="display:none;">
     								<option id="reg-male" value="Male" selected="selected">Male</option>
     								<option id="reg-female" value="Female">Female</option>
@@ -70,6 +71,20 @@
     									<li id="reg-female">Female</li>
     								</ul>
     							</div>
+                              {% else %}
+                                  <select id="reg-sex" style="display:none;">
+                                      <option id="reg-male" value="Male" >Male</option>
+                                      <option id="reg-female" value="Female" selected="selected">Female</option>
+                                  </select>
+                                  <div id="reg-sex" class="custom dropdown">
+                                      <a href="#" class="selector"></a>
+                                      <a href="#" class="current">Female</a>
+                                      <ul>
+                                          <li id="reg-male">Male</li>
+                                          <li id="reg-female">Female</li>
+                                      </ul>
+                                  </div>
+                              {% endif %}
     						</div>
     					</div>
 
@@ -78,7 +93,8 @@
 							    <label for="reg-relationship"><strong>Status</strong></label>
 							  </div>
   							  <div class="ten columns">
-    							<select id="reg-relationship" style="display:none;">
+                                {% if profile.relationshipStatus == "Single" %}
+                                <select id="reg-relationship" style="display:none;">
     								<option id="reg-single" value="Single" selected="selected">Single</option>
     								<option id="reg-notsingle" value="Relationship">In a Relationship</option>
     							</select>
@@ -90,6 +106,20 @@
     									<li id="reg-notsingle">Not-single</li>
     								</ul>
     							</div>
+                                {% else %}
+                                    <select id="reg-relationship" style="display:none;">
+                                        <option id="reg-single" value="Single">Single</option>
+                                        <option id="reg-notsingle" value="Relationship" selected="selected">In a Relationship</option>
+                                    </select>
+                                    <div id="reg-relationship" class="custom dropdown">
+                                        <a href="#" class="selector"></a>
+                                        <a href="#" class="current">In a Relationship</a>
+                                        <ul>
+                                            <li id="reg-single">Single</li>
+                                            <li id="reg-notsingle">Not-single</li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
 							  </div>
 							</div>
   						</form>
