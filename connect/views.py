@@ -102,6 +102,7 @@ def meetpeople(request):
                 print "Updating last login!"
                 request.session['last_login_date'] = datetime.now()
                 request.user.last_login = datetime.now()
+                request.user.save()
         else:
             request.session['last_login_date'] = datetime.now()
             request.user.last_login = datetime.now()
