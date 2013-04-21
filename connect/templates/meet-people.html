@@ -5,10 +5,13 @@
 	
 					<section id="page-title" class="row">
 						<div class="eight columns">
-							<h2>Meet People</h2>
+							<h2>Meet People
+							<!-- 	<div class="meet-people-question" title='<div class="tooltip-question"> <span class=question-header>Meet New People</span><span class=question-body>Everyone you see is a friend-of-a-friend. Meet 20 new matches at 1PM each day</span></div>' id="question"></div> -->
+							</h2>
 						</div>
 						<form id="four-filters" class="four columns custom">
-							<span class="friend-count" id="double-digit"></span>
+							<span class="friend-count" id="double-digit" style="display:none;"></span><div class="filter-question" title='<div class="tooltip-question"> <span class=question-header>Filtering</span><span class=question-body>Organize your matches around friendship or dating or look back at people you have viewed or favorited</span></div>' id="question"></div>
+
 							<select id="fav-filter" style="display:none;">
 								<option id="all" value="All" selected="selected">Friends</option><option id="dating" value="Dating">Dating</option>
 								<option id="favorites" value="Favorites">Favorites</option><option id="viewed" value="Viewed">Viewed</option>
@@ -27,6 +30,11 @@
 						
 						<hr />
 					</section>
+
+					<div id="refresh-reminder" class="row">
+						<h5 id="countdown">Meet 20 more friends-of-friends in <span id="timer">05:23:34</span></h5>
+					</div>	
+
 					<section id="main" data-URL={{ URL }} style="min-height: 400px;" class="row">
 						<a href="#" id="triggermyModal" data-reveal-id="myModal"></a>
 						<a href="#" id="triggermyModalLoading" data-reveal-id="myModalLoading"></a>
@@ -35,14 +43,15 @@
 						<div id="carousel" class="nine columns">
 
 							<ul id="meet-profiles" class="meet-people-profiles">
-
+								
 							</ul>
-							<a href="#" id="page-prev">Previous</a>
-							<a href="#" id="page-next">Next</a>
+							<a href="#" id="page-prev" style="display:none;">Previous</a>
+							<a href="#" id="page-next" style="display:none;">Next</a>
 						</div>
 
 						<aside id="user-profile" class="three columns">
-							<h6>Learn About <span class="profile-name"></span></h6>
+							<h6>Learn About <span class="profile-name"></span><div class="tooltipster-icon" title='<div class="tooltip-question"> <span class=question-header>Get Introduced</span>
+ <span class=question-body>Click to pick a friend to ask for an introduction</span></div>' id="question"></div></h6>
 
 							<ul id="alt-actions" class="menu">
 								<li id="introduce" ><a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a></li>
@@ -51,7 +60,7 @@
 							
 							<hr />
 							
-							<h6>Ask About <span class="profile-name"></span></h6>
+							<h6>Ask About <span class="profile-name"></span><div class="tooltipster-icon" title='<div class="tooltip-question"> <span class=question-header>Ask About Someone</span><span class=question-body>Click on a friend&#39s picture to send them a Facebook message</span></div>' id="question"></div></h6>
 							
 							<div id="ask-about" class="">
 								<ul>
@@ -88,7 +97,7 @@
 		<div class="row">
 			<div class="eight columns">
 				<h4>Make Matches</h4>
-				<p>Have some fun - connect your friends or be a match maker</p>
+				<p>Connect your friends to each other</p>
 				<a href="/makematches/" class="button">Learn more</a>
 			</div>
 			<div id="four-images" class="four columns">
@@ -121,8 +130,8 @@
 				<span id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite your friends!)</a></span>
                 </a>
             </div>
+            <a id="modalClose" class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
         </div>
-        <a id="modalClose" class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
     </div>
     <div id="myModalLoading" class="reveal-modal medium">
         <h4>Loading...</h4>
@@ -135,48 +144,31 @@
           					<div class="circle-1"></div>
           					<img class="fade-1" src="{{ MEDIA_URL }}/images/m.svg">
         				</div>
-			    		</div>
-			    	</div>
-			    	<br />
-			    	<br />
-					<span id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite your friends!)</a></span>
-				</div>
+                    </div>
                 </a>
+                <span id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite your friends!)</a></span>
             </div>
-            <a id="modalClose" class="close-reveal-modal" style="display:none;" ><small>OK</small> &times;</a>
         </div>
-    </div>    
-    <div id="myModalViewed" class="reveal-modal large">
-        <h4>Check back tomorrow for 20 more matches</h4>
-        <div class="row">
-            <div id="nudge-left" style:"text-align:center">
-                <a href="#" class="title">
-                    <span class="match-name">You can keep browsing today's matches or change to the viewed filter.</span>
-                    <br><br>
-                    <span  id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(P.S. click here to invite your friends and get more matches tomorrow!)</a></span>
-                </a>
-            </div>
-            <a class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();"><small>Got it!</small> &times;</a>
-        </div>
+        <a id="modalClose" class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();" style="display:none;" ><small>OK</small> &times;</a>
     </div>
     <div id="myModalIntroduce" class="reveal-modal medium">
         <aside id="user-profile" style="three columns">
 			<h4>Get Introduced to <span class="profile-name"></span></h4>
 			<div style="width:220px;text-align:center;margin: 0 auto">
-			<div id="ask-about" class="ask-about-modal" style="text-align:center;">
-				<ul>
+                <div id="ask-about" class="ask-about-modal" style="text-align:center;">
+                    <ul>
 
-				</ul>
-			</div>
-			<div class="twelve columns" style="max-height:20px;">
-				<a href="#" id="ask-prev-modal" class="four offset-by-one columns small button" style="width:50px;">&larr; Prev</a>
-				<a href="#" id="ask-next-modal" class="four offset-by-two columns small button" style="max-height:25px;width:50px;">Next &rarr;</a>
-			</div>
-		</div>
+                    </ul>
+                </div>
+                <div class="twelve columns" style="max-height:20px;">
+                    <a href="#" id="ask-prev-modal" class="four offset-by-one columns small button" style="width:50px;">&larr; Prev</a>
+                    <a href="#" id="ask-next-modal" class="four offset-by-two columns small button" style="max-height:25px;width:50px;">Next &rarr;</a>
+                </div>
+		    </div>
 		</aside>						
         <a class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();"><small>Nevermind</small> &times;</a>
     </div>
-    <ol id="joyRideTipContent">
+    <!-- <ol id="joyRideTipContent">
       <li class="seePeople" data-id="page-title" data-button="NEXT" data-options="tipLocation:top;nubPosition:seePeopleNub">
       	<h4>Make trusted connections</h4>
         <p>You have mutual friends with everyone you see</p>
@@ -201,7 +193,7 @@
       	<h4>It's that easy</h4>
       	<p>Don't forget to show your friends!</p>
       </li>
-    </ol>
+    </ol> -->
 {% endblock %}
 {% block extrascript %}
     <script>
@@ -217,17 +209,6 @@
            appId  : '{{ FACEBOOK_APP_ID }}',
            frictionlessRequests: true
         });
-
-		function sendRequestViaMultiFriendSelector() {
-			var message = 'Invite your friends to see more connections.';
-			FB.ui({method: 'apprequests',
-			   message: message
-			}, requestCallback);
-		}
-       	function requestCallback(response) {}
-
-       // Attach the facebook friend invite to things on the page
-       $("#inviteFriends a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");
 
     </script>
 {% endblock %}	

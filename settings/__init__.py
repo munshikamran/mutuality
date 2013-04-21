@@ -18,6 +18,7 @@ if ENVIRONMENT:
 else:
     ENVIRONMENT = 'development'
     DEVELOPMENT_MODE = True
+    DEBUG = True
 
 
 MANAGERS = ADMINS
@@ -108,6 +109,7 @@ INSTALLED_APPS = (
 	'django.contrib.admindocs',
 	# MUTUALITY RELATED APPLICATIONS
 	'connect',
+    'emails',
     'la_facebook',
     'messages',
     'rest_framework',

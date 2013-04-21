@@ -24,6 +24,7 @@
 
                 <div id="left-match-sex" class="match-sex custom dropdown">
                     <a  class="current">Guys</a>
+                    <div class="gender-question" title='<div class="tooltip-question"><span class=question-header>Guys or Girls?</span><span class=question-body>Pick the gender of the friend you want to match</span></div>' id="question"></div>
                     <a  class="selector"></a>
                     <ul>
                         <li id="guys">Guys</li>
@@ -32,6 +33,7 @@
                 </div>
 
                 <a id="left-match-lock" class="match-lock">Unlocked</a>
+                  <div class="lock-question" title='<div class="tooltip-question"><span class=question-header>Lock Friend</span><span class=question-body>Lock a friend to only refresh the other side</span></div>' id="question"></div>
             </form>
 
             <ul id="left-match-profiles" class="match-profiles profiles cf">
@@ -48,6 +50,7 @@
             <div id="left-match-search" class="profile-search seven columns centered">
                 <input type="text" class="search-box" rel="Find Friend..." value="Find friend..." onfocus="this.value=''"/>
                 <input type="submit" />
+                 <div class="search-question" title='<div class="tooltip-question"><span class=question-header>Find a Friend</span><span class=question-body>Look for a specific friend to match up</span></div>' id="question"></div>
 
                 <ul class="search-results">
                     <li>
@@ -167,6 +170,7 @@
 
                 <div id="right-match-sex" class="match-sex custom dropdown">
                     <a  class="current">Girls</a>
+                     <div class="gender-question" title='<div class="tooltip-question"><span class=question-header>Guys or Girls?</span><span class=question-body>Pick the gender of the friend you want to match</span></div>' id="question"></div>
                     <a  class="selector"></a>
                     <ul>
                         <li id="guys">Guys</li>
@@ -175,6 +179,7 @@
                 </div>
 
                 <a  id="right-match-lock" class="match-lock">Unlocked</a>
+                <div class="lock-question" title='<div class="tooltip-question"><span class=question-header>Lock Friend</span><span class=question-body>Lock a friend to only refresh the other side</span></div>' id="question"></div>
             </form>
 
             <ul id="right-match-profiles" class="match-profiles profiles cf">
@@ -191,6 +196,7 @@
             <div id="right-match-search" class="profile-search seven columns centered">
                 <input type="text" class="search-box" rel="Find Friend..." value="Find friend..." onfocus="this.value=''"/>
                 <input type="submit" />
+                <div class="search-question" title='<div class="tooltip-question"><span class=question-header>Find a Friend</span><span class=question-body>Look for a specific friend to match up</span></div>' id="question"></div>
 
                 <ul class="search-results">
                     <li>
@@ -266,7 +272,7 @@
 
         <a class="close-reveal-modal"><small>No Thanks</small> &times;</a>
     </div>
-    <ol id="joyRideTipContent">
+    <!-- <ol id="joyRideTipContent">
       <li class="spin" data-id="hole" data-button="NEXT" data-options="tipLocation:top">
         <h4>Spin!</h4>
         <p>Click below to refresh the matches</p>
@@ -287,7 +293,7 @@
         <h4>Have fun!</h4>
         <p>Don't forget to show your friends!</p>
       </li>
-    </ol>
+    </ol> -->
 {% endblock %}
 {% block extrascript %}
     <script>

@@ -4,7 +4,7 @@ from REST.serializers import FacebookUserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from connect.functions import GetUserFavorites
+from connect.functions.getUserFavorites import GetUserFavorites
 
 class GetFavoritesAPI(APIView):
     """

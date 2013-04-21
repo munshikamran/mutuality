@@ -1,5 +1,6 @@
 from django.db import models
-from connect.models import Profile
+from connect.models.profile import Profile
+from time import mktime
 
 
 class PotentialBatch(models.Model):
@@ -9,4 +10,9 @@ class PotentialBatch(models.Model):
 
     class Meta:
         app_label = 'connect'
+
+
+    @property
+    def expiration_timestamp(self):
+        return mktime(self.date_expiration.timetuple())*1000
 
