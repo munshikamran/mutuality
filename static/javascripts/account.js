@@ -56,54 +56,6 @@
 		  $(this).animate({top: -$(this).outerHeight()}, 300);
 	});	
 
-	//Sometimes getProfile takes a moment to return, so we should wait
-	setTimeout(function(){
-			if(Mutuality.cache.profile){
-				if(Mutuality.cache.profile.gender == 'female'){
-					$("#reg-sex a").eq(0).attr('class', 'selector');
-					$("#reg-sex a").eq(0).html("");
-					$("#reg-sex a").eq(1).attr('class', 'current');
-					$("#reg-sex a").eq(1).html("Female");
-				}
-				if(Mutuality.cache.profile.relationshipStatus !== null){
-					if(Mutuality.cache.profile.relationshipStatus.indexOf("Relationship") !== -1){
-						$("#reg-relationship a").eq(0).attr('class', 'selector');
-						$("#reg-relationship a").eq(0).html("");
-						$("#reg-relationship a").eq(1).attr('class', 'current');
-						$("#reg-relationship a").eq(1).html("In a Relationship");
-	 				}
-	 			}
-				$("#reg-firstname").val(Mutuality.cache.profile.name);
-				$("#reg-location").val(Mutuality.cache.profile.location);
-				$("#location-ajax").html(Mutuality.cache.profile.location);
- 			}
- 		}, 75);
-
-    var url = window.location.href;
-    if(url.indexOf("register") !== -1) {
-        $("#register-button").click(function(){
-            if($('#location-ajax').html() !== ""){
-                $('#location-error').hide();
-                var profileDict = {};
-                profileDict['location'] = $("#reg-location").val();
-                profileDict['relationship_status'] = $("#reg-relationship :selected").text();
-                profileDict['gender'] = $("#reg-sex :selected").text();
-                console.log(profileDict);
-                Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
-                    //mixpanel.track("Registration");
-                    mixpanel.alias(Mutuality.cache.profile.facebookID);
-                    mixpanel.identify(Mutuality.cache.profile.facebookID);
-                    $('.success-trigger').trigger('click');
-                    window.location = "/meetpeople/";
-                });
-            }
-            else {
-                $('#location-error').show();
-                $('.error-trigger').trigger('click');
-            }
-        });
-    }
-    else{
         $("#save-button").click(function(){
             if($('#location-ajax').html() !== ""){
                 $('#location-error').hide();
@@ -112,14 +64,8 @@
                 profileDict['relationship_status'] = $("#reg-relationship :selected").text();
                 profileDict['gender'] = $("#reg-sex :selected").text();
                 console.log(profileDict);
-                profileDict['beacon-activity'] = $('#reg-activity').val();
-                profileDict['beacon-place']  = $('#reg-place').val();
-                Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], "category1", function(success){
-                	console.log(success);
-                });
-                Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], profileDict['beacon-activity'], profileDict['beacon-place'], function(response){
+                Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
                     $('.success-trigger').trigger('click');
-             
                 });
             }
             else {
@@ -127,7 +73,6 @@
                 $('.error-trigger').trigger('click');
             }
         });
-    }
 
 /* End Main Code */
 
