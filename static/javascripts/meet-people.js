@@ -424,7 +424,7 @@ function countDown(end, cur){
 	    	// Check to make sure that we have an id that's defined
 			if(Mutuality.mpcache.current){
 				$('.loaded').append('<img id="mutuality-badge" src="http://www.mymutuality.com/images/Mutuality-Badge.png"/>');		
-		    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === true){
+		    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === false){
 		    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a>');
 		    		$('img#mutuality-badge').hide();
 		    		$('div#beacon').hide();
@@ -435,8 +435,7 @@ function countDown(end, cur){
 		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Introduce Yourself</a>');
 		    		$('img#mutuality-badge').show();
 		    		
-		    		//PROD: change this to Mutuality.mpcache.token
-		    		loadBeacon(Mutuality.token);
+		    		loadBeacon(Mutuality.mpcache.token);
 		    		$('div#beacon').show();
 
 		    //		$('.match-profile-details').attr('id', 'mutuality-profile-span');
