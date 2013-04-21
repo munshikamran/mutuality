@@ -77,7 +77,7 @@
 				$("#reg-location").val(Mutuality.cache.profile.location);
 				$("#location-ajax").html(Mutuality.cache.profile.location);
  			}
- 		}, 75);
+ 		}, 100);
 
     var url = window.location.href;
     if(url.indexOf("register") !== -1) {
