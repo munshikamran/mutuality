@@ -376,12 +376,19 @@ function countDown(end, cur){
 	var loadBeacon = function(fbID){
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
-			console.log(beaconObject);
+			//console.log(beaconObject);
 			var activity = beaconObject.activity.name;
 			var place = beaconObject.place;
 			$('#beacon-activity').html(activity);
 			$('#activity').html(activity);
 			$('#place').html(place);
+			Mutuality.hasLikedBeacon(fbID, function(success) {
+				if(success===true) {
+				console.log("working");
+				$('#animate-out').hide();
+				$('#like-block').css('margin-right','20%');
+				}
+			});	
             Mutuality.getBeaconLikeCount(fbID, function(response){
                 var likeNumber = response;
                 $('#beacon-like-number').html(response);
@@ -871,12 +878,11 @@ var setNewBadge = function(friends) {
 	 })
 
 	 $('#like-text').on('click', function(){
-	 	//alert("fix like button!");
 	 	Mutuality.likeBeacon(Mutuality.token, function(success) {
-	 		//alert("completed");
 	 		$('#animate-out').fadeOut();
 	 		$("#like-number").animate({ marginLeft: "-40%", opcaity: 0.9 },1000, function(){
 	 			Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
+	 			//[Prod]Mutuality.getBeaconLikeCount(Mutuality.mpcache.current, function(success){
 	 			if (success!==1) {
 	 				$('#beacon-like-number').fadeOut();
 	 				$('#beacon-like-number').html(success);
@@ -888,11 +894,9 @@ var setNewBadge = function(friends) {
 	 				$("#like-number").fadeIn();
 	 			}
 	 			
+	 			//picture should change to a thumbs up?
 	 		});
 	 		});
-	 		
-	 		
-	 		
 	 		//send message to user
 
 	 		//mixpanel track beacon (properties: whose is liked, what is liked, what place is liked, how many people like it)
