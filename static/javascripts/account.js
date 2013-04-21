@@ -63,10 +63,14 @@
                 profileDict['location'] = $("#reg-location").val();
                 profileDict['relationship_status'] = $("#reg-relationship :selected").text();
                 profileDict['gender'] = $("#reg-sex :selected").text();
-                console.log(profileDict);
-                Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
-                    $('.success-trigger').trigger('click');
+                profileDict['beacon-activity'] = $('#reg-activity').val();
+                profileDict['beacon-place']  = $('#reg-place').val();
+                Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], "category1", function(success){
+                	console.log(success);
                 });
+                Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], profileDict['beacon-activity'], profileDict['beacon-place'], function(response){
+                     $('.success-trigger').trigger('click');
+                 });
             }
             else {
                 $('#location-error').show();
