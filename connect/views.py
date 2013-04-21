@@ -11,6 +11,7 @@ from django.shortcuts import redirect
 from connect.functions.updateFriendList import UpdateFriendListHasBeenCalled
 from connect.functions.viewPage import PageHasBeenViewed, ViewPage
 from common.enums.site_pages import SITE_PAGES
+from datetime import datetime
 
 def index(request):
     context_dict = {}
@@ -93,8 +94,17 @@ def meetpeople(request):
     context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
     context_dict['info'] = fbinfo(request)
     context_dict['URL'] = settings.URL
+    request.session.set_expiry(604800) # one week
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
+        if "last_login_date" in request.session.keys():
+            if (request.session['last_login_date'].date() != datetime.now().date()):
+                print "Updating last login!"
+                request.session['last_login_date'] = datetime.now()
+                request.user.last_login = datetime.now()
+        else:
+            request.session['last_login_date'] = datetime.now()
+            request.user.last_login = datetime.now()
         try:
             profile = request.user.get_profile()
             context_dict['profile'] = profile
