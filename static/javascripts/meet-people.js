@@ -382,10 +382,13 @@ function countDown(end, cur){
 			$('#beacon-activity').html(activity);
 			$('#activity').html(activity);
 			$('#place').html(place);
-			if (Mutuality.hasLikedBeacon===true) {
+			Mutuality.hasLikedBeacon(fbID, function(success) {
+				if(success===true) {
+				console.log("working");
 				$('#animate-out').hide();
-				$('#like-block').css('margin-right','15%');
-			}
+				$('#like-block').css('margin-right','20%');
+				}
+			});	
             Mutuality.getBeaconLikeCount(fbID, function(response){
                 var likeNumber = response;
                 $('#beacon-like-number').html(response);
