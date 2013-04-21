@@ -376,12 +376,16 @@ function countDown(end, cur){
 	var loadBeacon = function(fbID){
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
-			console.log(beaconObject);
+			//console.log(beaconObject);
 			var activity = beaconObject.activity.name;
 			var place = beaconObject.place;
 			$('#beacon-activity').html(activity);
 			$('#activity').html(activity);
 			$('#place').html(place);
+			if (Mutuality.hasLikedBeacon===true) {
+				$('#animate-out').hide();
+				$('#like-block').css('margin-right','15%');
+			}
             Mutuality.getBeaconLikeCount(fbID, function(response){
                 var likeNumber = response;
                 $('#beacon-like-number').html(response);

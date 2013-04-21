@@ -515,8 +515,9 @@ var Mutuality = (function($){
     setBeacon: function( beaconPlace, beaconActivity, beaconCategory, success )
     {
          var self = this;
-         console.log(success);
+         //console.log(success);
          self.__post('api/setBeacon/', { token: this.token, place: beaconPlace, activity: beaconActivity, categoryName: beaconCategory }, function( response ){
+             console.log(response);
              if(response == true)
              {
                  if(success instanceof Function) success.call(self, response);
