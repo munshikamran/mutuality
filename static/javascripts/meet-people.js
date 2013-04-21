@@ -435,7 +435,7 @@ function countDown(end, cur){
 		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Introduce Yourself</a>');
 		    		$('img#mutuality-badge').show();
 		    		
-		    		loadBeacon(Mutuality.mpcache.token);
+		    		loadBeacon(Mutuality.mpcache.current);
 		    		$('div#beacon').show();
 
 		    //		$('.match-profile-details').attr('id', 'mutuality-profile-span');
