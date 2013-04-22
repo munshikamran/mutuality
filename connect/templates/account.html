@@ -137,7 +137,7 @@
 					  </div>
 					  
 					  <div class="ten columns">
-					    <input id="reg-activity" type="text" value=""/>
+					    <input id="reg-activity" type="text" value="{{ beacon.activity.name }}"/>
 					  </div>
 					</div>
 					<div class="row">
@@ -146,8 +146,9 @@
 					  </div>
 					  
 					  <div class="ten columns">
-					    <input id="reg-place" type="text" value=""/>
+					    <input id="reg-place" type="text" value="{{ beacon.place }}"/>
 					  </div>
+                        <div id="auth_token" style="display:none;">{{ AUTH_TOKEN }}</div>
 					</div>
 				</form>
 			</section>

@@ -1,7 +1,7 @@
 
 (function($) {
 
-	// Initialize ajax autocomplete:
+	// Initialize ajax autocomplete for locations:
 	$('#reg-location').autocomplete({
 		serviceUrl: 'https://graph.facebook.com/search?type=adcity&limit=5&country_list=%5B"us"%5D',
 		onSelect: function(suggestion) {
@@ -11,6 +11,23 @@
 		deferRequestBy: 10,
 		autoSelectFirst: true,
 		onSearchStart: function (query) {$('#location-ajax').html("");},
+		paramName: 'q',
+		transformResult: function(response, originalQuery) {
+		    return {
+		        query: originalQuery,
+		        suggestions: $.map(JSON.parse(response).data, function(dataItem) {
+		            return { value: dataItem.name, data: dataItem.name };
+		        })
+		    };
+		}
+	});
+
+    // Initialize ajax autocomplete:
+	$('#reg-place').autocomplete({
+		serviceUrl: 'https://graph.facebook.com/search?type=place',
+		deferRequestBy: 10,
+		autoSelectFirst: true,
+        params: {access_token: $("#auth_token").html()},
 		paramName: 'q',
 		transformResult: function(response, originalQuery) {
 		    return {

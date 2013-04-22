@@ -12,6 +12,8 @@ from connect.functions.updateFriendList import UpdateFriendListHasBeenCalled
 from connect.functions.viewPage import PageHasBeenViewed, ViewPage
 from common.enums.site_pages import SITE_PAGES
 from datetime import datetime
+from connect.functions.getProfileAuthToken import GetProfileAuthToken
+from connect.functions.getBeacon import GetBeacon
 
 def index(request):
     context_dict = {}
@@ -64,6 +66,10 @@ def account(request):
             if request.user.is_authenticated():
                 profile = request.user.get_profile()
                 context_dict['profile'] = profile
+                context_dict['AUTH_TOKEN'] = GetProfileAuthToken(profile)
+                beacon = GetBeacon(profile)
+                if beacon != []:
+                    context_dict['beacon'] = GetBeacon(profile)
         except Profile.DoesNotExist:
             pass
     return render_to_response('account.html', context_dict, context_instance=RequestContext(request))
