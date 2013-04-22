@@ -22,7 +22,7 @@
 		}
 	});
 
-    // Initialize ajax autocomplete:
+    // Initialize ajax autocomplete for beacon places:
 	$('#reg-place').autocomplete({
 		serviceUrl: 'https://graph.facebook.com/search?type=place',
 		deferRequestBy: 10,
@@ -38,7 +38,19 @@
 		    };
 		}
 	});
-  
+
+    // Functions to get browser's current location
+    function get_location() {
+      navigator.geolocation.getCurrentPosition(print_coords);
+    }
+
+    function print_coords(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      console.log(latitude);
+      // let's show a map or do something interesting!
+    }
+
 /* Begin Helper functions */
 	//Alert message stuff
 	var myMessages = ['error','success']; // define the messages types		 
