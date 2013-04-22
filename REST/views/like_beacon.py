@@ -8,10 +8,9 @@ class LikeBeaconAPI(APIView):
     """
     Like a particular beacon.
     """
-    def get_object(self, fbID):
+    def get_object(self, token, fbID):
         try:
-            profile = Profile.objects.get(facebookID=fbID)
-            hasBeaconLiked = LikeBeacon(profile, fbID)
+            hasBeaconLiked = LikeBeacon(token, fbID)
             return hasBeaconLiked
         except Profile.DoesNotExist:
             raise Http404
@@ -19,5 +18,5 @@ class LikeBeaconAPI(APIView):
             return False
 
     def post(self, request, format=None):
-        hasBeaconLiked = self.get_object(request.DATA['fbID'])
+        hasBeaconLiked = self.get_object(request.DATA['token'],request.DATA['fbID'])
         return Response(hasBeaconLiked)

@@ -26,4 +26,5 @@ from updatePotentialMatches import UpdatePotentialMatches
 from setBeacon import SetBeacon
 from likeBeacon import LikeBeacon
 from getBeacon import GetBeacon
+from getHasLikedBeacon import hasLikedBeacon
 

@@ -1,10 +1,8 @@
+from connect.functions.getHasLikedBeacon import hasLikedBeacon
 from django.http import Http404
 from connect.models import Profile
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from REST.serializers import BeaconSerializer
-
-from connect.functions.getHasLikedBeacon import hasLikedBeacon
 
 class GetHasLikedBeaconAPI(APIView):
     """

@@ -51,5 +51,5 @@ urlpatterns = patterns('REST.views',
     url(r'^setBeacon/$', SetBeaconAPI.as_view()),
     url(r'^likeBeacon/$', LikeBeaconAPI.as_view()),
     url(r'^getBeaconLikeCount/$', GetBeaconLikeCountAPI.as_view()),
-    url(r'^getHasLikedBeacon/$', LikeBeaconAPI.as_view())
+    url(r'^getHasLikedBeacon/$', GetHasLikedBeaconAPI.as_view())
 )

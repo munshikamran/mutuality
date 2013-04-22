@@ -569,7 +569,7 @@ var Mutuality = (function($){
        var self = this;
 
        self.__post('api/getHasLikedBeacon/', { token: this.token, fbID: fbID }, function( response ){
-           //console.log(response)
+           console.log(response)
            if(response !== null)
            {
                if(success instanceof Function) success.call(self, response);

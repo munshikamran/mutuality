@@ -384,7 +384,7 @@ function countDown(end, cur){
 			$('#place').html(place);
 			Mutuality.hasLikedBeacon(fbID, function(success) {
 				if(success===true) {
-				console.log("working");
+				//console.log("working");
 				$('#animate-out').hide();
 				$('#like-block').css('margin-right','20%');
 				}
@@ -880,8 +880,8 @@ var setNewBadge = function(friends) {
 	 	Mutuality.likeBeacon(Mutuality.mpcache.current, function(success) {
 	 		$('#animate-out').fadeOut();
 	 		$("#like-number").animate({ marginLeft: "-40%", opcaity: 0.9 },1000, function(){
-	 			Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
-	 			//[Prod]Mutuality.getBeaconLikeCount(Mutuality.mpcache.current, function(success){
+	 			//Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
+	 			Mutuality.getBeaconLikeCount(Mutuality.mpcache.current, function(success){
 	 			if (success!==1) {
 	 				$('#beacon-like-number').fadeOut();
 	 				$('#beacon-like-number').html(success);
@@ -896,7 +896,8 @@ var setNewBadge = function(friends) {
 	 			//picture should change to a thumbs up?
 	 		});
 	 		});
-	 		var beaconMessage = Mutuality.cache.name + " liked your beacon"
+	 		var beaconMessage = Mutuality.cache.profile.name + " liked your beacon"
+	 		console.log(beaconMessage)
 	 		Mutuality.sendMessage(Mutuality.mpcache.current, beaconMessage, function(response){
 	 			console.log(response);
 	 		});
