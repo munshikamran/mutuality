@@ -877,11 +877,7 @@ var setNewBadge = function(friends) {
 	 })
 
 	 $('#like-text').on('click', function(){
-	 	Mutuality.likeBeacon(Mutuality.token, function(success) {
-	 		var beaconMessage = Mutuality.cache.name + " liked your beacon"
-	 		Mutuality.sendMessage(Mutuality.mpcache.current, beaconMessage, function(response){
-	 			console.log(response);
-	 		});
+	 	Mutuality.likeBeacon(Mutuality.mpcache.current, function(success) {
 	 		$('#animate-out').fadeOut();
 	 		$("#like-number").animate({ marginLeft: "-40%", opcaity: 0.9 },1000, function(){
 	 			Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
@@ -900,7 +896,10 @@ var setNewBadge = function(friends) {
 	 			//picture should change to a thumbs up?
 	 		});
 	 		});
-	 		//send message to user
+	 		var beaconMessage = Mutuality.cache.name + " liked your beacon"
+	 		Mutuality.sendMessage(Mutuality.mpcache.current, beaconMessage, function(response){
+	 			console.log(response);
+	 		});
 
 	 		//mixpanel track beacon (properties: whose is liked, what is liked, what place is liked, how many people like it)
 
