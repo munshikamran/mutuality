@@ -201,7 +201,7 @@ hr {
   border: solid #ddd;
   border-width: 1px 0 0;
   clear: both;
-  margin: 22px 0 21px;
+  margin: 15px 0 15px;
   height: 0;
 }
 
@@ -7440,6 +7440,10 @@ input[type=text]:focus + .search-results {
   height: 65px;
 }
 
+#meet-people-friends {
+    height:48px !important;
+}
+
 /* line 544, ../sass/app.scss */
 #ask-about .profile-thumb {
   width: 60px;
@@ -7455,6 +7459,22 @@ input[type=text]:focus + .search-results {
   -moz-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
   box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
 }
+
+/* line 544, ../sass/app.scss */
+#meetpeople-thumb {
+  width: 50px !important;
+  height: 50px !important;
+   border-width: 3px !important;
+}
+
+/* line 545, ../sass/app.scss 
+#ask-about .profile-thumb-meetpeople:hover {
+  border-width: 4px;
+  border-color: #4fa8c4;
+  -webkit-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+  -moz-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+  box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+}*/
 
 /* line 540, ../sass/app.scss */
 /*#ask-about-small {
@@ -7503,8 +7523,10 @@ input[type=text]:focus + .search-results {
 /* line 547, ../sass/app.scss */
 #ask-prev,
 #ask-next {
-  padding: 6px 0 5px;
+  padding: 4px 0 2px;
   margin-top: 5px;
+  margin-bottom: 30px;
+  font-size: 8px;
 }
 
 #ask-prev-modal,
@@ -8886,13 +8908,13 @@ border-bottom:1px solid #DDD;
 }
 
 .beacon-image {
-   height:50px; 
-   width:50px; 
+   height:55px; 
+   width:60px; 
    display:block;
  /*  margin:0px auto;*/
-  border: 2px solid white;
+  /*border: 2px solid white;*/
   float: right;
-  background-size: 100%;
+  /*background-size: 100%;
   -webkit-transition: all 100ms;
   -moz-transition: all 100ms;
   -o-transition: all 100ms;
@@ -8904,7 +8926,7 @@ border-bottom:1px solid #DDD;
   border-radius: 50%;
   -webkit-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
   -moz-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
-  box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;*/
 }
 
 #beacon-image-div{

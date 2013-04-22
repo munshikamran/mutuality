@@ -135,7 +135,7 @@
 		$('#ask-about').carouFredSel({
 			auto : false,
 			width: 213,
-			height: 150,
+			height: 120,
 			prev: "#ask-prev",
 			next: "#ask-next",
 			items: {
@@ -152,7 +152,7 @@
 		$('.ask-about-modal').carouFredSel({
 			auto : false,
 			width: 213,
-			height: 150,
+			height: 120,
 			prev: "#ask-prev-modal",
 			next: "#ask-next-modal",
 			items: {
@@ -621,12 +621,12 @@ function countDown(end, cur){
 
 			var liElem = $('<li>', {style:'z-index:0;'}).appendTo(newUlElem);
 			var liElemModal = $('<li>', {style:'z-index:1;'}).appendTo(newUlElemModal);
-    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com?src=meetPeople_askAbout", "http://i.imgur.com/Hcy3Clo.jpg", description)
+    		var aElem = $('<a>', {id:'meet-people-friends', onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com?src=meetPeople_askAbout", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElem);
     		var aElemModal = $('<a>', {class: 'askModalLink', onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com?src=meetPeople_getIntro", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElemModal);
-    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElem);
-    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElemModal);
+    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', id: 'meetpeople-thumb', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElem);
+    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', id: 'meetpeople-thumb', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElemModal);
     		
     		// Append to onclick to make the modal disappear
     		var currentClick =  aElemModal.attr('onclick');
