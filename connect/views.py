@@ -99,7 +99,7 @@ def meetpeople(request):
         context_dict['user'] = request.user
         if "last_login_date" in request.session.keys():
             #if request.session['last_login_date'] != datetime.now():
-            if (datetime.now().date() - request.session['last_login_date']).days > 0:
+            if (datetime.now() - request.session['last_login_date']).days > 0:
                 print "Updating last login!"
                 request.session['last_login_date'] = datetime.now()
                 request.user.last_login = datetime.now()
