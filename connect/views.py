@@ -98,7 +98,6 @@ def meetpeople(request):
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
         if "last_login_date" in request.session.keys():
-            #if request.session['last_login_date'] != datetime.now():
             if (datetime.now() - request.session['last_login_date']).days > 0:
                 print "Updating last login!"
                 request.session['last_login_date'] = datetime.now()
@@ -107,6 +106,7 @@ def meetpeople(request):
         else:
             request.session['last_login_date'] = datetime.now()
             request.user.last_login = datetime.now()
+            request.user.save()
         try:
             profile = request.user.get_profile()
             context_dict['profile'] = profile
