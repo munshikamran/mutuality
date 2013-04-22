@@ -881,7 +881,7 @@ var setNewBadge = function(friends) {
 	 		var beaconMessage = Mutuality.cache.name + " liked your beacon"
 	 		Mutuality.sendMessage(Mutuality.mpcache.current, beaconMessage, function(response){
 	 			console.log(response);
-	 		})
+	 		});
 	 		$('#animate-out').fadeOut();
 	 		$("#like-number").animate({ marginLeft: "-40%", opcaity: 0.9 },1000, function(){
 	 			Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
