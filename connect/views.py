@@ -99,7 +99,7 @@ def meetpeople(request):
         context_dict['user'] = request.user
         print "CUNT BITCH"
         if "last_login_date" in request.session.keys():
-            print (datetime.now() - request.session['last_login_date']).days + " FUCKING HERE"
+            print str((datetime.now() - request.session['last_login_date']).days) + " FUCKING HERE"
             if (datetime.now() - request.session['last_login_date']).days > 0:
                 print "**Updating last login!**"
                 request.session['last_login_date'] = datetime.now()
