@@ -53,12 +53,12 @@ def register(request):
                     context_dict['birthday'] = bdayStringArr[1] + "-" + bdayStringArr[3] + "-" + bdayStringArr[5]
 
                 #Get other fields using graph api to populate more inputs if necessary
-                graph = facebook.GraphAPI(GetProfileAuthToken(profile))
-                print GetProfileAuthToken(profile)
-                fields = ["location"]
-                kwargs = {"fields": fields}
-                data=graph.get_object(profile.facebookID,**kwargs)
-                locationData = graph.get_object(data['location']['id'])
+                #graph = facebook.GraphAPI(GetProfileAuthToken(profile))
+                #print GetProfileAuthToken(profile)
+                #fields = ["location"]
+                #kwargs = {"fields": fields}
+                #data=graph.get_object(profile.facebookID,**kwargs)
+                #locationData = graph.get_object(data['location']['id'])
         except Profile.DoesNotExist:
             noProfile = True
             pass
