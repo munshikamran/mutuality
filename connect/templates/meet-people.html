@@ -75,7 +75,7 @@
 								<h6 id="beacon-title">Do you also like <span id="beacon-activity">Poker</span>?</h6>
 								<div id="beacon-image-div">
 									<img class="beacon-image" src="{{ MEDIA_URL }}/images/BeaconLoop.gif">
-								</div>	
+								</div>		
 								<div id="beacon-info">
 									<span id="activity">Poker</span>
 									<span id="at-span"><img id="at-image" src="{{ MEDIA_URL }}/images/As.png"></span>
@@ -87,6 +87,7 @@
 									<span id="like-text">Yes</span></span>
 									<span id="like-block"><span id="like-number"><span id="beacon-like-number"></span> <span id="plural-agreement">people agree</span></span></span>
 								</div>	
+
 							</div>	
 
 						</aside>
@@ -244,6 +245,11 @@
            appId  : '{{ FACEBOOK_APP_ID }}',
            frictionlessRequests: true
         });
+
+        $('#beacon').hide();
+        $('#ask-prev').hide();
+        $('#ask-next').hide();
+        $('#intro-yourself').hide();
 
     </script>
 {% endblock %}	
