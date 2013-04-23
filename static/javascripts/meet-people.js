@@ -888,7 +888,8 @@ var setNewBadge = function(friends) {
 	 				$('#beacon-like-number').fadeIn();
 	 			} else {
 	 				$("#like-number").fadeOut();
-	 				$('#beacon-like-number').html(success)
+	 				$("#like-number").hide();
+	 				$('#beacon-like-number').html(success);
 	 				$('#plural-agreement').html("person agrees");
 	 				$("#like-number").fadeIn();
 	 			}
