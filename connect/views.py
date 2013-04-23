@@ -14,6 +14,7 @@ from common.enums.site_pages import SITE_PAGES
 from datetime import datetime
 from connect.functions.getProfileAuthToken import GetProfileAuthToken
 from connect.functions.getBeacon import GetBeacon
+import facebook
 
 def index(request):
     context_dict = {}
@@ -42,10 +43,22 @@ def register(request):
         context_dict['user'] = request.user
         try:
             if request.user.is_authenticated():
+                #Get the profile
                 profile = request.user.get_profile()
                 context_dict['profile'] = profile
+
+                #Get the birthday
                 bdayStringArr = profile.birthdayString.split("'")
-                context_dict['birthday'] = bdayStringArr[1] + "-" + bdayStringArr[3] + "-" + bdayStringArr[5]
+                if len(bdayStringArr) > 5:
+                    context_dict['birthday'] = bdayStringArr[1] + "-" + bdayStringArr[3] + "-" + bdayStringArr[5]
+
+                #Get other fields using graph api to populate more inputs if necessary
+                graph = facebook.GraphAPI(GetProfileAuthToken(profile))
+                print GetProfileAuthToken(profile)
+                fields = ["location"]
+                kwargs = {"fields": fields}
+                data=graph.get_object(profile.facebookID,**kwargs)
+                locationData = graph.get_object(data['location']['id'])
         except Profile.DoesNotExist:
             noProfile = True
             pass
@@ -65,12 +78,25 @@ def account(request):
         print
         try:
             if request.user.is_authenticated():
+                #Get the profile and the auth_token
                 profile = request.user.get_profile()
                 context_dict['profile'] = profile
                 context_dict['AUTH_TOKEN'] = GetProfileAuthToken(profile)
+
+                #Get the beacon for this user account page
                 beacon = GetBeacon(profile)
                 if beacon != []:
                     context_dict['beacon'] = GetBeacon(profile)
+
+                #Get location lat/long to pass to template so that places dropdown results are narrowed
+                graph = facebook.GraphAPI(GetProfileAuthToken(profile))
+                print GetProfileAuthToken(profile)
+                fields = ["location"]
+                kwargs = {"fields": fields}
+                data=graph.get_object(profile.facebookID,**kwargs)
+                locationData = graph.get_object(data['location']['id'])
+                context_dict['LAT'] = locationData['location']['latitude']
+                context_dict['LONG'] = locationData['location']['longitude']
         except Profile.DoesNotExist:
             pass
     return render_to_response('account.html', context_dict, context_instance=RequestContext(request))

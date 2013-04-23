@@ -27,6 +27,7 @@
         <div class="row">
         </div>
 
+        {% if birthday %}
         <div class="row">
             <div class="two columns">
                 <label for="reg-birthday"><strong>Birthday</strong></label>
@@ -35,8 +36,8 @@
             <div class="ten columns">
                 <input id="reg-birthday" type="text" value="{{ birthday }}" disabled="disabled" />
             </div>
-
         </div>
+        {% endif %}
 
         <div class="row">
             <div class="two columns">

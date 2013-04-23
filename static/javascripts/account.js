@@ -24,10 +24,10 @@
 
     // Initialize ajax autocomplete for beacon places:
 	$('#reg-place').autocomplete({
-		serviceUrl: 'https://graph.facebook.com/search?type=place',
+		serviceUrl: 'https://graph.facebook.com/search?type=place&distance=1000',
 		deferRequestBy: 10,
 		autoSelectFirst: true,
-        params: {access_token: $("#auth_token").html()},
+        params: {access_token: $("#auth_token").html(), center:$("#lat").html() + "," + $("#long").html()},
 		paramName: 'q',
 		transformResult: function(response, originalQuery) {
 		    return {
