@@ -40,18 +40,19 @@ def register(request):
     noProfile = False
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
-        print
         try:
             if request.user.is_authenticated():
                 profile = request.user.get_profile()
                 context_dict['profile'] = profile
+                bdayStringArr = profile.birthdayString.split("'")
+                context_dict['birthday'] = bdayStringArr[1] + "-" + bdayStringArr[3] + "-" + bdayStringArr[5]
         except Profile.DoesNotExist:
             noProfile = True
             pass
-    if (noProfile or UpdateFriendListHasBeenCalled(profile)):
-        return redirect("/meetpeople/")
-    else:
-        return render_to_response('register.html', context_dict, context_instance=RequestContext(request))
+    #if (noProfile or UpdateFriendListHasBeenCalled(profile)):
+    #    return redirect("/meetpeople/")
+    #else:
+    return render_to_response('register.html', context_dict, context_instance=RequestContext(request))
 
 @login_required
 def account(request):
