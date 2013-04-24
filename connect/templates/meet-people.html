@@ -163,44 +163,27 @@
           					<div class="circle-1"></div>
           					<img class="fade-1" src="{{ MEDIA_URL }}/images/m.svg">
         				</div>
-			    		</div>
-			    	</div>
-			    	<br />
-			    	<br />
-					<span id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite your friends!)</a></span>
-				</div>
+                    </div>
                 </a>
+                <span id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite your friends!)</a></span>
             </div>
-            <a id="modalClose" class="close-reveal-modal" style="display:none;" ><small>OK</small> &times;</a>
         </div>
-    </div>    
-<!--     <div id="myModalViewed" class="reveal-modal large">
-        <h4>Check back at 1:00PM tomorrow for 20 more</h4>
-        <div class="row">
-            <div id="nudge-left" style:"text-align:center">
-                <a href="#" class="title">
-                    <span class="match-name">You can keep browsing today's matches or change to the viewed filter.</span>
-                    <br><br>
-                    <span  id="inviteFriends" class="match-name" style="display:none;"><a href="#" onclick="sendRequestViaMultiFriendSelector(); return false;">(Click here to invite more friends and get more matches tomorrow)</a></span>
-                </a>
-            </div>
-            <a class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();"><small>Got it!</small> &times;</a>
-        </div> -->
+        <a id="modalClose" class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();" style="display:none;" ><small>OK</small> &times;</a>
     </div>
     <div id="myModalIntroduce" class="reveal-modal medium">
         <aside id="user-profile" style="three columns">
 			<h4>Get Introduced to <span class="profile-name"></span></h4>
 			<div style="width:220px;text-align:center;margin: 0 auto">
-			<div id="ask-about" class="ask-about-modal" style="text-align:center;">
-				<ul>
+                <div id="ask-about" class="ask-about-modal" style="text-align:center;">
+                    <ul>
 
-				</ul>
-			</div>
-			<div class="twelve columns" style="max-height:20px;">
-				<a href="#" id="ask-prev-modal" class="four offset-by-one columns small button" style="width:50px;">&larr; Prev</a>
-				<a href="#" id="ask-next-modal" class="four offset-by-two columns small button" style="max-height:25px;width:50px;">Next &rarr;</a>
-			</div>
-		</div>
+                    </ul>
+                </div>
+                <div class="twelve columns" style="max-height:20px;">
+                    <a href="#" id="ask-prev-modal" class="four offset-by-one columns small button" style="width:50px;">&larr; Prev</a>
+                    <a href="#" id="ask-next-modal" class="four offset-by-two columns small button" style="max-height:25px;width:50px;">Next &rarr;</a>
+                </div>
+		    </div>
 		</aside>						
         <a class="close-reveal-modal" onclick="$('#page-next').show(); $('#page-prev').show();"><small>Nevermind</small> &times;</a>
     </div>

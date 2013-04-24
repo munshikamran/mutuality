@@ -18,14 +18,18 @@ def CreatePotentialBatch(profile):
     userGender = profile.gender
     if not userGender:
         userGender = GENDER.MALE
-    sameGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile, facebookUser__gender__in=[userGender, None]).exclude(facebookUser__in=viewedUsers)
+    sameGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile, facebookUser__gender__in=[userGender, None], facebookUser__location=profile.location).exclude(facebookUser__in=viewedUsers)
+    # try to only get potential matches in users current city. However if there are not enough for a full batch then use potential matches in user's state
+    if sameGenderPotentialMatches.count() < batchSize/2:
+        sameGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile, facebookUser__gender__in=[userGender, None]).exclude(facebookUser__in=viewedUsers)
     sameGenderPotentialMatches = sameGenderPotentialMatches.order_by('-isMutualityConnection',
                                                                      '-numMutualFriends')[:batchSize/2]
-
     otherGender = GENDER.FEMALE
     if userGender == GENDER.FEMALE:
         otherGender = GENDER.MALE
-    otherGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile, facebookUser__gender=otherGender).exclude(facebookUser__in=viewedUsers)
+    otherGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile, facebookUser__gender=otherGender, facebookUser__location=profile.location).exclude(facebookUser__in=viewedUsers)
+    if otherGenderPotentialMatches.count() < batchSize/2:
+        otherGenderPotentialMatches = PotentialMatch.objects.filter(profile=profile, facebookUser__gender=otherGender).exclude(facebookUser__in=viewedUsers)
     otherGenderPotentialMatches = otherGenderPotentialMatches.order_by('-isMutualityConnection',
                                                                  '-numMutualFriends')[:batchSize/2]
 

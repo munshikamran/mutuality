@@ -127,18 +127,20 @@ def meetpeople(request):
     context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
     context_dict['info'] = fbinfo(request)
     context_dict['URL'] = settings.URL
-    request.session.set_expiry(604800) # one week
+    request.session.set_expiry(604800)  # one week
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
-        if "last_login_date" in request.session.keys():
-            if (request.session['last_login_date'].date() != datetime.now().date()):
-                print "Updating last login!"
-                request.session['last_login_date'] = datetime.now()
-                request.user.last_login = datetime.now()
-                request.user.save()
-        else:
-            request.session['last_login_date'] = datetime.now()
-            request.user.last_login = datetime.now()
+        #del request.session['last_login_date']
+        #if "last_login_date" in request.session.keys():
+        #    if (datetime.now() - request.session['last_login_date']).days > 0:
+        #        print "**Updating last login!**"
+        #        request.session['last_login_date'] = datetime.now()
+        #        request.user.last_login = datetime.now()
+        #        request.user.save()
+        #else:
+        request.session['last_login_date'] = datetime.now()
+        request.user.last_login = datetime.now()
+        request.user.save()
         try:
             profile = request.user.get_profile()
             context_dict['profile'] = profile

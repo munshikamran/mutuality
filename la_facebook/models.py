@@ -9,7 +9,7 @@ class UserAssociation(models.Model):
     
     user = models.ForeignKey(User, unique=True)
     identifier = models.CharField(max_length=255, db_index=True)
-    token = models.CharField(max_length=200)
+    token = models.CharField(max_length=300)
     expires = models.DateTimeField(null=True)
     
     def expired(self):
