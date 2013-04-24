@@ -2,7 +2,6 @@
 *.DS_Store
 *.db
 ENV/*
-connect/migrations/*
 */workspace.xml
 *~
 * alias
