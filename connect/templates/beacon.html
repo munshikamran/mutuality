@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+{% block title %} Beacon {% endblock %}
+{% block content %}
+
+					<section id="page-title" style="margin-bottom:10px" class="row">
+						<div class="eight columns">
+							<h2>Add your Beacon</h2>
+						</div>
+						<hr />
+					</section>
+					
+					<div class="eight columns">
+						<h3>Basic</h3>
+					</div>	
+
+
+					<section id="main" data-URL={{ URL }} class="row">
+						<form id="registration" class="seven columns custom">
+							<div class="row">
+							  <div class="two columns">
+							    <label for="reg-firstname"><strong>Name</strong></label>
+							  </div>
+							  
+							  <div class="ten columns">
+							    <input id="reg-firstname" type="text" value="{{ profile.name }}" disabled="disabled" />
+							  </div>
+							  
+							  <!--<div class="five columns">
+							    <input type="text" value="" />
+							  </div> -->
+							</div>
+
+							<div class="row">
+							  <!--<div class="two columns">
+							    <label for="reg-bio"><strong>Bio</strong></label>
+							  </div>
+							  
+							  <div class="ten columns">
+							    <textarea id="bio"></textarea>
+							  </div> -->
+							</div>
+
+							<div class="row">
+							  <div class="two columns">
+							    <label for="reg-location"><strong>Location</strong></label>
+							  </div>
+							  
+							  <div class="ten columns">
+							    <input id="reg-location" value="{{ profile.location }}" type="text" />
+							  </div>
+					          <div id="location-ajax" style="display:none;">{{ profile.location }}</div>
+					          <div id="location-error" style="display:none;">You must select a location from the dropdown.</div>
+							</div>
+
+							<div class="row">
+							  <div class="two columns">
+							    <label for="reg-sex"><strong>Gender</strong></label>
+							  </div>
+							  
+							  <div class="ten columns">
+                              {% if profile.gender == "male" %}
+    							<select id="reg-sex" style="display:none;">
+    								<option id="reg-male" value="Male" selected="selected">Male</option>
+    								<option id="reg-female" value="Female">Female</option>
+    							</select>
+    							<div id="reg-sex" class="custom dropdown">
+    								<a href="#" class="current">Male</a>
+    								<a href="#" class="selector"></a>
+    								<ul>
+    									<li id="reg-male">Male</li>
+    									<li id="reg-female">Female</li>
+    								</ul>
+    							</div>
+                              {% else %}
+                                  <select id="reg-sex" style="display:none;">
+                                      <option id="reg-male" value="Male" >Male</option>
+                                      <option id="reg-female" value="Female" selected="selected">Female</option>
+                                  </select>
+                                  <div id="reg-sex" class="custom dropdown">
+                                      <a href="#" class="selector"></a>
+                                      <a href="#" class="current">Female</a>
+                                      <ul>
+                                          <li id="reg-male">Male</li>
+                                          <li id="reg-female">Female</li>
+                                      </ul>
+                                  </div>
+                              {% endif %}
+    						</div>
+    					</div>
+
+							<div class="row">
+							  <div class="two columns">
+							    <label for="reg-relationship"><strong>Status</strong></label>
+							  </div>
+  							  <div class="ten columns">
+                                {% if profile.relationshipStatus == "Single" %}
+                                <select id="reg-relationship" style="display:none;">
+    								<option id="reg-single" value="Single" selected="selected">Single</option>
+    								<option id="reg-notsingle" value="Relationship">In a Relationship</option>
+    							</select>
+    							<div id="reg-relationship" class="custom dropdown">
+    								<a href="#" class="current">Single</a>
+    								<a href="#" class="selector"></a>
+    								<ul>
+    									<li id="reg-single">Single</li>
+    									<li id="reg-notsingle">Not-single</li>
+    								</ul>
+    							</div>
+                                {% else %}
+                                    <select id="reg-relationship" style="display:none;">
+                                        <option id="reg-single" value="Single">Single</option>
+                                        <option id="reg-notsingle" value="Relationship" selected="selected">In a Relationship</option>
+                                    </select>
+                                    <div id="reg-relationship" class="custom dropdown">
+                                        <a href="#" class="selector"></a>
+                                        <a href="#" class="current">In a Relationship</a>
+                                        <ul>
+                                            <li id="reg-single">Single</li>
+                                            <li id="reg-notsingle">Not-single</li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+							  </div>
+							</div>
+  						</form>
+  					</section>	
+  							<!-- <div class="three columns"></div> -->
+			<div class="eight columns">
+					<h3 id="beacon-title">Beacon</h3>
+			</div>
+
+			<section id="main" data-URL={{ URL }} class="row">
+				<form id="registration" class="seven columns custom">			
+					<div class="row">
+					  <div class="two columns">
+					    <label for="reg-activity"><strong>Activity</strong></label>
+					  </div>
+					  
+					  <div class="ten columns">
+					    <input id="reg-activity" type="text" value="{{ beacon.activity.name }}"/>
+					  </div>
+					</div>
+					<div class="row">
+					  <div class="two columns">
+					    <label for="reg-place"><strong>Place</strong></label>
+					  </div>
+					  
+					  <div class="ten columns">
+					    <input id="reg-place" type="text" value="{{ beacon.place }}"/>
+					  </div>
+                        <div id="auth_token" style="display:none;">{{ AUTH_TOKEN }}</div>
+                        <div id="lat" style="display:none;">{{ LAT }}</div>
+                        <div id="long" style="display:none;">{{ LONG }}</div>
+					</div>
+				</form>
+			</section>
+
+			<div class="eight columns">
+				<h3 id="beacon-title">Notifications</h3>
+			</div>
+
+			<section id="main" data-URL={{ URL }} class="row">
+				<form id="registration" class="seven columns custom">			
+					<div class="row">
+					  <div class="six columns">
+					    <label for="notification1"><strong>New match reminder</strong></label>
+					  </div>
+					  
+					  <div id="notification-radio" class="six columns">
+					    <div>
+						    <input id="notification1" type="radio" name="switch" value="On"/> On
+						    <input id="notification1" type="radio" name="switch" value="Off"/> Off
+						</div>
+					  </div>
+					</div>
+
+					<div class="row">
+					  <div class="six columns">
+					    <label for="notification1"><strong>New message received</strong></label>
+					  </div>
+					  
+					  <div id="notification-radio" class="six columns">
+					    <div>
+						    <input id="notification1" type="radio" name="switch" value="On"/> On
+						    <input id="notification1" type="radio" name="switch" value="Off"/> Off
+						</div>
+					  </div>
+					</div>
+
+					<div class="row">
+					  <div class="six columns">
+					    <label for="notification1"><strong>Facebook friend joined</strong></label>
+					  </div>
+					  
+					  <div id="notification-radio" class="six columns">
+					    <div>
+						    <input id="notification1" type="radio" name="switch" value="On"/> On
+						    <input id="notification1" type="radio" name="switch" value="Off"/> Off
+						</div>
+					  </div>
+					</div>
+
+					<div class="row">
+					  <div class="six columns">
+					    <label for="notification1"><strong>News and Information</strong></label>
+					  </div>
+					  
+					  <div id="notification-radio" class="six columns">
+					    <div>
+						    <input id="notification1" type="radio" name="switch" value="On"/> On
+						    <input id="notification1" type="radio" name="switch" value="Off"/> Off
+						</div>
+					  </div>
+					</div>
+							
+					<div class="row">
+					  <div class="ten columns offset-by-two">
+						    <input id="save-button"type="button" href="#" class="medium button" value="Save Settings" />
+                      </div>
+					</div>
+				</form>
+			</section>
+
+
+
+					<br />
+				</form>
+			</section>
+
+	
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+ {% block extrahtml %} 
+<div class="error message">
+	 <h3>Error!</h3>
+	 <p>There was a problem saving your profile.</p>
+</div>
+<div class="success message">
+	 <h3>Success!</h3>
+	 <p>We successfully saved your profile.</p>
+</div>
+<ul id="trigger-list">
+	 <li><a href="#" class="trigger error-trigger" style="display:none;">Error</a></li>
+	 <li><a href="#" class="trigger success-trigger" style="display:none;">Success</a></li>
+</ul>  
+{% endblock %}
+{% block extrascript %}
+<script>
+   (function($){
+       $.getScript('{{ MEDIA_URL }}/javascripts/beacon.js').fail(function(xhr, settings, exception){
+           console.log(exception);
+       });
+   })(jQuery);
+</script>
+{% endblock %}
+
+

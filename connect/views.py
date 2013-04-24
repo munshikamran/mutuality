@@ -101,6 +101,39 @@ def account(request):
             pass
     return render_to_response('account.html', context_dict, context_instance=RequestContext(request))
 
+@login_required
+def beacon(request):
+    context_dict = {}
+    context_dict['request'] = request
+    context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
+    context_dict['URL'] = settings.URL
+    if hasattr(request, 'user'):
+        context_dict['user'] = request.user
+        print
+        try:
+            if request.user.is_authenticated():
+                #Get the profile and the auth_token
+                profile = request.user.get_profile()
+                context_dict['profile'] = profile
+                context_dict['AUTH_TOKEN'] = GetProfileAuthToken(profile)
+
+                #Get the beacon for this user account page
+                beacon = GetBeacon(profile)
+                if beacon != []:
+                    context_dict['beacon'] = GetBeacon(profile)
+
+                #Get location lat/long to pass to template so that places dropdown results are narrowed
+                graph = facebook.GraphAPI(GetProfileAuthToken(profile))
+                print GetProfileAuthToken(profile)
+                fields = ["location"]
+                kwargs = {"fields": fields}
+                data=graph.get_object(profile.facebookID,**kwargs)
+                locationData = graph.get_object(data['location']['id'])
+                context_dict['LAT'] = locationData['location']['latitude']
+                context_dict['LONG'] = locationData['location']['longitude']
+        except Profile.DoesNotExist:
+            pass
+    return render_to_response('beacon.html', context_dict, context_instance=RequestContext(request))
 
 @login_required
 def makematches(request):
