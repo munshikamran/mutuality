@@ -73,6 +73,7 @@
 
 /* Begin Account Main Code */
 	// Initially, hide them all
+
 	hideAllMessages();
 
 	// Show message
@@ -106,6 +107,16 @@
                 $('.error-trigger').trigger('click');
             }
         });
+
+		$('.activity-list').on("click", 'a', function(){
+			var activityName = $(this).html();
+			$.scrollTo('input#reg-activity', 400);
+			if (activityName !== "Other...") {
+				$('input#reg-activity').val(activityName);
+			} else {
+				$('input#reg-activity').val("");
+			}
+		})
 
 /* End Main Code */
 

@@ -2,131 +2,187 @@
 {% block title %} Beacon {% endblock %}
 {% block content %}
 
+<script src="{{ MEDIA_URL }}/javascripts/liteaccordion.jquery.js"></script>
+<script src="{{ MEDIA_URL }}/javascripts/jquery.easing.1.3.js"></script>
+<script src="{{ MEDIA_URL }}/javascripts/jquery.scrollTo.js"></script>
+
 					<section id="page-title" style="margin-bottom:10px" class="row">
 						<div class="eight columns">
 							<h2>Add your Beacon</h2>
 						</div>
 						<hr />
 					</section>
-					
-					<div class="eight columns">
-						<h3>Basic</h3>
+
+					<div>
+						<h3 id="beacon-title">What activity would you enjoy doing with new people?</h3>
 					</div>	
 
+					<div id="activity-accordion">
+						<ol>
+							<li>
+								<h2><span>Sports</span></h2>
+								<div class="activity-background">
+									<div class="activity-list">
+										<!-- <li> -->
+											<a>Soccer</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Tennis</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Basketball</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Ice Hockey</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Golf</a>
+										<!-- </li> -->
+									</div>
+									<div class="activity-list">	
+										<!-- <li> -->
+											<a>Ultimate Frisbee</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Baseball</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Volleyball</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Football</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Other...</a>
+										<!-- </li> -->
+									</div>		
+								</div>
+							</li>
+							<li>
+								<h2><span>Recreation</span></h2>
+												<div class="activity-background">
+									<div class="activity-list">
+										<!-- <li> -->
+											<a>Poker</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Board Games</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Video Games</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Paintball</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Mini Golf</a>
+										<!-- </li> -->
+									</div>
+									<div class="activity-list">	
+										<!-- <li> -->
+											<a>Climbing Gym</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Go-Kart Racing</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Working Out</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Bowling</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Other...</a>
+										<!-- </li> -->
+									</div>		
+								</div>
+							</li>	
+							<li>
+								<h2><span>Outdoors</span></h2>
+									<div class="activity-background">
+										<div class="activity-list">
+										<!-- <li> -->
+											<a>Hiking</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Biking</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Kayaking</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Hunting</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Rock Climbing</a>
+										<!-- </li> -->
+										</div>
+									<div class="activity-list">	
+										<!-- <li> -->
+											<a>Fishing</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Skiing</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Snowboarding</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Birdwatching</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Other...</a>
+										<!-- </li> -->
+									</div>			
+								</div>
+							</li>
+							<li>
+								<h2><span>Social</span></h2>
+									<div class="activity-background">
+									<div class="activity-list">
+										<!-- <li> -->
+											<a>Karaoke</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Pub Crawl</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Dog Walking</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Happy Hour</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Shopping</a>
+										<!-- </li> -->
+									</div>
+									<div class="activity-list">	
+										<!-- <li> -->
+											<a>Watching Sports</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Dancing</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Wine Tasting</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>420</a>
+										<!-- </li> -->
+										<!-- <li> -->
+											<a>Other...</a>
+										<!-- </li> -->
+									</div>		
+								</div>
+							</li>
+						</ol>	
+						   <noscript>
+                				<p>Please enable JavaScript to get the full experience.</p>
+         				   </noscript>
+					</div>	
 
-					<section id="main" data-URL={{ URL }} class="row">
-						<form id="registration" class="seven columns custom">
-							<div class="row">
-							  <div class="two columns">
-							    <label for="reg-firstname"><strong>Name</strong></label>
-							  </div>
-							  
-							  <div class="ten columns">
-							    <input id="reg-firstname" type="text" value="{{ profile.name }}" disabled="disabled" />
-							  </div>
-							  
-							  <!--<div class="five columns">
-							    <input type="text" value="" />
-							  </div> -->
-							</div>
-
-							<div class="row">
-							  <!--<div class="two columns">
-							    <label for="reg-bio"><strong>Bio</strong></label>
-							  </div>
-							  
-							  <div class="ten columns">
-							    <textarea id="bio"></textarea>
-							  </div> -->
-							</div>
-
-							<div class="row">
-							  <div class="two columns">
-							    <label for="reg-location"><strong>Location</strong></label>
-							  </div>
-							  
-							  <div class="ten columns">
-							    <input id="reg-location" value="{{ profile.location }}" type="text" />
-							  </div>
-					          <div id="location-ajax" style="display:none;">{{ profile.location }}</div>
-					          <div id="location-error" style="display:none;">You must select a location from the dropdown.</div>
-							</div>
-
-							<div class="row">
-							  <div class="two columns">
-							    <label for="reg-sex"><strong>Gender</strong></label>
-							  </div>
-							  
-							  <div class="ten columns">
-                              {% if profile.gender == "male" %}
-    							<select id="reg-sex" style="display:none;">
-    								<option id="reg-male" value="Male" selected="selected">Male</option>
-    								<option id="reg-female" value="Female">Female</option>
-    							</select>
-    							<div id="reg-sex" class="custom dropdown">
-    								<a href="#" class="current">Male</a>
-    								<a href="#" class="selector"></a>
-    								<ul>
-    									<li id="reg-male">Male</li>
-    									<li id="reg-female">Female</li>
-    								</ul>
-    							</div>
-                              {% else %}
-                                  <select id="reg-sex" style="display:none;">
-                                      <option id="reg-male" value="Male" >Male</option>
-                                      <option id="reg-female" value="Female" selected="selected">Female</option>
-                                  </select>
-                                  <div id="reg-sex" class="custom dropdown">
-                                      <a href="#" class="selector"></a>
-                                      <a href="#" class="current">Female</a>
-                                      <ul>
-                                          <li id="reg-male">Male</li>
-                                          <li id="reg-female">Female</li>
-                                      </ul>
-                                  </div>
-                              {% endif %}
-    						</div>
-    					</div>
-
-							<div class="row">
-							  <div class="two columns">
-							    <label for="reg-relationship"><strong>Status</strong></label>
-							  </div>
-  							  <div class="ten columns">
-                                {% if profile.relationshipStatus == "Single" %}
-                                <select id="reg-relationship" style="display:none;">
-    								<option id="reg-single" value="Single" selected="selected">Single</option>
-    								<option id="reg-notsingle" value="Relationship">In a Relationship</option>
-    							</select>
-    							<div id="reg-relationship" class="custom dropdown">
-    								<a href="#" class="current">Single</a>
-    								<a href="#" class="selector"></a>
-    								<ul>
-    									<li id="reg-single">Single</li>
-    									<li id="reg-notsingle">Not-single</li>
-    								</ul>
-    							</div>
-                                {% else %}
-                                    <select id="reg-relationship" style="display:none;">
-                                        <option id="reg-single" value="Single">Single</option>
-                                        <option id="reg-notsingle" value="Relationship" selected="selected">In a Relationship</option>
-                                    </select>
-                                    <div id="reg-relationship" class="custom dropdown">
-                                        <a href="#" class="selector"></a>
-                                        <a href="#" class="current">In a Relationship</a>
-                                        <ul>
-                                            <li id="reg-single">Single</li>
-                                            <li id="reg-notsingle">Not-single</li>
-                                        </ul>
-                                    </div>
-                                {% endif %}
-							  </div>
-							</div>
-  						</form>
-  					</section>	
-  							<!-- <div class="three columns"></div> -->
 			<div class="eight columns">
-					<h3 id="beacon-title">Beacon</h3>
+					<h3 id="beacon-title">Where?</h3>
 			</div>
 
 			<section id="main" data-URL={{ URL }} class="row">
@@ -154,68 +210,10 @@
 					</div>
 				</form>
 			</section>
-
-			<div class="eight columns">
-				<h3 id="beacon-title">Notifications</h3>
-			</div>
-
-			<section id="main" data-URL={{ URL }} class="row">
-				<form id="registration" class="seven columns custom">			
-					<div class="row">
-					  <div class="six columns">
-					    <label for="notification1"><strong>New match reminder</strong></label>
-					  </div>
-					  
-					  <div id="notification-radio" class="six columns">
-					    <div>
-						    <input id="notification1" type="radio" name="switch" value="On"/> On
-						    <input id="notification1" type="radio" name="switch" value="Off"/> Off
-						</div>
-					  </div>
-					</div>
-
-					<div class="row">
-					  <div class="six columns">
-					    <label for="notification1"><strong>New message received</strong></label>
-					  </div>
-					  
-					  <div id="notification-radio" class="six columns">
-					    <div>
-						    <input id="notification1" type="radio" name="switch" value="On"/> On
-						    <input id="notification1" type="radio" name="switch" value="Off"/> Off
-						</div>
-					  </div>
-					</div>
-
-					<div class="row">
-					  <div class="six columns">
-					    <label for="notification1"><strong>Facebook friend joined</strong></label>
-					  </div>
-					  
-					  <div id="notification-radio" class="six columns">
-					    <div>
-						    <input id="notification1" type="radio" name="switch" value="On"/> On
-						    <input id="notification1" type="radio" name="switch" value="Off"/> Off
-						</div>
-					  </div>
-					</div>
-
-					<div class="row">
-					  <div class="six columns">
-					    <label for="notification1"><strong>News and Information</strong></label>
-					  </div>
-					  
-					  <div id="notification-radio" class="six columns">
-					    <div>
-						    <input id="notification1" type="radio" name="switch" value="On"/> On
-						    <input id="notification1" type="radio" name="switch" value="Off"/> Off
-						</div>
-					  </div>
-					</div>
 							
 					<div class="row">
 					  <div class="ten columns offset-by-two">
-						    <input id="save-button"type="button" href="#" class="medium button" value="Save Settings" />
+						    <input id="save-button"type="button" href="#" class="medium button" value="Set Beacon" />
                       </div>
 					</div>
 				</form>
@@ -249,11 +247,21 @@
 {% endblock %}
 {% block extrascript %}
 <script>
+	$('#activity-accordion').liteAccordion({
+		containerWidth:550,
+		containerHeight:300,
+		activateOn:"click",
+		theme:'light',
+		easing:'easeInOutQuart',
+		rounded:true
+	});
+
    (function($){
        $.getScript('{{ MEDIA_URL }}/javascripts/beacon.js').fail(function(xhr, settings, exception){
            console.log(exception);
        });
-   })(jQuery);
+   })(jQuery)
+
 </script>
 {% endblock %}
 
