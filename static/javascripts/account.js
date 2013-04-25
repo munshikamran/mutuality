@@ -13,6 +13,7 @@
 		onSearchStart: function (query) {$('#location-ajax').html("");},
 		paramName: 'q',
 		transformResult: function(response, originalQuery) {
+            console.log(response);
 		    return {
 		        query: originalQuery,
 		        suggestions: $.map(JSON.parse(response).data, function(dataItem) {
@@ -24,7 +25,7 @@
 
     // Initialize ajax autocomplete for beacon places:
 	$('#reg-place').autocomplete({
-		serviceUrl: 'https://graph.facebook.com/search?type=place&distance=1000',
+		serviceUrl: 'https://graph.facebook.com/search?type=place&fields=name',
 		deferRequestBy: 10,
 		autoSelectFirst: true,
         params: {access_token: $("#auth_token").html(), center:$("#lat").html() + "," + $("#long").html()},
