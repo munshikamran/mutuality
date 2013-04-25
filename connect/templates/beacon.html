@@ -14,13 +14,13 @@
 					</section>
 
 					<div>
-						<h3 id="beacon-title">What activity would you enjoy doing with new people?</h3>
+						<h3 id="beacon-title">Which activity would you enjoy doing with new people?</h3>
 					</div>	
 
 					<div id="activity-accordion">
 						<ol>
 							<li>
-								<h2><span>Sports</span></h2>
+								<h2 id="adjustAccordionHeadline"><span>Sports</span></h2>
 								<div class="activity-background">
 									<div class="activity-list">
 										<!-- <li> -->
@@ -59,7 +59,7 @@
 								</div>
 							</li>
 							<li>
-								<h2><span>Recreation</span></h2>
+								<h2 id="adjustAccordionHeadline"><span>Recreation</span></h2>
 												<div class="activity-background">
 									<div class="activity-list">
 										<!-- <li> -->
@@ -98,7 +98,7 @@
 								</div>
 							</li>	
 							<li>
-								<h2><span>Outdoors</span></h2>
+								<h2 id="adjustAccordionHeadline"><span>Outdoors</span></h2>
 									<div class="activity-background">
 										<div class="activity-list">
 										<!-- <li> -->
@@ -137,7 +137,7 @@
 								</div>
 							</li>
 							<li>
-								<h2><span>Social</span></h2>
+								<h2 id="adjustAccordionHeadline"><span>Social</span></h2>
 									<div class="activity-background">
 									<div class="activity-list">
 										<!-- <li> -->
@@ -189,7 +189,7 @@
 					  </div>
 					  
 					  <div class="ten columns">
-					    <input id="reg-activity" class="tooltip" title='<div id="beacon-activity-tooltip"> <span class="beacon-info">Keep or edit your activities</span></div>' type="text" value="{{ beacon.activity.name }}"/>
+					    <input id="reg-activity" title='<div id="beacon-activity-tooltip"> <span class="beacon-info">Keep or edit your activities</span></div>' type="text" value="{{ beacon.activity.name }}"/>
 					  </div>
 					</div>
 				</form>
@@ -200,8 +200,8 @@
 			</div>
 
 			<section>
-				<form> 		
-					<div class="row">
+				<form id="registration" class="seven columns custom"> 		
+					<div id="activity-div" style="margin-top:10px" class="row">
 					  <div class="two columns">
 					    <label for="reg-place"><strong>Place</strong></label>
 					  </div>
@@ -256,7 +256,8 @@
 		containerWidth:550,
 		containerHeight:300,
 		activateOn:"click",
-		theme:'light',
+		theme:'stitch',
+		// easing:'swing',
 		easing:'easeInOutQuart',
 		rounded:true
 	});

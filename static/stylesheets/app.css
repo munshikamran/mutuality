@@ -7935,6 +7935,7 @@ form#registration textarea {
   padding: 8px 10px;
   border: 3px solid #eee;
   font-size: 16px;
+  font-weight:normal !important;
   color: #989898;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -9330,7 +9331,7 @@ div#question:hover{
     -o-border-image: url('bg_stitch.png') 9 repeat;
     border-image: url('bg_stitch.png') 9 repeat;
 }
-.liteAccordion.stitch .slide > h2.selected:after {
+/*.liteAccordion.stitch .slide > h2.selected:after {
     content: '';
     display: block;
     height: 11px;
@@ -9352,13 +9353,13 @@ div#question:hover{
     -o-border-image: url('bg_stitch.png') 9 repeat;
     border-image: url('bg_stitch.png') 9 repeat;
     background-image: url('bg_noise.png');
-}
+}*/
 
 .liteAccordion.stitch .slide:nth-child(1) > h2 span, .liteAccordion.stitch .slide:nth-child(1) > h2:after { background-color: #c25252 }
-.liteAccordion.stitch .slide:nth-child(2) > h2 span, .liteAccordion.stitch .slide:nth-child(2) > h2:after { background-color: #ca9859 }
+.liteAccordion.stitch .slide:nth-child(2) > h2 span, .liteAccordion.stitch .slide:nth-child(2) > h2:after { background-color: #bb6098 }
 .liteAccordion.stitch .slide:nth-child(3) > h2 span, .liteAccordion.stitch .slide:nth-child(3) > h2:after { background-color: #96ba5f }
 .liteAccordion.stitch .slide:nth-child(4) > h2 span, .liteAccordion.stitch .slide:nth-child(4) > h2:after { background-color: #59abb7 }
-.liteAccordion.stitch .slide:nth-child(5) > h2 span, .liteAccordion.stitch .slide:nth-child(5) > h2:after { background-color: #bb6098 }
+.liteAccordion.stitch .slide:nth-child(5) > h2 span, .liteAccordion.stitch .slide:nth-child(5) > h2:after { background-color: #ca9859 }
 .liteAccordion.stitch .slide > h2 b { top: 19%; color: white; text-shadow: 1px 1px 0 #5b5b5b }
 .liteAccordion.stitch .slide > div { margin-right: 6px }
 .liteAccordion.stitch.rounded > ol { -webkit-border-radius: 0; -moz-border-radius: 0; -ms-border-radius: 0; border-radius: 0 }
@@ -9504,3 +9505,6 @@ div#question:hover{
     padding-left:10%;
 }
 
+#adjustAccordionHeadline {
+  font-size:20px;
+}
