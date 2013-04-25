@@ -76,6 +76,24 @@
 
 	hideAllMessages();
 
+	$('#reg-activity').tooltipster({
+					theme: '.tooltipster-beacon',
+					position: 'right',
+					arrow:true,
+					arrowColor:'#056ba6',
+					maxWidth:300,
+					trigger:'hover'
+				}); 
+
+	$('#reg-place').tooltipster({
+					theme: '.tooltipster-beacon',
+					position: 'right',
+					arrow:true,
+					arrowColor:'#056ba6',
+					maxWidth:300,
+					trigger:'hover'
+				}); 
+
 	// Show message
 	for(var i=0;i<myMessages.length;i++){
 		showMessage(myMessages[i]);
@@ -108,14 +126,29 @@
             }
         });
 
+		$('#reg-activity').on('focus', function(){
+			$(this).tooltipster('show'); 
+		});
+
+		$('#reg-place').on('focus', function(){
+			$(this).tooltipster('show'); 
+		});
+
 		$('.activity-list').on("click", 'a', function(){
 			var activityName = $(this).html();
 			$.scrollTo('input#reg-activity', 400);
 			if (activityName !== "Other...") {
+				var tooltipTitle = '<div id="beacon-activity-tooltip"><span class=beacon-info>Keep or edit this activity</span></div>';
+				$('#reg-activity').tooltipster('update', tooltipTitle);
 				$('input#reg-activity').val(activityName);
 			} else {
+				var tooltipTitleOther = '<div id="beacon-activity-tooltip"><span class=beacon-info>Add your own activity</span></div>';
+				//$('input#reg-activity').attr('title', tooltipTitle);
+				$('#reg-activity').tooltipster('update',tooltipTitleOther); 
 				$('input#reg-activity').val("");
+				//$('input#reg-activity').click();
 			}
+			$('#reg-activity').focus();
 		})
 
 /* End Main Code */
