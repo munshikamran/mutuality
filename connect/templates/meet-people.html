@@ -53,14 +53,29 @@
 <!-- 							<h6>Learn About <span class="profile-name"></span><div class="tooltipster-icon" title='<div class="tooltip-question"> <span class=question-header>Get Introduced</span>
  <span class=question-body>Click to pick a friend to ask for an introduction</span></div>' id="question"></div></h6> -->
 
-							<ul id="alt-actions" class="menu">
-								<li id="introduce" ><a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a></li>
-								<!--<li id="view-fb"><a href="#" class="button"><i></i>Facebook Profile</a></li>-->
-							</ul>
+						<h6 id='adjustBeaconTitle'><span class="profile-name"></span>'s Beacon
+							<span id='drop-pin'><img src="{{ MEDIA_URL }}/images/DropPin.png" width="8px"></span>
+						</h6>
+						
+						<div id="beacon">
+						<!-- 	<h6 id="adjustBeaconHeader">Do you also like <span id="beacon-activity">Poker</span>?</h6>
+							<div id="beacon-image-div">
+								<img class="profile-thumb adjustBeaconImage" src="">
+							</div>	 -->	
+							<div id="beacon-info">
+								<span id="activity">Poker</span>
+								<span id="at-span"><img id="at-image" src="{{ MEDIA_URL }}/images/As.png"></span>
+								<span id="place">Capitol Hill</span>
+							</div>
+							<div id="beacon-like-div">
+							<!-- 	<img id="beacon-nub" src="{{ MEDIA_URL }}/images/Beacon-Nub.png"> -->
+								<span id="animate-out"><span id="like-span"><img id="like-button" src="{{ MEDIA_URL }}/images/like-button.png"></span>
+								<span id="like-text">Like</span></span>
+								<span id="like-block"><span id="like-number"><span id="beacon-like-number"></span> <span id="plural-agreement">people agree</span></span></span>
+							</div>	
+						</div>		
 							
-							<hr />
-							
-							<h6>Ask About <span class="profile-name"></span><div class="tooltipster-icon" title='<div class="tooltip-question"> <span class=question-header>Ask About Someone</span><span class=question-body>Click on a friend&#39s picture to send them a Facebook message</span></div>' id="question"></div></h6>
+							<h6 id="adjustAskAboutHeader">Ask About <span class="profile-name"></span><div class="tooltipster-icon" title='<div class="tooltip-question"> <span class=question-header>Ask About Someone</span><span class=question-body>Click on a friend&#39s picture to send them a Facebook message</span></div>' id="question"></div></h6>
 							
 							<div id="ask-about" class="">
 								<ul>
@@ -71,24 +86,16 @@
 								<a href="#" id="ask-prev" class="three offset-by-one columns small button">&larr; Prev</a>
 								<a href="#" id="ask-next" class="three offset-by-three columns small button">Next &rarr;</a>
 							</div>
-							<div id="beacon">
-								<h6>Do you also like <span id="beacon-activity">Poker</span>?</h6>
-								<div id="beacon-image-div">
-									<img class="beacon-image" src="{{ MEDIA_URL }}/images/BeaconLoop.gif">
-								</div>		
-								<div id="beacon-info">
-									<span id="activity">Poker</span>
-									<span id="at-span"><img id="at-image" src="{{ MEDIA_URL }}/images/As.png"></span>
-									<span id="place">Capitol Hill</span>
-								</div>
-								<div id="beacon-like-div">
-									<img id="beacon-nub" src="{{ MEDIA_URL }}/images/Beacon-Nub.png">
-									<span id="animate-out"><span id="like-span"><img id="like-button" src="{{ MEDIA_URL }}/images/like-button.png"></span>
-									<span id="like-text">Yes</span></span>
-									<span id="like-block"><span id="like-number"><span id="beacon-like-number"></span> <span id="plural-agreement">people agree</span></span></span>
-								</div>	
 
-							</div>	
+
+							
+								
+							<hr />
+
+							<ul id="alt-actions" class="menu">
+								<li id="introduce" ><a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a></li>
+								<!--<li id="view-fb"><a href="#" class="button"><i></i>Facebook Profile</a></li>-->
+							</ul>
 
 						</aside>
 
@@ -101,7 +108,7 @@
 								<li id="profile-dob"><i class="birthday"></i>Age</li>
 								<li id="profile-location"><i class="location"></i>Location</li>
 								<li id="profile-job"><i class="company"></i>Job</li>
-								<li id="profile-fb"><a href="#"><img src="{{ MEDIA_URL }}/images/view-fb.png" /></a></li>
+								<!-- <li id="profile-fb"><a href="#"><img src="{{ MEDIA_URL }}/images/view-fb.png" /></a></li> -->
 							</ul>
 						</div>
 					</div>
@@ -233,6 +240,7 @@
         $('#ask-prev').hide();
         $('#ask-next').hide();
         $('#intro-yourself').hide();
+        $('#adjustBeaconTitle').hide();
 
     </script>
 {% endblock %}	

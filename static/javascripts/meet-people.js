@@ -135,7 +135,7 @@
 		$('#ask-about').carouFredSel({
 			auto : false,
 			width: 213,
-			height: 120,
+			height: 70,
 			prev: "#ask-prev",
 			next: "#ask-next",
 			items: {
@@ -343,6 +343,36 @@ function countDown(end, cur){
 
 }
 
+function beginBeaconImageHoverToggle() {
+
+    var autoToggle = true;
+    var $togglers = $('.adjustBeaconImage');
+
+    var tid_1,
+        tid_2 = setTimeout(function() {
+        clearInterval(tid_1);
+        $togglers.removeClass('hovered');
+        autoToggle = false;
+    }, 30000); // stop toggling after 30 seconds
+
+    $togglers.hover(function() {
+        clearInterval(tid_1);
+        $togglers.removeClass('hovered');
+        $(this).addClass('hovered');
+    }, function() {
+        if(autoToggle) {
+            $('.adjustBeaconImage').removeClass('hovered');
+            $('.adjustBeaconImage').addClass('hovered');
+            tid_1 = setInterval(function() {
+                $togglers.toggleClass('hovered');
+            }, 2000);
+        }
+        else {
+            $togglers.removeClass('hovered');
+        }
+    }).triggerHandler('mouseout');
+}
+
 	function addFriendPicturesForLoadingAnimations(friends) {
         friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
         $('#analyzeModal img').each(function(i) {
@@ -374,6 +404,7 @@ function countDown(end, cur){
 	}
 
 	var loadBeacon = function(fbID){
+		$('#adjustBeaconTitle').show();
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
 			//console.log(beaconObject);
@@ -421,6 +452,8 @@ function countDown(end, cur){
 	    	Mutuality.mpcache.current = currentlyFocusedElem.attr("facebookID");
 	    	console.log("Current Person: "+currentlyFocusedElem.attr("facebookID"));
 
+			$('.adjustBeaconImage').attr('src', Mutuality.getProfilePictureURL(Mutuality.mpcache.current, 100, 100));
+
 	    	// Check to make sure that we have an id that's defined
 			if(Mutuality.mpcache.current){
 				$('.loaded').append('<img id="mutuality-badge" src="http://www.mymutuality.com/images/Mutuality-Badge.png"/>');		
@@ -432,7 +465,7 @@ function countDown(end, cur){
 		    	}
 		    	else {
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
-		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Introduce Yourself</a>');
+		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Send Message</a>');
 		    		$('img#mutuality-badge').show();
 		    		
 		    		loadBeacon(Mutuality.mpcache.current);
@@ -614,7 +647,7 @@ function countDown(end, cur){
 		for (i=0; i<mutualFriends.length; i++){
 			askaboutElem = $('#ask-about');
 			askaboutElemModal = $('.ask-about-modal');
-			if (i % 6 == 0){
+			if (i % 3 == 0){
 				newUlElem = $('<ul>', {style: "margin-right: 0px; z-index: 0;"}).appendTo(askaboutElem);
 				newUlElemModal = $('<ul>', {style: "margin-right: 0px; list-style-type: none;"}).appendTo(askaboutElemModal);
 			}
@@ -844,6 +877,7 @@ var setNewBadge = function(friends) {
 	}
 	else {
 		Mutuality.loadFriendsList(4, populateCTA);
+		beginBeaconImageHoverToggle();
 		Mutuality.getMeetPeople(0, 0, 0, function(friends){
 			if (friends.potentialMatches.length > 0){
                 countDown(friends.batchExpirationTimestamp, new Date().getTime());
@@ -879,7 +913,7 @@ var setNewBadge = function(friends) {
 	 $('#like-text').on('click', function(){
 	 	Mutuality.likeBeacon(Mutuality.mpcache.current, function(success) {
 	 		$('#animate-out').fadeOut();
-	 		$("#like-number").animate({ marginLeft: "-40%", opcaity: 0.9 },1000, function(){
+	 		$("#like-number").animate({ opcaity: 0.9 },1000, function(){
 	 			//Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
 	 			Mutuality.getBeaconLikeCount(Mutuality.mpcache.current, function(success){
 	 			if (success!==1) {

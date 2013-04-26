@@ -7297,7 +7297,7 @@ input[type=text]:focus + .search-results {
 
 /* line 515, ../sass/app.scss */
 #user-profile hr {
-  margin-right: 20px;
+  margin:50px 20px 15px 0px;
 }
 
 /* line 519, ../sass/app.scss */
@@ -7462,8 +7462,8 @@ input[type=text]:focus + .search-results {
 
 /* line 544, ../sass/app.scss */
 #meetpeople-thumb {
-  width: 50px !important;
-  height: 50px !important;
+  width: 60px !important;
+  height: 60px !important;
    border-width: 3px !important;
 }
 
@@ -7576,7 +7576,7 @@ input[type=text]:focus + .search-results {
   display: inline-block;
   width: 20px;
   height: 18px;
-  margin-right: 7px;
+  margin-right: 25px;
   float: left;
   background: url(../images/IntroYourself.png) no-repeat !important;
 }
@@ -7593,7 +7593,7 @@ input[type=text]:focus + .search-results {
 
 /* line 566, ../sass/app.scss */
 #alt-actions li {
-  margin-bottom: 10px;
+  margin-top: 20px;
 }
 
 /* line 569, ../sass/app.scss */
@@ -8863,14 +8863,23 @@ border-bottom:1px solid #DDD;
 
 /* line 540, ../sass/app.scss */
 #beacon {
-  height: 150px;
+  height: auto;
+  width:210px;
   display:block;
+  border: 1px solid #eee;
+  background-color: #f9f9f9;
+  border-radius:5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  padding:10px;
 }
 
 /* line 541, ../sass/app.scss */
 #beacon ul {
-  height: 150px;
-  width: 213px;
+/*  height: 150px;
+  width: 213px;*/
   list-style: none;
   margin: 0;
   overflow: hidden;
@@ -8909,7 +8918,7 @@ border-bottom:1px solid #DDD;
 }
 
 .beacon-image {
-   height:55px; 
+   height:60px; 
    width:60px; 
    display:block;
  /*  margin:0px auto;*/
@@ -8939,9 +8948,10 @@ border-bottom:1px solid #DDD;
 
 #beacon-info{
   height:auto;
-  width:70%;
-  display:inline-block;
-  float:right;
+  width:auto;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 #at-span{
@@ -8958,14 +8968,14 @@ border-bottom:1px solid #DDD;
 
 #activity {
   display:block;
-  font-size:16px;
+  font-size:15px;
   font-weight:bolder;
   text-align:center;
 }
 
 #place {
-  height: 32px;
-  width:149px;
+  height: auto;
+  width:auto;
   display:block;
   font-size:16px;
   font-weight:lighter;
@@ -8977,7 +8987,7 @@ border-bottom:1px solid #DDD;
   display:block;
   height:25px;
   width:100%;
-  background:#f9f9f9;
+  /*background:#DDD;*/
   clear:both;
   position:relative;
   bottom:-8px;
@@ -8992,37 +9002,39 @@ border-bottom:1px solid #DDD;
 
 #like-text {
   font-size:12px;
-  vertical-align:55%;
+  margin-left:9px;
+  line-height: 2.2;
   cursor:pointer;
 }
 
 #like-text:hover {
   font-size:12px;
-  vertical-align:55%;
+  margin-left:9px;
+  line-height: 2.2;
   text-decoration:underline;
 }
 
 #like-span{
   height:25px;
   display:inline-block;
-  width:15%;
+  float:left;
 }
 
 #like-button{
  /* display:block-inline;
   height:25px;*/
   /*text-align:center;*/
-  margin:25% 0% 0% 35%;
+  margin:50% -35% 0% 0%;
   float:right;
   height:12px;
   width:12px;
 }
 
 #like-number {
-  font-size:10px;
+  font-size:11px;
   color:#989898;
   display:block;
-  margin:9px 0px 0px 0px;
+  margin:8px 0px 0px 20px;
 }
 
 #like-block {
@@ -9390,4 +9402,44 @@ div#question:hover{
 #slidorion .nav-right {
   right: 310px;
   background-position: -16px 0;
+}
+
+#adjustBeaconHeader {
+margin-top:0px;
+font-size:12px;
+font-weight:normal;
+}
+
+#adjustAskAboutHeader {
+  font-size:12px;
+  font-weight:normal;
+  margin-top: 35px;
+  margin-bottom: 5px;
+}
+
+.adjustBeaconImage{
+  border-width:6px !important;
+  border-color:#f9f9f9 !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.adjustBeaconImage:hover, .hovered {
+  border-width:6px !important;
+  border-color: #4fa8c4 !important;
+  -webkit-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px !important;
+  -moz-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px !important;
+  box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px !important;
+}
+
+#adjustBeaconTitle {
+  margin:0px 0px 5px 0px;
+  font-size: 16px;
+}
+
+#drop-pin {
+  position:absolute;
+  top:-3px;
+  left:155px;
 }
