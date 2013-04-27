@@ -9199,7 +9199,7 @@ div#question:hover{
   background-image: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%) !important;
   background-image: -o-linear-gradient(top, #ffffff 0%, #e5e5e5 100%) !important;
   background-image: linear-gradient(top, #ffffff 0%, #e5e5e5 100%) !important;
-  /*background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==') !important;*/
+  /*background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiâ€¦pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==') !important;*/
   background-size: 100%;
 
 /*  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #056ba6), color-stop(100%, #1e5799));
@@ -9460,3 +9460,19 @@ font-weight:normal;
   top:-3px;
   left:155px;
 }
+
+/* TABS ON ACCOUNT PAGE CSS */
+#tabsdiv { background: #FFF; padding: 10px; margin: 0 0 15px 0; -moz-box-shadow: 0 0 5px #666; -webkit-box-shadow: 0 0 5px #666; }
+
+#tabsdiv .nav { overflow: hidden; margin: 0 0 10px 0; }
+#tabsdiv .nav li { width: 97px; float: left; margin: 0 10px 0 0; }
+#tabsdiv .nav li.last { margin-right: 0; }
+#tabsdiv .nav li a { display: block; padding: 5px; background: #959290; color: white; font-size: 10px; text-align: center; border: 0; }
+#tabsdiv .nav li a:hover { background-color: #111; }
+
+#tabsdiv ul { list-style: none; }
+#tabsdiv ul li a { display: block; border-bottom: 1px solid #666; padding: 4px; color: #666; }
+#tabsdiv ul li:last-child a { border: none; }
+
+#tabsdiv li.nav-one a.current, ul.basic li a:hover { background-color: #4096b6; color: white; }
+#tabsdiv li.nav-two a.current, ul.notifications li a:hover { background-color: #4096b6; color: white; }

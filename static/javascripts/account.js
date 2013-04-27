@@ -40,18 +40,6 @@
 		}
 	});
 
-    // Functions to get browser's current location
-    function get_location() {
-      navigator.geolocation.getCurrentPosition(print_coords);
-    }
-
-    function print_coords(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
-      console.log(latitude);
-      // let's show a map or do something interesting!
-    }
-
 /* Begin Helper functions */
 	//Alert message stuff
 	var myMessages = ['error','success']; // define the messages types		 
@@ -86,27 +74,32 @@
 		  $(this).animate({top: -$(this).outerHeight()}, 300);
 	});	
 
-        $("#save-button").click(function(){
-            if($('#location-ajax').html() !== ""){
-                $('#location-error').hide();
-                var profileDict = {};
-                profileDict['location'] = $("#reg-location").val();
-                profileDict['relationship_status'] = $("#reg-relationship :selected").text();
-                profileDict['gender'] = $("#reg-sex :selected").text();
-                profileDict['beacon-activity'] = $('#reg-activity').val();
-                profileDict['beacon-place']  = $('#reg-place').val();
-                Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], "category1", function(success){
-                	console.log(success);
-                });
-                Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], profileDict['beacon-activity'], profileDict['beacon-place'], function(response){
-                     $('.success-trigger').trigger('click');
-                 });
-            }
-            else {
-                $('#location-error').show();
-                $('.error-trigger').trigger('click');
-            }
-        });
+    $("#save-button").click(function(){
+        if($('#location-ajax').html() !== ""){
+            $('#location-error').hide();
+            var profileDict = {};
+            profileDict['location'] = $("#reg-location").val();
+            profileDict['relationship_status'] = $("#reg-relationship :selected").text();
+            profileDict['gender'] = $("#reg-sex :selected").text();
+            profileDict['beacon-activity'] = $('#reg-activity').val();
+            profileDict['beacon-place']  = $('#reg-place').val();
+            Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], "category1", function(success){
+                console.log(success);
+            });
+            Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], profileDict['beacon-activity'], profileDict['beacon-place'], function(response){
+                 $('.success-trigger').trigger('click');
+             });
+        }
+        else {
+            $('#location-error').show();
+            $('.error-trigger').trigger('click');
+        }
+    });
+
+    // Set up the tabs on the page with plugin
+    $("#tabsdiv").organicTabs({
+        "speed": 200
+    });
 
 /* End Main Code */
 
