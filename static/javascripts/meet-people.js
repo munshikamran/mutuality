@@ -417,7 +417,7 @@ function beginBeaconImageHoverToggle() {
 				if(success===true) {
 				//console.log("working");
 				$('#animate-out').hide();
-				$('#like-block').css('margin-right','20%');
+				//$('#like-block').css('margin-right','20%');
 				}
 			});	
             Mutuality.getBeaconLikeCount(fbID, function(response){
@@ -912,25 +912,27 @@ var setNewBadge = function(friends) {
 
 	 $('#like-text').on('click', function(){
 	 	Mutuality.likeBeacon(Mutuality.mpcache.current, function(success) {
-	 		$('#animate-out').fadeOut();
-	 		$("#like-number").animate({ opcaity: 0.9 },1000, function(){
+	 		$('#animate-out').hide()
+	 		//$("#like-number").animate({ opcaity: 0.9 },1000, function(){
 	 			//Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
 	 			Mutuality.getBeaconLikeCount(Mutuality.mpcache.current, function(success){
 	 			if (success!==1) {
-	 				$('#beacon-like-number').fadeOut();
+	 				//$('#beacon-like-number').fadeOut();
 	 				$('#beacon-like-number').html(success);
 	 				$('#beacon-like-number').fadeIn();
 	 			} else {
-	 				$("#like-number").fadeOut();
-	 				$("#like-number").hide();
+	 				//$("#like-number").fadeOut(100);
+	 				//$("#like-number").hide();
 	 				$('#beacon-like-number').html(success);
 	 				$('#plural-agreement').html("person agrees");
 	 				$("#like-number").fadeIn();
 	 			}
-	 			
+	 		});	
+	 	$('#like-text').hover(function(){
+	 		$('#like-button').css("background","url(../images/likebuttonhover.png) no-repeat");
+	 	});	
 	 			//picture should change to a thumbs up?
-	 		});
-	 		});
+	 		//});
 	 		var beaconMessage = Mutuality.cache.profile.name + " liked your beacon"
 	 		console.log(beaconMessage)
 	 		Mutuality.sendMessage(Mutuality.mpcache.current, beaconMessage, function(response){

@@ -8969,8 +8969,10 @@ border-bottom:1px solid #DDD;
 #activity {
   display:block;
   font-size:15px;
-  font-weight:bolder;
+  font-weight:normal;
   text-align:center;
+  color:#4096b6;
+  cursor:default;
 }
 
 #place {
@@ -8981,6 +8983,7 @@ border-bottom:1px solid #DDD;
   font-weight:lighter;
   text-align:center;
   overflow:hidden;
+  cursor:default;
 }
 
 #beacon-like-div {
@@ -9021,14 +9024,28 @@ border-bottom:1px solid #DDD;
 }
 
 #like-button{
- /* display:block-inline;
-  height:25px;*/
+ background: url(../images/likebutton.png) no-repeat;
+ background-size: 12px 12px;
+  display:block;
+ /* height:25px;*/
   /*text-align:center;*/
   margin:50% -35% 0% 0%;
   float:right;
   height:12px;
   width:12px;
 }
+
+/*#like-button .hover {
+ background: url(../images/likebuttonhover.png) no-repeat;
+ background-size: 12px 12px;
+  display:block;
+ /* height:25px;*/
+  /*text-align:center;
+  margin:50% -35% 0% 0%;
+  float:right;
+  height:12px;
+  width:12px;
+}*/
 
 #like-number {
   font-size:11px;
@@ -9040,7 +9057,7 @@ border-bottom:1px solid #DDD;
 #like-block {
   display:inline-block;
   height:25px;
-  width:50%;
+  width:auto;
   float:right;
 }
 
