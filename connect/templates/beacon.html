@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block title %} Beacon {% endblock %}
 {% block content %}
+
+<script src="{{ MEDIA_URL }}/javascripts/jquery.slidorion.min.js"></script>
+<script src="{{ MEDIA_URL }}/javascripts/jquery.easing.1.3.js"></script>
+<script src="{{ MEDIA_URL }}/javascripts/jquery.scrollTo.js"></script>
+
 					<section id="page-title" style="margin-bottom:10px" class="row">
 						<div class="eight columns">
 							<h2>Add your Beacon</h2>
@@ -12,50 +17,53 @@
 						<h3 id="beacon-title">Which activity would you enjoy doing with new people?</h3>
 					</div>	
 
-					<div id="activity-accordion">
-						<ol>
-							<li>
-								<h2 id="adjustAccordionHeadline"><span>Sports</span></h2>
-								<div class="activity-background">
-									<div class="activity-list">
-										<!-- <li> -->
-											<a>Soccer</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Tennis</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Basketball</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Ice Hockey</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Golf</a>
-										<!-- </li> -->
+
+
+
+
+					<div id="slidorion">
+						<div id="accordion">
+								<div class="link-header">Sports</div>
+								<div class="link-content">
+									<div class="activity-background">
+										<div class="activity-list">
+											<!-- <li> -->
+												<a>Soccer</a>
+											<!-- </li> -->
+											<!-- <li> -->
+												<a>Tennis</a>
+											<!-- </li> -->
+											<!-- <li> -->
+												<a>Basketball</a>
+											<!-- </li> -->
+											<!-- <li> -->
+												<a>Ice Hockey</a>
+											<!-- </li> -->
+											<!-- <li> -->
+												<a>Golf</a>
+											<!-- </li> -->
+										</div>
+										<div class="activity-list">	
+											<!-- <li> -->
+											<!-- </li> -->
+											<!-- <li> -->
+												<a>Baseball</a>
+											<!-- </li> -->
+											<!-- <li> -->
+												<a>Volleyball</a>
+											<!-- </li> -->
+											<!-- <li> -->
+												<a>Football</a>
+											<!-- </li> -->
+											<!-- <li> -->
+												<a>Other...</a>
+											<!-- </li> -->
+										</div>		
 									</div>
-									<div class="activity-list">	
-										<!-- <li> -->
-											<a>Ultimate Frisbee</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Baseball</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Volleyball</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Football</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Other...</a>
-										<!-- </li> -->
-									</div>		
 								</div>
-							</li>
-							<li>
-								<h2 id="adjustAccordionHeadline"><span>Recreation</span></h2>
-												<div class="activity-background">
+							<div class="link-header">Recreation</div>
+								<div class="link-content">
+								<div class="activity-background">
 									<div class="activity-list">
 										<!-- <li> -->
 											<a>Poker</a>
@@ -78,7 +86,6 @@
 											<a>Climbing Gym</a>
 										<!-- </li> -->
 										<!-- <li> -->
-											<a>Go-Kart Racing</a>
 										<!-- </li> -->
 										<!-- <li> -->
 											<a>Working Out</a>
@@ -91,9 +98,9 @@
 										<!-- </li> -->
 									</div>		
 								</div>
-							</li>	
-							<li>
-								<h2 id="adjustAccordionHeadline"><span>Outdoors</span></h2>
+							</div>	
+							<div class="link-header">Outdoors</div>
+								<div class="link-content">	
 									<div class="activity-background">
 										<div class="activity-list">
 										<!-- <li> -->
@@ -120,7 +127,6 @@
 											<a>Skiing</a>
 										<!-- </li> -->
 										<!-- <li> -->
-											<a>Snowboarding</a>
 										<!-- </li> -->
 										<!-- <li> -->
 											<a>Birdwatching</a>
@@ -130,9 +136,9 @@
 										<!-- </li> -->
 									</div>			
 								</div>
-							</li>
-							<li>
-								<h2 id="adjustAccordionHeadline"><span>Social</span></h2>
+							</div>
+							<div class="link-header">Social</div>
+								<div class="link-content">
 									<div class="activity-background">
 									<div class="activity-list">
 										<!-- <li> -->
@@ -153,7 +159,6 @@
 									</div>
 									<div class="activity-list">	
 										<!-- <li> -->
-											<a>Watching Sports</a>
 										<!-- </li> -->
 										<!-- <li> -->
 											<a>Dancing</a>
@@ -169,12 +174,28 @@
 										<!-- </li> -->
 									</div>		
 								</div>
-							</li>
-						</ol>	
-						   <noscript>
-                				<p>Please enable JavaScript to get the full experience.</p>
-         				   </noscript>
+						</div>
 					</div>	
+
+						<div id="slider">
+							<div class="slide">
+								<img src="{{ MEDIA_URL }}/images/Sports.png" height="260px" width="368px">
+							</div>
+							<div class="slide">
+								<img src="{{ MEDIA_URL }}/images/Recreation.png" height="260px" width="368px">
+							</div>	
+							<div class="slide">
+								<img src="{{ MEDIA_URL }}/images/Outdoors.png" height="260px" width="368px">
+							</div>
+							<div class="slide">
+								<img src="{{ MEDIA_URL }}/images/Social.png" height="260px" width="368px">
+							</div>
+						</div>	
+					</div>	 
+
+			
+
+
 
 			<section id="main" data-URL={{ URL }} class="row">
 				<form id="registration" class="seven columns custom">			
@@ -246,19 +267,21 @@
 </ul>  
 {% endblock %}
 {% block extrascript %}
-<script src="{{ MEDIA_URL }}/javascripts/liteaccordion.jquery.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-<script src="{{ MEDIA_URL }}/javascripts/jquery.scrollTo.js"></script>
-
 <script>
-	$('#activity-accordion').liteAccordion({
-		containerWidth:550,
-		containerHeight:300,
-		activateOn:"click",
-		theme:'stitch',
-		// easing:'swing',
-		easing:'easeInOutQuart',
-		rounded:true
+	// $('#activity-accordion').liteAccordion({
+	// 	containerWidth:550,
+	// 	containerHeight:300,
+	// 	activateOn:"mouseover",
+	// 	theme:'light',
+	// 	// easing:'swing',
+	// 	easing:'easeInOutQuart',
+	// 	rounded:true
+	// });
+
+	$('#slidorion').slidorion({
+		autoPlay:false,
+		effect:'slideRandom',
+		speed:500
 	});
 
    (function($){
@@ -266,8 +289,7 @@
            console.log(exception);
        });
    })(jQuery)
+
 </script>
-
 {% endblock %}
-
 
