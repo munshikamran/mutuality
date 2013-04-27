@@ -512,11 +512,10 @@ var Mutuality = (function($){
      },
 
     //Set a Beacon
-    setBeacon: function( beaconPlace, beaconActivity, beaconCategory, success )
+    setBeacon: function( beaconPlace, beaconActivity, success )
     {
          var self = this;
-         //console.log(success);
-         self.__post('api/setBeacon/', { token: this.token, place: beaconPlace, activity: beaconActivity, categoryName: beaconCategory }, function( response ){
+         self.__post('api/setBeacon/', { token: this.token, place: beaconPlace, activity: beaconActivity }, function( response ){
              console.log(response);
              if(response == true)
              {
@@ -524,7 +523,7 @@ var Mutuality = (function($){
              }
              else
              {
-                 alert("Error: Failed to set a beacon.");
+                 console.log("Error: Failed to set a beacon.");
              }
          });
      },

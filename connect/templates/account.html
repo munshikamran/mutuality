@@ -12,7 +12,7 @@
     <div id="tabsdiv">
         <ul class="nav">
             <li class="nav-one"><a href="#basic" class="current">Basic Info</a></li>
-            <li class="nav-two last"><a href="#notifications">Notifications</a></li>
+            <li class="nav-two last"><a href="#notifications">Email Notifications</a></li>
         </ul>
 
         <div class="list-wrap">
@@ -131,37 +131,7 @@
      <ul id="notifications" style="display:none;">
         <li>
             <div class="eight columns">
-                <h3 id="beacon-title">Beacon</h3>
-            </div>
-
-            <section id="main" data-URL={{ URL }} class="row">
-                <form id="registration" class="seven columns custom">
-                    <div class="row">
-                      <div class="two columns">
-                        <label for="reg-activity"><strong>Activity</strong></label>
-                      </div>
-
-                      <div class="ten columns">
-                        <input id="reg-activity" type="text" value="{{ beacon.activity.name }}"/>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="two columns">
-                        <label for="reg-place"><strong>Place</strong></label>
-                      </div>
-
-                      <div class="ten columns">
-                        <input id="reg-place" type="text" value="{{ beacon.place }}"/>
-                      </div>
-                        <div id="auth_token" style="display:none;">{{ AUTH_TOKEN }}</div>
-                        <div id="lat" style="display:none;">{{ LAT }}</div>
-                        <div id="long" style="display:none;">{{ LONG }}</div>
-                    </div>
-                </form>
-            </section>
-
-            <div class="eight columns">
-                <h3 id="beacon-title">Notifications</h3>
+                <h3 id="beacon-title">Email Notifications</h3>
             </div>
 
             <section id="main" data-URL={{ URL }} class="row">

@@ -3,7 +3,7 @@ from django.db import models
 class Beacon(models.Model):
     user = models.ForeignKey('Profile', related_name="beacon_by")
     place = models.CharField(max_length=255)
-    activity = models.ForeignKey('BeaconActivity', related_name="beacon_activity")
+    activity = models.CharField(max_length=255)
     date_created = models.DateTimeField("Date Created", auto_now_add=True)
 
     class Meta:

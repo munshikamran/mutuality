@@ -1,8 +1,14 @@
 from connect.models.beacon import Beacon
-from connect.models.beaconActivity import BeaconActivity
-from connect.models.beaconCategory import BeaconCategory
 
-def SetBeacon(profile, placeString, activityName, **kwargs):
+def SetBeacon(profile, placeString, activityName):
+    try:
+        beacon = Beacon(user=profile, place=placeString, activity=activityName)
+        beacon.save()
+        return True
+    except:
+        return False
+
+'''
     try:
         if BeaconActivity.objects.filter(name=activityName).exists():
             # An activity with this name exists already
@@ -24,3 +30,4 @@ def SetBeacon(profile, placeString, activityName, **kwargs):
         return True
     except:
         return False
+'''

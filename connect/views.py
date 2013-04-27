@@ -83,11 +83,6 @@ def account(request):
                 context_dict['profile'] = profile
                 context_dict['AUTH_TOKEN'] = GetProfileAuthToken(profile)
 
-                #Get the beacon for this user account page
-                beacon = GetBeacon(profile)
-                if beacon != []:
-                    context_dict['beacon'] = GetBeacon(profile)
-
                 #Get location lat/long to pass to template so that places dropdown results are narrowed
                 graph = facebook.GraphAPI(GetProfileAuthToken(profile))
                 print GetProfileAuthToken(profile)
