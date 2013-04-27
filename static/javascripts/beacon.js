@@ -105,25 +105,17 @@
 	});	
 
         $("#save-button").click(function(){
-            if($('#location-ajax').html() !== ""){
-                $('#location-error').hide();
                 var profileDict = {};
-                profileDict['location'] = $("#reg-location").val();
-                profileDict['relationship_status'] = $("#reg-relationship :selected").text();
-                profileDict['gender'] = $("#reg-sex :selected").text();
+
                 profileDict['beacon-activity'] = $('#reg-activity').val();
                 profileDict['beacon-place']  = $('#reg-place').val();
-                Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], "category1", function(success){
-                	console.log(success);
-                });
-                Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], profileDict['beacon-activity'], profileDict['beacon-place'], function(response){
+                Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], function(success){
                      $('.success-trigger').trigger('click');
-                 });
-            }
-            else {
-                $('#location-error').show();
-                $('.error-trigger').trigger('click');
-            }
+                     setTimeout(function(){window.location="/meetpeople/";}, 200);
+                }, function(fail){
+                    $('#location-error').show();
+                    $('.error-trigger').trigger('click');
+                });
         });
 
 		$('#reg-activity').on('focus', function(){
