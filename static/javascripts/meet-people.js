@@ -408,7 +408,7 @@ function beginBeaconImageHoverToggle() {
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
 			//console.log(beaconObject);
-			var activity = beaconObject.activity.name;
+			var activity = beaconObject.activity;
 			var place = beaconObject.place;
 			$('#beacon-activity').html(activity);
 			$('#activity').html(activity);
@@ -933,7 +933,9 @@ var setNewBadge = function(friends) {
 	 	});	
 	 			//picture should change to a thumbs up?
 	 		//});
-	 		var beaconMessage = Mutuality.cache.profile.name + " liked your beacon"
+	 		var mutualFriendNumber = Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].mutualFriends.length;
+	 		var firstName = Mutuality.cache.profile.name.split(" ")[0];
+	 		var beaconMessage = Mutuality.cache.profile.name + " likes your beacon. Ask one of your " + mutualFriendNumber + " mutual friends on the right to learn more about "+ firstName + ".";
 	 		console.log(beaconMessage)
 	 		Mutuality.sendMessage(Mutuality.mpcache.current, beaconMessage, function(response){
 	 			console.log(response);

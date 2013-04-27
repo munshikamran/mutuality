@@ -2,6 +2,10 @@
 /* Begin Helper functions */
 // After AJAX call for finding friends of friends, load random four images into meet people call to action
 
+function beaconMessageCheck() {
+
+}
+
 function newConversationCheck() {
 	var facebookID = getParameterByName("fbid");
 	if (facebookID ===""){
@@ -237,33 +241,30 @@ var loadMessageThreadIntoUI = function(messageThread) {
 		var messageOwner = messageThread[messagePos].sender.facebookID;
 		var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 100, 100) + ')';
 		var time = formatTime(messageThread[messagePos].sent_timestamp);
+		var message = messageThread[messagePos].body;
 
 			if ($('.single-message').length !== 0) { 
 				messageHeight = $('.single-message').eq(0).height();
 				totalHeight = totalHeight + messageHeight;
 			}
 		if (totalHeight < 400) {
-		$('.message-thread').prepend(
-			$('<div>').addClass('single-message row').append(
-				$('<div>').addClass('two columns').append(
-					$('<span>').attr({
-						class: "profile-thumb",
-						style:  thumbImage
-					}), 
-					($('<small>').html(time))
-					)).append(
-					($('<div>').addClass('ten columns').html(
-						"<p>" + messageThread[messagePos].body + "</p>"	
-						)
-						)));
-		$('.single-message').eq(0).attr({
-						'data-messageposition': messagePos
-					});
-			// } else {
-			// 	$('.single-message').eq(0).attr({
-			// 			'data-messageposition': messagePos
-			// 		});
-			// 	break;
+				$('.message-thread').prepend(
+					$('<div>').addClass('single-message row').append(
+						$('<div>').addClass('two columns').append(
+							$('<span>').attr({
+								class: "profile-thumb",
+								style:  thumbImage
+							}), 
+							($('<small>').html(time))
+							)).append(
+							($('<div>').addClass('ten columns').html(
+								"<p>" + message + "</p>"	
+								)
+								)));
+				$('.single-message').eq(0).attr({
+								'data-messageposition': messagePos
+				});
+		
 		}
 	}
 	checkToLoadMessageBox();
