@@ -8988,7 +8988,7 @@ border-bottom:1px solid #DDD;
 
 #activity {
   display:block;
-  font-size:15px;
+  font-size:18px;
   font-weight:normal;
   text-align:center;
   color:#4096b6;
@@ -8999,7 +8999,7 @@ border-bottom:1px solid #DDD;
   height: auto;
   width:auto;
   display:block;
-  font-size:16px;
+  font-size:15px;
   font-weight:lighter;
   text-align:center;
   overflow:hidden;
@@ -9008,7 +9008,7 @@ border-bottom:1px solid #DDD;
 
 #beacon-like-div {
   display:block;
-  height:25px;
+  height:20px;
   width:100%;
   /*background:#DDD;*/
   clear:both;
@@ -9071,19 +9071,14 @@ border-bottom:1px solid #DDD;
   font-size:11px;
   color:#989898;
   display:block;
-  margin:8px 0px 0px 20px;
+  margin:4px 0px 0px 20px;
 }
 
 #like-block {
   display:inline-block;
-  height:25px;
+  height:20px;
   width:auto;
   float:right;
-}
-
-#beacon-title {
-  margin:30px 0px;
-  font-size:22px;
 }
 
 #refresh-reminder{
@@ -9255,7 +9250,7 @@ div#question:hover{
   border: 1px solid #ddd;
   /*border: 2px solid #056ba6;*/
   /*background-color: #056ba6;*/
-  background-color:#2a9abf;
+  background-color:#2a9abf !important;
   *zoom: 1;
   background-size: 100%;
 /*  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #056ba6), color-stop(100%, #1e5799));
@@ -9266,11 +9261,11 @@ div#question:hover{
   -webkit-box-shadow: #cccccc 0px 2px 2px !important;
   -moz-box-shadow: #cccccc 0px 2px 2px !important;
   box-shadow: #cccccc 0px 2px 2px !important;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #2a9abf)) !important;
+/*  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #2a9abf)) !important;
   background-image: -webkit-linear-gradient(top, #ffffff 0%, #2a9abf 100%) !important;
   background-image: -moz-linear-gradient(top, #ffffff 0%, #2a9abf 100%) !important;
   background-image: -o-linear-gradient(top, #ffffff 0%, #2a9abf 100%) !important;
-  background-image: linear-gradient(top, #ffffff 0%, #2a9abf 100%) !important;
+  background-image: linear-gradient(top, #ffffff 0%, #2a9abf 100%) !important;*/
   color: #FFFFFF;
   font-size: 11px;
   font-weight: bolder;
@@ -9412,6 +9407,7 @@ div#question:hover{
   width: 738px;     /* Set to slidorion width. Is equal to #slider + #accordion width */
   height: 281px;      /* Set to slidorion height. Is equal to #slider and #accordion height */
   float:left;
+  margin-top:30px;
 /*  left: 50%;
   margin-left: -384px;
   padding: 10px;*/
@@ -9513,7 +9509,7 @@ div#question:hover{
 
 #accordion > .link-header.active {
   border-bottom: none;
-  background: #2a9abf !important;
+  background: #ccc !important;
   filter: none;
   color: #fff;
 }
@@ -9632,6 +9628,38 @@ font-weight:normal;
 }
 
 #adjustBeaconRegistrationLabels {
-  font-size:16px;
+  font-size:13px;
   color:#FFFFFF;
+}
+
+#reg-activity {
+  border:none !important;
+}
+
+#reg-place {
+  border:none !important;
+}
+
+#adjustBeaconSelectionTitle {
+  height:20px;
+  width:370px;
+  z-index:1001;
+  position:absolute;
+  top:125px;
+  left:380px;
+}
+
+#beacon-title {
+ /* margin-top:30px;
+  margin-bottom:5px;*/
+  font-weight: bold;
+  font-size:13px;
+  color:#FFF;
+}
+
+#adjustBeaconSelectionBody {
+  color:#FFF;
+  font-size:13px;
+  margin-top:30px;
+/*  font-weight: bolder;*/
 }
