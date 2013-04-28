@@ -52,7 +52,7 @@
           <ul>
             <li class="name">
               <h1>
-              <a href="/meetpeople/"><img src="{{MEDIA_URL}}/images/mutuality-logo.svg" width="160" height="68" /></a>              
+              <a id="logoImageLink" href="/meetpeople/"><img src="{{MEDIA_URL}}/images/mutuality-logo.svg" width="160" height="68" /></a>
             </h1>
             </li>
             <li class="toggle-topbar"><a href="#"></a></li>
@@ -61,7 +61,7 @@
           {% if user.is_authenticated %}
               {% if profile %}
                   <ul class="right">
-                      <li class="divider"></li>
+                      <li id="firstDivider" class="divider"></li>
                       <li id="menu-meet-people"><a href="/meetpeople/" class="page-nav">Meet People</a></li> <li class="divider"></li>
                       <li id="menu-make-matches"><a href="/makematches/" class="page-nav">Make Matches</a></li> <li class="divider"></li>
                       <li id="menu-messages"><a href="/messages/" class="page-nav">Messages</a><span class="message-count" style="display:none;">1</span></li> <li class="divider"></li>
@@ -209,6 +209,11 @@
               }
             });
       });
+      {% if HideMeetPeople %}
+        $("#menu-meet-people").hide();
+        $("#logoImageLink").attr("href", "/");
+        $("#firstDivider").hide();
+      {% endif %}
     </script>
     {% endif %}
   {% endif %} 
