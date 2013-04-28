@@ -15,6 +15,7 @@
 							<select id="fav-filter" style="display:none;">
 								<option id="all" value="All" selected="selected">Friends</option><option id="dating" value="Dating">Dating</option>
 								<option id="favorites" value="Favorites">Favorites</option><option id="viewed" value="Viewed">Viewed</option>
+                                <option id="viewed" value="Mutuality">Mutuality</option>
 							</select>
 							<div id="fav-filter" class="custom dropdown">
 								<a href="#" class="current">Friends</a>
@@ -24,6 +25,7 @@
 									<li id="dating">Dating</li>
 									<li id="favorites">Favorites</li>
 									<li id="viewed">Viewed</li>
+                                    <li id="mutuality">Mutuality</li>
 								</ul>
 							</div>
 						</form>
@@ -52,7 +54,7 @@
 						<aside id="user-profile" class="three columns">
 <!-- 							<h6>Learn About <span class="profile-name"></span><div class="tooltipster-icon" title='<div class="tooltip-question"> <span class=question-header>Get Introduced</span>
  <span class=question-body>Click to pick a friend to ask for an introduction</span></div>' id="question"></div></h6> -->
-
+                        <div id="beaconWrapper" style="display:none;">
 						<h6 id='adjustBeaconTitle'><span class="profile-name"></span>'s Beacon
 							<span id='drop-pin'><img src="{{ MEDIA_URL }}/images/DropPin.png" width="10px"></span>
 						</h6>
@@ -75,7 +77,8 @@
 								<span id="like-text">Like</span></span>
 								<span id="like-block"><span id="like-number"><span id="beacon-like-number"></span> <span id="plural-agreement">people agree</span></span></span>
 							</div>	
-						</div>		
+						</div>
+                        </div>
 							
 							<h6 id="adjustAskAboutHeader">Ask About <span class="profile-name"></span><div class="tooltipster-icon" title='<div class="tooltip-question"> <span class=question-header>Ask About Someone</span><span class=question-body>Click on a friend&#39s picture to send them a Facebook message</span></div>' id="question"></div></h6>
 							

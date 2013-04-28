@@ -236,7 +236,7 @@
 		if ($('#fav-filter').val() == "Favorites"){
 			$(".friend-count").hide();
 			triggerModal("myModalLoading");    		
-			Mutuality.getMeetPeople(0, 0, 1, function(favorites){
+			Mutuality.getMeetPeople("FAVORITES", function(favorites){
 				if(favorites.potentialMatches.length > 0) {
     				Mutuality.mpcache.fofList = favorites.potentialMatches;
     				createMutualityUserLookUp(favorites.potentialMatches);
@@ -250,7 +250,7 @@
     	} else if ($('#fav-filter').val() == "Viewed") {
 			$(".friend-count").hide();
 		    triggerModal("myModalLoading");
-    		Mutuality.getMeetPeople(1, 0, 0, function(viewedUsers){
+    		Mutuality.getMeetPeople("VIEWED", function(viewedUsers){
 				if(viewedUsers.potentialMatches.length > 0) {
     				Mutuality.mpcache.fofList = viewedUsers.potentialMatches;
     				createMutualityUserLookUp(viewedUsers.potentialMatches);
@@ -264,11 +264,25 @@
     	}
     	else if ($('#fav-filter').val() == "Dating") {
     		triggerModal("myModal");
-    		Mutuality.getMeetPeople(0, 1, 0, function(datingFriends){
+    		Mutuality.getMeetPeople("DATING", function(datingFriends){
 				if(datingFriends.potentialMatches.length > 0) {
     				Mutuality.mpcache.datingList = datingFriends.potentialMatches;
     				createMutualityUserLookUp(datingFriends.potentialMatches);
     				meetPeopleSuccess(datingFriends.potentialMatches);
+    			}
+    			else {
+    				setModalWhenError("Sorry, but we didn't find anyone!");
+    				setModalBack();
+    			}
+    		});
+    	}
+        else if ($('#fav-filter').val() == "Mutuality") {
+    		triggerModal("myModal");
+    		Mutuality.getMeetPeople("MUTUALITY_USERS", function(mutualityFriends){
+				if(mutualityFriends.potentialMatches.length > 0) {
+    				Mutuality.mpcache.datingList = mutualityFriends.potentialMatches;
+    				createMutualityUserLookUp(mutualityFriends.potentialMatches);
+    				meetPeopleSuccess(mutualityFriends.potentialMatches);
     			}
     			else {
     				setModalWhenError("Sorry, but we didn't find anyone!");
@@ -404,6 +418,7 @@ function beginBeaconImageHoverToggle() {
 	}
 
 	var loadBeacon = function(fbID){
+        $("#beaconWrapper").show();
 		$('#adjustBeaconTitle').show();
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
@@ -461,6 +476,7 @@ function beginBeaconImageHoverToggle() {
 		    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a>');
 		    		$('img#mutuality-badge').hide();
 		    		$('div#beacon').hide();
+                    $("#beaconWrapper").hide();
 
 		    	}
 		    	else {
@@ -622,7 +638,8 @@ function beginBeaconImageHoverToggle() {
 			    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title:"Toggle Favorite", facebookID: friends[i].facebookID, style:"background-position: 0 -16px", onclick:setFavoriteFunctionString}).appendTo(spanElem);
 			    			//console.log("yes a favorite");
 			    		}
-			    		var hElem = $('<h3>', {id:"left-profile-name", html:friends[i].name}).appendTo(spanElem);
+                        var facebookProfileLink = Mutuality.getFacebookPageURL(friends[i].facebookID);
+			    		var hElem = $('<h3>', {id:"left-profile-name", onclick:facebookProfileLink, html:friends[i].name}).appendTo(spanElem);
 			    	}
 
 					//Show the main content, dismiss the modal, init tooltips
@@ -865,7 +882,7 @@ var setNewBadge = function(friends) {
 	    Mutuality.updateFriendList(0, function(){
 	    	$.cookie(cookieName, "true");
 	   		Mutuality.loadFriendsList(4, populateCTA);
-			Mutuality.getMeetPeople(0, 0, 0, function(friends){
+			Mutuality.getMeetPeople("FRIENDSHIP", function(friends){
                 if (friends.potentialMatches.length > 0){
                     countDown(friends.batchExpirationTimestamp, new Date().getTime());
                     Mutuality.mpcache.fofList = friends.potentialMatches;
@@ -886,7 +903,7 @@ var setNewBadge = function(friends) {
 	else {
 		Mutuality.loadFriendsList(4, populateCTA);
 		beginBeaconImageHoverToggle();
-		Mutuality.getMeetPeople(0, 0, 0, function(friends){
+		Mutuality.getMeetPeople("FRIENDSHIP", function(friends){
 			if (friends.potentialMatches.length > 0){
                 countDown(friends.batchExpirationTimestamp, new Date().getTime());
                 Mutuality.mpcache.fofList = friends.potentialMatches;
