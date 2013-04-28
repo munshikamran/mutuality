@@ -26,6 +26,8 @@ def GetMeetPeople(profile, meetPeopleFilter):
         facebookUsers = getViewedPeopleOrdered(profile)
     elif meetPeopleFilter == MEET_PEOPLE_FILTER.FAVORITES:
         facebookUsers = getFavorites(profile)
+    elif meetPeopleFilter == MEET_PEOPLE_FILTER.MUTUALITY_USERS:
+        facebookUsers = getMutualityUsers(profile)
 
     facebookUsers = markFavorited(profile, facebookUsers)
     facebookUsers = markMutualityUsers(facebookUsers)
@@ -71,6 +73,13 @@ def getFavorites(profile):
     facebookUsers = []
     for favorite in favorites:
         facebookUsers.append(favorite.favorite)
+    return facebookUsers
+
+def getMutualityUsers(profile):
+    mutualityMatches = PotentialMatch.objects.filter(profile=profile, isMutualityConnection=True).select_related('facebookUser')
+    facebookUsers = []
+    for match in mutualityMatches:
+        facebookUsers.append(match.facebookUser)
     return facebookUsers
 
 def markMutualityUsers(facebookUsers):
