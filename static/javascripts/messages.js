@@ -229,6 +229,7 @@ var initAskAboutCarousel = function () {
 
 //Load full message exchange into the UI
 var loadMessageThreadIntoUI = function(messageThread) {
+	console.log(messageThread);
 	var totalHeight = 0;
 	var messageHeight = 0;
 	var messagePos;
@@ -247,7 +248,9 @@ var loadMessageThreadIntoUI = function(messageThread) {
 				messageHeight = $('.single-message').eq(0).height();
 				totalHeight = totalHeight + messageHeight;
 			}
-		if (totalHeight < 400) {
+		console.log(message.indexOf(" likes your beacon. Ask one of your "));
+		if (totalHeight < 400) {	
+			if (message.indexOf(" likes your beacon. Ask one of your ") === -1) {
 				$('.message-thread').prepend(
 					$('<div>').addClass('single-message row').append(
 						$('<div>').addClass('two columns').append(
@@ -258,14 +261,32 @@ var loadMessageThreadIntoUI = function(messageThread) {
 							($('<small>').html(time))
 							)).append(
 							($('<div>').addClass('ten columns').html(
-								"<p>" + message + "</p>"	
+								'<p id="adjust-messages">' + message + '</p>'	
 								)
 								)));
 				$('.single-message').eq(0).attr({
 								'data-messageposition': messagePos
 				});
-		
+			} else {
+				$('.message-thread').prepend(
+					$('<div>').addClass('single-message row beacon-message').append(
+						$('<div>').addClass('two columns').append(
+							$('<span>').attr({
+								class: "profile-thumb",
+								style:  thumbImage
+							}), 
+							($('<small>').html(time))
+							)).append(
+							($('<div>').addClass('ten columns').html(
+								'<p id="adjust-beacon-messages">' + message + '</p>'	
+								)
+								)));
+				$('.single-message').eq(0).attr({
+								'data-messageposition': messagePos
+				});
+			}	
 		}
+
 	}
 	checkToLoadMessageBox();
 }

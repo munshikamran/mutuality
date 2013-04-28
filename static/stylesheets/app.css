@@ -9461,6 +9461,16 @@ font-weight:normal;
   left:155px;
 }
 
+.beacon-message {
+  
+}
+
+.beacon-message span {
+  background-image:url(../images/squareicon.png) !important;
+  background-size:56px 56px;
+  background-repeat:no-repeat !important;
+}
+
 /* TABS ON ACCOUNT PAGE CSS */
 #tabsdiv { background: #FFF; padding: 10px; margin: 0 0 15px 0; -moz-box-shadow: 0 0 5px #666; -webkit-box-shadow: 0 0 5px #666; }
 
@@ -9476,3 +9486,12 @@ font-weight:normal;
 
 #tabsdiv li.nav-one a.current, ul.basic li a:hover { background-color: #4096b6; color: white; }
 #tabsdiv li.nav-two a.current, ul.notifications li a:hover { background-color: #4096b6; color: white; }
+
+#adjust-messages {
+  font-size:12px;
+}
+
+#adjust-beacon-messages {
+  font-size:12px;
+  
+}
