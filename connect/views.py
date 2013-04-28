@@ -49,9 +49,10 @@ def register(request):
                 context_dict['profile'] = profile
 
                 #Get the birthday
-                bdayStringArr = profile.birthdayString.split("'")
-                if len(bdayStringArr) > 5:
-                    context_dict['birthday'] = bdayStringArr[1] + "-" + bdayStringArr[3] + "-" + bdayStringArr[5]
+                if profile.birthdayString:
+                    bdayStringArr = profile.birthdayString.split("'")
+                    if len(bdayStringArr) > 5:
+                        context_dict['birthday'] = bdayStringArr[1] + "-" + bdayStringArr[3] + "-" + bdayStringArr[5]
 
                 #Get other fields using graph api to populate more inputs if necessary
                 #graph = facebook.GraphAPI(GetProfileAuthToken(profile))
