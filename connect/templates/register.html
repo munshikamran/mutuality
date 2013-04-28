@@ -92,7 +92,6 @@
                 <label for="reg-relationship"><strong>Status</strong></label>
             </div>
             <div class="ten columns">
-                {% if profile.relationshipStatus == "Single" or profile.relationshipStatus == "" %}
                     <select id="reg-relationship" style="display:none;">
                         <option id="reg-single" value="Single" selected="selected">Single</option>
                         <option id="reg-notsingle" value="Relationship">In a Relationship</option>
@@ -105,20 +104,6 @@
                             <li id="reg-notsingle">Not-single</li>
                         </ul>
                     </div>
-                {% else %}
-                    <select id="reg-relationship" style="display:none;">
-                        <option id="reg-single" value="Single">Single</option>
-                        <option id="reg-notsingle" value="Relationship" selected="selected">In a Relationship</option>
-                    </select>
-                    <div id="reg-relationship" class="custom dropdown">
-                        <a href="#" class="selector"></a>
-                        <a href="#" class="current">In a Relationship</a>
-                        <ul>
-                            <li id="reg-single">Single</li>
-                            <li id="reg-notsingle">Not-single</li>
-                        </ul>
-                    </div>
-                {% endif %}
             </div>
         </div>
         <div class="three columns"></div>

@@ -325,11 +325,11 @@ var Mutuality = (function($){
            });
        },
       // Get meet people list (fresh users, friendship)
-      getMeetPeople: function(v, d, f, success )
+      getMeetPeople: function(filter, success)
       {
            var self = this;
 
-           self.__post('api/getMeetPeople/', { token: this.token, viewed: v, dating: d, favorites: f}, function( response ){
+           self.__post('api/getMeetPeople/', { token: this.token, filter: filter }, function( response ){
                if(response)
                {
                    if(success instanceof Function) success.call(self, response);

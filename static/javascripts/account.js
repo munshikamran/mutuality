@@ -81,12 +81,7 @@
             profileDict['location'] = $("#reg-location").val();
             profileDict['relationship_status'] = $("#reg-relationship :selected").text();
             profileDict['gender'] = $("#reg-sex :selected").text();
-            profileDict['beacon-activity'] = $('#reg-activity').val();
-            profileDict['beacon-place']  = $('#reg-place').val();
-            Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], "category1", function(success){
-                console.log(success);
-            });
-            Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], profileDict['beacon-activity'], profileDict['beacon-place'], function(response){
+            Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
                  $('.success-trigger').trigger('click');
              });
         }
@@ -95,6 +90,10 @@
             $('.error-trigger').trigger('click');
         }
     });
+
+     $("#save-button-notifications").click(function(){
+          $('.success-trigger').trigger('click');
+     });
 
     // Set up the tabs on the page with plugin
     $("#tabsdiv").organicTabs({
