@@ -139,6 +139,7 @@
 				//$('input#reg-activity').attr('title', tooltipTitle);
 				$('#reg-activity').tooltipster('update',tooltipTitleOther); 
 				$('input#reg-activity').val("");
+				$('input#reg-activity').removeAttr('disabled');
 				//$('input#reg-activity').click();
 			}
 			$('#reg-activity').focus();
