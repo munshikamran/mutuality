@@ -418,6 +418,7 @@ function beginBeaconImageHoverToggle() {
 	}
 
 	var loadBeacon = function(fbID){
+        $("#beaconWrapper").show();
 		$('#adjustBeaconTitle').show();
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
@@ -475,6 +476,7 @@ function beginBeaconImageHoverToggle() {
 		    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a>');
 		    		$('img#mutuality-badge').hide();
 		    		$('div#beacon').hide();
+                    $("#beaconWrapper").hide();
 
 		    	}
 		    	else {
