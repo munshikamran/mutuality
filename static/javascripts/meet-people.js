@@ -695,11 +695,19 @@ function beginBeaconImageHoverToggle() {
 		}); 
 		$('.filter-question').tooltipster({
 			theme: '.tooltipster-question',
-			position: 'top',
+			position: 'top-right',
 			arrow:true,
 			arrowColor:'#FFF',
 			maxWidth:150
 		}); 
+		$('.beacon-question').tooltipster({
+			theme: '.tooltipster-question',
+			position: 'top-right',
+			arrow:true,
+			arrowColor:'#FFF',
+			maxWidth:140
+		}); 
+
 		initAskAboutCarousel();
 		initAskAboutCarouselModal();
 	}
