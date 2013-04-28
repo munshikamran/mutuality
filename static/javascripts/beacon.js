@@ -130,9 +130,10 @@
 			var activityName = $(this).html();
 			$.scrollTo('input#reg-activity', 400);
 			if (activityName !== "Other...") {
-				var tooltipTitle = '<div id="beacon-activity-tooltip"><span class=beacon-info>Keep or edit this activity</span></div>';
+				var tooltipTitle = '<div id="beacon-activity-tooltip"><span class=beacon-info>Keep or change this activity</span></div>';
 				$('#reg-activity').tooltipster('update', tooltipTitle);
 				$('input#reg-activity').val(activityName);
+				$('input#reg-activity').attr('disabled','disabled');
 			} else {
 				var tooltipTitleOther = '<div id="beacon-activity-tooltip"><span class=beacon-info>Add your own activity</span></div>';
 				//$('input#reg-activity').attr('title', tooltipTitle);
