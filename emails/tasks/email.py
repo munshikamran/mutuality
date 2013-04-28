@@ -64,6 +64,7 @@ def send_new_message_email(message):
 
 
 def send_all_inactive_emails():
+    tasks = []
     past = datetime.now() - timedelta(days=5)
     inactive_profiles = Profile.objects.filter(user__last_login__lte=past)
     for profile in inactive_profiles:
@@ -71,9 +72,11 @@ def send_all_inactive_emails():
             #     check if we have already sent email
             already_sent = Email.objects.filter(user=profile.user, email_type=Email.USER_INACTIVE, sent_at__gte=past).exists()
             if not already_sent:
-                send_inactive_email.delay(profile)
+                task = send_inactive_email.delay(profile)
+                tasks.append(task)
         except:
             print 'something went wrong when sending inactive email to {0}'.format(profile.name)
+    return tasks
 
 
 @task
