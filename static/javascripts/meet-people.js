@@ -292,7 +292,7 @@
     	}
     	else{
     		triggerModal("myModal");
-    		Mutuality.getMeetPeople(0, 0, 0, function(meetPeopleList) {
+    		Mutuality.getMeetPeople("FRIENDSHIP", function(meetPeopleList) {
     			if(meetPeopleList.potentialMatches.length > 0) {
     				Mutuality.mpcache.fofList = meetPeopleList.potentialMatches;
                     createMutualityUserLookUp(meetPeopleList.potentialMatches);
