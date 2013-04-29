@@ -8875,8 +8875,6 @@ border-bottom:1px solid #DDD;
   -o-border-radius: 5px;
   padding:10px;
 
-
-  text-shadow: 0px 2px 0px white;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -9002,7 +9000,7 @@ border-bottom:1px solid #DDD;
   font-size:15px;
   font-weight:lighter;
   text-align:center;
-  overflow:hidden;
+ /* overflow:hidden;*/
   cursor:default;
 }
 
@@ -9250,14 +9248,14 @@ div#question:hover{
   border: 1px solid #ddd;
   /*border: 2px solid #056ba6;*/
   /*background-color: #056ba6;*/
-  background-color:#2a9abf !important;
-  *zoom: 1;
+  background: #2a9abf;
+/*  *zoom: 1;*/
   background-size: 100%;
-/*  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #056ba6), color-stop(100%, #1e5799));
-  background-image: -webkit-linear-gradient(top, #056ba6 0%, #1e5799 100%);
-  background-image: -moz-linear-gradient(top, #056ba6 0%, #1e5799 100%);
-  background-image: -o-linear-gradient(top, #056ba6 0%, #1e5799 100%);
-  background-image: linear-gradient(top, #056ba6 0%, #1e5799 100%);*/
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #2a9abf), color-stop(100%, #2a9abf));
+  background-image: -webkit-linear-gradient(top, #2a9abf 0%, #2a9abf 100%);
+  background-image: -moz-linear-gradient(top, #2a9abf 0%, #2a9abf 100%);
+  background-image: -o-linear-gradient(top, #2a9abf 0%, #2a9abf 100%);
+  background-image: linear-gradient(top, #2a9abf 0%, #2a9abf 100%);
   -webkit-box-shadow: #cccccc 0px 2px 2px !important;
   -moz-box-shadow: #cccccc 0px 2px 2px !important;
   box-shadow: #cccccc 0px 2px 2px !important;
@@ -9318,10 +9316,10 @@ div#question:hover{
 }
 
 #place-div {
-    position:absolute;
+    position:relative;
     z-index:1000;
-    bottom:10px;
-    left:370px;
+    bottom:210px;
+    left:0px;
     margin-top:20px;
     padding-left:20%;
     height:75px;
@@ -9359,10 +9357,10 @@ div#question:hover{
 }
 
 #activity-div {
-    position:absolute;
+    position:relative;
     z-index:1000;
-    bottom:50px;
-    left:370px;
+    bottom:225px;
+    left:0px;
     margin-top:20px;
     padding-left:20%;
     height:75px;
@@ -9420,13 +9418,14 @@ div#question:hover{
 }
 
 #slider {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius:5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius:5px;
   width: 368px;     /* Set to slider width */
   height: 260px;      /* Set to slider height */
   position: relative;
   float: left;
-  overflow: hidden;   /* Hides the animations */
+  overflow: hidden;
+  visibility:hidden;   /* Hides the animations */
 }
 
 #slider > div {
@@ -9438,12 +9437,14 @@ div#question:hover{
 #accordion {
   width: 350px;     /* Set to accordion width */
   height: 260px;      /* Set to image height */
-  font-family: Verdana;
+  font-family: "proxima-nova", sans-serif;
+  text-rendering: optimizeLegibility;
+  display:none;
   background: #eee;
-  border-left:solid 1px #dcdcdc;
+  border-right:solid 1px #dcdcdc;
   border-bottom:solid 1px #dcdcdc;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius:5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius:5px;
 /*  -webkit-box-shadow: -3px 0px 3px -1px rgba(51,51,51,0.3);
   -moz-box-shadow: -3px 0px 3px -1px rgba(51,51,51,0.3);
   box-shadow: -3px 0px 3px -1px rgba(51,51,51,0.3);*/
@@ -9452,6 +9453,48 @@ div#question:hover{
   overflow: hidden;
   float: left;
 }
+
+#place-information {
+  position:absolute;
+  left:383px;
+  width: 350px;   
+  height: 257px; 
+  display:none;
+  padding: 8px 14px;
+  background: #f9f9f9;
+  border:solid 1px #dcdcdc;
+  border-left:none;
+   border-top-right-radius: 5px;
+  border-bottom-right-radius:5px;
+    -webkit-box-shadow: #cccccc 0px 2px 2px;
+  -moz-box-shadow: #cccccc 0px 2px 2px;
+  box-shadow: #cccccc 0px 2px 2px;
+    -webkit-box-shadow: #cccccc 0px 2px 2px;
+  -moz-box-shadow: #cccccc 0px 2px 2px;
+  box-shadow: #cccccc 0px 2px 2px;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFFFFFFF', endColorstr='#FFE5E5E5');
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U1ZTVlNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+  background-size: 100%;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #e5e5e5));
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+  background-image: linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+
+}
+
+#place-information h4 {
+  text-align:center;
+  margin-bottom:10px;
+}
+
+#place-information span {
+  font-size:14px;
+  display:block;
+  margin:auto;
+}
+
 
 #accordion > .link-header {
   padding: 8px 14px;
@@ -9629,15 +9672,19 @@ font-weight:normal;
 
 #adjustBeaconRegistrationLabels {
   font-size:13px;
-  color:#FFFFFF;
+  color:#000;
+  font-weight:normal;
+/*  line-height:2.5em !important;*/
 }
 
 #reg-activity {
   border:none !important;
+  margin-top:4px !important;
 }
 
 #reg-place {
   border:none !important;
+  margin-top:4px !important;
 }
 
 #adjustBeaconSelectionTitle {
@@ -9645,21 +9692,110 @@ font-weight:normal;
   width:370px;
   z-index:1001;
   position:absolute;
-  top:125px;
-  left:380px;
+  top:90px;
+  left:32px;
+
 }
 
 #beacon-title {
  /* margin-top:30px;
   margin-bottom:5px;*/
-  font-weight: bold;
-  font-size:13px;
-  color:#FFF;
+  font-weight: normal;
+  font-size:14px;
+  color:#000;
 }
 
 #adjustBeaconSelectionBody {
-  color:#FFF;
+  color:#000;
   font-size:13px;
   margin-top:30px;
 /*  font-weight: bolder;*/
+}
+
+#setBeaconButton {
+  float:right;
+  margin-right:18px;
+}
+
+#reg-div {
+  height:257px;
+  width:368px;
+    display:block;
+  border: 1px solid #eee;
+  border-right:none;
+  background-color: #f9f9f9;
+/*  border-radius:5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;*/
+  padding:10px;
+
+/*  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;*/
+  -webkit-box-shadow: #cccccc 0px 2px 2px;
+  -moz-box-shadow: #cccccc 0px 2px 2px;
+  box-shadow: #cccccc 0px 2px 2px;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFFFFFFF', endColorstr='#FFE5E5E5');
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U1ZTVlNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+  background-size: 100%;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #e5e5e5));
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+  background-image: linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+}
+
+#numberOneBubbleForBeaconInstruction {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  padding: 5px 0px 0px 6px;
+  font-size: 13px;
+  line-height: .8em;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 50%;
+  background: #4096b6;
+  z-index: 1;
+}
+
+#numberTwoBubbleForBeaconInstruction {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  padding: 5px 0px 0px 6px;
+  font-size: 13px;
+  line-height: .8em;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 50%;
+  background: #4096b6;
+  z-index: 1;
+}
+
+.beaconBubbleOne {
+  position: absolute;
+  bottom: 270px;
+  left: 55px;
+  height:40px;
+  width:auto;
+}
+
+.beaconBubbleTwo {
+  position: absolute;
+  bottom: 150px;
+  left: 55px;
+  height:40px;
+  width:auto;
+}
+
+.beaconInstructions {
+  margin-left:10px;
+  font-weight:bold;
+  font-size:12px;
 }

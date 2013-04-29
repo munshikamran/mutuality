@@ -8,12 +8,28 @@
 
 					<section id="page-title" style="margin-bottom:10px" class="row">
 						<div class="eight columns">
-							<h2>Set your Beacon</h2>
+							<h2>Set Your Beacon</h2>
 						</div>
 						<hr />
 					</section>
 
 					<div id="slidorion">
+
+						<div id="slider">
+							<div class="slide">
+								<img src="{{ MEDIA_URL }}/images/red.png" height="260px" width="368px">
+							</div>
+							<div class="slide">
+								<img src="{{ MEDIA_URL }}/images/blue.png" height="260px" width="368px">
+							</div>	
+							<div class="slide">
+								<img src="{{ MEDIA_URL }}/images/green.png" height="260px" width="368px">
+							</div>
+							<div class="slide">
+								<img src="{{ MEDIA_URL }}/images/black.png" height="260px" width="368px">
+							</div>
+						</div>
+
 						<div id="accordion">
 								<div class="link-header">Sports</div>
 								<div class="link-content">
@@ -169,31 +185,21 @@
 						</div>
 					</div>	
 
-						<div id="slider">
-							<div class="slide">
-								<img src="{{ MEDIA_URL }}/images/red.png" height="260px" width="368px">
-							</div>
-							<div class="slide">
-								<img src="{{ MEDIA_URL }}/images/blue.png" height="260px" width="368px">
-							</div>	
-							<div class="slide">
-								<img src="{{ MEDIA_URL }}/images/green.png" height="260px" width="368px">
-							</div>
-							<div class="slide">
-								<img src="{{ MEDIA_URL }}/images/black.png" height="260px" width="368px">
-							</div>
-						</div>
+					<div id="place-information">
+						<h4>Pick anywhere nearby.</h4>
+						<span>From your neighborhood, to a bar, to parks.</span>
+					</div>
 
+					<div id="reg-div">
+						
 						<div id='adjustBeaconSelectionTitle'>
-							<h4 id="beacon-title">Which activity would you enjoy with friends-of-friends?</h3>
-							<p id="adjustBeaconSelectionBody">Pick an activity you like from the suggestions on the left. Otherwise select "Other..." to pick your own activity.</p>
+							<h4 id="beacon-title">Connect with your friends-of-friends through activities</h4>
 						</div>	
 
-						<div>
-							<h4 id="beacon-title" style="display:none">Where would you like to do this activity?</h4>
-						</div>
-					
-						<section id="main" data-URL={{ URL }} class="row">
+						<div class="beaconBubbleOne"><span id="numberOneBubbleForBeaconInstruction">1</span><span class="beaconInstructions">Pick an activity that you enjoy</span></div>
+
+						<section>
+						<!-- <section id="main" data-URL={{ URL }} class="row"> -->
 							<form id="registration" class="seven columns custom">			
 								<div id="activity-div" class="row">
 								  <div class="two columns">
@@ -207,6 +213,8 @@
 							</form>
 						</section>
 						
+						<div class="beaconBubbleTwo"><span id="numberTwoBubbleForBeaconInstruction">2</span><span class="beaconInstructions">Pick where you want to do this</span></div>
+
 						<section>
 							<form id="registration" class="seven columns custom"> 		
 								<div id="place-div" style="margin-top:10px" class="row">
@@ -223,14 +231,13 @@
 								</div>
 							</form>
 						</section>
-
-					</div>	
-
+					</div>
+				</div>
 	
 							
 					<div class="row">
-					  <div class="ten columns offset-by-two">
-						    <input id="save-button"type="button" href="#" class="medium button" value="Set Beacon" />
+					  <div class="five columns">
+						    <input id="setBeaconButton" type="button" href="#" class="medium button" value="Set Beacon" />
                       </div>
 					</div>
 				</form>

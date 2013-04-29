@@ -76,23 +76,23 @@
 
 	hideAllMessages();
 
-	$('#reg-activity').tooltipster({
-					theme: '.tooltipster-beacon',
-					position: 'right',
-					arrow:true,
-					arrowColor:'#056ba6',
-					maxWidth:300,
-					trigger:'hover'
-				}); 
+	// $('#reg-activity').tooltipster({
+	// 				theme: '.tooltipster-beacon',
+	// 				position: 'right',
+	// 				arrow:true,
+	// 				arrowColor:'#056ba6',
+	// 				maxWidth:300,
+	// 				trigger:'hover'
+	// 			}); 
 
-	$('#reg-place').tooltipster({
-					theme: '.tooltipster-beacon',
-					position: 'right',
-					arrow:true,
-					arrowColor:'#056ba6',
-					maxWidth:300,
-					trigger:'hover'
-				}); 
+	// $('#reg-place').tooltipster({
+	// 				theme: '.tooltipster-beacon',
+	// 				position: 'right',
+	// 				arrow:true,
+	// 				arrowColor:'#056ba6',
+	// 				maxWidth:300,
+	// 				trigger:'hover'
+	// 			}); 
 
 	// Show message
 	for(var i=0;i<myMessages.length;i++){
@@ -119,11 +119,18 @@
         });
 
 		$('#reg-activity').on('focus', function(){
-			$(this).tooltipster('show'); 
+			$(this).tooltipster('show');
+			$("#place-information").animate({width:'hide'},350, function(){
+				$("#accordion").animate({width:'show'},350);
+			});
 		});
 
 		$('#reg-place').on('focus', function(){
 			$(this).tooltipster('show'); 
+			$("#accordion").animate({width:'hide'},350, function(){
+				$('#place-information').animate({width:'show'},350);
+			});
+			
 		});
 
 		$('.activity-list').on("click", 'a', function(){
@@ -133,13 +140,13 @@
 				var tooltipTitle = '<div id="beacon-activity-tooltip"><span class=beacon-info>Keep or change this activity</span></div>';
 				$('#reg-activity').tooltipster('update', tooltipTitle);
 				$('input#reg-activity').val(activityName);
-				$('input#reg-activity').attr('disabled','disabled');
+				//$('input#reg-activity').attr('disabled','disabled');
 			} else {
 				var tooltipTitleOther = '<div id="beacon-activity-tooltip"><span class=beacon-info>Add your own activity</span></div>';
 				//$('input#reg-activity').attr('title', tooltipTitle);
 				$('#reg-activity').tooltipster('update',tooltipTitleOther); 
 				$('input#reg-activity').val("");
-				$('input#reg-activity').removeAttr('disabled');
+				//$('input#reg-activity').removeAttr('disabled');
 				//$('input#reg-activity').click();
 			}
 			$('#reg-activity').focus();
