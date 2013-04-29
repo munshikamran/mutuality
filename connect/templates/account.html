@@ -11,16 +11,16 @@
 
     <div id="tabsdiv">
         <ul class="nav">
-            <li class="nav-one"><a href="#basic" class="current">Basic Info</a></li>
-            <li class="nav-two last"><a href="#notifications">Email Notifications</a></li>
+            <li class="nav-one"><a href="#basic" class="current">Basic</a></li>
+            <li class="nav-two last"><a href="#notifications">Notifications</a></li>
         </ul>
 
         <div class="list-wrap">
             <ul id="basic">
             <li>
-        <div class="eight columns">
+      <!--   <div class="eight columns">
             <h3>Basic</h3>
-        </div>
+        </div> -->
         <section id="main" data-URL={{ URL }} class="row">
         <form id="registration" class="seven columns custom">
             <div class="row">
@@ -53,7 +53,7 @@
                 <label for="reg-sex"><strong>Gender</strong></label>
               </div>
 
-              <div class="ten columns">
+              <div class="ten columns adjustBasicInfo">
               {% if profile.gender == "male" %}
                 <select id="reg-sex" style="display:none;">
                     <option id="reg-male" value="Male" selected="selected">Male</option>
@@ -88,7 +88,7 @@
               <div class="two columns">
                 <label for="reg-relationship"><strong>Status</strong></label>
               </div>
-              <div class="ten columns">
+              <div class="ten columns adjustBasicInfo">
                 {% if profile.relationshipStatus == "Single" %}
                 <select id="reg-relationship" style="display:none;">
                     <option id="reg-single" value="Single" selected="selected">Single</option>
@@ -118,7 +118,7 @@
                 {% endif %}
               </div>
             </div>
-             <div class="row">
+             <div id="adjustSaveButton" class="row">
                   <div class="ten columns offset-by-two">
                         <input id="save-button"type="button" href="#" class="medium button" value="Save Settings" />
                   </div>
@@ -130,12 +130,12 @@
 
      <ul id="notifications" style="display:none;">
         <li>
-            <div class="eight columns">
+           <!--  <div class="eight columns">
                 <h3 id="beacon-title">Email Notifications</h3>
-            </div>
+            </div> -->
 
             <section id="main" data-URL={{ URL }} class="row">
-                <form id="registration" class="seven columns custom">
+                <form id="registration" class="five columns custom">
                     <div class="row">
                       <div class="six columns">
                         <label for="notification1"><strong>New match reminder</strong></label>
@@ -187,8 +187,8 @@
                         </div>
                       </div>
                     </div>
-
-                    <div class="row">
+                    
+                    <div class="row" id="adjustSaveButton">
                       <div class="ten columns offset-by-two">
                             <input id="save-button-notifications" type="button" href="#" class="medium button" value="Save Settings" />
                       </div>

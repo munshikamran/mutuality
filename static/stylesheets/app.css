@@ -7422,12 +7422,12 @@ input[type=text]:focus + .search-results {
   margin-top: 6px;
   margin-left: 10px;
   position:absolute;
-  bottom:202px;
-  left:135px;
+  bottom:204px;
+  left:150px;
 }
 
 #profile-fb-meetpeople img {
-  width:80px;
+  width:65px;
 }
 
 /* line 540, ../sass/app.scss */
@@ -7952,6 +7952,7 @@ form#registration input[type=password],
 form#registration input[type=date],
 form#registration textarea {
   height: auto;
+  margin:10px 0px;
   padding: 8px 10px;
   border: 2px solid #eee;
   font-size: 16px;
@@ -7965,6 +7966,18 @@ form#registration textarea {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+}
+
+.adjustBasicInfo {
+  margin:10px 0px;
+}
+
+#reg-relationship a {
+  line-height: 1.5;
+}
+
+#reg-sex a {
+  line-height: 1.5;
 }
 
 #reg-sex.custom.dropdown {
@@ -9665,7 +9678,7 @@ font-weight:normal;
 }
 
 #adjustBeaconTitle {
-  margin:0px 0px 5px 0px;
+  margin:0px 0px 7px 0px;
   font-size: 13px;
   font-weight:normal;
 }
@@ -9687,12 +9700,41 @@ font-weight:normal;
 }
 
 /* TABS ON ACCOUNT PAGE CSS */
-#tabsdiv { background: #FFF; padding: 10px; margin: 0 0 15px 0; -moz-box-shadow: 0 0 5px #666; -webkit-box-shadow: 0 0 5px #666; }
+#tabsdiv { 
+  background: #FFF; 
+  padding: 10px; 
+  margin: 20px 0px 15px 0px; 
+  -moz-box-shadow: 0 0 5px #666; 
+  -webkit-box-shadow: 0 0 5px #666;
+  border-radius:5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px; 
+}
 
-#tabsdiv .nav { overflow: hidden; margin: 0 0 10px 0; }
-#tabsdiv .nav li { width: 97px; float: left; margin: 0 10px 0 0; }
+#tabsdiv .nav { overflow: hidden; margin: 0 0 30px 0; }
+#tabsdiv .nav li { width: 97px; float: left; margin: 10px 10px 0px 16px; }
 #tabsdiv .nav li.last { margin-right: 0; }
-#tabsdiv .nav li a { display: block; padding: 5px; background: #959290; color: white; font-size: 10px; text-align: center; border: 0; }
+
+
+#tabsdiv .nav li a { 
+  display: block; 
+  padding: 2px; 
+  background: #959290; 
+  color: white; 
+  font-size: 13px; 
+  font-weight:bolder; 
+  text-align: center; 
+  border: 0; 
+  border-radius:5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+
 #tabsdiv .nav li a:hover { background-color: #111; }
 
 #tabsdiv ul { list-style: none; }
@@ -9743,7 +9785,7 @@ font-weight:normal;
 /*  font-weight: bolder;*/
 }
 
-#setBeaconButton {
+.setBeaconButton {
   float:right;
   margin-right:18px;
 }
@@ -9876,3 +9918,6 @@ div#tips {
 .beaconDefinition {
 }
 
+#adjustSaveButton {
+  margin-top:20px;
+}
