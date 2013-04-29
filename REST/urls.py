@@ -19,7 +19,7 @@ from REST.views.get_message_with_other import GetMessageThreadWithOtherAPI
 from REST.views.send_message import SendMessageAPI
 from REST.views.remove_favorite import RemoveFavoriteAPI
 from REST.views.set_profile import SetProfileAPI
-
+from REST.views.mobile_auth import MobileAuthAPI
 
 
 urlpatterns = patterns('REST.views',
@@ -42,5 +42,6 @@ urlpatterns = patterns('REST.views',
     url(r'^getMessagesWithOther/$', GetMessageThreadWithOtherAPI.as_view()),
     url(r'^sendMessage/$', SendMessageAPI.as_view()),
     url(r'^removeFavorite/$', RemoveFavoriteAPI.as_view()),
-    url(r'^setProfile/$', SetProfileAPI.as_view())
+    url(r'^setProfile/$', SetProfileAPI.as_view()),
+    url(r'^mobileauth/$', MobileAuthAPI.as_view()),
 )
