@@ -353,6 +353,9 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 		}
 		$('.tooltip').tooltipster();
 		initAskAboutCarousel();
+        $("#profile-fb a").attr('onclick', Mutuality.getFacebookPageURL(facebookID));
+
+
 }
 
 var friendsOfFriendsSuccess = function(friends){

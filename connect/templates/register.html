@@ -7,12 +7,17 @@
         </div>
         <hr />
     </section>
-
+    <div id="wrapperDiv">
+    <div id="formDiv" style="float:left;width:400px;">
     <section id="main" data-URL={{ URL }} class="row">
-    <form id="registration" class="seven columns custom">
+    <form id="registration" class="twelve columns custom">
         <h5>Update your information</h5>
         <div class="row" style="">
-            <span class="profile-thumb" style="background-image: url(https://graph.facebook.com/{{ profile.facebookID }}/picture); width:100px; height:100px;"></span>
+            <div class="two columns">
+            </div>
+            <div class="ten columns">
+                <span class="profile-thumb" style="background-image: url(https://graph.facebook.com/{{ profile.facebookID }}/picture); width:100px; height:100px;"></span>
+            </div>
         </div>
         <br />
         <div class="row">
@@ -107,10 +112,9 @@
             </div>
         </div>
         <div class="three columns"></div>
-        </div>
         <div class="row">
             <div class="ten columns offset-by-two">
-                <input id="register-button"type="button" href="#" class="medium button" value="Submit" />
+                <input id="register-button" type="button" href="#" class="medium button" value="Submit" />
             </div>
             <br />
             <br />
@@ -120,15 +124,26 @@
     </form>
     </section>
     </div>
+    <div id="tips">
+        <h2>Why you'll love Mutuality</h2>
+        <ul>
+	        <li>Discover people like you do in real life - through your mutual friends</li>
+	        <li>Participate in activities with your friends of friends</li>
+            <li>Grow your friend circle</li>
+	        <li>Stay <a href="/privacy/" target="_blank">safe and secure</a></li>
+        </ul>
+        <div class="eight columns offset-by-four">
+            <span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/squareicon.png);width:100px;height:100px;"></span>
+        </div>
     </div>
     </div>
-    </div>
+
 {% endblock %}
 {% block extrahtml %}
 <div id="myModal" class="reveal-modal large">
     <h4>Creating your profile...</h4>
     <div class="row">
-        <div id="nudge-left" style:"text-align:center">
+        <div id="nudge-left" style="text-align:center">
             <a href="#" class="title">
                 <span class="match-name">It'll just take a second</span>
                 <span class="introduce-thumb" style="background-image: url({{ MEDIA_URL }}/images/loader.gif);"></span>
