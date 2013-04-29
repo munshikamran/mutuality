@@ -6404,7 +6404,7 @@ form.custom div.custom.dropdown ul li.selected:hover {
 
 /* line 174, ../sass/app.scss */
 #page-title {
-  margin: 40px 0;
+  margin: 20px 0;
 }
 
 /* line 175, ../sass/app.scss */
@@ -7948,23 +7948,23 @@ form#registration textarea {
 }
 
 #reg-sex.custom.dropdown {
-  width:100px !important;
+  width:200px !important;
 }
 
 #reg-sex.custom.dropdown.open a {
-  width:100px !important;
+  width:200px !important;
 }
 
 #reg-relationship.custom.dropdown {
-  width:100px !important;
+  width:200px !important;
 }
 
 #reg-relationship.custom.dropdown.open a {
-  width:100px !important;
+  width:200px !important;
 }
 
 #reg-relationship.custom.dropdown.open ul {
-  width:170px !important;
+  width:270px !important;
 }
 
 
@@ -9662,4 +9662,13 @@ font-weight:normal;
   font-size:13px;
   margin-top:30px;
 /*  font-weight: bolder;*/
+}
+
+div#tips {
+    background: none repeat scroll 0 0 #F7F7F7;
+    color: #8B8078;
+    float: right;
+    padding: 25px;
+    width: 500px;
+    float:left;
 }
