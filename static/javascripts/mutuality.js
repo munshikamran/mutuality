@@ -516,7 +516,7 @@ var Mutuality = (function($){
     {
          var self = this;
          self.__post('api/setBeacon/', { token: this.token, place: beaconPlace, activity: beaconActivity }, function( response ){
-             console.log(response);
+             //console.log(response);
              if(response == true)
              {
                  if(success instanceof Function) success.call(self, response);
@@ -568,7 +568,7 @@ var Mutuality = (function($){
        var self = this;
 
        self.__post('api/getHasLikedBeacon/', { token: this.token, fbID: fbID }, function( response ){
-           console.log(response)
+           //console.log(response)
            if(response !== null)
            {
                if(success instanceof Function) success.call(self, response);

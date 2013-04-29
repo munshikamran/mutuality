@@ -469,7 +469,7 @@ function beginBeaconImageHoverToggle() {
 	    	}
 
 	    	Mutuality.mpcache.current = currentlyFocusedElem.attr("facebookID");
-	    	console.log("Current Person: "+currentlyFocusedElem.attr("facebookID"));
+	    	//console.log("Current Person: "+currentlyFocusedElem.attr("facebookID"));
 
 			$('.adjustBeaconImage').attr('src', Mutuality.getProfilePictureURL(Mutuality.mpcache.current, 100, 100));
 
@@ -536,7 +536,7 @@ function beginBeaconImageHoverToggle() {
 	    				if(currentCount !== 0){$(".friend-count").show();}
 
 		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
-		    				console.log(currentCount);
+		    				//console.log(currentCount);
 		    				if(currentCount == 1){
 		    					$('#refresh-reminder').slideDown();
 		    					//triggerModal("myModalViewed");
@@ -582,6 +582,17 @@ function beginBeaconImageHoverToggle() {
 				$('#page-prev').trigger('click');
 			}
 		}, 130);
+	var beaconExists
+	if ($('#activity').html().length > 0) {
+		beaconExists = "true"
+	} else {
+		beaconExists = "false"
+	} 
+	mixpanel.track ("Person loaded", {
+		"User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
+		"Beacon": beaconExists
+	});
+
 	}
 
 	// Store meet people profile and mutual friends into cache object
@@ -610,7 +621,7 @@ function beginBeaconImageHoverToggle() {
 			Mutuality.getMutualFriendList(facebookID, function(mutualFriends){
 					loadMeetPeopleProfileInfoToCache(facebookID, mutualFriends, extendedProfile);
 					meetProfilesElem = $("#meet-profiles");
-					console.log("Length of Friends = " + friends.length);
+					//console.log("Length of Friends = " + friends.length);
 			    	for (i=0; i<MAX_CAROUSEL_NUM&&i<friends.length; i++){
 	    				var setFavoriteFunctionString = 
 							"var currentPerson = $($($('.match-profile-details')[1]).children()[0]);" +
@@ -801,7 +812,7 @@ function beginBeaconImageHoverToggle() {
     		setModalWhenError("Sorry, but we didn't find anyone!  Check back soon.");
     	}
     	else if (friends.length > 2){
-    		console.log("Meet People Success = " + friends[2].facebookID)
+    		//console.log("Meet People Success = " + friends[2].facebookID)
     		$("#meet-profiles").html("");
     		fetchMeetPeopleProfileInfoAndShowUI(friends[2].facebookID, friends);
     	}
@@ -814,7 +825,7 @@ function beginBeaconImageHoverToggle() {
     // Set a favorite
     var setFavorite = function (fbID){
     	Mutuality.setFavorite(fbID, function(success){
-    		console.log(success);
+    		//console.log(success);
     	});
     }
 
@@ -857,7 +868,7 @@ var setModalBack = function(modalID){
 
 var setNewBadge = function(friends) {
 	var newCount = 0;
-	console.log(friends);
+	//console.log(friends);
 	for (i=0;i<friends.length;i++){
 		if(friends[i].hasBeenViewed !== true){
 			newCount++;
@@ -947,6 +958,13 @@ var setNewBadge = function(friends) {
 	 		//$("#like-number").animate({ opcaity: 0.9 },1000, function(){
 	 			//Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
 	 			Mutuality.getBeaconLikeCount(Mutuality.mpcache.current, function(success){
+		 			mixpanel.track("Beacon liked", {
+		 				"Beacon liker":Mutuality.cache.profile.name,
+		 				"Beacon likee":Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current).name,
+		 				"Activity liked":$('#activity').html(),
+		 				"Place liked":$('#place').html(),
+		 				"Total likes":success
+		 			});
 	 			if (success!==1) {
 	 				//$('#beacon-like-number').fadeOut();
 	 				$('#beacon-like-number').html(success);
@@ -967,9 +985,9 @@ var setNewBadge = function(friends) {
 	 		var mutualFriendNumber = Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].mutualFriends.length;
 	 		var firstName = Mutuality.cache.profile.name.split(" ")[0];
 	 		var beaconMessage = Mutuality.cache.profile.name + " likes your beacon. Ask one of your " + mutualFriendNumber + " mutual friends on the right to learn more about "+ firstName + ". You can respond below";
-	 		console.log(beaconMessage)
+	 		//console.log(beaconMessage)
 	 		Mutuality.sendMessage(Mutuality.mpcache.current, beaconMessage, function(response){
-	 			console.log(response);
+	 			//console.log(response);
 	 		});
 
 	 		//mixpanel track beacon (properties: whose is liked, what is liked, what place is liked, how many people like it)
