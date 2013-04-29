@@ -9707,16 +9707,6 @@ font-weight:normal;
   margin-top:4px !important;
 }
 
-#adjustBeaconSelectionTitle {
-  height:20px;
-  width:370px;
-  z-index:1001;
-  position:absolute;
-  top:90px;
-  left:32px;
-
-}
-
 #beacon-title {
  /* margin-top:30px;
   margin-bottom:5px;*/
@@ -9829,8 +9819,39 @@ div#tips {
     float:left;
 }
 
+#adjustBeaconSelectionTitle {
+  height:100px;
+  width:360px;
+  z-index:1001;
+  margin-top:30px;
+/*  position:absolute;
+  top:90px;
+  left:32px;*/
+  display:block;
+}
+
+#adjustBeaconSelectionTitle div {
+  display:block;
+  margin:10px 0px 10px 20px;
+}
+
 #askAboutTitle {
   font-weight:normal;
   font-size:13px;
+}
+
+#beaconDefinitionTitle {
+  font-weight:bold;
+}
+
+#beaconNoun {
+  font-style:italic;
+}
+
+.beaconNumbers {
+  font-weight:bold;
+}
+
+.beaconDefinition {
 }
 
