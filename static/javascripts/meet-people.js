@@ -135,7 +135,7 @@
 		$('#ask-about').carouFredSel({
 			auto : false,
 			width: 213,
-			height: 70,
+			height: 80,
 			prev: "#ask-prev",
 			next: "#ask-next",
 			items: {
@@ -695,6 +695,8 @@ function beginBeaconImageHoverToggle() {
 						});
 		}
 
+		$("#profile-fb-meetpeople a").attr('onclick', Mutuality.getFacebookPageURL(facebookID));
+
 		$('.tooltip').tooltipster();
 		$('.tooltipster-icon').tooltipster({
 			theme: '.tooltipster-question',
@@ -960,7 +962,7 @@ var setNewBadge = function(friends) {
 	 		//});
 	 		var mutualFriendNumber = Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].mutualFriends.length;
 	 		var firstName = Mutuality.cache.profile.name.split(" ")[0];
-	 		var beaconMessage = Mutuality.cache.profile.name + " likes your beacon. Ask one of your " + mutualFriendNumber + " mutual friends on the right to learn more about "+ firstName + ".";
+	 		var beaconMessage = Mutuality.cache.profile.name + " likes your beacon. Ask one of your " + mutualFriendNumber + " mutual friends on the right to learn more about "+ firstName + ". You can respond below";
 	 		console.log(beaconMessage)
 	 		Mutuality.sendMessage(Mutuality.mpcache.current, beaconMessage, function(response){
 	 			console.log(response);

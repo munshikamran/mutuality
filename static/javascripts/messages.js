@@ -324,7 +324,7 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 	var name = otherName.split(" ");
 	var newUlElem;
 	$('#ask-about').empty();
-	$('.profile-name').html("Ask About " + name[0]);
+	$('#askAboutTitle').html("Ask About " + name[0]);
 	for (var i = 0; i < mutualFriends.length; i++) {
 		var friendID = mutualFriends[i].facebookID;
 		var friendName = mutualFriends[i].name; //.split(" ")[0];

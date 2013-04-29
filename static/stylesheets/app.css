@@ -7408,6 +7408,26 @@ input[type=text]:focus + .search-results {
   background-position: -5px -284px;
   margin-top: 6px;
   margin-left: 10px;
+  position:absolute;
+  top:3px;
+  left:135px;
+}
+
+#profile-fb img {
+  width:80px;
+}
+
+#profile-fb-meetpeople {
+  background-position: -5px -284px;
+  margin-top: 6px;
+  margin-left: 10px;
+  position:absolute;
+  bottom:202px;
+  left:135px;
+}
+
+#profile-fb-meetpeople img {
+  width:80px;
 }
 
 /* line 540, ../sass/app.scss */
@@ -7420,7 +7440,7 @@ input[type=text]:focus + .search-results {
   height: 150px;
   width: 213px;
   list-style: none;
-  margin: 0;
+  margin:10px 0px 0px 0px;
   overflow: hidden;
   z-index: 0;
 }
@@ -9807,5 +9827,10 @@ div#tips {
     padding: 25px;
     width: 500px;
     float:left;
+}
+
+#askAboutTitle {
+  font-weight:normal;
+  font-size:13px;
 }
 
