@@ -9678,15 +9678,26 @@ font-weight:normal;
 }
 
 #adjustBeaconTitle {
+/*  height:20px;
+  width:auto;
+  display:block;*/
+/*  margin-bottom:7px;*/
+}
+
+#adjustBeaconTitle {
+  display:inline-block;
   margin:0px 0px 7px 0px;
   font-size: 13px;
+  color:#989898;
   font-weight:normal;
+  width:auto;
 }
 
 #drop-pin {
   position:absolute;
-  top:-6px;
-  left:120px;
+  top:-5px;
+  margin-left:5px;
+
 }
 
 .beacon-message {
