@@ -437,10 +437,14 @@ function beginBeaconImageHoverToggle() {
 			});	
             Mutuality.getBeaconLikeCount(fbID, function(response){
                 var likeNumber = response;
+                if (likeNumber === 0) {
+                	$('#like-number').hide();
+                } else {
                 $('#beacon-like-number').html(response);
-                if (likeNumber===1) {
-                	$('#plural-agreement').html("person agrees");
-                }
+	                if (likeNumber===1) {
+	                	$('#plural-agreement').html("person likes this");
+	                }
+            	}
    			//if has liked beacon, show "You and X people agree" instead of "Yes"
             });
 		});
@@ -951,7 +955,7 @@ var setNewBadge = function(friends) {
 	 				//$("#like-number").fadeOut(100);
 	 				//$("#like-number").hide();
 	 				$('#beacon-like-number').html(success);
-	 				$('#plural-agreement').html("person agrees");
+	 				$('#plural-agreement').html("person likes this");
 	 				$("#like-number").fadeIn();
 	 			}
 	 		});	
