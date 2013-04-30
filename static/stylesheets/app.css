@@ -9950,3 +9950,7 @@ div#tips {
 #adjustSaveButton {
   margin-top:20px;
 }
+
+#adjustNavProfileThumb{
+  border:none;
+}

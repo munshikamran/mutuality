@@ -1,33 +1,11 @@
 from connect.models.beacon import Beacon
+from connect.models.userViewed import UserViewed
 
 def SetBeacon(profile, placeString, activityName):
     try:
-        beacon = Beacon(user=profile, place=placeString, activity=activityName)
-        beacon.save()
+        beacon = Beacon.objects.create(user=profile, place=placeString, activity=activityName)
+        # delete all UserViewed objects with this user so she surfaces again in people's meet people results
+        UserViewed.objects.filter(viewed_id=profile.facebookID).delete()
         return True
     except:
         return False
-
-'''
-    try:
-        if BeaconActivity.objects.filter(name=activityName).exists():
-            # An activity with this name exists already
-            activity = BeaconActivity.objects.get(name=activityName)
-            beacon = Beacon(user=profile, place=placeString, activity=activity)
-            beacon.save()
-        else:
-            # We should create a custom activity then
-            if BeaconCategory.objects.filter(name=kwargs['categoryName']).exists():
-                cat = BeaconCategory.objects.get(name=kwargs['categoryName'])
-                print cat.name
-                activity = BeaconActivity(name=activityName, category=cat)
-                activity.save()
-                # and then use it for this beacon
-                beacon = Beacon(user=profile, place=placeString, activity=activity)
-                beacon.save()
-            else:
-                return False
-        return True
-    except:
-        return False
-'''
