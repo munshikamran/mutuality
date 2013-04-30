@@ -9906,9 +9906,19 @@ div#tips {
     background: none repeat scroll 0 0 #F7F7F7;
     color: #8B8078;
     float: right;
-    padding: 25px;
+    padding: 5px 40px 10px 40px;
     width: 500px;
+    height:200px;
+    margin-top:50px;
     float:left;
+    border-radius:5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    -webkit-box-shadow: #cccccc 0px 2px 2px;
+    -moz-box-shadow: #cccccc 0px 2px 2px;
+    box-shadow: #cccccc 0px 2px 2px;
 }
 
 #adjustBeaconSelectionTitle {
@@ -9953,4 +9963,56 @@ div#tips {
 
 #adjustNavProfileThumb{
   border:none;
+}
+
+#adjustRegisterSideHeadline {
+  font-size:30px;
+  text-align:center;
+}
+
+#tips li {
+  margin:5px;
+}
+
+#registerPic {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-left:auto;
+  margin-right:auto;
+  /*border: 2px solid white;*/
+ /* float: left;*/
+  background-size: 100%;
+  /*-webkit-transition: all 100ms;
+  -moz-transition: all 100ms;
+  -o-transition: all 100ms;
+  transition: all 100ms;*/
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 4px;
+}
+
+.reg-sex a {
+  line-height: 2 !important;
+}
+
+.reg-status a {
+  line-height: 2 !important;
+}
+
+#register-button {
+  margin-top:20px;
+}
+
+#iconRegisterPic {
+  width:80px;
+  height:80px;
+  position:absolute;
+  bottom:145px;
+  left:-215px;
 }

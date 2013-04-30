@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %} Account {% endblock %}
+{% block title %} Register {% endblock %}
 {% block content %}
     <section id="page-title" class="row">
         <div class="eight columns">
-            <h2>Let's get started</h2>
+            <h2>Update Your Information</h2>
         </div>
         <hr />
     </section>
@@ -11,13 +11,14 @@
     <div id="formDiv" style="float:left;width:400px;">
     <section id="main" data-URL={{ URL }} class="row">
     <form id="registration" class="twelve columns custom">
-        <h5>Update your information</h5>
+  <!--       <h5>Update your information</h5> -->
         <div class="row" style="">
+            <div class="ten columns">
+                <span id="registerPic" style="background-image: url(https://graph.facebook.com/{{ profile.facebookID }}/picture); width:100px; height:100px;"></span>
+            </div>
             <div class="two columns">
             </div>
-            <div class="ten columns">
-                <span class="profile-thumb" style="background-image: url(https://graph.facebook.com/{{ profile.facebookID }}/picture); width:100px; height:100px;"></span>
-            </div>
+            
         </div>
         <br />
         <div class="row">
@@ -67,7 +68,7 @@
                         <option id="reg-male" value="Male" selected="selected">Male</option>
                         <option id="reg-female" value="Female">Female</option>
                     </select>
-                    <div id="reg-sex" class="custom dropdown">
+                    <div id="reg-sex" class="reg-sex custom dropdown">
                         <a href="#" class="current">Male</a>
                         <a href="#" class="selector"></a>
                         <ul>
@@ -101,7 +102,7 @@
                         <option id="reg-single" value="Single" selected="selected">Single</option>
                         <option id="reg-notsingle" value="Relationship">In a Relationship</option>
                     </select>
-                    <div id="reg-relationship" class="custom dropdown">
+                    <div id="reg-relationship" class="reg-status custom dropdown">
                         <a href="#" class="current">Single</a>
                         <a href="#" class="selector"></a>
                         <ul>
@@ -113,7 +114,7 @@
         </div>
         <div class="three columns"></div>
         <div class="row">
-            <div class="ten columns offset-by-two">
+            <div class="ten columns offset-by-three">
                 <input id="register-button" type="button" href="#" class="medium button" value="Submit" />
             </div>
             <br />
@@ -125,15 +126,17 @@
     </section>
     </div>
     <div id="tips">
-        <h2>Why you'll love Mutuality</h2>
-        <ul>
-	        <li>Discover people like you do in real life - through your mutual friends</li>
-	        <li>Participate in activities with your friends of friends</li>
-            <li>Grow your friend circle</li>
-	        <li>Stay <a href="/privacy/" target="_blank">safe and secure</a></li>
-        </ul>
+        <h2 id="adjustRegisterSideHeadline">Why you'll love Mutuality</h2>
+            <div>     
+                <ul>
+        	        <li>Discover people like you do in real life - through mutual friends</li>
+        	        <li>Connect with friends-of-friends through activities</li>
+                    <li>Ask a mutual friend about anyone</li>
+        	        <li>Stay <a href="/privacy/" target="_blank">safe and secure</a></li>
+                </ul>
+            </div>
         <div class="eight columns offset-by-four">
-            <span class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/squareicon.png);width:100px;height:100px;"></span>
+            <span id="iconRegisterPic" class="profile-thumb" style="background-image: url({{ MEDIA_URL }}/images/squareicon.png);"></span>
         </div>
     </div>
     </div>
