@@ -276,11 +276,11 @@
     			}
     		});
     	}
-        else if ($('#fav-filter').val() == "Mutuality") {
+        else if ($('#fav-filter').val() == "Beacon") {
     		triggerModal("myModal");
     		Mutuality.getMeetPeople("MUTUALITY_USERS", function(mutualityFriends){
 				if(mutualityFriends.potentialMatches.length > 0) {
-    				Mutuality.mpcache.datingList = mutualityFriends.potentialMatches;
+    				Mutuality.mpcache.fofList = mutualityFriends.potentialMatches;
     				createMutualityUserLookUp(mutualityFriends.potentialMatches);
     				meetPeopleSuccess(mutualityFriends.potentialMatches);
     			}

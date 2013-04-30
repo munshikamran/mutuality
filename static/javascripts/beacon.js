@@ -22,9 +22,29 @@
 		}
 	});
 
+
     // Initialize ajax autocomplete for beacon places:
 	$('#reg-place').autocomplete({
-		serviceUrl: 'https://graph.facebook.com/search?type=place&fields=name',
+		serviceUrl: 'https://graph.facebook.com/search?type=place&fields=name,location',
+        onSelect: function(suggestion) {
+             var graphURL = 'https://graph.facebook.com/fql?access_token='+ $("#auth_token").html() +'&q=SELECT name, page_id, categories, description, general_info, pic_big FROM page WHERE page_id IN (SELECT page_id, name FROM place WHERE  distance(latitude, longitude,"'+ suggestion.location.latitude +'", "'+ suggestion.location.longitude +'") < 5)';
+            $.ajax({
+                url: graphURL,
+                dataType: 'json',
+                type: 'GET',
+                success: function(data) {
+                    if (data.data.length !== 0){
+                        $("#place-information").html('<h4>'+ data.data[0].name +'</h4><img id="place-picture" src="'+data.data[0].pic_big+'"/>');
+                    }
+                    else{
+                        $("#place-information").html('<h4>'+ suggestion.value +'</h4><img id="place-picture" src="mutualityicon.png"/>');
+                    }
+                },
+                error: function(data) {
+                    console.log("error");
+                }
+		    });
+        },
 		deferRequestBy: 10,
 		autoSelectFirst: true,
         params: {access_token: $("#auth_token").html(), center:$("#lat").html() + "," + $("#long").html()},
@@ -33,7 +53,7 @@
 		    return {
 		        query: originalQuery,
 		        suggestions: $.map(JSON.parse(response).data, function(dataItem) {
-		            return { value: dataItem.name, data: dataItem.name };
+		            return { value: dataItem.name, data: dataItem.name, location: dataItem.location };
 		        })
 		    };
 		}
@@ -69,6 +89,8 @@
 			  setTimeout(function(){$('.'+type).animate({top: -$(this).outerHeight()}, 300)}, 1000);
 		});
 	}
+
+
 /* End Helper functions */
 
 /* Begin Account Main Code */
