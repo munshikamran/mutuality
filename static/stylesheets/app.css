@@ -6321,6 +6321,19 @@ form.custom div.custom.dropdown ul li.selected:hover {
   background-position: 0 -72px;
 }
 
+#nav #menu-beacon a {
+  background: url(../images/newDropPin.png) no-repeat !important;
+  /* background: url(../images/ui-icons-sprite.png) no-repeat;*/
+  background-position:-8px 0px !important;
+  display: block;
+  padding: 10px 10px 10px 27px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #444444;
+  text-shadow: 0px 1px 0px white;
+  filter: dropshadow(color=white, offx=1, offy=0);
+}
+
 /* line 163, ../sass/app.scss */
 #nav #menu-logout a {
   background-position: 0 -124px;
@@ -7886,6 +7899,7 @@ body#messages #page-title {
 .messages.button {
   padding: 6px 8px;
   width: 70px;
+  font-weight:normal;
   float: right;
   margin: 15px 15px 30px 0;
 }
@@ -9162,8 +9176,8 @@ div#question:hover{
 
 .beacon-question{
   position:absolute;
-  right:102px;
-  top:-8px;
+  right:100px;
+  top:-5px;
   cursor:pointer;
 }
 
@@ -9697,8 +9711,8 @@ font-weight:normal;
 
 #drop-pin {
   position:absolute;
-  top:-5px;
-  margin-left:5px;
+  top:-3px;
+  margin-left:4px;
 
 }
 
@@ -9776,11 +9790,13 @@ font-weight:normal;
 #reg-activity {
   border: 2px solid #ccc !important;
   margin-top:4px !important;
+  color:#000 !important;
 }
 
 #reg-place {
   border: 2px solid #ccc !important;
   margin-top:4px !important;
+  color:#000 !important;
 }
 
 #beacon-title {
