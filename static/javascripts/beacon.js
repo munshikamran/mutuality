@@ -6,7 +6,6 @@
 		serviceUrl: 'https://graph.facebook.com/search?type=adcity&limit=5&country_list=%5B"us"%5D',
 		onSelect: function(suggestion) {
 		    $('#location-ajax').html(suggestion.value);
-
 		},
 		deferRequestBy: 10,
 		autoSelectFirst: true,
@@ -34,10 +33,14 @@
                 type: 'GET',
                 success: function(data) {
                     if (data.data.length !== 0){
-                        $("#place-information").html('<h4>'+ data.data[0].name +'</h4><img id="place-picture" src="'+data.data[0].pic_big+'"/>');
+                        $('#place-description img').attr('src', data.data[0].pic_big);
+                        $('#place-description h4').html( data.data[0].name);
+                       //$("#place-description").html('<h4>'+ data.data[0].name +'</h4><img id="place-picture" src="'+data.data[0].pic_big +'"/>');
                     }
                     else{
-                        $("#place-information").html('<h4>'+ suggestion.value +'</h4><img id="place-picture" src="mutualityicon.png"/>');
+                        $('#place-description img').attr('src', 'http://localhost:8000/images/noPlace.png');
+                        $('#place-description h4').html( $('#reg-place').val() );
+                        //$("#place-discription").html('<h4>'+ suggestion.value +'</h4><img id="place-picture" src="mutualityicon.png"/>');
                     }
                 },
                 error: function(data) {
@@ -154,8 +157,16 @@
 		$('#reg-place').on('focus', function(){
 			$(this).tooltipster('show'); 
 			$("#accordion").animate({width:'hide'},350, function(){
+			if ( $('#reg-place').val().length > 0) {
+				$('#place-description').animate({width:'show'},350);
+			} else {
 				$('#place-information').animate({width:'show'},350);
+			}	
+
+				
 			});
+		
+
 			
 		});
 
