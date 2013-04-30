@@ -977,9 +977,6 @@ var setNewBadge = function(friends) {
 	 				$("#like-number").fadeIn();
 	 			}
 	 		});	
-	 	$('#like-text').hover(function(){
-	 		$('#like-button').css("background","url(../images/likebuttonhover.png) no-repeat");
-	 	});	
 	 			//picture should change to a thumbs up?
 	 		//});
 	 		var mutualFriendNumber = Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].mutualFriends.length;
@@ -994,7 +991,13 @@ var setNewBadge = function(friends) {
 
 	 	});
 
-	 })
+	 });
+
+	$('#like-text').hover(function() {
+	 		$('#like-button').css("background-image","url(../images/likebuttonhover.png)");
+	 	}, function(){
+	 		$('#like-button').css("background-image","url(../images/likebutton.png)");
+	 	});	
 
 	//Style adjustments
 	$('#ask-about').css({ zIndex: 0 });

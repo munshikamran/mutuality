@@ -6073,7 +6073,7 @@ form.custom div.custom.dropdown ul li.selected:hover {
 
 /* line 105, ../sass/app.scss */
 #brand {
-  background: #4096b6 url(../images/nav-bg.jpg) repeat-x;
+  background: #4096b6 url(../images/brand-bg.jpg) repeat-x;
   border-bottom: 1px solid white;
   -webkit-box-shadow: #317f9d 0px -5px 8px inset;
   -moz-box-shadow: #317f9d 0px -5px 8px inset;
@@ -6126,7 +6126,8 @@ form.custom div.custom.dropdown ul li.selected:hover {
   margin: 0;
   width: 2px;
   height: 88%;
-  background: url(../images/nav-divider.jpg) center center no-repeat;
+  /*background: url(../images/nav-divider.jpg) center center no-repeat;*/
+  background: center center no-repeat;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -9044,7 +9045,7 @@ border-bottom:1px solid #DDD;
   /*background:#DDD;*/
   clear:both;
   position:relative;
-  bottom:-8px;
+  bottom:-6px;
 }
 
 #beacon-nub {
@@ -9075,8 +9076,9 @@ border-bottom:1px solid #DDD;
 }
 
 #like-button{
- background: url(../images/likebutton.png) no-repeat;
+ background: url(../images/likebutton.png);
  background-size: 12px 12px;
+ background-repeat:no-repeat;
   display:block;
  /* height:25px;*/
   /*text-align:center;*/
