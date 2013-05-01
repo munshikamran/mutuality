@@ -64,10 +64,10 @@ def register(request):
         except Profile.DoesNotExist:
             noProfile = True
             pass
-    #if (noProfile or UpdateFriendListHasBeenCalled(profile)):
-    #    return redirect("/meetpeople/")
-    #else:
-    return render_to_response('register.html', context_dict, context_instance=RequestContext(request))
+    if (noProfile or UpdateFriendListHasBeenCalled(profile)):
+        return redirect("/meetpeople/")
+    else:
+        return render_to_response('register.html', context_dict, context_instance=RequestContext(request))
 
 @login_required
 def account(request):
