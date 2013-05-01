@@ -4,6 +4,7 @@ from connect.models.friendship import Friendship
 from connect.models.facebookuser import FacebookUser
 from connect.models.userFavorite import UserFavorite
 from messages.models import Message
+from connect.models.beacon import Beacon
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,9 +49,16 @@ class MeetPeopleProfileSerializer(serializers.Serializer):
     employer = serializers.Field()
 
 class UserFavoriteSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = UserFavorite
+            fields = ('user', 'favorite', 'date_created')
+
+
+class BeaconSerializer(serializers.ModelSerializer):
+    user = ProfileSerializer()
     class Meta:
-        model = UserFavorite
-        fields = ('user', 'favorite', 'date_created')
+        model = Beacon
+        fields = ('user', 'place', 'activity', 'date_created')
 
 class MessagesSerializer(serializers.ModelSerializer):
     sender = ProfileSerializer()

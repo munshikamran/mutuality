@@ -19,7 +19,11 @@ from REST.views.get_message_with_other import GetMessageThreadWithOtherAPI
 from REST.views.send_message import SendMessageAPI
 from REST.views.remove_favorite import RemoveFavoriteAPI
 from REST.views.set_profile import SetProfileAPI
-
+from REST.views.get_beacon import GetBeaconAPI
+from REST.views.set_beacon import SetBeaconAPI
+from REST.views.like_beacon import LikeBeaconAPI
+from REST.views.get_beacon_like_count import GetBeaconLikeCountAPI
+from REST.views.get_hasLikedBeacon import GetHasLikedBeaconAPI
 
 
 urlpatterns = patterns('REST.views',
@@ -42,5 +46,10 @@ urlpatterns = patterns('REST.views',
     url(r'^getMessagesWithOther/$', GetMessageThreadWithOtherAPI.as_view()),
     url(r'^sendMessage/$', SendMessageAPI.as_view()),
     url(r'^removeFavorite/$', RemoveFavoriteAPI.as_view()),
-    url(r'^setProfile/$', SetProfileAPI.as_view())
+    url(r'^setProfile/$', SetProfileAPI.as_view()),
+    url(r'^getBeacon/$', GetBeaconAPI.as_view()),
+    url(r'^setBeacon/$', SetBeaconAPI.as_view()),
+    url(r'^likeBeacon/$', LikeBeaconAPI.as_view()),
+    url(r'^getBeaconLikeCount/$', GetBeaconLikeCountAPI.as_view()),
+    url(r'^getHasLikedBeacon/$', GetHasLikedBeaconAPI.as_view())
 )

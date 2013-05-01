@@ -1,7 +1,7 @@
 
 (function($) {
 
-	// Initialize ajax autocomplete:
+	// Initialize ajax autocomplete for locations:
 	$('#reg-location').autocomplete({
 		serviceUrl: 'https://graph.facebook.com/search?type=adcity&limit=5&country_list=%5B"us"%5D',
 		onSelect: function(suggestion) {
@@ -13,6 +13,7 @@
 		onSearchStart: function (query) {$('#location-ajax').html("");},
 		paramName: 'q',
 		transformResult: function(response, originalQuery) {
+            console.log(response);
 		    return {
 		        query: originalQuery,
 		        suggestions: $.map(JSON.parse(response).data, function(dataItem) {
@@ -21,7 +22,24 @@
 		    };
 		}
 	});
-  
+
+    // Initialize ajax autocomplete for beacon places:
+	$('#reg-place').autocomplete({
+		serviceUrl: 'https://graph.facebook.com/search?type=place&fields=name',
+		deferRequestBy: 10,
+		autoSelectFirst: true,
+        params: {access_token: $("#auth_token").html(), center:$("#lat").html() + "," + $("#long").html()},
+		paramName: 'q',
+		transformResult: function(response, originalQuery) {
+		    return {
+		        query: originalQuery,
+		        suggestions: $.map(JSON.parse(response).data, function(dataItem) {
+		            return { value: dataItem.name, data: dataItem.name };
+		        })
+		    };
+		}
+	});
+
 /* Begin Helper functions */
 	//Alert message stuff
 	var myMessages = ['error','success']; // define the messages types		 
@@ -56,23 +74,31 @@
 		  $(this).animate({top: -$(this).outerHeight()}, 300);
 	});	
 
-        $("#save-button").click(function(){
-            if($('#location-ajax').html() !== ""){
-                $('#location-error').hide();
-                var profileDict = {};
-                profileDict['location'] = $("#reg-location").val();
-                profileDict['relationship_status'] = $("#reg-relationship :selected").text();
-                profileDict['gender'] = $("#reg-sex :selected").text();
-                console.log(profileDict);
-                Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
-                    $('.success-trigger').trigger('click');
-                });
-            }
-            else {
-                $('#location-error').show();
-                $('.error-trigger').trigger('click');
-            }
-        });
+    $("#save-button").click(function(){
+        if($('#location-ajax').html() !== ""){
+            $('#location-error').hide();
+            var profileDict = {};
+            profileDict['location'] = $("#reg-location").val();
+            profileDict['relationship_status'] = $("#reg-relationship :selected").text();
+            profileDict['gender'] = $("#reg-sex :selected").text();
+            Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
+                 $('.success-trigger').trigger('click');
+             });
+        }
+        else {
+            $('#location-error').show();
+            $('.error-trigger').trigger('click');
+        }
+    });
+
+     $("#save-button-notifications").click(function(){
+          $('.success-trigger').trigger('click');
+     });
+
+    // Set up the tabs on the page with plugin
+    $("#tabsdiv").organicTabs({
+        "speed": 200
+    });
 
 /* End Main Code */
 

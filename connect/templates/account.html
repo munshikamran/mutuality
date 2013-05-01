@@ -2,137 +2,205 @@
 {% block title %} Account {% endblock %}
 {% block content %}
 
-					<section id="page-title" class="row">
-						<div class="eight columns">
-							<h2>Account</h2>
-						</div>
-						<hr />
-					</section>
-					
-					<section id="main" data-URL={{ URL }} class="row">
-						<form id="registration" class="seven columns custom">
-							<div class="row">
-							  <div class="two columns">
-							    <label for="reg-firstname"><strong>Name</strong></label>
-							  </div>
-							  
-							  <div class="ten columns">
-							    <input id="reg-firstname" type="text" value="{{ profile.name }}" disabled="disabled" />
-							  </div>
-							  
-							  <!--<div class="five columns">
-							    <input type="text" value="" />
-							  </div> -->
-							</div>
+    <section id="page-title" style="margin-bottom:10px" class="row">
+        <div class="eight columns">
+            <h2>Account</h2>
+        </div>
+        <hr />
+    </section>
 
-							<div class="row">
-							  <!--<div class="two columns">
-							    <label for="reg-bio"><strong>Bio</strong></label>
-							  </div>
-							  
-							  <div class="ten columns">
-							    <textarea id="bio"></textarea>
-							  </div> -->
-							</div>
+    <div id="tabsdiv">
+        <ul class="nav">
+            <li class="nav-one"><a href="#basic" class="current">Basic</a></li>
+            <li class="nav-two last"><a href="#notifications">Notifications</a></li>
+        </ul>
 
-							<div class="row">
-							  <div class="two columns">
-							    <label for="reg-location"><strong>Location</strong></label>
-							  </div>
-							  
-							  <div class="ten columns">
-							    <input id="reg-location" value="{{ profile.location }}" type="text" />
-							  </div>
-					          <div id="location-ajax" style="display:none;">{{ profile.location }}</div>
-					          <div id="location-error" style="display:none;">You must select a location from the dropdown.</div>
-							</div>
+        <div class="list-wrap">
+            <ul id="basic">
+            <li>
+      <!--   <div class="eight columns">
+            <h3>Basic</h3>
+        </div> -->
+        <section id="main" data-URL={{ URL }} class="row">
+        <form id="registration" class="seven columns custom">
+            <div class="row">
+              <div class="two columns">
+                <label for="reg-firstname"><strong>Name</strong></label>
+              </div>
 
-							<div class="row">
-							  <div class="two columns">
-							    <label for="reg-sex"><strong>Gender</strong></label>
-							  </div>
-							  
-							  <div class="ten columns">
-                              {% if profile.gender == "male" %}
-    							<select id="reg-sex" style="display:none;">
-    								<option id="reg-male" value="Male" selected="selected">Male</option>
-    								<option id="reg-female" value="Female">Female</option>
-    							</select>
-    							<div id="reg-sex" class="custom dropdown">
-    								<a href="#" class="current">Male</a>
-    								<a href="#" class="selector"></a>
-    								<ul>
-    									<li id="reg-male">Male</li>
-    									<li id="reg-female">Female</li>
-    								</ul>
-    							</div>
-                              {% else %}
-                                  <select id="reg-sex" style="display:none;">
-                                      <option id="reg-male" value="Male" >Male</option>
-                                      <option id="reg-female" value="Female" selected="selected">Female</option>
-                                  </select>
-                                  <div id="reg-sex" class="custom dropdown">
-                                      <a href="#" class="selector"></a>
-                                      <a href="#" class="current">Female</a>
-                                      <ul>
-                                          <li id="reg-male">Male</li>
-                                          <li id="reg-female">Female</li>
-                                      </ul>
-                                  </div>
-                              {% endif %}
-    						</div>
-    					</div>
+              <div class="ten columns">
+                <input id="reg-firstname" type="text" value="{{ profile.name }}" disabled="disabled" />
+              </div>
+            </div>
 
-							<div class="row">
-							  <div class="two columns">
-							    <label for="reg-relationship"><strong>Status</strong></label>
-							  </div>
-  							  <div class="ten columns">
-                                {% if profile.relationshipStatus == "Single" %}
-                                <select id="reg-relationship" style="display:none;">
-    								<option id="reg-single" value="Single" selected="selected">Single</option>
-    								<option id="reg-notsingle" value="Relationship">In a Relationship</option>
-    							</select>
-    							<div id="reg-relationship" class="custom dropdown">
-    								<a href="#" class="current">Single</a>
-    								<a href="#" class="selector"></a>
-    								<ul>
-    									<li id="reg-single">Single</li>
-    									<li id="reg-notsingle">Not-single</li>
-    								</ul>
-    							</div>
-                                {% else %}
-                                    <select id="reg-relationship" style="display:none;">
-                                        <option id="reg-single" value="Single">Single</option>
-                                        <option id="reg-notsingle" value="Relationship" selected="selected">In a Relationship</option>
-                                    </select>
-                                    <div id="reg-relationship" class="custom dropdown">
-                                        <a href="#" class="selector"></a>
-                                        <a href="#" class="current">In a Relationship</a>
-                                        <ul>
-                                            <li id="reg-single">Single</li>
-                                            <li id="reg-notsingle">Not-single</li>
-                                        </ul>
-                                    </div>
-                                {% endif %}
-							  </div>
-							</div>
-  							<div class="three columns"></div>
-							</div>
-							<div class="row">
-							  <div class="ten columns offset-by-two">
-      						    <input id="save-button"type="button" href="#" class="medium button" value="Save Settings" />
-                              </div>
-							</div>
-							<br />
-						</form>
-					</section>
+            <div class="row">
+            </div>
 
-	
-				</div>
-			</div>
-		</div>
-	</div>
+            <div class="row">
+              <div class="two columns">
+                <label for="reg-location"><strong>Location</strong></label>
+              </div>
+
+              <div class="ten columns">
+                <input id="reg-location" value="{{ profile.location }}" type="text" />
+              </div>
+              <div id="location-ajax" style="display:none;">{{ profile.location }}</div>
+              <div id="location-error" style="display:none;">You must select a location from the dropdown.</div>
+            </div>
+
+            <div class="row">
+              <div class="two columns">
+                <label for="reg-sex"><strong>Gender</strong></label>
+              </div>
+
+              <div class="ten columns adjustBasicInfo">
+              {% if profile.gender == "male" %}
+                <select id="reg-sex" style="display:none;">
+                    <option id="reg-male" value="Male" selected="selected">Male</option>
+                    <option id="reg-female" value="Female">Female</option>
+                </select>
+                <div id="reg-sex" class="custom dropdown">
+                    <a href="#" class="current">Male</a>
+                    <a href="#" class="selector"></a>
+                    <ul>
+                        <li id="reg-male">Male</li>
+                        <li id="reg-female">Female</li>
+                    </ul>
+                </div>
+              {% else %}
+                  <select id="reg-sex" style="display:none;">
+                      <option id="reg-male" value="Male" >Male</option>
+                      <option id="reg-female" value="Female" selected="selected">Female</option>
+                  </select>
+                  <div id="reg-sex" class="custom dropdown">
+                      <a href="#" class="selector"></a>
+                      <a href="#" class="current">Female</a>
+                      <ul>
+                          <li id="reg-male">Male</li>
+                          <li id="reg-female">Female</li>
+                      </ul>
+                  </div>
+              {% endif %}
+            </div>
+        </div>
+
+            <div class="row">
+              <div class="two columns">
+                <label for="reg-relationship"><strong>Status</strong></label>
+              </div>
+              <div class="ten columns adjustBasicInfo">
+                {% if profile.relationshipStatus == "Single" %}
+                <select id="reg-relationship" style="display:none;">
+                    <option id="reg-single" value="Single" selected="selected">Single</option>
+                    <option id="reg-notsingle" value="Relationship">In a Relationship</option>
+                </select>
+                <div id="reg-relationship" class="custom dropdown">
+                    <a href="#" class="current">Single</a>
+                    <a href="#" class="selector"></a>
+                    <ul>
+                        <li id="reg-single">Single</li>
+                        <li id="reg-notsingle">Not-single</li>
+                    </ul>
+                </div>
+                {% else %}
+                    <select id="reg-relationship" style="display:none;">
+                        <option id="reg-single" value="Single">Single</option>
+                        <option id="reg-notsingle" value="Relationship" selected="selected">In a Relationship</option>
+                    </select>
+                    <div id="reg-relationship" class="custom dropdown">
+                        <a href="#" class="selector"></a>
+                        <a href="#" class="current">In a Relationship</a>
+                        <ul>
+                            <li id="reg-single">Single</li>
+                            <li id="reg-notsingle">Not-single</li>
+                        </ul>
+                    </div>
+                {% endif %}
+              </div>
+            </div>
+             <div id="adjustSaveButton" class="row">
+                  <div class="ten columns offset-by-two">
+                        <input id="save-button"type="button" href="#" class="medium button" value="Save Settings" />
+                  </div>
+            </div>
+            </form>
+            </section>
+        </li>
+    </ul>
+
+     <ul id="notifications" style="display:none;">
+        <li>
+           <!--  <div class="eight columns">
+                <h3 id="beacon-title">Email Notifications</h3>
+            </div> -->
+
+            <section id="main" data-URL={{ URL }} class="row">
+                <form id="registration" class="five columns custom">
+                    <div class="row">
+                      <div class="six columns">
+                        <label for="notification1"><strong>New match reminder</strong></label>
+                      </div>
+
+                      <div id="notification-radio" class="six columns">
+                        <div>
+                            <input id="notification1" type="radio" name="switch1" checked value="On"/> On
+                            <input id="notification1" type="radio" name="switch1" value="Off"/> Off
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="six columns">
+                        <label for="notification1"><strong>New message received</strong></label>
+                      </div>
+
+                      <div id="notification-radio" class="six columns">
+                        <div>
+                            <input id="notification1" type="radio" name="switch2" checked value="On"/> On
+                            <input id="notification1" type="radio" name="switch2" value="Off"/> Off
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="six columns">
+                        <label for="notification1"><strong>Facebook friend joined</strong></label>
+                      </div>
+
+                      <div id="notification-radio" class="six columns">
+                        <div>
+                            <input id="notification1" type="radio" name="switch3" checked value="On"/> On
+                            <input id="notification1" type="radio" name="switch3" value="Off"/> Off
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="six columns">
+                        <label for="notification1"><strong>News and Information</strong></label>
+                      </div>
+
+                      <div id="notification-radio" class="six columns">
+                        <div>
+                            <input id="notification1" type="radio" name="switch4" checked value="On"/> On
+                            <input id="notification1" type="radio" name="switch4" value="Off"/> Off
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row" id="adjustSaveButton">
+                      <div class="ten columns offset-by-two">
+                            <input id="save-button-notifications" type="button" href="#" class="medium button" value="Save Settings" />
+                      </div>
+                    </div>
+                </form>
+            </section>
+        </li>
+     </ul>
+</div>
+</div>
+<br />
+
 {% endblock %}
  {% block extrahtml %} 
 <div class="error message">
@@ -149,6 +217,7 @@
 </ul>  
 {% endblock %}
 {% block extrascript %}
+<script type="text/javascript" src="{{ MEDIA_URL }}/javascripts/organictabs.jquery.js"></script>
 <script>
    (function($){
        $.getScript('{{ MEDIA_URL }}/javascripts/account.js').fail(function(xhr, settings, exception){

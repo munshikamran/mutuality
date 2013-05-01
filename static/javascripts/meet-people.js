@@ -135,7 +135,7 @@
 		$('#ask-about').carouFredSel({
 			auto : false,
 			width: 213,
-			height: 150,
+			height: 80,
 			prev: "#ask-prev",
 			next: "#ask-next",
 			items: {
@@ -152,7 +152,7 @@
 		$('.ask-about-modal').carouFredSel({
 			auto : false,
 			width: 213,
-			height: 150,
+			height: 120,
 			prev: "#ask-prev-modal",
 			next: "#ask-next-modal",
 			items: {
@@ -228,7 +228,6 @@
 
 	// When the fav filter is selected, load the favorites into the UI
 	$('#fav-filter').bind('change', function(e){
-        $("#ask-about").hide();
 		Mutuality.mpcache.viewedCacheData = {};
 
 		//Reset the modal if it has changed
@@ -237,7 +236,7 @@
 		if ($('#fav-filter').val() == "Favorites"){
 			$(".friend-count").hide();
 			triggerModal("myModalLoading");    		
-			Mutuality.getMeetPeople(0, 0, 1, function(favorites){
+			Mutuality.getMeetPeople("FAVORITES", function(favorites){
 				if(favorites.potentialMatches.length > 0) {
     				Mutuality.mpcache.fofList = favorites.potentialMatches;
     				createMutualityUserLookUp(favorites.potentialMatches);
@@ -251,7 +250,7 @@
     	} else if ($('#fav-filter').val() == "Viewed") {
 			$(".friend-count").hide();
 		    triggerModal("myModalLoading");
-    		Mutuality.getMeetPeople(1, 0, 0, function(viewedUsers){
+    		Mutuality.getMeetPeople("VIEWED", function(viewedUsers){
 				if(viewedUsers.potentialMatches.length > 0) {
     				Mutuality.mpcache.fofList = viewedUsers.potentialMatches;
     				createMutualityUserLookUp(viewedUsers.potentialMatches);
@@ -265,7 +264,7 @@
     	}
     	else if ($('#fav-filter').val() == "Dating") {
     		triggerModal("myModal");
-    		Mutuality.getMeetPeople(0, 1, 0, function(datingFriends){
+    		Mutuality.getMeetPeople("DATING", function(datingFriends){
 				if(datingFriends.potentialMatches.length > 0) {
     				Mutuality.mpcache.datingList = datingFriends.potentialMatches;
     				createMutualityUserLookUp(datingFriends.potentialMatches);
@@ -277,9 +276,23 @@
     			}
     		});
     	}
+        else if ($('#fav-filter').val() == "Beacon") {
+    		triggerModal("myModal");
+    		Mutuality.getMeetPeople("BEACON_USERS", function(mutualityFriends){
+				if(mutualityFriends.potentialMatches.length > 0) {
+    				Mutuality.mpcache.fofList = mutualityFriends.potentialMatches;
+    				createMutualityUserLookUp(mutualityFriends.potentialMatches);
+    				meetPeopleSuccess(mutualityFriends.potentialMatches);
+    			}
+    			else {
+    				setModalWhenError("Sorry, but we didn't find anyone!");
+    				setModalBack();
+    			}
+    		});
+    	}
     	else{
     		triggerModal("myModal");
-    		Mutuality.getMeetPeople(0, 0, 0, function(meetPeopleList) {
+    		Mutuality.getMeetPeople("FRIENDSHIP", function(meetPeopleList) {
     			if(meetPeopleList.potentialMatches.length > 0) {
     				Mutuality.mpcache.fofList = meetPeopleList.potentialMatches;
                     createMutualityUserLookUp(meetPeopleList.potentialMatches);
@@ -344,6 +357,36 @@ function countDown(end, cur){
 
 }
 
+function beginBeaconImageHoverToggle() {
+
+    var autoToggle = true;
+    var $togglers = $('.adjustBeaconImage');
+
+    var tid_1,
+        tid_2 = setTimeout(function() {
+        clearInterval(tid_1);
+        $togglers.removeClass('hovered');
+        autoToggle = false;
+    }, 30000); // stop toggling after 30 seconds
+
+    $togglers.hover(function() {
+        clearInterval(tid_1);
+        $togglers.removeClass('hovered');
+        $(this).addClass('hovered');
+    }, function() {
+        if(autoToggle) {
+            $('.adjustBeaconImage').removeClass('hovered');
+            $('.adjustBeaconImage').addClass('hovered');
+            tid_1 = setInterval(function() {
+                $togglers.toggleClass('hovered');
+            }, 2000);
+        }
+        else {
+            $togglers.removeClass('hovered');
+        }
+    }).triggerHandler('mouseout');
+}
+
 	function addFriendPicturesForLoadingAnimations(friends) {
         friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
         $('#analyzeModal img').each(function(i) {
@@ -374,6 +417,43 @@ function countDown(end, cur){
    	   $(".close-reveal-modal").trigger('click');
 	}
 
+	var loadBeacon = function(fbID){
+		Mutuality.getBeacon(fbID, function(success){
+			var beaconObject = success;
+            if (beaconObject == '[]' || beaconObject.length == 0){
+                $("#beaconWrapper").hide();
+		        $('#adjustBeaconTitle').hide();
+            }
+            else {
+                $("#beaconWrapper").show();
+		        $('#adjustBeaconTitle').show();
+                var activity = beaconObject.activity;
+                var place = beaconObject.place;
+                $('#beacon-activity').html(activity);
+                $('#activity').html(activity);
+                $('#place').html(place);
+                Mutuality.hasLikedBeacon(fbID, function(success) {
+                    if(success===true) {
+                    //console.log("working");
+                    $('#animate-out').hide();
+                    //$('#like-block').css('margin-right','20%');
+                    }
+                });
+                Mutuality.getBeaconLikeCount(fbID, function(response){
+                    var likeNumber = response;
+                    if (likeNumber === 0) {
+                        $('#like-number').hide();
+                    } else {
+                    $('#beacon-like-number').html(response);
+                        if (likeNumber===1) {
+                            $('#plural-agreement').html("person likes this");
+                        }
+                    }
+                });
+            }
+        });
+	}	
+
 	// Find out which person is currently focused and get their details
 	var setCurrentPerson = function (){
 		setTimeout(function (){
@@ -393,19 +473,28 @@ function countDown(end, cur){
 	    	}
 
 	    	Mutuality.mpcache.current = currentlyFocusedElem.attr("facebookID");
-	    	console.log("Current Person: "+currentlyFocusedElem.attr("facebookID"));
+	    	//console.log("Current Person: "+currentlyFocusedElem.attr("facebookID"));
+
+			$('.adjustBeaconImage').attr('src', Mutuality.getProfilePictureURL(Mutuality.mpcache.current, 100, 100));
 
 	    	// Check to make sure that we have an id that's defined
 			if(Mutuality.mpcache.current){
 				$('.loaded').append('<img id="mutuality-badge" src="http://www.mymutuality.com/images/Mutuality-Badge.png"/>');		
 		    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === false){
 		    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a>');
-		    		$('img#mutuality-badge').hide();	
+		    		$('img#mutuality-badge').hide();
+		    		$('div#beacon').hide();
+                    $("#beaconWrapper").hide();
+
 		    	}
 		    	else {
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
-		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Introduce Yourself</a>');
-		    		$('img#mutuality-badge').show();	
+		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Send Message</a>');
+		    		$('img#mutuality-badge').show();
+		    		loadBeacon(Mutuality.mpcache.current);
+		    		$('div#beacon').show();
+                    $("#beaconWrapper").show();
+
 		    //		$('.match-profile-details').attr('id', 'mutuality-profile-span');
 		    //		$('#left-profile-name').attr('id', 'mutuality-profile-text');
 		    	}
@@ -451,7 +540,7 @@ function countDown(end, cur){
 	    				if(currentCount !== 0){$(".friend-count").show();}
 
 		    			if(!Mutuality.mpcache.viewedCacheData[Mutuality.mpcache.current] && curProf.hasBeenViewed == false){
-		    				console.log(currentCount);
+		    				//console.log(currentCount);
 		    				if(currentCount == 1){
 		    					$('#refresh-reminder').slideDown();
 		    					//triggerModal("myModalViewed");
@@ -497,20 +586,26 @@ function countDown(end, cur){
 				$('#page-prev').trigger('click');
 			}
 		}, 130);
+	var beaconExists
+	if ($('#activity').html().length > 0) {
+		beaconExists = "true"
+	} else {
+		beaconExists = "false"
+	} 
+	mixpanel.track ("Person loaded", {
+		"User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
+		"Beacon": beaconExists
+	});
+
 	}
 
 	// Store meet people profile and mutual friends into cache object
     var loadMeetPeopleProfileInfoToCache = function (facebookID, mutualFriends, extendedProfile){
-
-        // Clear the cache so it doesn't become super large
-        if(Object.keys(Mutuality.mpcache.profileCacheData).length > 20){
-            Mutuality.mpcache.profileCacheData = {}
-        }
-
     	Mutuality.mpcache.profileCacheData[facebookID] = {
     		'mutualFriends' : mutualFriends,
     		'extendedProfile' : extendedProfile
     	}
+    	//console.log("Added " + facebookID);
     }
 
 	// Fetch the extended profile and mutual friends, store in cache, and then display in UI
@@ -530,7 +625,7 @@ function countDown(end, cur){
 			Mutuality.getMutualFriendList(facebookID, function(mutualFriends){
 					loadMeetPeopleProfileInfoToCache(facebookID, mutualFriends, extendedProfile);
 					meetProfilesElem = $("#meet-profiles");
-					console.log("Length of Friends = " + friends.length);
+					//console.log("Length of Friends = " + friends.length);
 			    	for (i=0; i<MAX_CAROUSEL_NUM&&i<friends.length; i++){
 	    				var setFavoriteFunctionString = 
 							"var currentPerson = $($($('.match-profile-details')[1]).children()[0]);" +
@@ -562,10 +657,12 @@ function countDown(end, cur){
 			    			var spanElem2 = $('<span>', {id:"add-to-fav", class:"tooltip", title:"Toggle Favorite", facebookID: friends[i].facebookID, style:"background-position: 0 -16px", onclick:setFavoriteFunctionString}).appendTo(spanElem);
 			    			//console.log("yes a favorite");
 			    		}
-			    		var hElem = $('<h3>', {id:"left-profile-name", html:friends[i].name}).appendTo(spanElem);
+                        var facebookProfileLink = Mutuality.getFacebookPageURL(friends[i].facebookID);
+			    		var hElem = $('<h3>', {id:"left-profile-name", onclick:facebookProfileLink, html:friends[i].name}).appendTo(spanElem);
 			    	}
 
 					//Show the main content, dismiss the modal, init tooltips
+			    	//$("#main").show();
 		    		$('.tooltip').tooltipster();
 			    	initCarousel();
 		    		$('#page-next').trigger('click');
@@ -578,44 +675,46 @@ function countDown(end, cur){
 	// Just load the current person's mutual friends into the UI
 	var loadMutualFriendsIntoUI = function (facebookID, mutualFriends){
 		var newUlElem;
-        var newUlElemModal;
 		var currentPersonName = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
+		var messageStringIntro = "Hey can you introduce me to " + currentPersonName.name + "?";
 		var messageStringAsk = "Can you tell me more about " + currentPersonName.name + "?";
 		var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple."
 
 		for (i=0; i<mutualFriends.length; i++){
 			askaboutElem = $('#ask-about');
 			askaboutElemModal = $('.ask-about-modal');
-			if (i % 6 == 0){
+			if (i % 3 == 0){
 				newUlElem = $('<ul>', {style: "margin-right: 0px; z-index: 0;"}).appendTo(askaboutElem);
-				newUlElemModal = $('<ul>', {style: "margin-right: 0px; list-style-type: none; z-index:1;"}).appendTo(askaboutElemModal);
+				newUlElemModal = $('<ul>', {style: "margin-right: 0px; list-style-type: none;"}).appendTo(askaboutElemModal);
 			}
 
 			var liElem = $('<li>', {style:'z-index:0;'}).appendTo(newUlElem);
 			var liElemModal = $('<li>', {style:'z-index:1;'}).appendTo(newUlElemModal);
-    		var aElem = $('<a>', {onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com?src=meetPeople_askAbout", "http://i.imgur.com/Hcy3Clo.jpg", description)
+    		var aElem = $('<a>', {id:'meet-people-friends', onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com?src=meetPeople_askAbout", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElem);
     		var aElemModal = $('<a>', {class: 'askModalLink', onclick: Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com?src=meetPeople_getIntro", "http://i.imgur.com/Hcy3Clo.jpg", description)
 }).appendTo(liElemModal);
-    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElem);
-    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElemModal);
+    		var spanElem = $('<span>', {class: 'profile-thumb tooltip', id: 'meetpeople-thumb', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElem);
+    		var spanElemModal = $('<span>', {class: 'profile-thumb tooltip', id: 'meetpeople-thumb', title: "Ask " + mutualFriends[i].name, style:'background-image: url(' + Mutuality.getProfilePictureURL(mutualFriends[i].facebookID, 100, 100)+ ');'}).appendTo(aElemModal);
     		
     		// Append to onclick to make the modal disappear
     		var currentClick =  aElemModal.attr('onclick');
 			var newClick =  currentClick + " $('.close-reveal-modal').trigger('click');"
 			aElemModal.attr('onclick',  newClick);
-            $('.askModalLink').eq(i).attr({
+						$('.askModalLink').eq(i).attr({			
 						'data-facebookid':mutualFriends[i].facebookID,
 						'data-name':mutualFriends[i].name,
-						'data-id':i
+						'data-id':i,	
 						});
 			aElem.attr('onclick',  newClick);
-            $('#ask-about').find('a').eq(i).attr({
+						$('#ask-about').find('a').eq(i).attr({			
 						'data-facebookid':mutualFriends[i].facebookID,
 						'data-name':mutualFriends[i].name,
-						'data-id':i
+						'data-id':i,	
 						});
 		}
+
+		$("#profile-fb-meetpeople a").attr('onclick', Mutuality.getFacebookPageURL(facebookID));
 
 		$('.tooltip').tooltipster();
 		$('.tooltipster-icon').tooltipster({
@@ -634,13 +733,19 @@ function countDown(end, cur){
 		}); 
 		$('.filter-question').tooltipster({
 			theme: '.tooltipster-question',
-			position: 'top',
+			position: 'top-right',
 			arrow:true,
 			arrowColor:'#FFF',
 			maxWidth:150
-		});
+		}); 
+		$('.beacon-question').tooltipster({
+			theme: '.tooltipster-question',
+			position: 'top-right',
+			arrow:true,
+			arrowColor:'#FFF',
+			maxWidth:140
+		}); 
 
-        $("#ask-about").show();
 		initAskAboutCarousel();
 		initAskAboutCarouselModal();
 	}
@@ -711,7 +816,7 @@ function countDown(end, cur){
     		setModalWhenError("Sorry, but we didn't find anyone!  Check back soon.");
     	}
     	else if (friends.length > 2){
-    		console.log("Meet People Success = " + friends[2].facebookID)
+    		//console.log("Meet People Success = " + friends[2].facebookID)
     		$("#meet-profiles").html("");
     		fetchMeetPeopleProfileInfoAndShowUI(friends[2].facebookID, friends);
     	}
@@ -724,7 +829,7 @@ function countDown(end, cur){
     // Set a favorite
     var setFavorite = function (fbID){
     	Mutuality.setFavorite(fbID, function(success){
-    		console.log(success);
+    		//console.log(success);
     	});
     }
 
@@ -767,7 +872,7 @@ var setModalBack = function(modalID){
 
 var setNewBadge = function(friends) {
 	var newCount = 0;
-	console.log(friends);
+	//console.log(friends);
 	for (i=0;i<friends.length;i++){
 		if(friends[i].hasBeenViewed !== true){
 			newCount++;
@@ -786,6 +891,8 @@ var setNewBadge = function(friends) {
 
 /* Begin Main Code */
    // Show the loading modal, and hide the page contents while async calls fire
+   //$("#main").hide();
+
    Mutuality.loadFriendsList(4, function (friends) {
    	addFriendPicturesForLoadingAnimations(friends);
    	triggerModal("myModal");
@@ -796,7 +903,7 @@ var setNewBadge = function(friends) {
 	    Mutuality.updateFriendList(0, function(){
 	    	$.cookie(cookieName, "true");
 	   		Mutuality.loadFriendsList(4, populateCTA);
-			Mutuality.getMeetPeople(0, 0, 0, function(friends){
+			Mutuality.getMeetPeople("FRIENDSHIP", function(friends){
                 if (friends.potentialMatches.length > 0){
                     countDown(friends.batchExpirationTimestamp, new Date().getTime());
                     Mutuality.mpcache.fofList = friends.potentialMatches;
@@ -816,7 +923,8 @@ var setNewBadge = function(friends) {
 	}
 	else {
 		Mutuality.loadFriendsList(4, populateCTA);
-		Mutuality.getMeetPeople(0, 0, 0, function(friends){
+		beginBeaconImageHoverToggle();
+		Mutuality.getMeetPeople("FRIENDSHIP", function(friends){
 			if (friends.potentialMatches.length > 0){
                 countDown(friends.batchExpirationTimestamp, new Date().getTime());
                 Mutuality.mpcache.fofList = friends.potentialMatches;
@@ -848,6 +956,56 @@ var setNewBadge = function(friends) {
 	 		mixpanel.track("Asked friend", {"Source":"Meet-people", "Element":"Ask about","Position":position, "Name":name, "FacebookID":facebookID});
 	 })
 
+	 $('#like-text').on('click', function(){
+	 	Mutuality.likeBeacon(Mutuality.mpcache.current, function(success) {
+	 		$('#animate-out').hide()
+	 		//$("#like-number").animate({ opcaity: 0.9 },1000, function(){
+	 			//Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
+	 			Mutuality.getBeaconLikeCount(Mutuality.mpcache.current, function(success){
+		 			mixpanel.track("Beacon liked", {
+		 				"Beacon liker":Mutuality.cache.profile.name,
+		 				"Beacon likee":Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current).name,
+		 				"Activity liked":$('#activity').html(),
+		 				"Place liked":$('#place').html(),
+		 				"Total likes":success
+		 			});
+	 			if (success!==1) {
+	 				//$('#beacon-like-number').fadeOut();
+	 				$('#beacon-like-number').html(success);
+	 				$('#beacon-like-number').fadeIn();
+	 			} else {
+	 				//$("#like-number").fadeOut(100);
+	 				//$("#like-number").hide();
+	 				$('#beacon-like-number').html(success);
+	 				$('#plural-agreement').html("person likes this");
+	 				$("#like-number").fadeIn();
+	 			}
+	 		});	
+	 			//picture should change to a thumbs up?
+	 		//});
+	 		var mutualFriendNumber = Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].mutualFriends.length;
+	 		var firstName = Mutuality.cache.profile.name.split(" ")[0];
+	 		var beaconMessage = Mutuality.cache.profile.name + " likes your beacon. Ask one of your " + mutualFriendNumber + " mutual friends on the right to learn more about "+ firstName + ". You can respond below";
+	 		//console.log(beaconMessage)
+	 		Mutuality.sendMessage(Mutuality.mpcache.current, beaconMessage, function(response){
+	 			//console.log(response);
+	 		});
+
+	 		//mixpanel track beacon (properties: whose is liked, what is liked, what place is liked, how many people like it)
+
+	 	});
+
+	 });
+
+	$('#like-text').hover(function() {
+	 		$('#like-button').css("background-image","url(../images/likebuttonhover.png)");
+	 	}, function(){
+	 		$('#like-button').css("background-image","url(../images/likebutton.png)");
+	 	});	
+
+	//Style adjustments
+	$('#ask-about').css({ zIndex: 0 });
+ 	$('.ask-about-modal').css({ zIndex: 0 });
  	$(".friend-count").hide();
 
 /* End Main Code */

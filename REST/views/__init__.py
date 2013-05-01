@@ -11,3 +11,6 @@ from rate_match_thumbsdown import RateMatchThumbsDownAPI
 from set_favorite import SetFavoriteAPI
 from set_user_viewed import SetUserViewedAPI
 from update_friend_list import UpdateFriendListAPI
+from get_beacon import GetBeaconAPI
+from set_beacon import SetBeaconAPI
+from like_beacon import LikeBeaconAPI
