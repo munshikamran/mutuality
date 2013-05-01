@@ -7,11 +7,13 @@ class Email(models.Model):
     FRIEND_JOINED = 'FJ'
     USER_INACTIVE = 'UI'
     NEW_MESSAGE = 'NM'
+    DEFAULT = 'DF'
     EMAIL_TYPE_CHOICES = (
         (WELCOME, 'Welcome'),
         (FRIEND_JOINED, 'Friend Joined'),
         (USER_INACTIVE, 'User Inactive'),
         (NEW_MESSAGE, 'New Message'),
+        (DEFAULT, 'Default')
     )
     user = models.ForeignKey(User, related_name='+') #we don't need to user model to have a relation back to this model
     subject = models.CharField(max_length=120)
