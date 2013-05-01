@@ -7431,7 +7431,7 @@ input[type=text]:focus + .search-results {
   width:80px;
 }
 
-#profile-fb-meetpeople {
+/*#profile-fb-meetpeople {
   background-position: -5px -284px;
   margin-top: 6px;
   margin-left: 10px;
@@ -7443,7 +7443,7 @@ input[type=text]:focus + .search-results {
 #profile-fb-meetpeople img {
   width:65px;
 }
-
+*/
 /* line 540, ../sass/app.scss */
 #ask-about {
   height: 150px;
@@ -9059,7 +9059,7 @@ border-bottom:1px solid #DDD;
   /*background:#DDD;*/
   clear:both;
   position:relative;
-  bottom:-6px;
+  bottom:-5px;
 }
 
 #beacon-nub {
@@ -10139,3 +10139,12 @@ div#tips {
   font-weight: normal; 
   color: #4096b6; 
 }
+
+/*.fb-profile {
+  display:inline-block;
+  background: url(../images/ui-icons-sprite.png) no-repeat -8px -212px;
+  background-size: 30px 30px;
+width: 12px;
+  height: 13px;
+  position:absolute;
+}*/
