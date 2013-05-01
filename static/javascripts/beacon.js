@@ -20,7 +20,7 @@
                         $('#place-description h4').html( data.data[0].name);
                     }
                     else{
-                        $('#place-description img').attr('src', 'http://localhost:8000/images/noPlace.png');
+                        $('#place-description img').attr('src', 'http://www.mymutuality.com/images/noPlace.png');
                         $('#place-description h4').html( $('#reg-place').val() );
                     }
                 },
