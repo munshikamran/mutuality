@@ -481,7 +481,11 @@ function beginBeaconImageHoverToggle() {
 			if(Mutuality.mpcache.current){
 				$('.loaded').append('<img id="mutuality-badge" src="http://www.mymutuality.com/images/Mutuality-Badge.png"/>');		
 		    	if(Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === false){
-		    		$("#introduce").html('<a href="#" class="button" data-reveal-id="myModalIntroduce"><i></i>Get Introduced</a>');
+		    		//$("#introduce").html('<a href="#" class="get-intro-adjust button" data-reveal-id="myModalIntroduce"><i></i>View on Facebook</a>');
+		    		var firstName = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current).name.split(" ")[0]
+		    		var fbButtonMessage = firstName + "'s Profile";
+		    		$("#introduce").html('<a href="#" class="get-intro-adjust button"><i></i>' + fbButtonMessage + '</a>');
+		    		$("#introduce a").attr('onclick', Mutuality.getFacebookPageURL(Mutuality.mpcache.current));
 		    		$('img#mutuality-badge').hide();
 		    		$('div#beacon').hide();
                     $("#beaconWrapper").hide();
@@ -996,6 +1000,11 @@ var setNewBadge = function(friends) {
 	 	});
 
 	 });
+
+	// $('#introduce').on('click', 'a', function() {
+	// 	Mutuality.getFacebookPageURL(Mutuality.mpcache.current);
+	// })
+	
 
 	$('#like-text').hover(function() {
 	 		$('#like-button').css("background-image","url(../images/likebuttonhover.png)");

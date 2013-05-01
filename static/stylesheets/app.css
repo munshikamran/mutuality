@@ -7596,7 +7596,6 @@ input[type=text]:focus + .search-results {
 }
 
 /* line 562, ../sass/app.scss */
-#introduce i,
 #view-fb i {
   display: inline-block;
   width: 20px;
@@ -7606,11 +7605,23 @@ input[type=text]:focus + .search-results {
   background: url(../images/ui-icons-sprite.png) -10px -1290px no-repeat;
 }
 
-#introduce i.intro-yourself {
+.get-intro-adjust i {
   display: inline-block;
   width: 20px;
   height: 18px;
+  margin-right: 7px;
+  margin-left:1px;
+  float: left;
+  background: url(../images/facebookWhiteIcon.png) no-repeat;
+  background-size: 16px;
+}
+
+#introduce i.intro-yourself {
+  display: inline-block;
+  width: 22px;
+  height: 18px;
   margin-right: 25px;
+  margin-bottom:2px;
   float: left;
   background: url(../images/IntroYourself.png) no-repeat !important;
 }
@@ -10110,6 +10121,8 @@ div#tips {
   padding: 8px 8px;
   line-height: 0;
   height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
   }
 
 .autocomplete-suggestion div:first-child {
@@ -10148,3 +10161,15 @@ width: 12px;
   height: 13px;
   position:absolute;
 }*/
+
+.get-intro-adjust {
+  text-align:center !important;
+  border:1px solid #6d85b5 !important;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3a5a97), to(#2d477a)) !important;
+  background-image: -webkit-linear-gradient(#3a5a97 0%, #2d477a 100%) !important;
+  background-image: -moz-linear-gradient(#3a5a97 0%, #2d477a 100%) !important;
+  background-image: -o-linear-gradient(#3a5a97 0%, #2d477a 100%) !important;
+  background-image: linear-gradient(#3a5a97 0%, #2d477a 100%) !important;
+  text-shadow:none !important;
+  color:#FFFFFF !important;
+}
