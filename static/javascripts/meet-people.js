@@ -422,32 +422,36 @@ function beginBeaconImageHoverToggle() {
 		$('#adjustBeaconTitle').show();
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
-			//console.log(beaconObject);
-			var activity = beaconObject.activity;
-			var place = beaconObject.place;
-			$('#beacon-activity').html(activity);
-			$('#activity').html(activity);
-			$('#place').html(place);
-			Mutuality.hasLikedBeacon(fbID, function(success) {
-				if(success===true) {
-				//console.log("working");
-				$('#animate-out').hide();
-				//$('#like-block').css('margin-right','20%');
-				}
-			});	
-            Mutuality.getBeaconLikeCount(fbID, function(response){
-                var likeNumber = response;
-                if (likeNumber === 0) {
-                	$('#like-number').hide();
-                } else {
-                $('#beacon-like-number').html(response);
-	                if (likeNumber===1) {
-	                	$('#plural-agreement').html("person likes this");
-	                }
-            	}
-   			//if has liked beacon, show "You and X people agree" instead of "Yes"
-            });
-		});
+            if (beaconObject == false){
+                $("#beaconWrapper").hide();
+		        $('#adjustBeaconTitle').hide();
+            }
+            else {
+                var activity = beaconObject.activity;
+                var place = beaconObject.place;
+                $('#beacon-activity').html(activity);
+                $('#activity').html(activity);
+                $('#place').html(place);
+                Mutuality.hasLikedBeacon(fbID, function(success) {
+                    if(success===true) {
+                    //console.log("working");
+                    $('#animate-out').hide();
+                    //$('#like-block').css('margin-right','20%');
+                    }
+                });
+                Mutuality.getBeaconLikeCount(fbID, function(response){
+                    var likeNumber = response;
+                    if (likeNumber === 0) {
+                        $('#like-number').hide();
+                    } else {
+                    $('#beacon-like-number').html(response);
+                        if (likeNumber===1) {
+                            $('#plural-agreement').html("person likes this");
+                        }
+                    }
+                });
+            }
+        });
 	}	
 
 	// Find out which person is currently focused and get their details
@@ -487,9 +491,9 @@ function beginBeaconImageHoverToggle() {
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
 		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Send Message</a>');
 		    		$('img#mutuality-badge').show();
-		    		
 		    		loadBeacon(Mutuality.mpcache.current);
 		    		$('div#beacon').show();
+                    $("#beaconWrapper").show();
 
 		    //		$('.match-profile-details').attr('id', 'mutuality-profile-span');
 		    //		$('#left-profile-name').attr('id', 'mutuality-profile-text');
