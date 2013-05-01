@@ -12,6 +12,15 @@ from emails.models import Email
 from datetime import datetime, timedelta
 
 
+def send_email_to_all_users(subject, text, html, from_address):
+    for profile in Profile.objects.all():
+        try:
+            message = sendgrid.Message(from_address, subject, text, html)
+            message.add_to(profile.user.email, profile.name)
+            send_message(message, profile.user, Email.DEFAULT)
+        except:
+            print 'something went wrong when sending an email to ' + profile.name
+
 @task
 def send_user_joined_email(profile):
     recipients = ['jeffreymames@gmail.com', 'jazjit.singh@gmail.com', 'kamran.munshi@gmail.com']
@@ -78,6 +87,7 @@ def send_all_inactive_emails():
         except:
             print 'something went wrong when sending inactive email to {0}'.format(profile.name)
     return tasks
+
 
 
 @task

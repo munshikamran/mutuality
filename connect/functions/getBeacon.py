@@ -8,4 +8,4 @@ def GetBeacon(profile):
         else:
             return []
     except:
-        return False
+        return []

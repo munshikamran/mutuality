@@ -25,8 +25,8 @@ class GetMeetPeopleAPI(APIView):
             elif filter == MEET_PEOPLE_FILTER.FAVORITES:
                 meetPeopleResponse = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FAVORITES)
                 return meetPeopleResponse
-            elif filter == MEET_PEOPLE_FILTER.MUTUALITY_USERS:
-                meetPeopleResponse = GetMeetPeople(profile, MEET_PEOPLE_FILTER.MUTUALITY_USERS)
+            elif filter == MEET_PEOPLE_FILTER.BEACON_USERS:
+                meetPeopleResponse = GetMeetPeople(profile, MEET_PEOPLE_FILTER.BEACON_USERS)
                 return meetPeopleResponse
         except Profile.DoesNotExist:
             raise Http404
