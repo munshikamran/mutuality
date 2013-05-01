@@ -237,9 +237,11 @@
 								  <div class="ten columns">
 								    <input id="reg-place" type="text" title='<div id="beacon-activity-tooltip"><span class="beacon-info">Propose a location for this activity</span></div>' value="{{ beacon.place }}"/>
 								  </div>
-			                        <div id="auth_token" style="display:none;">{{ AUTH_TOKEN }}</div>
-			                        <div id="lat" style="display:none;">{{ LAT }}</div>
-			                        <div id="long" style="display:none;">{{ LONG }}</div>
+                                  <div id="places-error" style="display:none;">You must select a place from the dropdown.</div>
+                                  <div id="auth_token" style="display:none;">{{ AUTH_TOKEN }}</div>
+                                  <div id="lat" style="display:none;">{{ LAT }}</div>
+                                  <div id="long" style="display:none;">{{ LONG }}</div>
+                                  <div id="places-ajax" style="display:none;">{{ beacon.place }}</div>
 								</div>
 							</form>
 						</section>
