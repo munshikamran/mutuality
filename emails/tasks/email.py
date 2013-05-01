@@ -11,6 +11,21 @@ from connect.functions.getMeetPeople import GetMeetPeople
 from emails.models import Email
 from datetime import datetime, timedelta
 
+def send_plain_text_email_to_all_users(subject, body, from_address):
+    for profile in Profile.objects.all():
+        try:
+            message = plain_text_message(subject, body, from_address, profile.user.email, profile.name)
+            send_message(message, profile.user, Email.DEFAULT)
+        except:
+            print 'something went wrong when sending an email to ' + profile.name
+
+
+
+def plain_text_message(subject, body, from_address, to_address, to_name):
+    message = sendgrid.Message(from_address, subject, body, '')
+    message.add_to(to_address, to_name)
+    return message
+
 
 @task
 def send_user_joined_email(profile):
@@ -78,6 +93,7 @@ def send_all_inactive_emails():
         except:
             print 'something went wrong when sending inactive email to {0}'.format(profile.name)
     return tasks
+
 
 
 @task
