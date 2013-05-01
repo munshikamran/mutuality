@@ -278,7 +278,7 @@
     	}
         else if ($('#fav-filter').val() == "Beacon") {
     		triggerModal("myModal");
-    		Mutuality.getMeetPeople("MUTUALITY_USERS", function(mutualityFriends){
+    		Mutuality.getMeetPeople("BEACON_USERS", function(mutualityFriends){
 				if(mutualityFriends.potentialMatches.length > 0) {
     				Mutuality.mpcache.fofList = mutualityFriends.potentialMatches;
     				createMutualityUserLookUp(mutualityFriends.potentialMatches);
