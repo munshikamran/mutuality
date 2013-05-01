@@ -418,8 +418,6 @@ function beginBeaconImageHoverToggle() {
 	}
 
 	var loadBeacon = function(fbID){
-        $("#beaconWrapper").show();
-		$('#adjustBeaconTitle').show();
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
             if (beaconObject == '[]' || beaconObject.length == 0){
@@ -427,6 +425,9 @@ function beginBeaconImageHoverToggle() {
 		        $('#adjustBeaconTitle').hide();
             }
             else {
+                $("#beaconWrapper").show();
+		        $('#adjustBeaconTitle').show();
+
                 var activity = beaconObject.activity;
                 var place = beaconObject.place;
                 $('#beacon-activity').html(activity);
@@ -492,11 +493,6 @@ function beginBeaconImageHoverToggle() {
 		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Send Message</a>');
 		    		$('img#mutuality-badge').show();
 		    		loadBeacon(Mutuality.mpcache.current);
-		    		$('div#beacon').show();
-                    $("#beaconWrapper").show();
-
-		    //		$('.match-profile-details').attr('id', 'mutuality-profile-span');
-		    //		$('#left-profile-name').attr('id', 'mutuality-profile-text');
 		    	}
 
 		    	if($('#fav-filter').val() == "Dating"){
