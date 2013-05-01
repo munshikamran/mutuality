@@ -1,46 +1,27 @@
 
 (function($) {
 
-	// Initialize ajax autocomplete for locations:
-	$('#reg-location').autocomplete({
-		serviceUrl: 'https://graph.facebook.com/search?type=adcity&limit=5&country_list=%5B"us"%5D',
-		onSelect: function(suggestion) {
-		    $('#location-ajax').html(suggestion.value);
-		},
-		deferRequestBy: 10,
-		autoSelectFirst: true,
-		onSearchStart: function (query) {$('#location-ajax').html("");},
-		paramName: 'q',
-		transformResult: function(response, originalQuery) {
-		    return {
-		        query: originalQuery,
-		        suggestions: $.map(JSON.parse(response).data, function(dataItem) {
-		            return { value: dataItem.name, data: dataItem.name };
-		        })
-		    };
-		}
-	});
-
-
     // Initialize ajax autocomplete for beacon places:
 	$('#reg-place').autocomplete({
 		serviceUrl: 'https://graph.facebook.com/search?type=place&fields=name,location',
         onSelect: function(suggestion) {
-             var graphURL = 'https://graph.facebook.com/fql?access_token='+ $("#auth_token").html() +'&q=SELECT name, page_id, categories, description, general_info, pic_big FROM page WHERE page_id IN (SELECT page_id, name FROM place WHERE  distance(latitude, longitude,"'+ suggestion.location.latitude +'", "'+ suggestion.location.longitude +'") < 5)';
+            $('#places-ajax').html(suggestion.value);
+            $('#places-error').hide();
+            var graphURL = 'https://graph.facebook.com/fql?access_token='+ $("#auth_token").html() +'&q=SELECT name, page_id, categories, description, general_info, pic_big FROM page WHERE page_id IN (SELECT page_id, name FROM place WHERE  distance(latitude, longitude,"'+ suggestion.location.latitude +'", "'+ suggestion.location.longitude +'") < 10)';
             $.ajax({
                 url: graphURL,
                 dataType: 'json',
                 type: 'GET',
                 success: function(data) {
                     if (data.data.length !== 0){
+                        $('#places-ajax').html(data.data[0].name);
+
                         $('#place-description img').attr('src', data.data[0].pic_big);
                         $('#place-description h4').html( data.data[0].name);
-                       //$("#place-description").html('<h4>'+ data.data[0].name +'</h4><img id="place-picture" src="'+data.data[0].pic_big +'"/>');
                     }
                     else{
                         $('#place-description img').attr('src', 'http://localhost:8000/images/noPlace.png');
                         $('#place-description h4').html( $('#reg-place').val() );
-                        //$("#place-discription").html('<h4>'+ suggestion.value +'</h4><img id="place-picture" src="mutualityicon.png"/>');
                     }
                 },
                 error: function(data) {
@@ -48,6 +29,7 @@
                 }
 		    });
         },
+        onSearchStart: function (query) {$('#places-ajax').html("");},
 		deferRequestBy: 10,
 		autoSelectFirst: true,
         params: {access_token: $("#auth_token").html(), center:$("#lat").html() + "," + $("#long").html()},
@@ -62,17 +44,66 @@
 		}
 	});
 
-    // Functions to get browser's current location
-    function get_location() {
-      navigator.geolocation.getCurrentPosition(print_coords);
-    }
+    $("#save-button").click(function(){
+        if($('#places-ajax').html() !== "" && $("#reg-place").val() !== ""){
+            var profileDict = {};
+            profileDict['beacon-activity'] = $('#reg-activity').val();
+            profileDict['beacon-place']  = $('#reg-place').val();
+            Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], function(success){
+                 mixpanel.track("Beacon set", {
+                    "Activity": profileDict['beacon-activity'],
+                    "Place": profileDict['beacon-place']
+                });
+                 $('.success-trigger').trigger('click');
+                 setTimeout(function(){window.location="/meetpeople/";}, 200);
+            }, function(fail){
+                $('#location-error').show();
+                $('.error-trigger').trigger('click');
+            });
+        }
+        else{
+            $('#places-error').show();
+            $('.error-trigger').trigger('click');
+        }
+    });
 
-    function print_coords(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
-      console.log(latitude);
-      // let's show a map or do something interesting!
-    }
+    $('#reg-activity').on('focus', function(){
+        $(this).tooltipster('show');
+        $("#place-information").animate({width:'hide'},350, function(){
+            $("#accordion").animate({width:'show'},350);
+        });
+    });
+
+    $('#reg-place').on('focus', function(){
+        $(this).tooltipster('show');
+        $("#accordion").animate({width:'hide'},350, function(){
+            if ( $('#reg-place').val().length > 0) {
+                $('#place-description').animate({width:'show'},350);
+            } else {
+                $('#place-information').animate({width:'show'},350);
+            }
+        });
+    });
+
+    $('.activity-list').on("click", 'a', function(){
+        var activityName = $(this).html();
+        $.scrollTo('input#reg-activity', 400);
+        if (activityName !== "Other...") {
+            var tooltipTitle = '<div id="beacon-activity-tooltip"><span class=beacon-info>Keep or change this activity</span></div>';
+            $('#reg-activity').tooltipster('update', tooltipTitle);
+            $('input#reg-activity').val(activityName);
+            //$('input#reg-activity').attr('disabled','disabled');
+        } else {
+            var tooltipTitleOther = '<div id="beacon-activity-tooltip"><span class=beacon-info>Add your own activity</span></div>';
+            //$('input#reg-activity').attr('title', tooltipTitle);
+            $('#reg-activity').tooltipster('update',tooltipTitleOther);
+            $('input#reg-activity').val("");
+            //$('input#reg-activity').removeAttr('disabled');
+            //$('input#reg-activity').click();
+        }
+        $('#reg-activity').focus();
+    });
+
 
 /* Begin Helper functions */
 	//Alert message stuff
@@ -97,27 +128,9 @@
 /* End Helper functions */
 
 /* Begin Account Main Code */
+
 	// Initially, hide them all
-
 	hideAllMessages();
-
-	// $('#reg-activity').tooltipster({
-	// 				theme: '.tooltipster-beacon',
-	// 				position: 'right',
-	// 				arrow:true,
-	// 				arrowColor:'#056ba6',
-	// 				maxWidth:300,
-	// 				trigger:'hover'
-	// 			}); 
-
-	// $('#reg-place').tooltipster({
-	// 				theme: '.tooltipster-beacon',
-	// 				position: 'right',
-	// 				arrow:true,
-	// 				arrowColor:'#056ba6',
-	// 				maxWidth:300,
-	// 				trigger:'hover'
-	// 			}); 
 
 	// Show message
 	for(var i=0;i<myMessages.length;i++){
@@ -127,68 +140,45 @@
 	// When message is clicked, hide it
 	$('.message').click(function(){			  
 		  $(this).animate({top: -$(this).outerHeight()}, 300);
-	});	
+	});
 
-        $("#save-button").click(function(){
-                var profileDict = {};
 
-                profileDict['beacon-activity'] = $('#reg-activity').val();
-                profileDict['beacon-place']  = $('#reg-place').val();
-                Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], function(success){
-                     mixpanel.track("Beacon set", {
-                		"Activity": profileDict['beacon-activity'],
-                		"Place": profileDict['beacon-place']
-                	});
-                     $('.success-trigger').trigger('click');
-                     setTimeout(function(){window.location="/meetpeople/";}, 200);
-                }, function(fail){
-                    $('#location-error').show();
-                    $('.error-trigger').trigger('click');
-                });
-        });
 
-		$('#reg-activity').on('focus', function(){
-			$(this).tooltipster('show');
-			$("#place-information").animate({width:'hide'},350, function(){
-				$("#accordion").animate({width:'show'},350);
-			});
-		});
-
-		$('#reg-place').on('focus', function(){
-			$(this).tooltipster('show'); 
-			$("#accordion").animate({width:'hide'},350, function(){
-			if ( $('#reg-place').val().length > 0) {
-				$('#place-description').animate({width:'show'},350);
-			} else {
-				$('#place-information').animate({width:'show'},350);
-			}	
-
-				
-			});
-		
-
-			
-		});
-
-		$('.activity-list').on("click", 'a', function(){
-			var activityName = $(this).html();
-			$.scrollTo('input#reg-activity', 400);
-			if (activityName !== "Other...") {
-				var tooltipTitle = '<div id="beacon-activity-tooltip"><span class=beacon-info>Keep or change this activity</span></div>';
-				$('#reg-activity').tooltipster('update', tooltipTitle);
-				$('input#reg-activity').val(activityName);
-				//$('input#reg-activity').attr('disabled','disabled');
-			} else {
-				var tooltipTitleOther = '<div id="beacon-activity-tooltip"><span class=beacon-info>Add your own activity</span></div>';
-				//$('input#reg-activity').attr('title', tooltipTitle);
-				$('#reg-activity').tooltipster('update',tooltipTitleOther); 
-				$('input#reg-activity').val("");
-				//$('input#reg-activity').removeAttr('disabled');
-				//$('input#reg-activity').click();
-			}
-			$('#reg-activity').focus();
-		})
+    // When page loads, check to see if a place is already filled in and populate the image from facebook.
+    if($("#reg-place").val() !== ""){
+        // First we need the lat/long of the place
+        var serviceUrl= 'https://graph.facebook.com/search?type=place&fields=name,location&access_token='+$("#auth_token").html()+'&q="' + $("#reg-place").val() + '"';
+        $.ajax({
+                url: serviceUrl,
+                dataType: 'json',
+                type: 'GET',
+                success: function(data) {
+                    if (data.data.length !== 0){
+                        // Once we have the lat/long we can get the pic
+                        var graphURL = 'https://graph.facebook.com/fql?access_token='+ $("#auth_token").html() +'&q=SELECT name, page_id, categories, description, general_info, pic_big FROM page WHERE page_id IN (SELECT page_id, name FROM place WHERE  distance(latitude, longitude,"'+ data.data[0].location.latitude +'", "'+ data.data[0].location.longitude +'") < 10)';
+                        $.ajax({
+                            url: graphURL,
+                            dataType: 'json',
+                            type: 'GET',
+                            success: function(response) {
+                                if (response.data.length !== 0){
+                                    $('#place-description img').attr('src', response.data[0].pic_big);
+                                    $('#place-description h4').html(response.data[0].name);
+                                }
+                        },
+                            error: function(data) {
+                                console.log("error");
+                            }
+                        });
+                    }
+                },
+                error: function(data) {
+                    console.log("error");
+                }
+		    });
+        }
 
 /* End Main Code */
 
 })(jQuery);
+
