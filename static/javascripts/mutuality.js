@@ -500,7 +500,7 @@ var Mutuality = (function($){
     {
          var self = this;
          self.__post('api/getBeacon/', {token: this.token, fbID: fbID }, function( response ){
-             if(response !== null)
+             if(response)
              {
                  if(success instanceof Function) success.call(self, response);
              }

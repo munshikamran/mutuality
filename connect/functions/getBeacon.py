@@ -6,6 +6,6 @@ def GetBeacon(profile):
             beacon = Beacon.objects.filter(user=profile).latest('date_created')
             return beacon
         else:
-            return False
+            return []
     except:
-        return False
+        return []

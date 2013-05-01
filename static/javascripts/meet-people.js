@@ -422,7 +422,7 @@ function beginBeaconImageHoverToggle() {
 		$('#adjustBeaconTitle').show();
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
-            if (beaconObject == false){
+            if (beaconObject == '[]' || beaconObject.length == 0){
                 $("#beaconWrapper").hide();
 		        $('#adjustBeaconTitle').hide();
             }
