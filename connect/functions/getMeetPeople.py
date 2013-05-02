@@ -36,6 +36,7 @@ def GetMeetPeople(profile, meetPeopleFilter):
     facebookUsers = markFavorited(profile, facebookUsers)
     facebookUsers = markMutualityUsers(facebookUsers)
     facebookUsers = markViewed(profile, facebookUsers)
+
     expirationTimestamp = PotentialBatch.objects.filter(profile=profile).latest('date_expiration').expiration_timestamp
     meetPeopleResponse = MeetPeopleResponse(facebookUsers, expirationTimestamp, MeetPeopleResponse.SUCCESS_MESSAGE)
     return meetPeopleResponse
@@ -89,9 +90,10 @@ def getMutualityUsers(profile):
 
 
 def getMutualityUsersWithBeacon(profile):
-    usersWithBeacon = Beacon.objects.distinct('user').values_list('user__facebookID', flat=True)
+    usersWithBeacon = Beacon.objects.values_list('user__facebookID', flat=True)
     mutualityMatches = PotentialMatch.objects.filter(profile=profile, isMutualityConnection=True).values_list('facebookUser__facebookID', flat=True)
     facebookUsers = FacebookUser.objects.filter(facebookID__in=usersWithBeacon).filter(facebookID__in=mutualityMatches)
+    facebookUsers = list(facebookUsers)
     return facebookUsers
 
 
