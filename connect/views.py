@@ -216,14 +216,7 @@ def about(request):
     context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
     context_dict['info'] = fbinfo(request)
     context_dict['URL'] = settings.URL
-    if hasattr(request, 'user'):
-        context_dict['user'] = request.user
-        try:
-            profile = request.user.get_profile()
-            context_dict['profile'] = profile
-            context_dict['HideMeetPeople'] = not BeaconHasBeenSet(profile)
-        except Profile.DoesNotExist:
-            pass
+    context_dict['HideMeetPeople'] = False
     return render_to_response('about.html', context_dict, context_instance=RequestContext(request))
 
 
