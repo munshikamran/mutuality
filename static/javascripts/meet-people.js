@@ -888,6 +888,7 @@ var setNewBadge = function(friends) {
 
 	if(newCount !== 0){
 		$(".friend-count").show();
+		setFriendCountStyle();
 	}
 	else{
 		setFriendCountStyle();
