@@ -449,6 +449,8 @@ function beginBeaconImageHoverToggle() {
                     $('#beacon-like-number').html(response);
                         if (likeNumber===1) {
                             $('#plural-agreement').html("person likes this");
+                        } else {
+                        	$('#plural-agreement').html("people like this");
                         }
                     }
                 });

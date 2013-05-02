@@ -51,7 +51,7 @@
             profileDict['beacon-place']  = $('#reg-place').val();
             Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], function(success){
                  $('.success-trigger').trigger('click');
-                 setTimeout(function(){window.location="/meetpeople/";}, 200);
+                 setTimeout(function(){window.location="/meetpeople/";},200);
             }, function(fail){
                 $('#location-error').show();
                 $('.error-trigger').trigger('click');

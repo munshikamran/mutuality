@@ -6073,7 +6073,7 @@ form.custom div.custom.dropdown ul li.selected:hover {
 
 /* line 105, ../sass/app.scss */
 #brand {
-  background: #4096b6 url(../images/brand-bg.jpg) repeat-x;
+  background: #4096b6 url(../images/brand-bg.png) repeat-x;
   border-bottom: 1px solid white;
   -webkit-box-shadow: #317f9d 0px -5px 8px inset;
   -moz-box-shadow: #317f9d 0px -5px 8px inset;
@@ -9088,9 +9088,9 @@ border-bottom:1px solid #DDD;
 }
 
 #like-text:hover {
-  font-size:12px;
+ /* font-size:12px;
   margin-left:9px;
-  line-height: 1.7;
+  line-height: 2;*/
   text-decoration:underline;
 }
 
@@ -9104,12 +9104,12 @@ border-bottom:1px solid #DDD;
  background: url(../images/likebutton.png);
  background-size: 12px 12px;
  background-repeat:no-repeat;
-  display:block;
+  display:inline-block;
  /* height:25px;*/
   /*text-align:center;*/
-  margin:30% -35% 0% 0%;
+  margin:40% -35% 0% 0%;
   float:right;
-  height:13px;
+  height:20px;
   width:12px;
 }
 
