@@ -50,10 +50,6 @@
             profileDict['beacon-activity'] = $('#reg-activity').val();
             profileDict['beacon-place']  = $('#reg-place').val();
             Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], function(success){
-                 mixpanel.track("Beacon set", {
-                    "Activity": profileDict['beacon-activity'],
-                    "Place": profileDict['beacon-place']
-                });
                  $('.success-trigger').trigger('click');
                  setTimeout(function(){window.location="/meetpeople/";}, 200);
             }, function(fail){
