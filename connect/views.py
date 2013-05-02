@@ -123,13 +123,17 @@ def beacon(request):
 
                 #Get location lat/long to pass to template so that places dropdown results are narrowed
                 graph = facebook.GraphAPI(GetProfileAuthToken(profile))
-                print GetProfileAuthToken(profile)
-                fields = ["location"]
-                kwargs = {"fields": fields}
-                data=graph.get_object(profile.facebookID,**kwargs)
-                locationData = graph.get_object(data['location']['id'])
-                context_dict['LAT'] = locationData['location']['latitude']
-                context_dict['LONG'] = locationData['location']['longitude']
+                if profile.location:
+                    fields = ["location"]
+                    kwargs = {"fields": fields, "q": profile.location, "type": "place"}
+                    data = graph.get_object("search", **kwargs)
+                    if len(data) > 0:
+                        context_dict['LAT'] = data['data'][0]['location']['latitude']
+                        context_dict['LONG'] = data['data'][0]['location']['longitude']
+                else:
+                    # if for whatever reason they do not have a location set, default to seattle lat/long
+                    context_dict['LAT'] = 47.6097
+                    context_dict['LONG'] = 122.3331
         except Profile.DoesNotExist:
             pass
     return render_to_response('beacon.html', context_dict, context_instance=RequestContext(request))
