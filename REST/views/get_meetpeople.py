@@ -28,7 +28,6 @@ class GetMeetPeopleAPI(APIView):
                 return meetPeopleResponse
             elif filter == MEET_PEOPLE_FILTER.BEACON_USERS:
                 meetPeopleResponse = GetMeetPeople(profile, MEET_PEOPLE_FILTER.BEACON_USERS)
-                print meetPeopleResponse.potentialMatches[0].__class__.__name__
                 return meetPeopleResponse
         except Profile.DoesNotExist:
             raise Http404
