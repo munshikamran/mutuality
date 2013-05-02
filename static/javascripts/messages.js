@@ -447,6 +447,10 @@ var friendsOfFriendsSuccess = function(friends){
 			var facebookID = $(this).data('facebookid');
 			mixpanel.track("Asked friend", {"Source":"Messages", "Element":"Ask about","Position":position, "Name":name, "FacebookID":facebookID});
 		});
+
+		$('#profile-fb').on('click', function() {
+			mixpanel.track("View facebook", {'Source':'Messages'});
+		});
 	
 	});	  
 /* End Main Code */

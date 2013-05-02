@@ -230,6 +230,8 @@
 	$('#fav-filter').bind('change', function(e){
 		Mutuality.mpcache.viewedCacheData = {};
 
+		mixpanel.track("Change filter",{'Filter':$('#fav-filter').val()});
+
 		//Reset the modal if it has changed
 		$("#modalClose").trigger("click");
 
@@ -484,7 +486,7 @@ function beginBeaconImageHoverToggle() {
 		    		//$("#introduce").html('<a href="#" class="get-intro-adjust button" data-reveal-id="myModalIntroduce"><i></i>View on Facebook</a>');
 		    		var firstName = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current).name.split(" ")[0]
 		    		var fbButtonMessage = firstName + "'s Profile";
-		    		$("#introduce").html('<a href="#" class="get-intro-adjust button"><i></i>' + fbButtonMessage + '</a>');
+		    		$("#introduce").html('<a href="#" class="facebook-adjust button"><i></i>' + fbButtonMessage + '</a>');
 		    		$("#introduce a").attr('onclick', Mutuality.getFacebookPageURL(Mutuality.mpcache.current));
 		    		$('img#mutuality-badge').hide();
 		    		$('div#beacon').hide();
@@ -989,7 +991,7 @@ var setNewBadge = function(friends) {
 	 		//});
 	 		var mutualFriendNumber = Mutuality.mpcache.profileCacheData[Mutuality.mpcache.current].mutualFriends.length;
 	 		var firstName = Mutuality.cache.profile.name.split(" ")[0];
-	 		var beaconMessage = Mutuality.cache.profile.name + " likes your beacon. Ask one of your " + mutualFriendNumber + " mutual friends on the right to learn more about "+ firstName + ". You can respond below";
+	 		var beaconMessage = Mutuality.cache.profile.name + " likes your beacon. Ask one of your " + mutualFriendNumber + " mutual friends on the right to learn more about "+ firstName + ". You can respond below.";
 	 		//console.log(beaconMessage)
 	 		Mutuality.sendMessage(Mutuality.mpcache.current, beaconMessage, function(response){
 	 			//console.log(response);
@@ -1005,6 +1007,9 @@ var setNewBadge = function(friends) {
 	// 	Mutuality.getFacebookPageURL(Mutuality.mpcache.current);
 	// })
 	
+	$('.facebook-adjust').on('click', function() {
+		mixpanel.track("View facebook", {'Source':'Meet People'})
+	})
 
 	$('#like-text').hover(function() {
 	 		$('#like-button').css("background-image","url(../images/likebuttonhover.png)");

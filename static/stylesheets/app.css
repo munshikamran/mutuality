@@ -7605,7 +7605,7 @@ input[type=text]:focus + .search-results {
   background: url(../images/ui-icons-sprite.png) -10px -1290px no-repeat;
 }
 
-.get-intro-adjust i {
+.facebook-adjust i {
   display: inline-block;
   width: 20px;
   height: 18px;
@@ -10162,7 +10162,7 @@ width: 12px;
   position:absolute;
 }*/
 
-.get-intro-adjust {
+.facebook-adjust {
   text-align:center !important;
   border:1px solid #6d85b5 !important;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3a5a97), to(#2d477a)) !important;
