@@ -978,6 +978,7 @@ var setNewBadge = function(friends) {
 	 			if (success!==1) {
 	 				//$('#beacon-like-number').fadeOut();
 	 				$('#beacon-like-number').html(success);
+	 				$('#plural-agreement').html("people like this");
 	 				$('#beacon-like-number').fadeIn();
 	 			} else {
 	 				//$("#like-number").fadeOut(100);
