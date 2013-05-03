@@ -198,11 +198,11 @@
 /* End Meet People Carousel Code */
 /* Begin Event Code */
 
-	$("#introduce").click(function(){
-	    	$('#page-next').hide();
-	    	$('#page-prev').hide();
-			setTimeout(function(){initAskAboutCarouselModal();}, 100);
-	});
+	// $("#introduce").click(function(){
+	//     	$('#page-next').hide();
+	//     	$('#page-prev').hide();
+	// 		setTimeout(function(){initAskAboutCarouselModal();}, 100);
+	// });
 
 	// When you click next, set the current person
 	$('#page-next').click(function(){
