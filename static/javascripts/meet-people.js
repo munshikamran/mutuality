@@ -419,7 +419,37 @@ function beginBeaconImageHoverToggle() {
    	   $(".close-reveal-modal").trigger('click');
 	}
 
-	var check
+	var likeTextLoad = function(fbID) {
+		Mutuality.hasLikedBeacon(fbID, function(liked) {
+			var beaconLiked = liked;
+			Mutuality.getBeaconLikeCount(fbID, function(number){
+				var numberOfLikes = number;
+				if (beaconLiked === true) {
+					$('#animate-out').hide();
+					if (numberOfLikes === 1) {
+						$('#hasLiked').html("You liked this").show();
+						$('#beacon-like-number').hide();
+						$('#plural-agreement').hide();
+					} else {
+						$('#hasLiked').html("You and").show();
+						$('#beacon-like-number').html(numberOfLikes).show();
+						$('#plural-agreement').html("people like this").show();
+					}	
+				} else {
+					$('#animate-out').show();
+					if (numberOfLikes === 0) {
+						$('#like-number').hide();
+					} else if (numberOfLikes === 1) {
+						$('#beacon-like-number').html(numberOfLikes).show();
+						$('#plural-agreement').html("person likes this").show();
+					} else {
+						$('#beacon-like-number').html(numberOfLikes).show();
+						$('#plural-agreement').html("people like this").show();	
+					}
+				}
+			});	
+		});		
+	}
 
 	var loadBeacon = function(fbID){
 		Mutuality.getBeacon(fbID, function(success){
@@ -435,29 +465,31 @@ function beginBeaconImageHoverToggle() {
                 $('#place').html(place);
                 $('#adjustBeaconTitle').show();
                 $("#beaconWrapper").show();
+                likeTextLoad(fbID);
                 
-                Mutuality.hasLikedBeacon(fbID, function(success) {
-                    if(success===true) {
-                    	$('#animate-out').hide();
-                    } else {
-                    	$('#animate-out').show();
-                    }
-                });
+                // Mutuality.hasLikedBeacon(fbID, function(success) {
+                //     if(success===true) {
+                //     	$('#animate-out').hide();
+                //     } else {
+                //     	$('#hasLiked').html("You and ")
+                //     	$('#animate-out').show();
+                //     }
+                // });
                 
-                Mutuality.getBeaconLikeCount(fbID, function(response){
-                    var likeNumber = response;
-                    if (likeNumber === 0) {
-                        $('#like-number').hide();
-                    } else {
-                    	$('#beacon-like-number').html(response);
-	                        if (likeNumber===1) {
-	                            $('#plural-agreement').html("person likes this");
-	                        } else {
-	                        	$('#plural-agreement').html("people like this");
-	                        }
-	                    $('#like-number').show();    
-                    }
-                });
+                // Mutuality.getBeaconLikeCount(fbID, function(response){
+                //     var likeNumber = response;
+                //     if (likeNumber === 0) {
+                //         $('#like-number').hide();
+                //     } else {
+                //     	$('#beacon-like-number').html(response);
+	               //          if (likeNumber===1) {
+	               //              $('#plural-agreement').html("person likes this");
+	               //          } else {
+	               //          	$('#plural-agreement').html("people like this");
+	               //          }
+	               //      $('#like-number').show();    
+                //     }
+                // });
             }
         });
 	}	
@@ -995,13 +1027,12 @@ var setNewBadge = function(friends) {
 		 				"Total likes":success
 		 			});
 	 			if (success!==1) {
-	 				//$('#beacon-like-number').fadeOut();
+	 				$('#hasLiked').html("You and");
 	 				$('#beacon-like-number').html(success);
 	 				$('#plural-agreement').html("people like this");
 	 				$('#beacon-like-number').fadeIn();
 	 			} else {
-	 				//$("#like-number").fadeOut(100);
-	 				//$("#like-number").hide();
+	 				$('#hasLiked').html("You and");
 	 				$('#beacon-like-number').html(success);
 	 				$('#plural-agreement').html("person likes this");
 	 				$("#like-number").fadeIn();
