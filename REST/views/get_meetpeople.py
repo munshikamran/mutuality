@@ -15,7 +15,6 @@ class GetMeetPeopleAPI(APIView):
             profile = Profile.objects.get(facebookID=pk)
             if filter == MEET_PEOPLE_FILTER.FRIENDSHIP:
                 meetPeopleResponse = GetMeetPeople(profile, MEET_PEOPLE_FILTER.FRIENDSHIP)
-                print meetPeopleResponse.potentialMatches[0].__class__.__name__
                 return meetPeopleResponse
             elif filter == MEET_PEOPLE_FILTER.VIEWED:
                 meetPeopleResponse = GetMeetPeople(profile, MEET_PEOPLE_FILTER.VIEWED)

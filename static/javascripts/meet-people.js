@@ -268,7 +268,7 @@
     		triggerModal("myModal");
     		Mutuality.getMeetPeople("DATING", function(datingFriends){
 				if(datingFriends.potentialMatches.length > 0) {
-    				Mutuality.mpcache.datingList = datingFriends.potentialMatches;
+    				Mutuality.mpcache.fofList = datingFriends.potentialMatches;
     				createMutualityUserLookUp(datingFriends.potentialMatches);
     				meetPeopleSuccess(datingFriends.potentialMatches);
     			}
