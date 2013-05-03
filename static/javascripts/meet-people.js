@@ -593,22 +593,34 @@ function beginBeaconImageHoverToggle() {
 					}, 130);
 
 		    	}
-			}
-			else {
+			} else {
 				$('#page-prev').trigger('click');
 			}
-		}, 130);
-	var beaconExists
-	if ($('#activity').html().length > 0) {
-		beaconExists = "true"
-	} else {
-		beaconExists = "false"
-	} 
-	mixpanel.track ("Person loaded", {
-		"User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
-		"Beacon": beaconExists
-	});
 
+            var beaconExists;
+
+            if (Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === true) {
+	            Mutuality.getBeacon(Mutuality.mpcache.current, function(success) {
+	                var beaconObject = success;
+	                if (beaconObject == '[]' || beaconObject.length === 0) {
+	                    beaconExists = "False";
+	                } else {
+	                    beaconExists = "True";
+	                }
+		            mixpanel.track ("Person loaded", {
+	                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
+	                    "Beacon": beaconExists
+	                });
+		        });    	
+			} else {
+	        	beaconExists = "False";
+	        	mixpanel.track ("Person loaded", {
+                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
+                    "Beacon": beaconExists
+                });
+	        }        
+        }, 130);
+	
 	}
 
 	// Store meet people profile and mutual friends into cache object
