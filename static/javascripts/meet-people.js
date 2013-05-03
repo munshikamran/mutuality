@@ -419,39 +419,43 @@ function beginBeaconImageHoverToggle() {
    	   $(".close-reveal-modal").trigger('click');
 	}
 
+	var check
+
 	var loadBeacon = function(fbID){
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
-            if (beaconObject == '[]' || beaconObject.length == 0){
+            if (beaconObject == '[]' || beaconObject.length === 0){
                 $("#beaconWrapper").hide();
-		        $('#adjustBeaconTitle').hide();
             }
             else {
-                $("#beaconWrapper").show();
-		        $('#adjustBeaconTitle').show();
                 var activity = beaconObject.activity;
                 var place = beaconObject.place;
-                $('#beacon-activity').html(activity);
+                //$('#beacon-activity').html(activity);
                 $('#activity').html(activity);
                 $('#place').html(place);
+                $('#adjustBeaconTitle').show();
+                $("#beaconWrapper").show();
+                
                 Mutuality.hasLikedBeacon(fbID, function(success) {
                     if(success===true) {
-                    //console.log("working");
-                    $('#animate-out').hide();
-                    //$('#like-block').css('margin-right','20%');
+                    	$('#animate-out').hide();
+                    } else {
+                    	$('#animate-out').show();
                     }
                 });
+                
                 Mutuality.getBeaconLikeCount(fbID, function(response){
                     var likeNumber = response;
                     if (likeNumber === 0) {
                         $('#like-number').hide();
                     } else {
-                    $('#beacon-like-number').html(response);
-                        if (likeNumber===1) {
-                            $('#plural-agreement').html("person likes this");
-                        } else {
-                        	$('#plural-agreement').html("people like this");
-                        }
+                    	$('#beacon-like-number').html(response);
+	                        if (likeNumber===1) {
+	                            $('#plural-agreement').html("person likes this");
+	                        } else {
+	                        	$('#plural-agreement').html("people like this");
+	                        }
+	                    $('#like-number').show();    
                     }
                 });
             }
@@ -491,7 +495,7 @@ function beginBeaconImageHoverToggle() {
 		    		$("#introduce").html('<a href="#" class="facebook-adjust button"><i></i>' + fbButtonMessage + '</a>');
 		    		$("#introduce a").attr('onclick', Mutuality.getFacebookPageURL(Mutuality.mpcache.current));
 		    		$('img#mutuality-badge').hide();
-		    		$('div#beacon').hide();
+		    		//$('div#beacon').hide();
                     $("#beaconWrapper").hide();
 
 		    	}
@@ -500,8 +504,8 @@ function beginBeaconImageHoverToggle() {
 		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Send Message</a>');
 		    		$('img#mutuality-badge').show();
 		    		loadBeacon(Mutuality.mpcache.current);
-		    		$('div#beacon').show();
-                    $("#beaconWrapper").show();
+		    		//$('div#beacon').show();
+                    //$("#beaconWrapper").show();
 
 		    //		$('.match-profile-details').attr('id', 'mutuality-profile-span');
 		    //		$('#left-profile-name').attr('id', 'mutuality-profile-text');

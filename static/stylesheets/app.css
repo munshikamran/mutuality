@@ -10171,3 +10171,7 @@ width: 12px;
   text-shadow:none !important;
   color:#FFFFFF !important;
 }
+
+#beaconWrapper {
+  display:none;
+}
