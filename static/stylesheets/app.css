@@ -9104,9 +9104,9 @@ border-bottom:1px solid #DDD;
  background: url(../images/likebutton.png);
  background-size: 12px 12px;
  background-repeat:no-repeat;
-  display:inline-block;
+ display:inline-block;
  /* height:25px;*/
-  /*text-align:center;*/
+ /*text-align:center;*/
   margin:40% -35% 0% 0%;
   float:right;
   height:20px;
@@ -9186,9 +9186,7 @@ div#question:hover{
 }
 
 .beacon-question{
-  position:absolute;
-  right:100px;
-  top:-5px;
+  display:inline-block;
   cursor:pointer;
 }
 
@@ -9773,9 +9771,7 @@ font-weight:normal;
 }
 
 #drop-pin {
-  position:absolute;
-  top:-3px;
-  margin-left:4px;
+ display:inline-block;
 
 }
 
@@ -9787,6 +9783,8 @@ font-weight:normal;
   background-image:url(../images/squareicon.png) !important;
   background-size:56px 56px;
   background-repeat:no-repeat !important;
+  background-position:-22px -21px;
+  background-size: 100px 100px;
 }
 
 /* TABS ON ACCOUNT PAGE CSS */

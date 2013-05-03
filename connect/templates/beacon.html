@@ -293,10 +293,10 @@
 
 	mixpanel.track("Beacons loaded");
 	
-	mixpanel.track_links('#save-button',"Beacon set", {
-        "Activity": $('#reg-activity').val(),
-        "Place": $('#reg-place').val()
-    });
+	// mixpanel.track_links('#save-button',"Beacon set", {
+ //        "Activity": $('#reg-activity').val(),
+ //        "Place": $('#reg-place').val()
+ //    });
 
    (function($){
        $.getScript('{{ MEDIA_URL }}/javascripts/beacon.js').fail(function(xhr, settings, exception){
