@@ -455,18 +455,22 @@ function beginBeaconImageHoverToggle() {
 	var loadBeacon = function(fbID){
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success;
+            var beaconExists;
             if (beaconObject == '[]' || beaconObject.length === 0){
                 $("#beaconWrapper").hide();
+                beaconExists = "False";
             }
             else {
                 var activity = beaconObject.activity;
                 var place = beaconObject.place;
+                beaconExists = "True";
                 //$('#beacon-activity').html(activity);
                 $('#activity').html(activity);
                 $('#place').html(place);
                 $('#adjustBeaconTitle').show();
                 $("#beaconWrapper").show();
                 likeTextLoad(fbID);
+
                 
                 // Mutuality.hasLikedBeacon(fbID, function(success) {
                 //     if(success===true) {
@@ -492,6 +496,10 @@ function beginBeaconImageHoverToggle() {
                 //     }
                 // });
             }
+        mixpanel.track ("Person loaded", {
+	                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
+	                    "Beacon": beaconExists
+	                });    
         });
 	}	
 
@@ -531,6 +539,10 @@ function beginBeaconImageHoverToggle() {
 		    		//$('div#beacon').hide();
                     $("#beaconWrapper").hide();
                     $('#introduce').show();
+                    mixpanel.track ("Person loaded", {
+                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
+                    "Beacon": "False"
+                	});
 
 		    	}
 		    	else {
@@ -629,30 +641,7 @@ function beginBeaconImageHoverToggle() {
 		    	}
 			} else {
 				$('#page-prev').trigger('click');
-			}
-
-            var beaconExists;
-
-            if (Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === true) {
-	            Mutuality.getBeacon(Mutuality.mpcache.current, function(success) {
-	                var beaconObject = success;
-	                if (beaconObject == '[]' || beaconObject.length === 0) {
-	                    beaconExists = "False";
-	                } else {
-	                    beaconExists = "True";
-	                }
-		            mixpanel.track ("Person loaded", {
-	                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
-	                    "Beacon": beaconExists
-	                });
-		        });    	
-			} else {
-	        	beaconExists = "False";
-	        	mixpanel.track ("Person loaded", {
-                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
-                    "Beacon": beaconExists
-                });
-	        }        
+			}      
         }, 130);
 	
 	}
