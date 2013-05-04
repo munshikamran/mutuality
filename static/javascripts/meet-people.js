@@ -1002,14 +1002,14 @@ var setNewBadge = function(friends) {
 	 				$('#hasLiked').html("You and");
 	 				$('#beacon-like-number').html(success);
 	 				$('#plural-agreement').html("people like this");
-	 				$('#hasLiked').fadeIn();
-	 				$('#beacon-like-number').fadeIn();
+	 				$('#beacon-like-number').show();
+	 				$('#hasLiked').show();
 	 			} else {
 	 				$('#hasLiked').html("You and");
 	 				$('#beacon-like-number').html(success);
 	 				$('#plural-agreement').html("person likes this");
-	 				$('#hasLiked').fadeIn();
-	 				$("#like-number").fadeIn();
+	 				$("#like-number").show();
+	 				$('#hasLiked').show();
 	 			}
 	 		});	
 	 			//picture should change to a thumbs up?
