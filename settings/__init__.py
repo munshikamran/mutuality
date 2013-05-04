@@ -1,6 +1,6 @@
 import os
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 FORCE_SCRIPT_NAME = ""
@@ -15,10 +15,13 @@ ENVIRONMENT=os.environ.get('ENVIRONMENT')
 if ENVIRONMENT:
     # determine if stage or prod
     print ENVIRONMENT
+    if ENVIRONMENT == 'staging':
+        DEBUG = True
 else:
     ENVIRONMENT = 'development'
     DEVELOPMENT_MODE = True
     DEBUG = True
+
 
 
 MANAGERS = ADMINS

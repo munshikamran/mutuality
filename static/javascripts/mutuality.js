@@ -325,11 +325,11 @@ var Mutuality = (function($){
            });
        },
       // Get meet people list (fresh users, friendship)
-      getMeetPeople: function(v, d, f, success )
+      getMeetPeople: function(filter, success)
       {
            var self = this;
 
-           self.__post('api/getMeetPeople/', { token: this.token, viewed: v, dating: d, favorites: f}, function( response ){
+           self.__post('api/getMeetPeople/', { token: this.token, filter: filter }, function( response ){
                if(response)
                {
                    if(success instanceof Function) success.call(self, response);
@@ -493,9 +493,112 @@ var Mutuality = (function($){
          self.__post('api/setProfile/', { token: this.token, location: loc, relationship_status: relationship, gender: gen }, function( response ){
              if(success instanceof Function) success.call(self, response); 
          });
-     }
+     },
 
- };
+    //Get a Beacon
+    getBeacon: function( fbID, success )
+    {
+         var self = this;
+         self.__post('api/getBeacon/', {token: this.token, fbID: fbID }, function( response ){
+             if(response)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 console.log("Error: Failed to find a beacon.");
+             }
+         });
+     },
+
+    //Set a Beacon
+    setBeacon: function( beaconPlace, beaconActivity, success )
+    {
+         var self = this;
+         self.__post('api/setBeacon/', { token: this.token, place: beaconPlace, activity: beaconActivity }, function( response ){
+             if (response == true)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 console.log("Error: Failed to set a beacon.");
+             }
+         });
+     },
+
+     //Like a beacon
+    likeBeacon: function( fbID, success )
+    {
+         var self = this;
+
+         self.__post('api/likeBeacon/', { token: this.token, fbID: fbID }, function( response ){
+             if(response)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 alert("Error: Failed to like beacon.");
+             }
+         });
+     },
+
+   //Get a beacon's like count
+    getBeaconLikeCount: function( fbID, success )
+    {
+       var self = this;
+
+       self.__post('api/getBeaconLikeCount/', { token: this.token, fbID: fbID }, function( response ){
+           //console.log(response)
+           if(response >= 0)
+           {
+               if(success instanceof Function) success.call(self, response);
+           }
+           else
+           {
+               alert("Error: Failed to get beacon like count.");
+           }
+       });
+    },
+
+    hasLikedBeacon: function( fbID, success )
+    {
+       var self = this;
+
+       self.__post('api/getHasLikedBeacon/', { token: this.token, fbID: fbID }, function( response ){
+           //console.log(response)
+           if(response !== null)
+           {
+               if(success instanceof Function) success.call(self, response);
+           }
+           else
+           {
+               alert("Error: Failed to check if beacon is liked");
+           }
+       });
+    }
+
+
+    //Get a beacon's like count
+    // hasLikedBeacon: function( fbID, success )
+    // {
+    //    var self = this;
+
+    //    self.__post('api/getBeaconLikeCount/', { token: this.token, fbID: fbID }, function( response ){
+    //        //console.log(response)
+    //        if(response >= 0)
+    //        {
+    //            if(success instanceof Function) success.call(self, response);
+    //        }
+    //        else
+    //        {
+    //            alert("Error: Failed to get beacon like count.");
+    //        }
+    //    });
+    // }
+
+   };
    return module;
 })(jQuery);
 

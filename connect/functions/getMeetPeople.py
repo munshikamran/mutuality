@@ -7,6 +7,8 @@ from connect.models.friendship import Friendship
 from connect.models.userViewed import UserViewed
 from connect.models.userFavorite import UserFavorite
 from connect.models.profile import Profile
+from connect.models.facebookuser import FacebookUser
+from connect.models.beacon import Beacon
 from datetime import datetime
 from common.enums import RELATIONSHIP_STATUS
 
@@ -26,10 +28,15 @@ def GetMeetPeople(profile, meetPeopleFilter):
         facebookUsers = getViewedPeopleOrdered(profile)
     elif meetPeopleFilter == MEET_PEOPLE_FILTER.FAVORITES:
         facebookUsers = getFavorites(profile)
+    elif meetPeopleFilter == MEET_PEOPLE_FILTER.MUTUALITY_USERS:
+        facebookUsers = getMutualityUsers(profile)
+    elif meetPeopleFilter == MEET_PEOPLE_FILTER.BEACON_USERS:
+        facebookUsers = getMutualityUsersWithBeacon(profile)
 
     facebookUsers = markFavorited(profile, facebookUsers)
     facebookUsers = markMutualityUsers(facebookUsers)
     facebookUsers = markViewed(profile, facebookUsers)
+
     expirationTimestamp = PotentialBatch.objects.filter(profile=profile).latest('date_expiration').expiration_timestamp
     meetPeopleResponse = MeetPeopleResponse(facebookUsers, expirationTimestamp, MeetPeopleResponse.SUCCESS_MESSAGE)
     return meetPeopleResponse
@@ -72,6 +79,23 @@ def getFavorites(profile):
     for favorite in favorites:
         facebookUsers.append(favorite.favorite)
     return facebookUsers
+
+
+def getMutualityUsers(profile):
+    mutualityMatches = PotentialMatch.objects.filter(profile=profile, isMutualityConnection=True).select_related('facebookUser')
+    facebookUsers = []
+    for match in mutualityMatches:
+        facebookUsers.append(match.facebookUser)
+    return facebookUsers
+
+
+def getMutualityUsersWithBeacon(profile):
+    usersWithBeacon = Beacon.objects.values_list('user__facebookID', flat=True)
+    mutualityMatches = PotentialMatch.objects.filter(profile=profile, isMutualityConnection=True).values_list('facebookUser__facebookID', flat=True)
+    facebookUsers = FacebookUser.objects.filter(facebookID__in=usersWithBeacon).filter(facebookID__in=mutualityMatches)
+    facebookUsers = list(facebookUsers)
+    return facebookUsers
+
 
 def markMutualityUsers(facebookUsers):
     facebookIDs = set()

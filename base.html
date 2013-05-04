@@ -18,7 +18,7 @@
   <!-- Included CSS Files -->
   <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/app.css">
   <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/joyride-2.0.3.css">
-  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
   <script>
     var mixPanelInit;
     var parser = document.createElement('a');
@@ -52,7 +52,7 @@
           <ul>
             <li class="name">
               <h1>
-              <a href="/meetpeople/"><img src="{{MEDIA_URL}}/images/mutuality-logo.svg" width="160" height="68" /></a>              
+              <a id="logoImageLink" href="/meetpeople/"><img src="{{MEDIA_URL}}/images/mutuality-logo.svg" width="160" height="68" /></a>
             </h1>
             </li>
             <li class="toggle-topbar"><a href="#"></a></li>
@@ -61,16 +61,17 @@
           {% if user.is_authenticated %}
               {% if profile %}
                   <ul class="right">
-                      <li class="divider"></li>
+                      <li id="firstDivider" class="divider"></li>
                       <li id="menu-meet-people"><a href="/meetpeople/" class="page-nav">Meet People</a></li> <li class="divider"></li>
                       <li id="menu-make-matches"><a href="/makematches/" class="page-nav">Make Matches</a></li> <li class="divider"></li>
                       <li id="menu-messages"><a href="/messages/" class="page-nav">Messages</a><span class="message-count" style="display:none;">1</span></li> <li class="divider"></li>
                       <li class="has-dropdown">
                     <a href="#">
-                      <span class="profile-thumb" style="background-image: urL(https://graph.facebook.com/{{ profile.facebookID }}/picture)"></span>{{ profile.name }}<span class="darr"></span>
+                      <span id="adjustNavProfileThumb" class="profile-thumb" style="background-image: urL(https://graph.facebook.com/{{ profile.facebookID }}/picture)"></span>{{ profile.name }}<span class="darr"></span>
                     </a>
                     <ul class="dropdown">
                       <li id="menu-account"><a href="/account/">Account</a></li>
+                      <li id="menu-beacon"><a href="/beacon/">Beacon</a></li>
                       <li id="menu-logout"><a onclick="$.cookie('UpdateFriendListCalled', 'false');" href="{% url logout %}">Log Out</a></li>
                     </ul>
                   </li>
@@ -150,6 +151,7 @@
   <script src="{{ MEDIA_URL }}/javascripts/foundation/modernizr.foundation.js"></script>
   <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.joyride.js"></script>
 
+
   <!--
       <script src="javascripts/foundation/jquery.foundation.topbar.js"></script>
       <script src="javascripts/foundation/jquery.placeholder.js"></script>
@@ -208,16 +210,18 @@
               }
             });
       });
+      {% if HideMeetPeople %}
+        $("#menu-meet-people").hide();
+        $("#logoImageLink").attr("href", "/");
+        $("#firstDivider").hide();
+      {% endif %}
     </script>
     {% endif %}
   {% endif %} 
 
 <!-- Autocomplete styles -->
 <style type="text/css">
-    .autocomplete-suggestions { border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; }
-    .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
-    .autocomplete-selected { background: #F0F0F0; }
-    .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+   
 </style>
 
 <!-- Notification styles -->

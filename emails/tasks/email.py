@@ -12,6 +12,15 @@ from emails.models import Email
 from datetime import datetime, timedelta
 
 
+def send_email_to_all_users(subject, text, html, from_address):
+    for profile in Profile.objects.all():
+        try:
+            message = sendgrid.Message(from_address, subject, text, html)
+            message.add_to(profile.user.email, profile.name)
+            send_message(message, profile.user, Email.DEFAULT)
+        except:
+            print 'something went wrong when sending an email to ' + profile.name
+
 @task
 def send_user_joined_email(profile):
     recipients = ['jeffreymames@gmail.com', 'jazjit.singh@gmail.com', 'kamran.munshi@gmail.com']
@@ -64,16 +73,21 @@ def send_new_message_email(message):
 
 
 def send_all_inactive_emails():
+    tasks = []
     past = datetime.now() - timedelta(days=5)
     inactive_profiles = Profile.objects.filter(user__last_login__lte=past)
+    tasks = []
     for profile in inactive_profiles:
         try:
             #     check if we have already sent email
             already_sent = Email.objects.filter(user=profile.user, email_type=Email.USER_INACTIVE, sent_at__gte=past).exists()
             if not already_sent:
-                send_inactive_email.delay(profile)
+                task = send_inactive_email.delay(profile)
+                tasks.append(task)
         except:
             print 'something went wrong when sending inactive email to {0}'.format(profile.name)
+    return tasks
+
 
 
 @task

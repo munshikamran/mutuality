@@ -2,6 +2,10 @@
 /* Begin Helper functions */
 // After AJAX call for finding friends of friends, load random four images into meet people call to action
 
+function beaconMessageCheck() {
+
+}
+
 function newConversationCheck() {
 	var facebookID = getParameterByName("fbid");
 	if (facebookID ===""){
@@ -225,6 +229,7 @@ var initAskAboutCarousel = function () {
 
 //Load full message exchange into the UI
 var loadMessageThreadIntoUI = function(messageThread) {
+	console.log(messageThread);
 	var totalHeight = 0;
 	var messageHeight = 0;
 	var messagePos;
@@ -237,34 +242,51 @@ var loadMessageThreadIntoUI = function(messageThread) {
 		var messageOwner = messageThread[messagePos].sender.facebookID;
 		var thumbImage = 'background-image: url(' + Mutuality.getProfilePictureURL(messageOwner, 100, 100) + ')';
 		var time = formatTime(messageThread[messagePos].sent_timestamp);
+		var message = messageThread[messagePos].body;
 
 			if ($('.single-message').length !== 0) { 
 				messageHeight = $('.single-message').eq(0).height();
 				totalHeight = totalHeight + messageHeight;
 			}
-		if (totalHeight < 400) {
-		$('.message-thread').prepend(
-			$('<div>').addClass('single-message row').append(
-				$('<div>').addClass('two columns').append(
-					$('<span>').attr({
-						class: "profile-thumb",
-						style:  thumbImage
-					}), 
-					($('<small>').html(time))
-					)).append(
-					($('<div>').addClass('ten columns').html(
-						"<p>" + messageThread[messagePos].body + "</p>"	
-						)
-						)));
-		$('.single-message').eq(0).attr({
-						'data-messageposition': messagePos
-					});
-			// } else {
-			// 	$('.single-message').eq(0).attr({
-			// 			'data-messageposition': messagePos
-			// 		});
-			// 	break;
+		console.log(message.indexOf(" likes your beacon. Ask one of your "));
+		if (totalHeight < 400) {	
+			if (message.indexOf(" likes your beacon. Ask one of your ") === -1) {
+				$('.message-thread').prepend(
+					$('<div>').addClass('single-message row').append(
+						$('<div>').addClass('two columns').append(
+							$('<span>').attr({
+								class: "profile-thumb",
+								style:  thumbImage
+							}), 
+							($('<small>').html(time))
+							)).append(
+							($('<div>').addClass('ten columns').html(
+								'<p id="adjust-messages">' + message + '</p>'	
+								)
+								)));
+				$('.single-message').eq(0).attr({
+								'data-messageposition': messagePos
+				});
+			} else {
+				$('.message-thread').prepend(
+					$('<div>').addClass('single-message row beacon-message').append(
+						$('<div>').addClass('two columns').append(
+							$('<span>').attr({
+								class: "profile-thumb",
+								style:  thumbImage
+							}), 
+							($('<small>').html(time))
+							)).append(
+							($('<div>').addClass('ten columns').html(
+								'<p id="adjust-beacon-messages">' + message + '</p>'	
+								)
+								)));
+				$('.single-message').eq(0).attr({
+								'data-messageposition': messagePos
+				});
+			}	
 		}
+
 	}
 	checkToLoadMessageBox();
 }
@@ -302,7 +324,7 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 	var name = otherName.split(" ");
 	var newUlElem;
 	$('#ask-about').empty();
-	$('.profile-name').html("Ask About " + name[0]);
+	$('#askAboutTitle').html("Ask About " + name[0]);
 	for (var i = 0; i < mutualFriends.length; i++) {
 		var friendID = mutualFriends[i].facebookID;
 		var friendName = mutualFriends[i].name; //.split(" ")[0];
@@ -331,6 +353,9 @@ var loadMutualFriendsIntoUI = function (facebookID, otherName, mutualFriends){
 		}
 		$('.tooltip').tooltipster();
 		initAskAboutCarousel();
+        $("#profile-fb a").attr('onclick', Mutuality.getFacebookPageURL(facebookID));
+
+
 }
 
 var friendsOfFriendsSuccess = function(friends){
@@ -421,6 +446,10 @@ var friendsOfFriendsSuccess = function(friends){
 			var name = $(this).data('name');
 			var facebookID = $(this).data('facebookid');
 			mixpanel.track("Asked friend", {"Source":"Messages", "Element":"Ask about","Position":position, "Name":name, "FacebookID":facebookID});
+		});
+
+		$('#profile-fb').on('click', function() {
+			mixpanel.track("View facebook", {'Source':'Messages'});
 		});
 	
 	});	  
