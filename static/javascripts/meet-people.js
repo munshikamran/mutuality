@@ -430,6 +430,11 @@ function beginBeaconImageHoverToggle() {
 						$('#hasLiked').html("You liked this").show();
 						$('#beacon-like-number').hide();
 						$('#plural-agreement').hide();
+					} else if (numberOfLikes === 2) {
+						numberOfOtherLikes = numberOfLikes - 1;
+						$('#hasLiked').html("You and").show();
+						$('#beacon-like-number').html(numberOfOtherLikes).show();
+						$('#plural-agreement').html("person likes this").show();
 					} else {
 						numberOfOtherLikes = numberOfLikes - 1;
 						$('#hasLiked').html("You and").show();
@@ -438,6 +443,7 @@ function beginBeaconImageHoverToggle() {
 					}	
 				} else {
 					$('#animate-out').show();
+					$('#hasLiked').hide();
 					if (numberOfLikes === 0) {
 						$('#like-number').hide();
 					} else if (numberOfLikes === 1) {
@@ -470,31 +476,6 @@ function beginBeaconImageHoverToggle() {
                 $('#adjustBeaconTitle').show();
                 $("#beaconWrapper").show();
                 likeTextLoad(fbID);
-
-                
-                // Mutuality.hasLikedBeacon(fbID, function(success) {
-                //     if(success===true) {
-                //     	$('#animate-out').hide();
-                //     } else {
-                //     	$('#hasLiked').html("You and ")
-                //     	$('#animate-out').show();
-                //     }
-                // });
-                
-                // Mutuality.getBeaconLikeCount(fbID, function(response){
-                //     var likeNumber = response;
-                //     if (likeNumber === 0) {
-                //         $('#like-number').hide();
-                //     } else {
-                //     	$('#beacon-like-number').html(response);
-	               //          if (likeNumber===1) {
-	               //              $('#plural-agreement').html("person likes this");
-	               //          } else {
-	               //          	$('#plural-agreement').html("people like this");
-	               //          }
-	               //      $('#like-number').show();    
-                //     }
-                // });
             }
         mixpanel.track ("Person loaded", {
 	                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
