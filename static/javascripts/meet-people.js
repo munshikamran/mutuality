@@ -434,7 +434,7 @@ function beginBeaconImageHoverToggle() {
 						numberOfOtherLikes = numberOfLikes - 1;
 						$('#hasLiked').html("You and").show();
 						$('#beacon-like-number').html(numberOfOtherLikes).show();
-						$('#plural-agreement').html("person likes this").show();
+						$('#plural-agreement').html("person like this").show();
 					} else {
 						numberOfOtherLikes = numberOfLikes - 1;
 						$('#hasLiked').html("You and").show();
