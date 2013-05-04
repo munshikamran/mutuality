@@ -431,8 +431,9 @@ function beginBeaconImageHoverToggle() {
 						$('#beacon-like-number').hide();
 						$('#plural-agreement').hide();
 					} else {
+						numberOfOtherLikes = numberOfLikes - 1;
 						$('#hasLiked').html("You and").show();
-						$('#beacon-like-number').html(numberOfLikes).show();
+						$('#beacon-like-number').html(numberOfOtherLikes).show();
 						$('#plural-agreement').html("people like this").show();
 					}	
 				} else {
