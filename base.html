@@ -45,7 +45,7 @@
 </head>
 <body>
 <!-- has this page been viewed? then render the following element -->
-<div id="fb-root"/>
+<div id="fb-root"></div>
 {% if viewed %}
     <a id="noTour" style="display:none;"/>
 {% endif %}
@@ -76,7 +76,7 @@
                         </a>
                         <ul class="dropdown">
                           <li id="menu-account"><a href="/account/">Account</a></li>
-                          <li id="menu-beacon"><a href="/beacon/">Beacon</a></li>
+                          <li id="menu-beacon"><a href="/makematches/">Match</a></li>
                           <li id="menu-logout"><a onclick="$.cookie('UpdateFriendListCalled', 'false');" href="{% url logout %}">Log Out</a></li>
                         </ul>
                     </li>

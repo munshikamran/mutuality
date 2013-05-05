@@ -157,18 +157,22 @@
 	<a href="#" id="triggerModal" data-reveal-id="myModal"></a>
     <a class="close-reveal-modal" style="display:none;"><small>OK</small> &times;</a>
 </div>
-<div class="error message">
-     <h3>Error!</h3>
-     <p>There was a problem saving your profile.</p>
-</div>
-<div class="success message">
+<div id="alerts">
+    <div class="error message">
+         <h3>Error!</h3>
+         <p>There was a problem saving your profile.</p>
+    </div>
+    <div class="success message">
          <h3>Success!</h3>
          <p>We successfully saved your profile.</p>
+    </div>
+    <div>
+        <ul id="trigger-list" style="display:none;">
+             <li><a href="#" class="trigger error-trigger" style="display:none;">Error</a></li>
+             <li><a href="#" class="trigger success-trigger" style="display:none;">Success</a></li>
+        </ul>
+    </div>
 </div>
-<ul id="trigger-list">
-     <li><a href="#" class="trigger error-trigger" style="display:none;">Error</a></li>
-     <li><a href="#" class="trigger success-trigger" style="display:none;">Success</a></li>
-</ul>  
 {% endblock %}
 {% block extrascript %}
     <script>
