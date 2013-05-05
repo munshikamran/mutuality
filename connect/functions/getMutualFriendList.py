@@ -25,7 +25,7 @@ def GetMutualFriendListWithFacebookUserID(profile, facebookUserID):
             #create a facebookUser object but don't save. We don't care about having this in the db
             facebookUser.updateUsingFacebookDictionary(friendData)
             friendList.append(facebookUser)
-            friendList = OrderByNumberOfMutualFriends(profile,friendList)
+        friendList = OrderByNumberOfMutualFriends(profile,friendList)
     except:
         print 'error when retrieving mutual friendList'
 
