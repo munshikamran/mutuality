@@ -422,7 +422,6 @@ function beginBeaconImageHoverToggle() {
 	var hasLikedBeacon = function (likesArray, success) {
 		for (i = 0; i < likesArray.length; i++) {
 			if (likesArray[i].facebookID === Mutuality.token) {
-				console.log("working");
 				success(true);
 				break;
 			}
@@ -431,8 +430,6 @@ function beginBeaconImageHoverToggle() {
 	}
 	var likeTextLoad = function(fbID, likeNumber) {
 			hasLikedBeacon(likeNumber, function(beaconLiked){
-				console.log(beaconLiked)
-				console.log(likeNumber);
 				var numberOfLikes = likeNumber.length;
 				if (beaconLiked === true) {
 					$('#animate-out').hide();
@@ -484,7 +481,6 @@ function beginBeaconImageHoverToggle() {
                 $('#place').html(place);
                 $('#adjustBeaconTitle').show();
                 $("#beaconWrapper").show();
-                //var likeNumber = likesArray.length;
                 likeTextLoad(fbID, likesArray);
 
                 // hasLikedBeacon(likesArray, function(success) {
