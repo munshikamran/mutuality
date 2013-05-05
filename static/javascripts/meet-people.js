@@ -887,16 +887,6 @@ function beginBeaconImageHoverToggle() {
     	});
     }
 
-    // Populate the CTA with actual friend data
-    var populateCTA = function(friends){
-        friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
-        $('#four-images img').each(function(i) {
-        	if (i < friends.length) {
-            	$(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
-        	}
-        });
-    }
-
     var createMutualityUserLookUp = function(friends){
     	for (i=0;i<friends.length;i++){
     		Mutuality.cache.mutualityUserLookup[friends[i].facebookID] = friends[i].isMutualityUser;
@@ -957,7 +947,6 @@ var setNewBadge = function(friends) {
    if($.cookie(cookieName) !== "true") {
 	    Mutuality.updateFriendList(0, function(){
 	    	$.cookie(cookieName, "true");
-	   		Mutuality.loadFriendsList(4, populateCTA);
 			Mutuality.getMeetPeople("FRIENDSHIP", function(friends){
                 if (friends.potentialMatches.length > 0){
                     countDown(friends.batchExpirationTimestamp, new Date().getTime());
@@ -977,7 +966,6 @@ var setNewBadge = function(friends) {
 		});
 	}
 	else {
-		Mutuality.loadFriendsList(4, populateCTA);
 		beginBeaconImageHoverToggle();
 		Mutuality.getMeetPeople("FRIENDSHIP", function(friends){
 			if (friends.potentialMatches.length > 0){
