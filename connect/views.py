@@ -23,7 +23,6 @@ def index(request):
     context_dict['URL'] = settings.URL
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
-        print 
         try:
             if request.user.is_authenticated():
                 profile = request.user.get_profile()
@@ -77,15 +76,12 @@ def account(request):
     context_dict['URL'] = settings.URL
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
-        print
         try:
             if request.user.is_authenticated():
                 #Get the profile and the auth_token
                 profile = request.user.get_profile()
                 context_dict['profile'] = profile
                 context_dict['AUTH_TOKEN'] = GetProfileAuthToken(profile)
-                context_dict['HideMeetPeople'] = not BeaconHasBeenSet(profile)
-
                 #Get location lat/long to pass to template so that places dropdown results are narrowed
                 graph = facebook.GraphAPI(GetProfileAuthToken(profile))
                 print GetProfileAuthToken(profile)
@@ -107,15 +103,12 @@ def beacon(request):
     context_dict['URL'] = settings.URL
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
-        print
         try:
             if request.user.is_authenticated():
                 #Get the profile and the auth_token
                 profile = request.user.get_profile()
                 context_dict['profile'] = profile
                 context_dict['AUTH_TOKEN'] = GetProfileAuthToken(profile)
-                context_dict['HideMeetPeople'] = not BeaconHasBeenSet(profile)
-
                 #Get the beacon for this user account page
                 beacon = GetBeacon(profile)
                 if beacon != []:
@@ -152,7 +145,6 @@ def makematches(request):
             if(PageHasBeenViewed(profile, SITE_PAGES.MAKE_MATCHES )):
                 context_dict['viewed'] = True
             ViewPage(profile, SITE_PAGES.MAKE_MATCHES)
-            context_dict['HideMeetPeople'] = not BeaconHasBeenSet(profile)
         except Profile.DoesNotExist:
             pass
         html = render_to_string('make-matches.html', RequestContext(request, context_dict))
@@ -167,14 +159,6 @@ def meetpeople(request):
     request.session.set_expiry(604800)  # one week
     if hasattr(request, 'user'):
         context_dict['user'] = request.user
-        #del request.session['last_login_date']
-        #if "last_login_date" in request.session.keys():
-        #    if (datetime.now() - request.session['last_login_date']).days > 0:
-        #        print "**Updating last login!**"
-        #        request.session['last_login_date'] = datetime.now()
-        #        request.user.last_login = datetime.now()
-        #        request.user.save()
-        #else:
         request.session['last_login_date'] = datetime.now()
         request.user.last_login = datetime.now()
         request.user.save()
@@ -205,7 +189,6 @@ def messages(request):
             if(PageHasBeenViewed(profile, SITE_PAGES.MESSAGES )):
                 context_dict['viewed'] = True
             ViewPage(profile, SITE_PAGES.MESSAGES)
-            context_dict['HideMeetPeople'] = not BeaconHasBeenSet(profile)
         except Profile.DoesNotExist:
             pass
         html = render_to_string('messages.html', RequestContext(request, context_dict))
@@ -216,36 +199,11 @@ def about(request):
     context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
     context_dict['info'] = fbinfo(request)
     context_dict['URL'] = settings.URL
-    context_dict['HideMeetPeople'] = False
     return render_to_response('about.html', context_dict, context_instance=RequestContext(request))
 
 
 def privacy(request):
-    info = {}
-    #context_dict['URL'] = settings.URL
-    if request.user.is_authenticated():
-        info['User Authenticated'] = 'Yes'
-        if request.user.has_usable_password():
-            info['Authed via'] = 'Django'
-            info['Django username'] = str(request.user)
-        else:
-            info['Authed via'] = "Facebook"
-            try:
-                assoc_obj = UserAssociation.objects.get(user=request.user)
-            except UserAssociation.DoesNotExist:
-                info['Association Object'] = "not found"
-            else:
-                info['Associated FB Token Expires'] = assoc_obj.expires
-                info['Facebook ID'] = assoc_obj.identifier
-    else:
-        info['User Authenticated'] = 'No'
-    info['Session Expires'] = request.session.get_expiry_date()
-    try:
-        info['Facebook App ID'] = settings.FACEBOOK_ACCESS_SETTINGS["FACEBOOK_APP_ID"]
-    except (KeyError, AttributeError):
-        info['Facebook App ID'] = "Not Configured"
     context_dict = {}
-    context_dict['info'] = sorted(info.items())
     return render_to_response('privacy.html', context_dict, context_instance=RequestContext(request)) 
 
 def fbinfo(request):
