@@ -9482,7 +9482,7 @@ div#question:hover{
   width: 738px;     /* Set to slidorion width. Is equal to #slider + #accordion width */
   height: 281px;      /* Set to slidorion height. Is equal to #slider and #accordion height */
   float:left;
-  margin-top:30px;
+  margin-top:45px;
 /*  left: 50%;
   margin-left: -384px;
   padding: 10px;*/
@@ -9988,8 +9988,7 @@ div#tips {
   width:700px;
   z-index:1001;
   margin-top:30px;
-  margin-left:auto;
-  margin-right:auto;
+  margin-left:30px;
 /*  position:absolute;
   top:90px;
   left:32px;*/
@@ -10010,6 +10009,7 @@ div#tips {
 
 #beaconDefinitionTitle {
   font-weight:bold;
+  font-size:22px;
 }
 
 #beaconNoun {
@@ -10018,9 +10018,11 @@ div#tips {
 
 .beaconNumbers {
   font-weight:bold;
+  font-size:16px;
 }
 
 .beaconDefinition {
+  font-size:16px;
 }
 
 #adjustSaveButton {
