@@ -81,7 +81,7 @@
 {% endblock %}
 {% block extrascript %}
     <script>
-       Mutuality.init('{{ profile.facebookID }}', '../');
+       Mutuality.init('{{ profile.facebookID }}','{{rest_token}}', '../');
 
        (function($){
            $.getScript('{{ MEDIA_URL }}/javascripts/messages.js').fail(function(xhr, settings, exception){
