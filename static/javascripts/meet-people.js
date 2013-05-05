@@ -419,9 +419,25 @@ function beginBeaconImageHoverToggle() {
    	   $(".close-reveal-modal").trigger('click');
 	}
 
+	var hasLikedBeacon = function (likesArray, success) {
+		for (i = 0; i < likesArray.length; i++) {
+			console.log(likesArray[i]);
+			console.log(Mutuality.token);
+			if (likesArray[i].facebookID === Mutuality.token) {
+				console.log("working");
+				success(true);
+				break;
+			}
+		}
+		success(false);
+	}
+
 	var loadBeacon = function(fbID){
 		Mutuality.getBeacon(fbID, function(success){
-			var beaconObject = success;
+			var beaconObject = success.beacon;
+			var likesArray = success.beaconLikes;
+			console.log(beaconObject);
+			console.log(likesArray);
             if (beaconObject == '[]' || beaconObject.length == 0){
                 $("#beaconWrapper").hide();
 		        $('#adjustBeaconTitle').hide();
@@ -434,26 +450,24 @@ function beginBeaconImageHoverToggle() {
                 $('#beacon-activity').html(activity);
                 $('#activity').html(activity);
                 $('#place').html(place);
-                Mutuality.hasLikedBeacon(fbID, function(success) {
+
+                hasLikedBeacon(likesArray, function(success) {
                     if(success===true) {
-                    //console.log("working");
-                    $('#animate-out').hide();
-                    //$('#like-block').css('margin-right','20%');
+                    	$('#animate-out').hide();
                     }
                 });
-                Mutuality.getBeaconLikeCount(fbID, function(response){
-                    var likeNumber = response;
+                    var likeNumber = likesArray.length;
+                    console.log(likeNumber);
                     if (likeNumber === 0) {
                         $('#like-number').hide();
                     } else {
-                    $('#beacon-like-number').html(response);
+                    $('#beacon-like-number').html(likeNumber);
                         if (likeNumber===1) {
                             $('#plural-agreement').html("person likes this");
                         } else {
                         	$('#plural-agreement').html("people like this");
                         }
                     }
-                });
             }
         });
 	}	
