@@ -426,14 +426,14 @@ function beginBeaconImageHoverToggle() {
 				success(true);
 				break;
 			}
-		}
 		success(false);
-
-	var likeTextLoad = function(fbID) {
-		Mutuality.hasLikedBeacon(fbID, function(liked) {
-			var beaconLiked = liked;
-			Mutuality.getBeaconLikeCount(fbID, function(number){
-				var numberOfLikes = number;
+		}
+	}
+	var likeTextLoad = function(fbID, likeNumber) {
+			hasLikedBeacon(likeNumber, function(beaconLiked){
+				console.log(beaconLiked)
+				console.log(likeNumber);
+				var numberOfLikes = likeNumber.length;
 				if (beaconLiked === true) {
 					$('#animate-out').hide();
 					if (numberOfLikes === 1) {
@@ -464,16 +464,15 @@ function beginBeaconImageHoverToggle() {
 						$('#plural-agreement').html("people like this").show();	
 					}
 				}
-			});	
-		});		
+			});
+					
 	}
 
 	var loadBeacon = function(fbID){
 		Mutuality.getBeacon(fbID, function(success){
 			var beaconObject = success.beacon;
 			var likesArray = success.beaconLikes;
-            if (beaconObject == '[]' || beaconObject.length == 0){
-
+            if (beaconObject == '[]' || beaconObject.length === 0){
                 $("#beaconWrapper").hide();
                 beaconExists = "False";
             }
@@ -481,29 +480,32 @@ function beginBeaconImageHoverToggle() {
                 var activity = beaconObject.activity;
                 var place = beaconObject.place;
                 beaconExists = "True";
-                //$('#beacon-activity').html(activity);
                 $('#activity').html(activity);
                 $('#place').html(place);
-
-                hasLikedBeacon(likesArray, function(success) {
-                    if(success===true) {
-                    	$('#animate-out').hide();
-                    }
-                });
-                    var likeNumber = likesArray.length;
-                    if (likeNumber === 0) {
-                        $('#like-number').hide();
-                    } else {
-                    $('#beacon-like-number').html(likeNumber);
-                        if (likeNumber===1) {
-                            $('#plural-agreement').html("person likes this");
-                        } else {
-                        	$('#plural-agreement').html("people like this");
-                        }
-                    }
                 $('#adjustBeaconTitle').show();
                 $("#beaconWrapper").show();
-                likeTextLoad(fbID);
+                //var likeNumber = likesArray.length;
+                likeTextLoad(fbID, likesArray);
+
+                // hasLikedBeacon(likesArray, function(success) {
+                //     if(success===true) {
+                //     	$('#animate-out').hide();
+                //     }
+                // });
+                //     var likeNumber = likesArray.length;
+                //     if (likeNumber === 0) {
+                //         $('#like-number').hide();
+                //     } else {
+                //     $('#beacon-like-number').html(likeNumber);
+                //         if (likeNumber===1) {
+                //             $('#plural-agreement').html("person likes this");
+                //         } else {
+                //         	$('#plural-agreement').html("people like this");
+                //         }
+                //     }
+                // $('#adjustBeaconTitle').show();
+                // $("#beaconWrapper").show();
+                // likeTextLoad(fbID);
             }
         mixpanel.track ("Person loaded", {
 	                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
@@ -1019,26 +1021,33 @@ var setNewBadge = function(friends) {
 	 		//$("#like-number").animate({ opcaity: 0.9 },1000, function(){
 	 			//Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
 	 			Mutuality.getBeaconLikeCount(Mutuality.mpcache.current, function(success){
+		 			var totalLikes = success;
 		 			mixpanel.track("Beacon liked", {
 		 				"Beacon liker":Mutuality.cache.profile.name,
 		 				"Beacon likee":Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current).name,
 		 				"Activity liked":$('#activity').html(),
 		 				"Place liked":$('#place').html(),
-		 				"Total likes":success
-		 			});
-	 			if (success!==1) {
-	 				$('#hasLiked').html("You and");
-	 				$('#beacon-like-number').html(success);
-	 				$('#plural-agreement').html("people like this");
-	 				$('#beacon-like-number').show();
+		 				"Total likes":totalLikes
+		 	   		});
+	 			if (totalLikes === 1) {
+	 				$('#hasLiked').html("You like this");
+	 				$("#like-number").hide();
 	 				$('#hasLiked').show();
-	 			} else {
+	 			}
+	 			else if (totalLikes === 2) {
 	 				$('#hasLiked').html("You and");
 	 				$('#beacon-like-number').html(success);
 	 				$('#plural-agreement').html("person likes this");
 	 				$("#like-number").show();
 	 				$('#hasLiked').show();
 	 			}
+	 			else {
+	 				$('#hasLiked').html("You and");
+	 				$('#beacon-like-number').html(success);
+	 				$('#plural-agreement').html("people like this");
+	 				$('#beacon-like-number').show();
+	 				$('#hasLiked').show();
+	 			} 
 	 		});	
 	 			//picture should change to a thumbs up?
 	 		//});
