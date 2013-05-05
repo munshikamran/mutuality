@@ -198,11 +198,6 @@
         mixpanel.track("Logged out");
       });
 
-      {% if HideMeetPeople %}
-        $("#menu-meet-people").hide();
-        $("#logoImageLink").attr("href", "/");
-        $("#firstDivider").hide();
-      {% endif %}
     </script>
     {% endif %}
   {% endif %}
