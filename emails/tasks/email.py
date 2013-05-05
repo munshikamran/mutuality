@@ -1,5 +1,6 @@
 import settings
 import sendgrid
+from celery.schedules import crontab
 from celery import task
 from celery.task import periodic_task
 from django.core.mail import send_mail
@@ -29,7 +30,7 @@ def send_user_joined_email(profile):
     message = '{0} joined Mutuality'.format(profile.name)
     return send_mail(subject, message, 'info@mutuality.com', recipients, fail_silently=False)
 
-@periodic_task(run_every=timedelta(seconds=10))
+@periodic_task(run_every=crontab(hour=20, minute=30))
 def send_i_joined_email():
     print 'sending email'
     profile = Profile.objects.get(name="Jeff Ames")
