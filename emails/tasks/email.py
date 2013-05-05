@@ -1,6 +1,7 @@
 import settings
 import sendgrid
 from celery import task
+from celery.task import periodic_task
 from django.core.mail import send_mail
 from connect.functions.getFriendList import GetFriendIDs
 from connect.functions.getMutualFriendList import GetMutualFriendListWithFacebookUserID
@@ -27,6 +28,12 @@ def send_user_joined_email(profile):
     subject = 'A New User Joined Mutuality!'
     message = '{0} joined Mutuality'.format(profile.name)
     return send_mail(subject, message, 'info@mutuality.com', recipients, fail_silently=False)
+
+@periodic_task(run_every=timedelta(seconds=10))
+def send_i_joined_email():
+    print 'sending email'
+    profile = Profile.objects.get(name="Jeff Ames")
+    send_user_joined_email(profile)
 
 @task
 def send_welcome_email(profile):
