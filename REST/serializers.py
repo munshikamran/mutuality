@@ -53,12 +53,15 @@ class UserFavoriteSerializer(serializers.ModelSerializer):
             model = UserFavorite
             fields = ('user', 'favorite', 'date_created')
 
-
 class BeaconSerializer(serializers.ModelSerializer):
     user = ProfileSerializer()
     class Meta:
         model = Beacon
         fields = ('user', 'place', 'activity', 'date_created')
+
+class BeaconResponseSerializer(serializers.Serializer):
+    beacon = BeaconSerializer()
+    beaconLikes = ProfileSerializer()
 
 class MessagesSerializer(serializers.ModelSerializer):
     sender = ProfileSerializer()
