@@ -16,6 +16,7 @@ from connect.functions.getProfileAuthToken import GetProfileAuthToken
 from connect.functions.getBeacon import GetBeacon
 from connect.functions.beaconSet import BeaconHasBeenSet
 import facebook
+from rest_framework.authtoken.models import Token
 
 def index(request):
     context_dict = {}
@@ -27,6 +28,8 @@ def index(request):
         try:
             if request.user.is_authenticated():
                 profile = request.user.get_profile()
+                authtoken = Token.objects.get(user=request.user).key
+                context_dict['rest_token'] = authtoken
                 context_dict['profile'] = profile
                 return HttpResponseRedirect("/meetpeople/")
         except Profile.DoesNotExist:
@@ -46,6 +49,8 @@ def register(request):
             if request.user.is_authenticated():
                 #Get the profile
                 profile = request.user.get_profile()
+                authtoken = Token.objects.get(user=request.user).key
+                context_dict['rest_token'] = authtoken
                 context_dict['profile'] = profile
 
                 #Get the birthday
@@ -82,6 +87,8 @@ def account(request):
             if request.user.is_authenticated():
                 #Get the profile and the auth_token
                 profile = request.user.get_profile()
+                authtoken = Token.objects.get(user=request.user).key
+                context_dict['rest_token'] = authtoken
                 context_dict['profile'] = profile
                 context_dict['AUTH_TOKEN'] = GetProfileAuthToken(profile)
                 context_dict['HideMeetPeople'] = not BeaconHasBeenSet(profile)
@@ -112,6 +119,8 @@ def beacon(request):
             if request.user.is_authenticated():
                 #Get the profile and the auth_token
                 profile = request.user.get_profile()
+                authtoken = Token.objects.get(user=request.user).key
+                context_dict['rest_token'] = authtoken
                 context_dict['profile'] = profile
                 context_dict['AUTH_TOKEN'] = GetProfileAuthToken(profile)
                 context_dict['HideMeetPeople'] = not BeaconHasBeenSet(profile)
@@ -148,6 +157,8 @@ def makematches(request):
         context_dict['user'] = request.user
         try:
             profile = request.user.get_profile()
+            authtoken = Token.objects.get(user=request.user).key
+            context_dict['rest_token'] = authtoken
             context_dict['profile'] = profile
             if(PageHasBeenViewed(profile, SITE_PAGES.MAKE_MATCHES )):
                 context_dict['viewed'] = True
@@ -180,6 +191,8 @@ def meetpeople(request):
         request.user.save()
         try:
             profile = request.user.get_profile()
+            authtoken = Token.objects.get(user=request.user).key
+            context_dict['rest_token'] = authtoken
             context_dict['profile'] = profile
             if PageHasBeenViewed(profile, SITE_PAGES.MEET_PEOPLE):
                 context_dict['viewed'] = True
@@ -201,6 +214,8 @@ def messages(request):
         context_dict['user'] = request.user
         try:
             profile = request.user.get_profile()
+            authtoken = Token.objects.get(user=request.user).key
+            context_dict['rest_token'] = authtoken
             context_dict['profile'] = profile
             if(PageHasBeenViewed(profile, SITE_PAGES.MESSAGES )):
                 context_dict['viewed'] = True
