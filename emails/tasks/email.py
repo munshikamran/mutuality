@@ -1,6 +1,8 @@
 import settings
 import sendgrid
+from celery.schedules import crontab
 from celery import task
+from celery.task import periodic_task
 from django.core.mail import send_mail
 from connect.functions.getFriendList import GetFriendIDs
 from connect.functions.getMutualFriendList import GetMutualFriendListWithFacebookUserID
@@ -26,6 +28,12 @@ def send_user_joined_email(profile):
     recipients = ['jeffreymames@gmail.com', 'jazjit.singh@gmail.com', 'kamran.munshi@gmail.com']
     subject = 'A New User Joined Mutuality!'
     message = '{0} joined Mutuality'.format(profile.name)
+    return send_mail(subject, message, 'info@mutuality.com', recipients, fail_silently=False)
+
+def send_chron_success_email():
+    recipients = ['jeffreymames@gmail.com']
+    subject = "Chron job success"
+    message = 'Good job'
     return send_mail(subject, message, 'info@mutuality.com', recipients, fail_silently=False)
 
 @task
@@ -72,6 +80,14 @@ def send_new_message_email(message):
     send_message(email, message.recipient.user, Email.NEW_MESSAGE)
 
 
+@periodic_task(run_every=crontab(hour=23, minute=0)) #gets sent out every day at 9PM
+def send_inactive_emails_scheduled():
+    if settings.ENVIRONMENT != 'production':
+        return
+    send_all_inactive_emails()
+    send_chron_success_email()
+
+
 def send_all_inactive_emails():
     tasks = []
     past = datetime.now() - timedelta(days=5)
@@ -108,6 +124,9 @@ def send_inactive_email(profile):
 
 
 def send_message(message, to_user, email_type):
+    # comment this out to test sending emails in other environments
+    if settings.ENVIRONMENT != 'production':
+        return
     email = Email(user=to_user, subject=message.subject, text_body=message.text,
                   html_body=message.html, to_address=message.to[0], from_address=message.from_address,
                   email_type=email_type)
