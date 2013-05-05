@@ -168,8 +168,6 @@ def meetpeople(request):
             if PageHasBeenViewed(profile, SITE_PAGES.MEET_PEOPLE):
                 context_dict['viewed'] = True
             ViewPage(profile, SITE_PAGES.MEET_PEOPLE)
-            if not BeaconHasBeenSet(profile):
-                return redirect("/beacon/")
         except Profile.DoesNotExist:
             pass
         html = render_to_string('meet-people.html', RequestContext(request, context_dict))
