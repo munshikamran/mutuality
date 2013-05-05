@@ -113,7 +113,7 @@
 		 var messagesHeights = new Array(); // this array will store height for each
 		 for (i=0; i<myMessages.length; i++) {
 				  messagesHeights[i] = $('.' + myMessages[i]).outerHeight();
-				  $('.' + myMessages[i]).css('top', -messagesHeights[i]); //move element outside viewport	  
+				  $('.' + myMessages[i]).css('top', -messagesHeights[i]); //move element outside viewport
 		 }
 	}
 
@@ -178,6 +178,25 @@
                 }
 		    });
         }
+
+        // After AJAX call for finding friends of friends, load random four images into meet people call to action
+        var friendsOfFriendsSuccess = function(friends){
+            var friends = friends.potentialMatches;
+            if (friends.length > 0){
+                friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
+                $('#four-images img').each(function(i) {
+                  if (i < friends.length) {
+                    $(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
+                  }
+                });
+            }
+            else{
+                $("#meet-people-cta").css('display','none');
+            }
+        };
+
+        Mutuality.getMeetPeople("FRIENDSHIP", friendsOfFriendsSuccess);
+
 
 /* End Main Code */
 

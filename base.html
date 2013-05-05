@@ -1,25 +1,19 @@
 <!DOCTYPE html>
-
 <!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-
 <head profile="http://www.w3.org/2005/10/profile">
   <link rel="icon" type="image/png" href="{{ MEDIA_URL }}/images/mutualityicon.png" />
-
   <meta charset="utf-8" />
   <meta property="og:title" content="Mutuality" />
   <meta property="og:description" content="Mutuality is a website that connects you with your friends-of-friends" />
   <meta property="og:image" content="http://i.imgur.com/Hcy3Clo.jpg" />
 
-  <!-- Set the viewport width to device width for mobile -->
-  <meta name="viewport" content="width=device-width" />
-  <title>{% block title %}{% endblock %} - Mutuality</title>
-
-  <!-- Included CSS Files -->
-  <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/app.css">
-  <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/joyride-2.0.3.css">
+  <!-- Application Javascript, safe to override -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-  <script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/modernizr.foundation.js"></script>
+
+  <!-- Mixpanel and Google Analytics Init JS -->
+  <script type="text/javascript">
     var mixPanelInit;
     var parser = document.createElement('a');
     parser.href = $("#main").data("url")
@@ -28,20 +22,30 @@
     } else {
       mixPanelInit = "2c016968167f5dc85b02e758553ab355"
     }
-  
+
+    (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
+    mixpanel.init(mixPanelInit);
+
+    //Google Analytics Tracking
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-39862044-1', 'mymutuality.com');
+      ga('send', 'pageview');
   </script>
 
-    <!-- Mixpanel JS -->
-  <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
-  typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,
-  e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
-  mixpanel.init(mixPanelInit);
-  </script> 
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+  <title>{% block title %}{% endblock %} - Mutuality</title>
 
+  <!-- Included CSS Files -->
+  <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/app.css"/>
+  <link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/joyride-2.0.3.css"/>
 </head>
 <body>
 <!-- has this page been viewed? then render the following element -->
-<div id="fb-root"></div>
+<div id="fb-root"/>
 {% if viewed %}
     <a id="noTour" style="display:none;"/>
 {% endif %}
@@ -52,40 +56,39 @@
           <ul>
             <li class="name">
               <h1>
-              <a id="logoImageLink" href="/meetpeople/"><img src="{{MEDIA_URL}}/images/mutuality-logo.svg" width="160" height="68" /></a>
-            </h1>
+                <a id="logoImageLink" href="/meetpeople/"><img src="{{MEDIA_URL}}/images/mutuality-logo.svg" width="160" height="68" /></a>
+              </h1>
             </li>
             <li class="toggle-topbar"><a href="#"></a></li>
           </ul>
-          <section id="nav">
+      <section id="nav">
           {% if user.is_authenticated %}
               {% if profile %}
-                  <ul class="right">
+               <ul class="right">
                       <li id="firstDivider" class="divider"></li>
                       <li id="menu-meet-people"><a href="/meetpeople/" class="page-nav">Meet People</a></li> <li class="divider"></li>
-                      <li id="menu-make-matches"><a href="/makematches/" class="page-nav">Make Matches</a></li> <li class="divider"></li>
+                      <li id="menu-make-matches"><a href="/makematches/" class="page-nav" style="display:none;">Make Matches</a></li> <li class="divider" style="display:none;"></li>
+                      <li id="menu-make-matches"><a href="/beacon/" class="page-nav">My Beacon</a></li> <li class="divider"></li>
                       <li id="menu-messages"><a href="/messages/" class="page-nav">Messages</a><span class="message-count" style="display:none;">1</span></li> <li class="divider"></li>
                       <li class="has-dropdown">
-                    <a href="#">
-                      <span id="adjustNavProfileThumb" class="profile-thumb" style="background-image: urL(https://graph.facebook.com/{{ profile.facebookID }}/picture)"></span>{{ profile.name }}<span class="darr"></span>
-                    </a>
-                    <ul class="dropdown">
-                      <li id="menu-account"><a href="/account/">Account</a></li>
-                      <li id="menu-beacon"><a href="/beacon/">Beacon</a></li>
-                      <li id="menu-logout"><a onclick="$.cookie('UpdateFriendListCalled', 'false');" href="{% url logout %}">Log Out</a></li>
-                    </ul>
-                  </li>
+                        <a href="#">
+                          <span id="adjustNavProfileThumb" class="profile-thumb" style="background-image: urL(https://graph.facebook.com/{{ profile.facebookID }}/picture)"></span>{{ profile.name }}<span class="darr"></span>
+                        </a>
+                        <ul class="dropdown">
+                          <li id="menu-account"><a href="/account/">Account</a></li>
+                          <li id="menu-beacon"><a href="/beacon/">Beacon</a></li>
+                          <li id="menu-logout"><a onclick="$.cookie('UpdateFriendListCalled', 'false');" href="{% url logout %}">Log Out</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                {% endif %}
-                {% else %}
-                {% endif %}
-            </section>
-        </nav>
-      </div>
-    </div>
-  </header>
-  
-  <div class="page-content">
+            {% endif %}
+        {% endif %}
+      </section>
+    </nav>
+  </div>
+</div>
+</header>
+<div class="page-content">
     <div class="row">
       <div class="twelve columns">
         <div id="page-content">
@@ -96,38 +99,29 @@
     </div>
   </div>
 </div>
-  
-  <footer id="footer">
+<footer id="footer">
     <div class="row">
       <div class="twelve columns">
         <nav id="footer-nav" class="four columns">
           <h5>Find Out More</h5>
           <ul class="six columns">
             <li><a href="/about">About Us</a></li>
-            <!-- <li><a href="#">How It Works</a></li> -->
-            <!-- <li><a href="faq">FAQs</a></li> -->
           </ul>
           <ul class="six columns">
             <li><a href="http://mymutuality.wordpress.com/">Our Blog</a></li>
-            <!-- <li><a href="/fbinfo">Facebook Info</a></li> -->
             <li><a href="/privacy">Privacy Policy</a></li>
           </ul>
         </nav>
-        
         <nav id="footer-social" class="four columns">
           <h5>Connect With Us</h5>
           <ul class="six columns">
             <li id="social-fb"><a href="https://www.facebook.com/MyMutuality">Facebook</a></li>
             <li id="social-tw"><a href="https://twitter.com/MyMutuality">Twitter</a></li>
-            <!-- <li id="social-pin"><a href="#">Pinterest</a></li> -->
           </ul>
           <ul class="six columns">
-            <!-- <li id="social-rss"><a href="#">RSS</a></li> -->
             <li id="social-email"><a href="mailto:info@mymutuality.com">Email Us</a></li>
-            <!-- <li id="social-contactus"><a href="#">Contact Us</a></li> -->
           </ul>
         </nav>
-        
         <section id="footer-colophon" class="four columns">
           <img src="{{ MEDIA_URL }}/images/mutuality-logo.svg" id="footer-logo"/>
           <p id="copyright">&copy; 2012 Mutuality LLC. All rights reserved.</p>
@@ -137,43 +131,23 @@
         </section>
       </div>
     </div>
-  </footer>
-  {% block extrahtml %} 
-    <!-- Extra html gets inserted here (like for modal dialogs, etc.) -->
-  {% endblock %}
-  <!-- Included JS Files (Uncompressed) -->
-  
-  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.alerts.js"></script>
-  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.reveal.js"></script>
-  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.forms.js"></script>
-  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.tooltips.js"></script>
-  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.cookie.js"></script>
-  <script src="{{ MEDIA_URL }}/javascripts/foundation/modernizr.foundation.js"></script>
-  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.joyride.js"></script>
-
-
-  <!--
-      <script src="javascripts/foundation/jquery.foundation.topbar.js"></script>
-      <script src="javascripts/foundation/jquery.placeholder.js"></script>
-      <script src="javascripts/foundation/jquery.event.move.js"></script>
-      <script src="javascripts/foundation/jquery.event.swipe.js"></script>
-      <script src="javascripts/foundation/jquery.foundation.accordion.js"></script>
-      <script src="javascripts/foundation/jquery.foundation.buttons.js"></script>
-      <script src="javascripts/foundation/jquery.foundation.clearing.js"></script>
-      <script src="javascripts/foundation/jquery.foundation.joyride.js"></script>
-      <script src="javascripts/foundation/jquery.foundation.magellan.js"></script>
-      <script src="javascripts/foundation/jquery.foundation.mediaQueryToggle.js"></script>
-      <script src="javascripts/foundation/jquery.foundation.navigation.js"></script>
-      <script src="javascripts/foundation/jquery.foundation.orbit.js"></script>
-      <script src="javascripts/foundation/jquery.foundation.tabs.js"></script>
-  -->
-
-  <!-- Application Javascript, safe to override -->
+</footer>
+{% block extrahtml %}
+<!-- Extra html gets inserted here (like for modal dialogs, etc.) -->
+{% endblock %}
+  <!-- Included JS Files -->
   <script src="{{ MEDIA_URL }}/javascripts/foundation/app.js"></script>
   <script src="{{ MEDIA_URL }}/javascripts/mutuality.js"></script>
   <script src="{{ MEDIA_URL }}/javascripts/plugins.js"></script>
   <script src="{{ MEDIA_URL }}/javascripts/transform.js"></script>
   <script src="http://connect.facebook.net/en_US/all.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.autocomplete.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.cookie.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.alerts.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.reveal.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.forms.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.tooltips.js"></script>
+  <script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.foundation.joyride.js"></script>
 
   <!-- User feedback JS -->
   <script type="text/javascript">
@@ -186,9 +160,10 @@
     })();
   </script>
 
+  <!-- JS to be executed only if logged in -->
   {% if user.is_authenticated %}
     {% if profile %}
-        <script type="text/javascript">
+    <script type="text/javascript">
         // Update the message count in the header
          Mutuality.init('{{ profile.facebookID }}', '../');
          Mutuality.getNewMessageCount(function(count){
@@ -202,14 +177,27 @@
          });
 
       // Make sure the header shows the active page
-      $(function(){
-            var url = window.location.href; 
-          $(".page-nav").each(function() {
-              if(url.indexOf(this.href) !== -1) { 
-                  $(this).closest("li").addClass("active");
-              }
-            });
+      var url = window.location.href;
+      $(".page-nav").each(function() {
+          if(url.indexOf(this.href) !== -1) {
+              $(this).closest("li").addClass("active");
+          }
+       });
+
+      // Fire some mixpanel events
+      mixpanel.register({"Gender":Mutuality.cache.profile.gender, "Location":Mutuality.cache.profile.location, "Relationship":Mutuality.cache.profile.relationshipStatus, "RegDate":Mutuality.cache.profile.date_created});
+      mixpanel.identify(Mutuality.cache.profile.facebookID);
+      mixpanel.name_tag(Mutuality.cache.profile.name);
+      if (Mutuality.cache.profile.facebookID === "3900450" || Mutuality.cache.profile.facebookID === "1240230066" || Mutuality.cache.profile.facebookID === "1065870234") {
+          mixpanel.register({"$ignore":"true"});
+          console.log("Mixpanel is ignoring this session");
+      }
+
+      // Track logging out
+      $('#menu-logout').on('click', 'a', function(){
+        mixpanel.track("Logged out");
       });
+
       {% if HideMeetPeople %}
         $("#menu-meet-people").hide();
         $("#logoImageLink").attr("href", "/");
@@ -217,141 +205,9 @@
       {% endif %}
     </script>
     {% endif %}
-  {% endif %} 
-
-<!-- Autocomplete styles -->
-<style type="text/css">
-   
-</style>
-
-<!-- Notification styles -->
-<style type=text/css>
-    .message
-    {
-            -webkit-background-size: 40px 40px;
-            -moz-background-size: 40px 40px;
-            background-size: 40px 40px;         
-            background-image: -webkit-gradient(linear, left top, right bottom,
-                                    color-stop(.25, rgba(255, 255, 255, .05)), color-stop(.25, transparent),
-                                    color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .05)),
-                                    color-stop(.75, rgba(255, 255, 255, .05)), color-stop(.75, transparent),
-                                    to(transparent));
-            background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
-                                transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
-                                transparent 75%, transparent);
-            background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
-                                transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
-                                transparent 75%, transparent);
-            background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
-                                transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
-                                transparent 75%, transparent);
-            background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
-                                transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
-                                transparent 75%, transparent);
-            background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
-                                transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
-                                transparent 75%, transparent);
-                                    
-             -moz-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
-             -webkit-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);       
-             box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
-             width: 100%;
-             border: 1px solid;
-             color: #fff;
-             padding: 15px;
-             position: fixed;
-             _position: absolute;
-             text-shadow: 0 1px 0 rgba(0,0,0,.5);
-             -webkit-animation: animate-bg 5s linear infinite;
-             -moz-animation: animate-bg 5s linear infinite;
-    }
-
-    .info
-    {
-             background-color: #4ea5cd;
-             border-color: #3b8eb5;
-    }
-
-    .error
-    {
-             background-color: #de4343;
-             border-color: #c43d3d;
-    }
-             
-    .warning
-    {
-             background-color: #eaaf51;
-             border-color: #d99a36;
-    }
-
-    .success
-    {
-             background-color: #61b832;
-             border-color: #55a12c;
-    }
-
-    .message h3
-    {
-             margin: 0 0 5px 0;                                                  
-    }
-
-    .message p
-    {
-             margin: 0;                                                  
-    }
-
-    @-webkit-keyframes animate-bg
-    {
-        from {
-            background-position: 0 0;
-        }
-        to {
-           background-position: -80px 0;
-        }
-    }
-
-    @-moz-keyframes animate-bg 
-    {
-        from {
-            background-position: 0 0;
-        }
-        to {
-           background-position: -80px 0;
-        }
-    }
-</style>
-<script src="{{ MEDIA_URL }}/javascripts/foundation/jquery.autocomplete.js"></script>
-
-<script>
-$(window).load(function(){
-  mixpanel.register({"Gender":Mutuality.cache.profile.gender, "Location":Mutuality.cache.profile.location, "Relationship":Mutuality.cache.profile.relationshipStatus, "RegDate":Mutuality.cache.profile.date_created});
-  mixpanel.identify(Mutuality.cache.profile.facebookID);
-  mixpanel.name_tag(Mutuality.cache.profile.name);
-  if (Mutuality.cache.profile.facebookID === "3900450" || Mutuality.cache.profile.facebookID === "1240230066" || Mutuality.cache.profile.facebookID === "1065870234") {
-      mixpanel.register({"$ignore":"true"});
-      console.log("Mixpanel is ignoring this session");
-  }   
-
-   //Google Analytics Tracking
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-39862044-1', 'mymutuality.com');
-  ga('send', 'pageview');
-
-})
-
-$('#menu-logout').on('click', 'a', function(){
-  mixpanel.track("Logged out"); 
-})
-
-</script>
-
+  {% endif %}
   {% block extrascript %} 
     <!-- Extra page scripts get inserted here -->
   {% endblock %}
-
   </body>
 </html>

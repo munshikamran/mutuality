@@ -200,22 +200,25 @@
 </div>
 </div>
 <br />
+{% endblock %}
 
+{% block extrahtml %}
+    <section id="alerts">
+        <div class="error message">
+         <h3>Error!</h3>
+         <p>There was a problem saving your beacon.</p>
+        </div>
+        <div class="success message">
+             <h3>Success!</h3>
+             <p>We successfully saved your beacon.</p>
+        </div>
+        <ul id="trigger-list">
+             <li><a href="#" class="trigger error-trigger" style="display:none;">Error</a></li>
+             <li><a href="#" class="trigger success-trigger" style="display:none;">Success</a></li>
+        </ul>
+    </section>
 {% endblock %}
- {% block extrahtml %} 
-<div class="error message">
-	 <h3>Error!</h3>
-	 <p>There was a problem saving your profile.</p>
-</div>
-<div class="success message">
-	 <h3>Success!</h3>
-	 <p>We successfully saved your profile.</p>
-</div>
-<ul id="trigger-list">
-	 <li><a href="#" class="trigger error-trigger" style="display:none;">Error</a></li>
-	 <li><a href="#" class="trigger success-trigger" style="display:none;">Success</a></li>
-</ul>  
-{% endblock %}
+
 {% block extrascript %}
 <script type="text/javascript" src="{{ MEDIA_URL }}/javascripts/organictabs.jquery.js"></script>
 <script>
