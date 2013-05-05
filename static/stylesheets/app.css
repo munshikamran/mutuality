@@ -6297,7 +6297,7 @@ form.custom div.custom.dropdown ul li.selected:hover {
 }
 
 #double-digit {
-  padding: 5px 0px 0px 3px;
+  padding: 5px 0px 0px 2px;
 }
 
 /* line 161, ../sass/app.scss */
@@ -6322,9 +6322,10 @@ form.custom div.custom.dropdown ul li.selected:hover {
 }
 
 #nav #menu-beacon a {
-  background: url(../images/newDropPin.png) no-repeat !important;
+  background-image: url(../images/likebutton.png) !important;
   /* background: url(../images/ui-icons-sprite.png) no-repeat;*/
-  background-position:-8px 0px !important;
+  background-position:8px 12px !important;
+  background-size: 15px 13px;
   display: block;
   padding: 10px 10px 10px 27px;
   font-size: 16px;
