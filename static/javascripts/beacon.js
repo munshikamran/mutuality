@@ -50,8 +50,13 @@
             profileDict['beacon-activity'] = $('#reg-activity').val();
             profileDict['beacon-place']  = $('#reg-place').val();
             Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], function(success){
-                 $('.success-trigger').trigger('click');
-                 setTimeout(function(){window.location="/meetpeople/";},200);
+            mixpanel.track("Beacon set", {
+            "Activity": profileDict['beacon-activity'],
+            "Place": profileDict['beacon-place']
+            }, function() {
+                $('.success-trigger').trigger('click');
+                 setTimeout(function(){window.location="/meetpeople/";},200);    
+            });
             }, function(fail){
                 $('#location-error').show();
                 $('.error-trigger').trigger('click');
@@ -65,9 +70,15 @@
 
     $('#reg-activity').on('focus', function(){
         $(this).tooltipster('show');
-        $("#place-information").animate({width:'hide'},350, function(){
-            $("#accordion").animate({width:'show'},350);
-        });
+        if ( $('#reg-place').val().length > 0) {
+                $('#place-description').animate({width:'hide'},350, function(){
+                    $("#accordion").animate({width:'show'},350);
+                });
+            } else {
+                $('#place-information').animate({width:'hide'},350, function(){
+                    $("#accordion").animate({width:'show'},350);
+                });
+            }
     });
 
     $('#reg-place').on('focus', function(){
@@ -133,12 +144,22 @@
 		showMessage(myMessages[i]);
 	}
 
+    $(document).ready(function(){
+        setTimeout(function(){
+            $('#accordion').animate({width:'show'},350);
+            setTimeout(function(){
+                 var randomNumber = Math.round(Math.random()*(2) + 1);
+                $('#accordion').find('.link-header').eq(randomNumber).click();
+            },500)
+        },500);
+
+
+    })
+
 	// When message is clicked, hide it
 	$('.message').click(function(){			  
 		  $(this).animate({top: -$(this).outerHeight()}, 300);
 	});
-
-
 
     // When page loads, check to see if a place is already filled in and populate the image from facebook.
     if($("#reg-place").val() !== ""){

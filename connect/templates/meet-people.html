@@ -52,32 +52,38 @@
 						<aside id="user-profile" class="three columns">
 <!-- 							<h6>Learn About <span class="profile-name"></span><div class="tooltipster-icon" title='<div class="tooltip-question"> <span class=question-header>Get Introduced</span>
  <span class=question-body>Click to pick a friend to ask for an introduction</span></div>' id="question"></div></h6> -->
-                        <div id="beaconWrapper" style="display:none;">
-						
-						<div>
-							<span id='adjustBeaconTitle'><span class="profile-name"></span>'s Beacon</span>
-							<span id='drop-pin'><img src="{{ MEDIA_URL }}/images/newDropPinBlue.png" width="11px"></span>
-						</div>
-
-						<div class="beacon-question" title='<div class="tooltip-question"> <span class=question-header>Beacon</span><span class=question-body>"Like" a friend-of-friend&#39s beacon to connect through activities</span></div>' id="question"></div>
-						
-						<div id="beacon">
-						<!-- 	<h6 id="adjustBeaconHeader">Do you also like <span id="beacon-activity">Poker</span>?</h6>
-							<div id="beacon-image-div">
-								<img class="profile-thumb adjustBeaconImage" src="">
-							</div>	 -->	
-							<div id="beacon-info">
-								<span id="activity"></span>
-								<span id="at-span"><img id="at-image" src="{{ MEDIA_URL }}/images/At.png"></span>
-								<span id="place"></span>
+                        <div id="beaconWrapper">
+							<div>
+								<span id='adjustBeaconTitle'><span class="profile-name"></span>'s Beacon</span>
+								<span id='drop-pin'><img src="{{ MEDIA_URL }}/images/newDropPinBlue.png" width="11px"></span>
+								<div class="beacon-question" title='<div class="tooltip-question"> <span class=question-header>Beacon</span><span class=question-body>"Like" a friend-of-friend&#39s beacon to connect through activities</span></div>' id="question"></div>
 							</div>
-							<div id="beacon-like-div">
-							<!-- 	<img id="beacon-nub" src="{{ MEDIA_URL }}/images/Beacon-Nub.png"> -->
-								<span id="animate-out"><span id="like-span"><i id="like-button"></i></span>
-								<span id="like-text">Like</span></span>
-								<span id="like-block"><span id="like-number"><span id="beacon-like-number"></span> <span id="plural-agreement">people like this</span></span></span>
-							</div>	
-						</div>
+							<div id="beacon">
+							<!-- 	<h6 id="adjustBeaconHeader">Do you also like <span id="beacon-activity">Poker</span>?</h6>
+								<div id="beacon-image-div">
+									<img class="profile-thumb adjustBeaconImage" src="">
+								</div>	 -->	
+								<div id="beacon-info">
+									<span id="activity"></span>
+									<span id="at-span"><img id="at-image" src="{{ MEDIA_URL }}/images/At.png"></span>
+									<span id="place"></span>
+								</div>
+								<div id="beacon-like-div">
+								<!-- 	<img id="beacon-nub" src="{{ MEDIA_URL }}/images/Beacon-Nub.png"> -->
+									<span id="animate-out"><span id="like-span"><i id="like-button"></i></span>
+									<span id="like-text">Like</span></span>
+									<span id="like-block">
+										<span id="like-number">
+											<span id='hasLiked'>
+											</span>	
+											<span id="beacon-like-number">	
+											</span>
+											<span id="plural-agreement">
+											</span>
+										</span>
+									</span>
+								</div>	
+							</div>
                         </div>
 							
 							<h6 id="adjustAskAboutHeader">Ask About <span class="profile-name"></span>
@@ -106,8 +112,9 @@
 							<hr />
 
 							<ul id="alt-actions" class="menu">
-								<li id="introduce" ><a href="#" class="facebook-adjust button" data-reveal-id="myModalIntroduce"><i></i></a></li>
-								<!--<li id="view-fb"><a href="#" class="button"><i></i>Facebook Profile</a></li>-->
+								<!--<li id="introduce" ><a href="#" class="facebook-adjust button" data-reveal-id="myModalIntroduce"><i></i></a></li>-->
+                                <li id="introduce" ><a href="#" class="facebook-adjust button"><i></i></a></li>
+                                <!--<li id="view-fb"><a href="#" class="button"><i></i>Facebook Profile</a></li>-->
 							</ul>
 
 						</aside>

@@ -9104,9 +9104,9 @@ border-bottom:1px solid #DDD;
  background: url(../images/likebutton.png);
  background-size: 12px 12px;
  background-repeat:no-repeat;
-  display:inline-block;
+ display:inline-block;
  /* height:25px;*/
-  /*text-align:center;*/
+ /*text-align:center;*/
   margin:40% -35% 0% 0%;
   float:right;
   height:20px;
@@ -9186,9 +9186,7 @@ div#question:hover{
 }
 
 .beacon-question{
-  position:absolute;
-  right:100px;
-  top:-5px;
+  display:inline-block;
   cursor:pointer;
 }
 
@@ -9514,6 +9512,7 @@ div#question:hover{
 }
 
 #accordion {
+  display:none;
   width: 350px;     /* Set to accordion width */
   height: 260px;      /* Set to image height */
   font-family: "proxima-nova", sans-serif;
@@ -9773,9 +9772,7 @@ font-weight:normal;
 }
 
 #drop-pin {
-  position:absolute;
-  top:-3px;
-  margin-left:4px;
+ display:inline-block;
 
 }
 
@@ -9787,6 +9784,8 @@ font-weight:normal;
   background-image:url(../images/squareicon.png) !important;
   background-size:56px 56px;
   background-repeat:no-repeat !important;
+  background-position:-22px -21px;
+  background-size: 100px 100px;
 }
 
 /* TABS ON ACCOUNT PAGE CSS */
@@ -9985,10 +9984,12 @@ div#tips {
 }
 
 #adjustBeaconSelectionTitle {
-  height:100px;
+  height:30px;
   width:700px;
   z-index:1001;
   margin-top:30px;
+  margin-left:auto;
+  margin-right:auto;
 /*  position:absolute;
   top:90px;
   left:32px;*/
@@ -9998,6 +9999,8 @@ div#tips {
 #adjustBeaconSelectionTitle div {
   display:block;
   margin:10px 0px 10px 20px;
+  margin-right:auto;
+  margin-left:auto;
 }
 
 #askAboutTitle {
@@ -10073,6 +10076,8 @@ div#tips {
 }
 
 #iconRegisterPic {
+  background-position:-21px -20px;
+  background-size: 120px 120px;
   width:80px;
   height:80px;
   position:absolute;
@@ -10172,4 +10177,12 @@ width: 12px;
   background-image: linear-gradient(#3a5a97 0%, #2d477a 100%) !important;
   text-shadow:none !important;
   color:#FFFFFF !important;
+}
+
+#beaconWrapper {
+  display:none;
+}
+
+#introduce {
+  display:none;
 }

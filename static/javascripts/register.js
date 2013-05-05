@@ -63,13 +63,14 @@
             profileDict['location'] = $("#reg-location").val();
             profileDict['relationship_status'] = $("#reg-relationship :selected").text();
             profileDict['gender'] = $("#reg-sex :selected").text();
-            console.log(profileDict);
+            //console.log(profileDict);
             Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
-                //mixpanel.track("Registration");
                 mixpanel.alias(Mutuality.cache.profile.facebookID);
                 mixpanel.identify(Mutuality.cache.profile.facebookID);
-                $('.success-trigger').trigger('click');
-                window.location = "/meetpeople/";
+                mixpanel.track("Registration", {}, function() {
+                    $('.success-trigger').trigger('click');
+                    window.location = "/beacon/";
+                });
             });
         }
         else {
