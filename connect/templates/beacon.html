@@ -13,6 +13,7 @@
     <hr />
 </section>
 
+<section id="main" data-URL={{ URL }} class="row">
 <div id='adjustBeaconSelectionTitle'>
     <span id="beaconDefinitionTitle">Bea&bull;con</span> <span id="beaconNoun">n.</span>
         <div><span class="beaconNumbers">1.</span><span class="beaconDefinition"> A proposed activity at a particular place that you'd enjoy with friends-of-friends.</span></div>
@@ -209,6 +210,12 @@
 		effect:'slideRandom',
 		speed:500
 	});
+
+    // Init Facebook JS object
+    FB.init({
+       appId  : '{{ FACEBOOK_APP_ID }}',
+       frictionlessRequests: true
+    });
 
 	mixpanel.track("Beacons loaded");
 

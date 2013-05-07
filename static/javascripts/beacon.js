@@ -50,13 +50,38 @@
             profileDict['beacon-activity'] = $('#reg-activity').val();
             profileDict['beacon-place']  = $('#reg-place').val();
             Mutuality.setBeacon(profileDict['beacon-place'], profileDict['beacon-activity'], function(success){
-            mixpanel.track("Beacon set", {
-            "Activity": profileDict['beacon-activity'],
-            "Place": profileDict['beacon-place']
-            }, function() {
                 $('.success-trigger').trigger('click');
-                 setTimeout(function(){window.location="/meetpeople/";},200);    
-            });
+                setTimeout(function(){
+                    FB.ui(
+                        {
+                           method: 'feed',
+                           name: 'Anyone want to join me for ' + $('#reg-activity').val() + ' at ' + $('#reg-place').val() + '?',
+                           caption: 'Mutuality helps me connect with friends of friends through my Beacons!',
+                           link: 'https://www.mymutuality.com',
+                           picture: 'http://i.imgur.com/Hcy3Clo.jpg',
+                           redirect_url: $("#main").data('url')
+                         },
+                      function(response) {
+                        if (response && response.post_id) {
+                          console.log('Post was published to facebook.');
+                          window.location = '/meetpeople/';
+                          mixpanel.track("Beacon set", {
+                                "Activity": profileDict['beacon-activity'],
+                                "Place": profileDict['beacon-place'],
+                                "FacebookPosted": "true"
+                          });
+                        } else {
+                          console.log('Post was not published to facebook.');
+                          window.location = '/meetpeople/';
+                          mixpanel.track("Beacon set", {
+                                "Activity": profileDict['beacon-activity'],
+                                "Place": profileDict['beacon-place'],
+                                "FacebookPosted": "false"
+                          });
+                        }
+                      }
+                    );
+                },300);
             }, function(fail){
                 $('#location-error').show();
                 $('.error-trigger').trigger('click');
@@ -66,6 +91,28 @@
             $('#places-error').show();
             $('.error-trigger').trigger('click');
         }
+    });
+
+    $("#post-fb-button").click(function(){
+        $("#save-button").trigger('click');
+        var feedPostUrl = 'https://graph.facebook.com/me/feed/';
+            $.ajax({
+                url: feedPostUrl,
+                dataType: 'json',
+                type: 'POST',
+                params: {access_token: $("#auth_token").html(),
+                            message: "fuck yeah",
+                            link: "google.com",
+                            name: "hello",
+                            caption: "caption",
+                            description: "description"},
+                success: function(data) {
+                    console.log("success")
+                },
+                error: function(data) {
+                    console.log("error");
+                }
+		    });
     });
 
     $('#reg-activity').on('focus', function(){
