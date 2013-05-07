@@ -58,6 +58,16 @@
 			  setTimeout(function(){$('.'+type).animate({top: -$(this).outerHeight()}, 300)}, 1000);
 		});
 	}
+
+    // Populate the CTA with actual friend data
+    var populateCTA = function(friends){
+        friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
+        $('#four-images img').each(function(i) {
+        	if (i < friends.length) {
+            	$(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
+        	}
+        });
+    }
 /* End Helper functions */
 
 /* Begin Account Main Code */
@@ -99,6 +109,9 @@
     $("#tabsdiv").organicTabs({
         "speed": 200
     });
+
+    Mutuality.loadFriendsList(4, populateCTA);
+
 
 /* End Main Code */
 

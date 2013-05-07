@@ -419,46 +419,108 @@ function beginBeaconImageHoverToggle() {
    	   $(".close-reveal-modal").trigger('click');
 	}
 
-	var check
+	var hasLikedBeacon = function (likesArray, success) {
+		var response = false;
+		for (i = 0; i < likesArray.length; i++) {
+			console.log(likesArray[i].facebookID);
+			console.log(Mutuality.token);
+			if (likesArray[i].facebookID === Mutuality.token) {
+				response = true;
+				break;
+			}
+		}	
+		success(response);
+	}
+	var likeTextLoad = function(fbID, likeNumber) {
+			// $('#hasLiked').html("").hide();
+			// $('#beacon-like-number').html("").hide();
+			// $('#plural-agreement').html("").hide();
+			hasLikedBeacon(likeNumber, function(beaconLiked){
+				console.log(likeNumber);
+				var numberOfLikes = likeNumber.length;
+				console.log(beaconLiked);
+				//console.log(numberOfLikes);
+				if (beaconLiked === true) {
+					$('#animate-out').hide();
+					if (numberOfLikes === 1) {
+						console.log("I liked and one like")
+						$('#hasLiked').html("You liked this").show();
+						$('#beacon-like-number').html("").hide();
+						$('#plural-agreement').html("").hide();
+					} else if (numberOfLikes === 2) {
+						console.log("I liked and two likes")
+						var numberOfOtherLikes = numberOfLikes - 1;
+						$("#like-number").show();
+						$('#hasLiked').html("You and").show();
+						$('#beacon-like-number').html(numberOfOtherLikes).show();
+						$('#plural-agreement').html("person like this").show();
+					} else {
+						console.log("I liked and more than two likes")
+						numberOfOtherLikes = numberOfLikes - 1;
+						$("#like-number").show();
+						$('#hasLiked').html("You and").show();
+						$('#beacon-like-number').html(numberOfOtherLikes).show();
+						$('#plural-agreement').html("people like this").show();
+					}	
+				} else {
+					$('#animate-out').show();
+					$('#hasLiked').hide();
+					if (numberOfLikes === 0) {
+						$('#like-number').hide();
+					} else if (numberOfLikes === 1) {
+						$('#beacon-like-number').html(numberOfLikes).show();
+						$('#plural-agreement').html("person likes this").show();
+					} else {
+						$('#beacon-like-number').html(numberOfLikes).show();
+						$('#plural-agreement').html("people like this").show();	
+					}
+				}
+			});
+					
+	}
 
 	var loadBeacon = function(fbID){
 		Mutuality.getBeacon(fbID, function(success){
-			var beaconObject = success;
+			var beaconObject = success.beacon;
+			var likesArray = success.beaconLikes;
             if (beaconObject == '[]' || beaconObject.length === 0){
                 $("#beaconWrapper").hide();
+                beaconExists = "False";
             }
             else {
                 var activity = beaconObject.activity;
                 var place = beaconObject.place;
-                //$('#beacon-activity').html(activity);
+                beaconExists = "True";
                 $('#activity').html(activity);
                 $('#place').html(place);
                 $('#adjustBeaconTitle').show();
                 $("#beaconWrapper").show();
-                
-                Mutuality.hasLikedBeacon(fbID, function(success) {
-                    if(success===true) {
-                    	$('#animate-out').hide();
-                    } else {
-                    	$('#animate-out').show();
-                    }
-                });
-                
-                Mutuality.getBeaconLikeCount(fbID, function(response){
-                    var likeNumber = response;
-                    if (likeNumber === 0) {
-                        $('#like-number').hide();
-                    } else {
-                    	$('#beacon-like-number').html(response);
-	                        if (likeNumber===1) {
-	                            $('#plural-agreement').html("person likes this");
-	                        } else {
-	                        	$('#plural-agreement').html("people like this");
-	                        }
-	                    $('#like-number').show();    
-                    }
-                });
+                likeTextLoad(fbID, likesArray);
+
+                // hasLikedBeacon(likesArray, function(success) {
+                //     if(success===true) {
+                //     	$('#animate-out').hide();
+                //     }
+                // });
+                //     var likeNumber = likesArray.length;
+                //     if (likeNumber === 0) {
+                //         $('#like-number').hide();
+                //     } else {
+                //     $('#beacon-like-number').html(likeNumber);
+                //         if (likeNumber===1) {
+                //             $('#plural-agreement').html("person likes this");
+                //         } else {
+                //         	$('#plural-agreement').html("people like this");
+                //         }
+                //     }
+                // $('#adjustBeaconTitle').show();
+                // $("#beaconWrapper").show();
+                // likeTextLoad(fbID);
             }
+        mixpanel.track ("Person loaded", {
+	                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
+	                    "Beacon": beaconExists
+	                });    
         });
 	}	
 
@@ -492,16 +554,21 @@ function beginBeaconImageHoverToggle() {
 		    		//$("#introduce").html('<a href="#" class="get-intro-adjust button" data-reveal-id="myModalIntroduce"><i></i>View on Facebook</a>');
 		    		var firstName = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current).name.split(" ")[0]
 		    		var fbButtonMessage = firstName + "'s Profile";
-		    		$("#introduce").html('<a href="#" class="facebook-adjust button"><i></i>' + fbButtonMessage + '</a>');
+		    		$("#introduce").html('<a href="#" class="facebook-adjust button"><i></i>' + fbButtonMessage + '</a>').show();
 		    		$("#introduce a").attr('onclick', Mutuality.getFacebookPageURL(Mutuality.mpcache.current));
 		    		$('img#mutuality-badge').hide();
 		    		//$('div#beacon').hide();
                     $("#beaconWrapper").hide();
+                    $('#introduce').show();
+                    mixpanel.track ("Person loaded", {
+                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
+                    "Beacon": "False"
+                	});
 
 		    	}
 		    	else {
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
-		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Send Message</a>');
+		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Send Message</a>').show();
 		    		$('img#mutuality-badge').show();
 		    		loadBeacon(Mutuality.mpcache.current);
 		    		//$('div#beacon').show();
@@ -595,30 +662,7 @@ function beginBeaconImageHoverToggle() {
 		    	}
 			} else {
 				$('#page-prev').trigger('click');
-			}
-
-            var beaconExists;
-
-            if (Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current] === true) {
-	            Mutuality.getBeacon(Mutuality.mpcache.current, function(success) {
-	                var beaconObject = success;
-	                if (beaconObject == '[]' || beaconObject.length === 0) {
-	                    beaconExists = "False";
-	                } else {
-	                    beaconExists = "True";
-	                }
-		            mixpanel.track ("Person loaded", {
-	                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
-	                    "Beacon": beaconExists
-	                });
-		        });    	
-			} else {
-	        	beaconExists = "False";
-	        	mixpanel.track ("Person loaded", {
-                    "User": Mutuality.cache.mutualityUserLookup[Mutuality.mpcache.current],
-                    "Beacon": beaconExists
-                });
-	        }        
+			}      
         }, 130);
 	
 	}
@@ -857,16 +901,6 @@ function beginBeaconImageHoverToggle() {
     	});
     }
 
-    // Populate the CTA with actual friend data
-    var populateCTA = function(friends){
-        friends.sort(function() { return 0.5 - Math.random();}) // shuffle the array
-        $('#four-images img').each(function(i) {
-        	if (i < friends.length) {
-            	$(this).attr('src', Mutuality.getProfilePictureURL(friends[i].facebookID, 84, 84));
-        	}
-        });
-    }
-
     var createMutualityUserLookUp = function(friends){
     	for (i=0;i<friends.length;i++){
     		Mutuality.cache.mutualityUserLookup[friends[i].facebookID] = friends[i].isMutualityUser;
@@ -927,7 +961,6 @@ var setNewBadge = function(friends) {
    if($.cookie(cookieName) !== "true") {
 	    Mutuality.updateFriendList(0, function(){
 	    	$.cookie(cookieName, "true");
-	   		Mutuality.loadFriendsList(4, populateCTA);
 			Mutuality.getMeetPeople("FRIENDSHIP", function(friends){
                 if (friends.potentialMatches.length > 0){
                     countDown(friends.batchExpirationTimestamp, new Date().getTime());
@@ -947,7 +980,6 @@ var setNewBadge = function(friends) {
 		});
 	}
 	else {
-		Mutuality.loadFriendsList(4, populateCTA);
 		beginBeaconImageHoverToggle();
 		Mutuality.getMeetPeople("FRIENDSHIP", function(friends){
 			if (friends.potentialMatches.length > 0){
@@ -986,26 +1018,35 @@ var setNewBadge = function(friends) {
 	 		$('#animate-out').hide()
 	 		//$("#like-number").animate({ opcaity: 0.9 },1000, function(){
 	 			//Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
+	 			$('#hasLiked').html("");
+				$('#beacon-like-number').html("");
+				$('#plural-agreement').html("");
+
 	 			Mutuality.getBeaconLikeCount(Mutuality.mpcache.current, function(success){
+		 			var totalLikes = success;
 		 			mixpanel.track("Beacon liked", {
 		 				"Beacon liker":Mutuality.cache.profile.name,
 		 				"Beacon likee":Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current).name,
 		 				"Activity liked":$('#activity').html(),
 		 				"Place liked":$('#place').html(),
-		 				"Total likes":success
-		 			});
-	 			if (success!==1) {
-	 				//$('#beacon-like-number').fadeOut();
-	 				$('#beacon-like-number').html(success);
-	 				$('#plural-agreement').html("people like this");
-	 				$('#beacon-like-number').fadeIn();
-	 			} else {
-	 				//$("#like-number").fadeOut(100);
-	 				//$("#like-number").hide();
-	 				$('#beacon-like-number').html(success);
-	 				$('#plural-agreement').html("person likes this");
-	 				$("#like-number").fadeIn();
+		 				"Total likes":totalLikes
+		 	   		});
+	 			if (totalLikes === 1) {
+	 				$('#hasLiked').html("You like this").show();
+	 				$("#like-number").show();
 	 			}
+	 			else if (totalLikes === 2) {
+	 				$('#hasLiked').html("You and").show();
+	 				$('#beacon-like-number').html("1");
+	 				$('#plural-agreement').html("person likes this");
+	 				$("#like-number").show();
+	 			}
+	 			else {
+	 				$('#hasLiked').html("You and").show();
+	 				$('#beacon-like-number').html(success).show();
+	 				$('#plural-agreement').html("people like this").show();
+	 				$("#like-number").show();
+	 			} 
 	 		});	
 	 			//picture should change to a thumbs up?
 	 		//});

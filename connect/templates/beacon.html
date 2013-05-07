@@ -6,249 +6,154 @@
 <script src="{{ MEDIA_URL }}/javascripts/jquery.easing.1.3.js"></script>
 <script src="{{ MEDIA_URL }}/javascripts/jquery.scrollTo.js"></script>
 
-					<section id="page-title" style="margin-bottom:10px" class="row">
-						<div class="eight columns">
-							<h2>Set Your Beacon</h2>
-						</div>
-						<hr />
-					</section>
+<section id="page-title" style="margin-bottom:10px" class="row">
+    <div class="eight columns">
+        <h2>Set Your Beacon</h2>
+    </div>
+    <hr />
+</section>
 
-						<div id='adjustBeaconSelectionTitle'>
-							<span id="beaconDefinitionTitle">Bea&bull;con</span> <span id="beaconNoun">n.</span> 
-								<div><span class="beaconNumbers">1.</span><span class="beaconDefinition"> A proposed activity at a particular place that you'd enjoy with friends-of-friends.</span></div> 
-								
-								<div><span class="beaconNumbers">2.</span><span class="beaconDefinition"> Your beacon is posted to your profile and only visible to friends-of-friends.</span></div>
+<div id='adjustBeaconSelectionTitle'>
+    <span id="beaconDefinitionTitle">Bea&bull;con</span> <span id="beaconNoun">n.</span>
+        <div><span class="beaconNumbers">1.</span><span class="beaconDefinition"> A proposed activity at a particular place that you'd enjoy with friends-of-friends.</span></div>
+</div>
 
-								<div><span class="beaconNumbers">3.</span><span class="beaconDefinition"> After someone "likes" your beacon, ask a mutual friend to learn more.</span></div>
-						</div>	
+<div id="slidorion">
+    <div id="slider">
+        <div class="slide">
+            <img src="{{ MEDIA_URL }}/images/red.png" height="260px" width="368px">
+        </div>
+        <div class="slide">
+            <img src="{{ MEDIA_URL }}/images/blue.png" height="260px" width="368px">
+        </div>
+        <div class="slide">
+            <img src="{{ MEDIA_URL }}/images/green.png" height="260px" width="368px">
+        </div>
+        <div class="slide">
+            <img src="{{ MEDIA_URL }}/images/black.png" height="260px" width="368px">
+        </div>
+    </div>
 
-					<div id="slidorion">
+    <div id="accordion">
+        <div class="link-header">Sports</div>
+            <div class="link-content">
+                <div class="activity-background">
+                    <div class="activity-list">
+                        <a>Soccer</a>
+                        <a>Tennis</a>
+                        <a>Basketball</a>
+                        <a>Ice Hockey</a>
+                        <a>Golf</a>
+                    </div>
+                    <div class="activity-list">
+                        <a>Baseball</a>
+                        <a>Volleyball</a>
+                        <a>Football</a>
+                        <a>Other...</a>
+                    </div>
+                </div>
+            </div>
+        <div class="link-header">Recreation</div>
+            <div class="link-content">
+            <div class="activity-background">
+                <div class="activity-list">
+                    <a>Poker</a>
+                    <a>Board Games</a>
+                    <a>Video Games</a>
+                    <a>Paintball</a>
+                    <a>Mini Golf</a>
+                </div>
+                <div class="activity-list">
+                    <a>Climbing Gym</a>
+                    <a>Working Out</a>
+                    <a>Bowling</a>
+                    <a>Other...</a>
+                </div>
+            </div>
+        </div>
+        <div class="link-header">Outdoors</div>
+            <div class="link-content">
+                <div class="activity-background">
+                    <div class="activity-list">
+                        <a>Hiking</a>
+                        <a>Biking</a>
+                        <a>Kayaking</a>
+                        <a>Hunting</a>
+                        <a>Rock Climbing</a>
+                    </div>
+                    <div class="activity-list">
+                        <a>Fishing</a>
+                        <a>Skiing</a>
+                        <a>Birdwatching</a>
+                        <a>Other...</a>
+                    </div>
+                </div>
+            </div>
+        <div class="link-header">Social</div>
+            <div class="link-content">
+                <div class="activity-background">
+                    <div class="activity-list">
+                        <a>Karaoke</a>
+                        <a>Pub Crawl</a>
+                        <a>Dog Walking</a>
+                        <a>Happy Hour</a>
+                        <a>Shopping</a>
+                    </div>
+                    <div class="activity-list">
+                        <a>Dancing</a>
+                        <a>Wine Tasting</a>
+                        <a>420</a>
+                        <a>Other...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-						<div id="slider">
-							<div class="slide">
-								<img src="{{ MEDIA_URL }}/images/red.png" height="260px" width="368px">
-							</div>
-							<div class="slide">
-								<img src="{{ MEDIA_URL }}/images/blue.png" height="260px" width="368px">
-							</div>	
-							<div class="slide">
-								<img src="{{ MEDIA_URL }}/images/green.png" height="260px" width="368px">
-							</div>
-							<div class="slide">
-								<img src="{{ MEDIA_URL }}/images/black.png" height="260px" width="368px">
-							</div>
-						</div>
+    <div id="place-information">
+        <img src="{{ MEDIA_URL }}/images/newDropPinBlue.png" width="20px">
+        <h4>Pick anywhere nearby.</h4>
+        <span>From your neighborhood, to a park, to the bar</span>
+    </div>
 
-						<div id="accordion">
-								<div class="link-header">Sports</div>
-								<div class="link-content">
-									<div class="activity-background">
-										<div class="activity-list">
-											<!-- <li> -->
-												<a>Soccer</a>
-											<!-- </li> -->
-											<!-- <li> -->
-												<a>Tennis</a>
-											<!-- </li> -->
-											<!-- <li> -->
-												<a>Basketball</a>
-											<!-- </li> -->
-											<!-- <li> -->
-												<a>Ice Hockey</a>
-											<!-- </li> -->
-											<!-- <li> -->
-												<a>Golf</a>
-											<!-- </li> -->
-										</div>
-										<div class="activity-list">	
-											<!-- <li> -->
-											<!-- </li> -->
-											<!-- <li> -->
-												<a>Baseball</a>
-											<!-- </li> -->
-											<!-- <li> -->
-												<a>Volleyball</a>
-											<!-- </li> -->
-											<!-- <li> -->
-												<a>Football</a>
-											<!-- </li> -->
-											<!-- <li> -->
-												<a>Other...</a>
-											<!-- </li> -->
-										</div>		
-									</div>
-								</div>
-							<div class="link-header">Recreation</div>
-								<div class="link-content">
-								<div class="activity-background">
-									<div class="activity-list">
-										<!-- <li> -->
-											<a>Poker</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Board Games</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Video Games</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Paintball</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Mini Golf</a>
-										<!-- </li> -->
-									</div>
-									<div class="activity-list">	
-										<!-- <li> -->
-											<a>Climbing Gym</a>
-										<!-- </li> -->
-										<!-- <li> -->
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Working Out</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Bowling</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Other...</a>
-										<!-- </li> -->
-									</div>		
-								</div>
-							</div>	
-							<div class="link-header">Outdoors</div>
-								<div class="link-content">	
-									<div class="activity-background">
-										<div class="activity-list">
-										<!-- <li> -->
-											<a>Hiking</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Biking</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Kayaking</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Hunting</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Rock Climbing</a>
-										<!-- </li> -->
-										</div>
-									<div class="activity-list">	
-										<!-- <li> -->
-											<a>Fishing</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Skiing</a>
-										<!-- </li> -->
-										<!-- <li> -->
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Birdwatching</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Other...</a>
-										<!-- </li> -->
-									</div>			
-								</div>
-							</div>
-							<div class="link-header">Social</div>
-								<div class="link-content">
-									<div class="activity-background">
-									<div class="activity-list">
-										<!-- <li> -->
-											<a>Karaoke</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Pub Crawl</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Dog Walking</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Happy Hour</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Shopping</a>
-										<!-- </li> -->
-									</div>
-									<div class="activity-list">	
-										<!-- <li> -->
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Dancing</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Wine Tasting</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>420</a>
-										<!-- </li> -->
-										<!-- <li> -->
-											<a>Other...</a>
-										<!-- </li> -->
-									</div>		
-								</div>
-						</div>
-					</div>	
+    <div id="place-description">
+        <img src="{{ MEDIA_URL }}/images/noPlace.png">
+        <h4></h4>
+    </div>
 
-					<div id="place-information">
-						<img src="{{ MEDIA_URL }}/images/newDropPinBlue.png" width="20px">
-						<h4>Pick anywhere nearby.</h4>
-						<span>From your neighborhood, to a park, to the bar</span>
-					</div>
-
-					<div id="place-description">
-						<img src="{{ MEDIA_URL }}/images/noPlace.png">
-						<h4></h4>
-					</div>
-
-					<div id="reg-div">
-						
-
-						<div class="beaconBubbleOne"><span id="numberOneBubbleForBeaconInstruction">1</span><span class="beaconInstructions">Pick an activity that you enjoy</span></div>
-
-						<section>
-						<!-- <section id="main" data-URL={{ URL }} class="row"> -->
-							<form id="registration" class="seven columns custom">			
-								<div id="activity-div" class="row">
-								  <div class="two columns">
-								    <label for="reg-activity"><strong id="adjustBeaconRegistrationLabels">Activity</strong></label>
-								  </div>
-								  
-								  <div class="ten columns">
-								    <input id="reg-activity" type="text" value="{{ beacon.activity }}"/>
-								  </div>
-								</div>
-							</form>
-						</section>
-						
-						<div class="beaconBubbleTwo"><span id="numberTwoBubbleForBeaconInstruction">2</span><span class="beaconInstructions">Pick where you want to do this</span></div>
-
-						<section>
-							<form id="registration" class="seven columns custom"> 		
-								<div id="place-div" style="margin-top:10px" class="row">
-								  <div class="two columns">
-								    <label for="reg-place"><strong id="adjustBeaconRegistrationLabels">Place</strong></label>
-								  </div>
-								  
-								  <div class="ten columns">
-								    <input id="reg-place" type="text" value="{{ beacon.place }}"/>
-								  </div>
-                                  <div id="places-error" style="display:none;">You must select a place from the dropdown.</div>
-                                  <div id="auth_token" style="display:none;">{{ AUTH_TOKEN }}</div>
-                                  <div id="lat" style="display:none;">{{ LAT }}</div>
-                                  <div id="long" style="display:none;">{{ LONG }}</div>
-                                  <div id="places-ajax" style="display:none;">{{ beacon.place }}</div>
-								</div>
-							</form>
-						</section>
-					</div>
+        <div id="reg-div">
+            <div class="beaconBubbleOne"><span id="numberOneBubbleForBeaconInstruction">1</span><span class="beaconInstructions">Pick an activity that you enjoy</span></div>
+            <section>
+                <form id="registration" class="seven columns custom">
+                    <div id="activity-div" class="row">
+                      <div class="two columns">
+                        <label for="reg-activity"><strong id="adjustBeaconRegistrationLabels">Activity</strong></label>
+                      </div>
+                      <div class="ten columns">
+                        <input id="reg-activity" type="text" value="{{ beacon.activity }}"/>
+                      </div>
+                    </div>
+                </form>
+            </section>
+            <div class="beaconBubbleTwo"><span id="numberTwoBubbleForBeaconInstruction">2</span><span class="beaconInstructions">Pick where you want to do this</span></div>
+            <section>
+                <form id="registration" class="seven columns custom">
+                    <div id="place-div" style="margin-top:10px" class="row">
+                      <div class="two columns">
+                        <label for="reg-place"><strong id="adjustBeaconRegistrationLabels">Place</strong></label>
+                      </div>
+                      <div class="ten columns">
+                        <input id="reg-place" type="text" value="{{ beacon.place }}"/>
+                      </div>
+                      <div id="places-error" style="display:none;">You must select a place from the dropdown.</div>
+                      <div id="auth_token" style="display:none;">{{ AUTH_TOKEN }}</div>
+                      <div id="lat" style="display:none;">{{ LAT }}</div>
+                      <div id="long" style="display:none;">{{ LONG }}</div>
+                      <div id="places-ajax" style="display:none;">{{ beacon.place }}</div>
+                    </div>
+                </form>
+            </section>
+        </div>
 				</div>
-	
-							
 					<div class="row">
 					  <div class="five columns">
 						    <input id="save-button" class="medium button setBeaconButton" type="button" href="#" class="medium button" value="Set Beacon" />
@@ -256,32 +161,46 @@
 					</div>
 				</form>
 			</section>
-
-
-
-					<br />
-				</form>
+            <br />
+            </form>
 			</section>
-
-	
 				</div>
 			</div>
 		</div>
 	</div>
+    <section id="meet-people-cta" class="page-content">
+		<div class="row">
+			<div class="eight columns">
+				<h4>Meet People</h4>
+				<p>Connect with new people through Beacons (or mutual friends)!</p>
+				<a href="/meetpeople/" class="button">Learn more</a>
+			</div>
+			<div id="four-images" class="four columns">
+				<img src="{{ MEDIA_URL }}/images/brian.jpg" />
+				<img src="{{ MEDIA_URL }}/images/betty.jpg" />
+				<img src="{{ MEDIA_URL }}/images/john.jpg" />
+				<img src="{{ MEDIA_URL }}/images/susan.jpg" />
+			</div>
+		</div>
+	</section>
 {% endblock %}
- {% block extrahtml %} 
-<div class="error message">
-	 <h3>Error!</h3>
-	 <p>There was a problem saving your beacon.</p>
+{% block extrahtml %}
+<div  id="alerts">
+    <div class="error message">
+         <h3>Error!</h3>
+         <p>There was a problem saving your beacon.</p>
+    </div>
+    <div class="success message">
+         <h3>Success!</h3>
+         <p>We successfully saved your beacon.</p>
+    </div>
+    <div>
+    <ul id="trigger-list" style="display:none;">
+         <li><a href="#" class="trigger error-trigger" style="display:none;">Error</a></li>
+         <li><a href="#" class="trigger success-trigger" style="display:none;">Success</a></li>
+    </ul>
+    </div>
 </div>
-<div class="success message">
-	 <h3>Success!</h3>
-	 <p>We successfully saved your beacon.</p>
-</div>
-<ul id="trigger-list">
-	 <li><a href="#" class="trigger error-trigger" style="display:none;">Error</a></li>
-	 <li><a href="#" class="trigger success-trigger" style="display:none;">Success</a></li>
-</ul>  
 {% endblock %}
 {% block extrascript %}
 <script>
@@ -301,4 +220,5 @@
 
 </script>
 {% endblock %}
+
 
