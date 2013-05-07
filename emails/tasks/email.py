@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from connect.functions.getFriendList import GetFriendIDs
 from connect.functions.getMutualFriendList import GetMutualFriendListWithFacebookUserID
 from connect.models.profile import Profile
+from connect.models.friendship import Friendship
 from connect.models.facebookuser import FacebookUser
 from connect.models.potentialMatch import PotentialMatch
 from connect.functions.getMeetPeople import GetMeetPeople
@@ -26,8 +27,15 @@ def send_email_to_all_users(subject, text, html, from_address):
 @task
 def send_user_joined_email(profile):
     recipients = ['jeffreymames@gmail.com', 'jazjit.singh@gmail.com', 'kamran.munshi@gmail.com']
+    # get friends on mutuality
+    friendIDs = Friendship.objects.filter(user=profile).values_list('friend_id', flat=True)
+    friendNames = Profile.objects.filter(facebookID__in=friendIDs).values_list('name', flat=True)
+    friendNameString = ""
+    if len(friendNames):
+        for name in friendNames:
+            friendNameString = friendNameString + "\n" + name
     subject = 'A New User Joined Mutuality!'
-    message = '{0} joined Mutuality'.format(profile.name)
+    message = '{0} joined Mutuality\n\nFriends include:{1}'.format(profile.name, friendNameString)
     return send_mail(subject, message, 'info@mutuality.com', recipients, fail_silently=False)
 
 def send_chron_success_email():
