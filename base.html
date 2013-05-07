@@ -158,8 +158,8 @@
         ur.src = 'http://sdscdn.userreport.com/userreport.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
     })();
-  </script>
 
+  </script>
   <!-- JS to be executed only if logged in -->
   {% if user.is_authenticated %}
     {% if profile %}
@@ -184,27 +184,30 @@
           }
        });
 
-      // Fire some mixpanel events
-      mixpanel.register({"Gender":Mutuality.cache.profile.gender, "Location":Mutuality.cache.profile.location, "Relationship":Mutuality.cache.profile.relationshipStatus, "RegDate":Mutuality.cache.profile.date_created});
-      mixpanel.name_tag(Mutuality.cache.profile.name);
-      mixpanel.identify(Mutuality.cache.profile.facebookID);
-      
-      
-      if (Mutuality.cache.profile.facebookID === "3900450" || Mutuality.cache.profile.facebookID === "1240230066" || Mutuality.cache.profile.facebookID === "1065870234") {
-          mixpanel.register({"$ignore":"true"});
-          console.log("Mixpanel is ignoring this session");
-      }
+      $(window).on('load', function(){
+            // Fire some mixpanel events   
+            mixpanel.register({"Name":Mutuality.cache.profile.name, "Gender":Mutuality.cache.profile.gender, "Location":Mutuality.cache.profile.location, "Relationship":Mutuality.cache.profile.relationshipStatus, "RegDate":Mutuality.cache.profile.date_created});
+            mixpanel.name_tag(Mutuality.cache.profile.name);
+            mixpanel.identify(Mutuality.cache.profile.facebookID);
+            
+            
+            if (Mutuality.cache.profile.facebookID === "3900450" || Mutuality.cache.profile.facebookID === "1240230066" || Mutuality.cache.profile.facebookID === "1065870234") {
+                mixpanel.register({"$ignore":"true"});
+                console.log("Mixpanel is ignoring this session");
+            }
 
-      // Track logging out
-      $('#menu-logout').on('click', 'a', function(){
-        mixpanel.track("Logged out");
-      });
+            // Track logging out
+            $('#menu-logout').on('click', 'a', function(){
+              mixpanel.track("Logged out");
+            }); 
+         });
 
     </script>
     {% endif %}
   {% endif %}
+
   {% block extrascript %} 
-    <!-- Extra page scripts get inserted here -->
   {% endblock %}
+
   </body>
 </html>
