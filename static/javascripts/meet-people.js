@@ -422,8 +422,8 @@ function beginBeaconImageHoverToggle() {
 	var hasLikedBeacon = function (likesArray, success) {
 		var response = false;
 		for (i = 0; i < likesArray.length; i++) {
-			console.log(likesArray[i].facebookID);
-			console.log(Mutuality.token);
+			//console.log(likesArray[i].facebookID);
+			//console.log(Mutuality.token);
 			if (likesArray[i].facebookID === Mutuality.token) {
 				response = true;
 				break;
@@ -436,26 +436,26 @@ function beginBeaconImageHoverToggle() {
 			// $('#beacon-like-number').html("").hide();
 			// $('#plural-agreement').html("").hide();
 			hasLikedBeacon(likeNumber, function(beaconLiked){
-				console.log(likeNumber);
+				//console.log(likeNumber);
 				var numberOfLikes = likeNumber.length;
-				console.log(beaconLiked);
+				//console.log(beaconLiked);
 				//console.log(numberOfLikes);
 				if (beaconLiked === true) {
 					$('#animate-out').hide();
 					if (numberOfLikes === 1) {
-						console.log("I liked and one like")
+						//console.log("I liked and one like")
 						$('#hasLiked').html("You liked this").show();
 						$('#beacon-like-number').html("").hide();
 						$('#plural-agreement').html("").hide();
 					} else if (numberOfLikes === 2) {
-						console.log("I liked and two likes")
+						//console.log("I liked and two likes")
 						var numberOfOtherLikes = numberOfLikes - 1;
 						$("#like-number").show();
 						$('#hasLiked').html("You and").show();
 						$('#beacon-like-number').html(numberOfOtherLikes).show();
 						$('#plural-agreement').html("person like this").show();
 					} else {
-						console.log("I liked and more than two likes")
+						//console.log("I liked and more than two likes")
 						numberOfOtherLikes = numberOfLikes - 1;
 						$("#like-number").show();
 						$('#hasLiked').html("You and").show();
