@@ -99,7 +99,10 @@ class DefaultFacebookCallback(BaseFacebookCallback):
         facebookUser.save()
         # send an email to admins if new user
         if created:
-            user_joined(profile)
+            try:
+                user_joined(profile)
+            except:
+                logger.error("Failed to send user-joined email for user %s; allowing auth process to continue" % user);
         return profile
 
     def create_profile(self, request, access, token, user):

@@ -117,7 +117,8 @@ INSTALLED_APPS = (
     'messages',
     'rest_framework',
     'south',
-    'djcelery'
+    'djcelery',
+        'rest_framework.authtoken'
 )
 
 try:
@@ -182,3 +183,12 @@ EMAIL_HOST_USER = 'mutuality'
 EMAIL_HOST_PASSWORD = 'myMutuality16'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )    
+}

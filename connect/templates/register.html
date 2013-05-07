@@ -177,7 +177,7 @@
 {% block extrascript %}
     <script>
     	$("#triggerModal").trigger('click');
-        Mutuality.init('{{ profile.facebookID }}', '../');
+        Mutuality.init('{{ profile.facebookID }}','{{rest_token}}', '../');
 
         Mutuality.updateFriendList(0, function(){
             $(".close-reveal-modal").trigger('click');

@@ -102,10 +102,12 @@ var Mutuality = (function($){
       mpcache: { current: "", fofList: {}, datingList: {}, currentLoc: 0, profileCacheData: {}, viewedCacheData: {} },
       history : [],
       token : null,
-      init: function( token, basePath, success )
+      restToken: null,
+       init: function( token, restToken, basePath, success )
       {
          var self = this;
          this.token = token;
+	 this.restToken = restToken;
          this.basePath = basePath || this.basePath;
          this.loadProfile( this.token , function( profile ){
             self.cache.profile = profile;  
@@ -148,9 +150,13 @@ var Mutuality = (function($){
       __makeRequest:function(type, url, params, onSuccess, onError, beforeSend)
       {
          var self = this;
-         
+	  var beforeSendOverride = beforeSend || this.__beforeSend;
+	  var fBeforeSend = function(xhr, settings){
+	      beforeSendOverride(xhr, settings);
+	      xhr.setRequestHeader('Authorization', 'Token ' + self.restToken);
+	  }
          $.ajax({
-            beforeSend : beforeSend || this.__beforeSend,
+             beforeSend : fBeforeSend,
             url        : self.basePath + url,
             type       : type || 'GET',
             data       : params || {},

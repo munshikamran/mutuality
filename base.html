@@ -165,7 +165,7 @@
     {% if profile %}
     <script type="text/javascript">
         // Update the message count in the header
-         Mutuality.init('{{ profile.facebookID }}', '../');
+         Mutuality.init('{{ profile.facebookID }}','{{rest_token}}', '../');
          Mutuality.getNewMessageCount(function(count){
             if (count > 0){
               $(".message-count").show();
