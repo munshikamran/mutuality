@@ -420,30 +420,44 @@ function beginBeaconImageHoverToggle() {
 	}
 
 	var hasLikedBeacon = function (likesArray, success) {
+		var response = false;
 		for (i = 0; i < likesArray.length; i++) {
+			console.log(likesArray[i].facebookID);
+			console.log(Mutuality.token);
 			if (likesArray[i].facebookID === Mutuality.token) {
-				success(true);
+				response = true;
 				break;
 			}
-		success(false);
-		}
+		}	
+		success(response);
 	}
 	var likeTextLoad = function(fbID, likeNumber) {
+			// $('#hasLiked').html("").hide();
+			// $('#beacon-like-number').html("").hide();
+			// $('#plural-agreement').html("").hide();
 			hasLikedBeacon(likeNumber, function(beaconLiked){
+				console.log(likeNumber);
 				var numberOfLikes = likeNumber.length;
+				console.log(beaconLiked);
+				//console.log(numberOfLikes);
 				if (beaconLiked === true) {
 					$('#animate-out').hide();
 					if (numberOfLikes === 1) {
+						console.log("I liked and one like")
 						$('#hasLiked').html("You liked this").show();
-						$('#beacon-like-number').hide();
-						$('#plural-agreement').hide();
+						$('#beacon-like-number').html("").hide();
+						$('#plural-agreement').html("").hide();
 					} else if (numberOfLikes === 2) {
-						numberOfOtherLikes = numberOfLikes - 1;
+						console.log("I liked and two likes")
+						var numberOfOtherLikes = numberOfLikes - 1;
+						$("#like-number").show();
 						$('#hasLiked').html("You and").show();
 						$('#beacon-like-number').html(numberOfOtherLikes).show();
 						$('#plural-agreement').html("person like this").show();
 					} else {
+						console.log("I liked and more than two likes")
 						numberOfOtherLikes = numberOfLikes - 1;
+						$("#like-number").show();
 						$('#hasLiked').html("You and").show();
 						$('#beacon-like-number').html(numberOfOtherLikes).show();
 						$('#plural-agreement').html("people like this").show();
@@ -1004,6 +1018,10 @@ var setNewBadge = function(friends) {
 	 		$('#animate-out').hide()
 	 		//$("#like-number").animate({ opcaity: 0.9 },1000, function(){
 	 			//Mutuality.getBeaconLikeCount(Mutuality.token, function(success) {
+	 			$('#hasLiked').html("");
+				$('#beacon-like-number').html("");
+				$('#plural-agreement').html("");
+
 	 			Mutuality.getBeaconLikeCount(Mutuality.mpcache.current, function(success){
 		 			var totalLikes = success;
 		 			mixpanel.track("Beacon liked", {
@@ -1014,23 +1032,20 @@ var setNewBadge = function(friends) {
 		 				"Total likes":totalLikes
 		 	   		});
 	 			if (totalLikes === 1) {
-	 				$('#hasLiked').html("You like this");
-	 				$("#like-number").hide();
-	 				$('#hasLiked').show();
+	 				$('#hasLiked').html("You like this").show();
+	 				$("#like-number").show();
 	 			}
 	 			else if (totalLikes === 2) {
-	 				$('#hasLiked').html("You and");
-	 				$('#beacon-like-number').html(success);
+	 				$('#hasLiked').html("You and").show();
+	 				$('#beacon-like-number').html("1");
 	 				$('#plural-agreement').html("person likes this");
 	 				$("#like-number").show();
-	 				$('#hasLiked').show();
 	 			}
 	 			else {
-	 				$('#hasLiked').html("You and");
-	 				$('#beacon-like-number').html(success);
-	 				$('#plural-agreement').html("people like this");
-	 				$('#beacon-like-number').show();
-	 				$('#hasLiked').show();
+	 				$('#hasLiked').html("You and").show();
+	 				$('#beacon-like-number').html(success).show();
+	 				$('#plural-agreement').html("people like this").show();
+	 				$("#like-number").show();
 	 			} 
 	 		});	
 	 			//picture should change to a thumbs up?
