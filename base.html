@@ -186,8 +186,10 @@
 
       // Fire some mixpanel events
       mixpanel.register({"Gender":Mutuality.cache.profile.gender, "Location":Mutuality.cache.profile.location, "Relationship":Mutuality.cache.profile.relationshipStatus, "RegDate":Mutuality.cache.profile.date_created});
-      mixpanel.identify(Mutuality.cache.profile.facebookID);
       mixpanel.name_tag(Mutuality.cache.profile.name);
+      mixpanel.identify(Mutuality.cache.profile.facebookID);
+      
+      
       if (Mutuality.cache.profile.facebookID === "3900450" || Mutuality.cache.profile.facebookID === "1240230066" || Mutuality.cache.profile.facebookID === "1065870234") {
           mixpanel.register({"$ignore":"true"});
           console.log("Mixpanel is ignoring this session");
