@@ -56,28 +56,26 @@
                         {
                            method: 'feed',
                            name: 'Anyone want to join me for ' + $('#reg-activity').val() + ' at ' + $('#reg-place').val() + '?',
-                           caption: 'Mutuality helps me connect with friends of friends through my Beacons!',
-                           link: 'https://www.mymutuality.com',
-                           picture: 'http://i.imgur.com/Hcy3Clo.jpg',
-                           redirect_url: $("#main").data('url')
+                           link: $("#main").data('url'),
                          },
                       function(response) {
                         if (response && response.post_id) {
                           console.log('Post was published to facebook.');
-                          window.location = '/meetpeople/';
                           mixpanel.track("Beacon set", {
                                 "Activity": profileDict['beacon-activity'],
                                 "Place": profileDict['beacon-place'],
                                 "FacebookPosted": "true"
                           });
+                          window.location = '/meetpeople/';
+
                         } else {
                           console.log('Post was not published to facebook.');
-                          window.location = '/meetpeople/';
                           mixpanel.track("Beacon set", {
                                 "Activity": profileDict['beacon-activity'],
                                 "Place": profileDict['beacon-place'],
                                 "FacebookPosted": "false"
                           });
+                            window.location = '/meetpeople/';
                         }
                       }
                     );
