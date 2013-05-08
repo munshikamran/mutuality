@@ -11,7 +11,7 @@
 	<div class="homepage">
 				<div class="row">	
 					<div class="header twelve columns" style="padding:20px 0px 0px 0px">
-						<img src="/images/homepageLogo.png">
+						<!-- <img src="/images/homepageLogo.png"> -->
 						<div class="header-icons">	
 							<a href="https://www.facebook.com/MyMutuality" target="_blank"><img src="/images/facebook_dark.png" onmouseover="this.src='/images/facebook_active.png'" onmouseout="this.src='/images/facebook_dark.png'"></a>
 							<a href="https://twitter.com/mymutuality" target="_blank"><img src="/images/twitter02_dark.png" onmouseover="this.src='/images/twitter02_active.png'" onmouseout="this.src='/images/twitter02_dark.png'"></a>
@@ -22,24 +22,26 @@
 
 				<div class = "row">
 					<div class="twelve columns">
+						<img id="homepage-image" src="{{ MEDIA_URL }}/images/BlueLogo.png">
 						<div class="homepage-headline">
-							A BETTER WAY TO CONNECT
+							Activities you enjoy, through friends you trust
 						</div>
-					</div>	
-				</div>
-
-				<div class="row">
-					<div class="facebook-box six columns">
-						<div class="login-headline">
-							Start Right Here
-						</div>	
 						<div class="facebook-login">
 							<a href="{% url la_facebook_login %}?next={{ next }}" id="facebookConnect"><img src="images/facebook-login.png"></a>
 						</div>
 						<div class="assurance">
 							(We never post to Facebook)
 						</div>	
-					</div>
+					</div>	
+				</div>
+
+				<div class="row">
+					<img id="homepage-example" src="{{ MEDIA_URL }}/images/homepage.png">
+					<!-- <div class="facebook-box six columns">
+						<div class="login-headline">
+							Start Right Here
+						</div>	
+					</div> -->
 				</div>	
 		</div>		
 </body>	

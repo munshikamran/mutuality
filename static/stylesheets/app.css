@@ -8636,6 +8636,7 @@ html {
 }
 
 #homepage-body{
+  background:#FFF;
   height:100%;
 }
 
@@ -8644,7 +8645,7 @@ min-height:100%;
 position:relative;
 /*max-width:2400px;
 height: 2400px;*/
-background: url(../images/homepageImage6.jpg) no-repeat center center fixed;
+/*background: url(../images/homepageImage6.jpg) no-repeat center center fixed;*/
   -webkit-background-size:cover;
   -moz-background-size:cover;
   -o-background-size:cover;
@@ -8655,26 +8656,40 @@ border-bottom:1px solid #DDD;
 }
 
 .homepage-headline {
-  color:#FFFFFF;
-  font-weight:lighter;
-  font-size:60px;
-  margin:150px 0px 0px 0px;
+  color: #989898;
+  font-weight: lighter;
+  font-size: 24;
+  margin: 50px 0px 50px 0px;
   text-align: center;
+}
+
+#homepage-image {
+  margin-left: auto;
+  display: block;
+  margin-right: auto;
+  margin-top: 50px;
 }
 
 .facebook-box {
   height:240px;
   width:500px;
   float:right;
-  background: url(../images/homepage-connect-box.png) no-repeat;
+  /*background: url(../images/homepage-connect-box.png) no-repeat;*/
 
   margin:100px 0px 0px 0px;
 }
 
 .facebook-login{
-  height:80px;
+  height:45px;
   width:360px;
-  margin:0px 0px 0px 50px;
+  display:block;
+  margin:0px auto;
+}
+
+.facebook-login img {
+  width:200px;
+  margin:0px auto;
+  display:block;
 }
 
 .login-headline{
@@ -8687,11 +8702,18 @@ border-bottom:1px solid #DDD;
 }
 
 .assurance {
-  color:#FFFFFF;
+  color:#989898;
   font-weight:bold;
-  font-size:15px;
-  margin:5px 0px 0px 0px;
+  font-size:11px;
+  margin:2px 0px 35px 0px;
   text-align: center;
+}
+
+#homepage-example {
+  display:block;
+  margin-right: auto;
+  margin-left:auto;
+  height:400px;
 }
 
 .homepage-footer{
@@ -8699,7 +8721,7 @@ border-bottom:1px solid #DDD;
   bottom:0px;
   width:100%;
   height: 60px;
-  color:#FFFFFF;
+  color:#989898;
   padding-left:50px;
   display:inline;
   font-size: 12px;
@@ -8708,11 +8730,11 @@ border-bottom:1px solid #DDD;
 
 .homepage-footer a {
   margin-right:50px;
-  color:#FFFFFF;
+  color:#989898;
 }
 
 .copyright {
-  color:#FFFFFF;
+  color:#989898;
   display:inline;
   float:right;
   margin-right:50px;
@@ -9128,7 +9150,7 @@ border-bottom:1px solid #DDD;
   width:12px;
 }*/
 
-#like-number {
+# {
   font-size:11px;
   color:#989898;
   display:block;
