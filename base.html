@@ -220,8 +220,10 @@
         });
 
         function sendRequestViaMultiFriendSelector() {
-           var message = 'Invite your friends to see more connections.';
+           var message = 'Hey, Mutuality is this really cool website that connects you with your friends-of-friends.  Check it out!';
            FB.ui({method: 'apprequests',
+                  title: 'Invite your friends to Mutuality!',
+                  filters: ['app_non_users'],
                message: message
            }, requestCallback);
         }
