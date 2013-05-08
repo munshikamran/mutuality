@@ -297,31 +297,12 @@
 {% endblock %}
 {% block extrascript %}
     <script>
-        // Joyride
-          if ($('#noTour').length === 0) {
-                $(window).load(function() { $('#joyRideTipContent').joyride(); });
-            }
-
         // Get page JS
         (function($){
            $.getScript('{{ MEDIA_URL }}/javascripts/make-matches.js').fail(function(xhr, settings, exception){
                console.log(exception);
            });
         })(jQuery);
-
-        // Init Facebook JS object
-        FB.init({
-           appId  : '{{ FACEBOOK_APP_ID }}',
-           frictionlessRequests: true
-        });
-
-        function sendRequestViaMultiFriendSelector() {
-           var message = 'Invite your friends to see more connections.';
-           FB.ui({method: 'apprequests',
-               message: message
-           }, requestCallback);
-        }
-       function requestCallback(response) {}
        
        $("#invite-link a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");
     </script>

@@ -33,6 +33,15 @@
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
       ga('create', 'UA-39862044-1', 'mymutuality.com');
       ga('send', 'pageview');
+
+    // Facebook like button JS
+    (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId={{ settings.FACEBOOK_APP_ID }}";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
   </script>
 
   <!-- Set the viewport width to device width for mobile -->
@@ -127,6 +136,8 @@
           <p id="copyright">&copy; 2012 Mutuality LLC. All rights reserved.</p>
           <nav id="legal">
             <a href="#">Terms & Conditions</a>&nbsp;|&nbsp;<a href="#">Partners & Affiliates</a>
+            <div style="height:10px;"></div>
+            <span><div class="fb-like" data-href="https://www.facebook.com/MyMutuality" data-send="true" data-layout="button_count" data-width="200" data-show-faces="false" data-font="tahoma" data-colorscheme="dark"></div></span>
           </nav>
         </section>
       </div>
@@ -201,6 +212,20 @@
               mixpanel.track("Logged out");
             }); 
          });
+
+        // Init Facebook JS object
+        FB.init({
+           appId  : '{{ FACEBOOK_APP_ID }}',
+           frictionlessRequests: true
+        });
+
+        function sendRequestViaMultiFriendSelector() {
+           var message = 'Invite your friends to see more connections.';
+           FB.ui({method: 'apprequests',
+               message: message
+           }, requestCallback);
+        }
+       function requestCallback(response) {}
 
     </script>
     {% endif %}

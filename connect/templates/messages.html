@@ -89,25 +89,7 @@
            });
        })(jQuery);
 
-
-       FB.init({
-           appId  : '{{ FACEBOOK_APP_ID }}',
-           frictionlessRequests: true
-       });
-
-       function sendRequestViaMultiFriendSelector() {
-           var message = 'Invite your friends to see more connections.';
-           FB.ui({method: 'apprequests',
-               message: message
-           }, requestCallback);
-       }
-
-       function requestCallback(response) {
-           // Handle callback here
-       }
-
        $("#invite-link a").attr('onclick', "sendRequestViaMultiFriendSelector(); return false;");
-
     </script>
 {% endblock %}	
 	
