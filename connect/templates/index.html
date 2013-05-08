@@ -1,4 +1,3 @@
-
 <title>Home - Mutuality</title>
 <head>
  	<link rel="stylesheet" href="{{ MEDIA_URL }}/stylesheets/app.css">
@@ -8,39 +7,35 @@
   	<meta property="og:image" content="http://i.imgur.com/Hcy3Clo.jpg" />
 </head>
 <body id="homepage-body">
-<div id="fb-root"></div>
 	<div class="homepage">
 				<div class="row">	
 					<div class="header twelve columns" style="padding:20px 0px 0px 0px">
-						<img src="/images/homepageLogo.png">
+						<!-- <img src="/images/homepageLogo.png"> -->
 						<div class="header-icons">	
 							<a href="https://www.facebook.com/MyMutuality" target="_blank"><img src="/images/facebook_dark.png" onmouseover="this.src='/images/facebook_active.png'" onmouseout="this.src='/images/facebook_dark.png'"></a>
 							<a href="https://twitter.com/mymutuality" target="_blank"><img src="/images/twitter02_dark.png" onmouseover="this.src='/images/twitter02_active.png'" onmouseout="this.src='/images/twitter02_dark.png'"></a>
 							<a href="http://mymutuality.wordpress.com/" target="_blank"><img src="/images/blog_dark.png" onmouseover="this.src='/images/blog_active.png'" onmouseout="this.src='/images/blog_dark.png'"></a>
-					</div>
+					</div>	
 				</div>
 			</div>	
 
 				<div class = "row">
 					<div class="twelve columns">
+						<img id="homepage-image" src="{{ MEDIA_URL }}/images/BlueLogo.png">
 						<div class="homepage-headline">
-							A BETTER WAY TO CONNECT
+							Activities you enjoy, through friends you trust
 						</div>
-					</div>	
-				</div>
-
-				<div class="row">
-					<div class="facebook-box six columns">
-						<div class="login-headline">
-							Start Right Here
-						</div>	
 						<div class="facebook-login">
 							<a href="{% url la_facebook_login %}?next={{ next }}" id="facebookConnect"><img src="images/facebook-login.png"></a>
 						</div>
 						<div class="assurance">
 							(We never post to Facebook)
-						</div>
-					</div>
+						</div>	
+					</div>	
+				</div>
+
+				<div class="row">
+					<img id="homepage-example" src="{{ MEDIA_URL }}/images/homepage.png">
 				</div>	
 		</div>		
 </body>	
@@ -50,15 +45,13 @@
 						<a href="/privacy">Privacy</a>
 					<div class="copyright">	
 						<span>&copy; 2013 Mutuality Inc. All rights reserved.</span>
-                        <span><div class="fb-like" data-href="https://www.facebook.com/MyMutuality" data-send="true" data-layout="button_count" data-width="200" data-show-faces="false" data-font="tahoma" data-colorscheme="dark"></div></span>
-					</div>
-				</div>
-		</footer>
+                        <span><div class="fb-like" data-href="https://www.facebook.com/MyMutuality" data-send="true" data-layout="button_count" data-width="200" data-show-faces="false" data-font="tahoma" data-colorscheme="light"></div></span>
+					</div>	
+				</div>	
+		</footer>	
 
-	    <!-- Mixpanel JS -->
-<script type="text/javascript">
-    // Mixpanel init
-    (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
+<!-- Mixpanel JS -->
+<script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
   typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,
   e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
     var mixPanelInit;
@@ -73,7 +66,6 @@
   	mixpanel.track("Homepage loaded");
   	mixpanel.track_links("#facebookConnect", "Facebook Connect"); 
 
-  // Google analytics init
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -90,5 +82,5 @@
     js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId={{ settings.FACEBOOK_APP_ID }}";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
-
+    
 </script>
