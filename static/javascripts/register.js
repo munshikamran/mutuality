@@ -66,7 +66,7 @@
             //console.log(profileDict);
             Mutuality.setProfile(profileDict['location'], profileDict['relationship_status'], profileDict['gender'], function(response){
                 mixpanel.alias(Mutuality.cache.profile.facebookID);
-                mixpanel.identify(Mutuality.cache.profile.facebookID);
+                //mixpanel.identify(Mutuality.cache.profile.facebookID);
                 mixpanel.track("Registration", {}, function() {
                     $('.success-trigger').trigger('click');
                     window.location = "/beacon/";
