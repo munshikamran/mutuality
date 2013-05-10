@@ -568,8 +568,9 @@ function beginBeaconImageHoverToggle() {
 		    	}
 		    	else {
 		    		var url = "/messages?fbid=" + Mutuality.mpcache.current + "&name=" + currentlyFocusedElem.text();
-		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Send Message</a>').show();
-		    		$('img#mutuality-badge').show();
+		    		$("#introduce").html('<a href="'+url+'" id="intro-yourself" class="button"><i class="intro-yourself"></i>Send Message</a>').show();   		
+		    		$('.meet-profile').eq(1).find('#mutuality-badge').show();
+		    		$('.meet-profile').eq(2).find('#mutuality-badge').hide();
 		    		loadBeacon(Mutuality.mpcache.current);
 		    		//$('div#beacon').show();
                     //$("#beaconWrapper").show();
