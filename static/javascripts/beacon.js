@@ -64,18 +64,19 @@
                           mixpanel.track("Beacon set", {
                                 "Activity": profileDict['beacon-activity'],
                                 "Place": profileDict['beacon-place'],
-                                "FacebookPosted": "true"
-                          });
-                          window.location = '/meetpeople/';
+                                "FacebookPosted": "true"}, function() {
+                                window.location = '/meetpeople/';
+                                });
+                          
 
                         } else {
                           console.log('Post was not published to facebook.');
                           mixpanel.track("Beacon set", {
                                 "Activity": profileDict['beacon-activity'],
                                 "Place": profileDict['beacon-place'],
-                                "FacebookPosted": "false"
-                          });
-                            window.location = '/meetpeople/';
+                                "FacebookPosted": "false"}, function() {
+                                window.location = '/meetpeople/';
+                                });
                         }
                       }
                     );
