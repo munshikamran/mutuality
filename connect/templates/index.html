@@ -24,6 +24,9 @@
 <div id="fb-root"></div>
 <body id="homepage-body">
 	<div class="homepage">
+				<div id="homepage-header">
+					<span id="homepage-header-text">WE JUST LAUNCHED -- MOBILE APP COMING SOON</span>
+				</div>
 				<div class="row">	
 					<div class="header twelve columns" style="padding:20px 0px 0px 0px">
 						<!-- <img src="/images/homepageLogo.png"> -->
@@ -39,7 +42,7 @@
 					<div class="twelve columns">
 						<img id="homepage-image" src="{{ MEDIA_URL }}/images/BlueLogo.png">
 						<div class="homepage-headline">
-							Activities you enjoy, through friends you trust
+							Activities you enjoy through friends you trust
 						</div>
 						<div class="facebook-login">
 							<a href="{% url la_facebook_login %}?next={{ next }}" id="facebookConnect"><img src="images/facebook-login.png"></a>
@@ -51,11 +54,24 @@
 				</div>
 
 				<div class="row">
-					<img id="homepage-example" src="{{ MEDIA_URL }}/images/homepage.png">
+					<div style="position:relative">
+						<div id="homepage-info">
+							<span id="homepage-info-headline"><h6></h6></span>
+							<span id="homepage-info-body"></span>
+						</div>	
+						<img id="homepage-example" src="{{ MEDIA_URL }}/images/homepage-computer.png">
+						<div id="homepage-magnify">
+						</div>
+						<img id="magnify-shadow" src="{{ MEDIA_URL }}/images/magnify-shadow.png">
+						<div id="homepage-ellipse">
+							<a class="active-ellipse"></a>
+							<a></a>
+							<a></a>
+						</div>
+					</div>	
 				</div>	
 		</div>		
-</body>	
-		<footer>
+		<div>
 				<div class="homepage-footer">
 						<a href="/about">About</a>
 						<a href="/privacy">Privacy</a>
@@ -64,7 +80,10 @@
                         <span><div class="fb-like" data-href="https://www.facebook.com/MyMutuality" data-send="true" data-layout="button_count" data-width="200" data-show-faces="false" data-font="tahoma" data-colorscheme="light"></div></span>
 					</div>	
 				</div>	
-		</footer>	
+		</div>	
+
+</body>	
+
 
 <!-- Mixpanel JS -->
 <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
@@ -90,5 +109,10 @@
   ga('create', 'UA-39862044-1', 'mymutuality.com');
   ga('send', 'pageview');
 
-    
+(function($){
+       $.getScript('{{ MEDIA_URL }}/javascripts/index.js').fail(function(xhr, settings, exception){
+           console.log(exception);
+       });
+   })(jQuery)
+
 </script>
