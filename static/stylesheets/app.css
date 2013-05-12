@@ -8768,6 +8768,7 @@ margin-bottom:50px;
 }
 
 .header-icons{
+  z-index:100;
   display:inline;
   position:absolute;
   top:35px;
@@ -8776,6 +8777,7 @@ margin-bottom:50px;
 
 .header-icons img {
   padding:0px 3px;
+  cursor:pointer;
 }
 
 /* Loading Animation CSS */
