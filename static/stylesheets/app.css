@@ -8641,7 +8641,7 @@ html {
 }
 
 .homepage {
-min-height:100%; 
+min-height:85%; 
 position:relative;
 /*max-width:2400px;
 height: 2400px;*/
@@ -8771,7 +8771,7 @@ margin-bottom:50px;
   z-index:100;
   display:inline;
   position:absolute;
-  top:35px;
+  top:15px;
   right:15px;
 }
 
