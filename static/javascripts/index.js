@@ -32,7 +32,7 @@ var toggleMagnifyStates = function (eq) {
 		$("#homepage-magnify").addClass("ask-about-magnify");
 	} else {
 		$('#homepage-info-headline h6').html("Connect with &quot;Beacons&quot;")
-		$('#homepage-info-body').html("From Poker to Dog-walking, to Karaeoke -- do fun things with people you trust")
+		$('#homepage-info-body').html("From Poker to Dog-walking, to Karaoke -- do fun things with people you trust")
 		$("#homepage-magnify").removeClass("meet-people-magnify");
 		$("#homepage-magnify").removeClass("ask-about-magnify");
 		$("#homepage-magnify").addClass("beacon-magnify");
