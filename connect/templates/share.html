@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %} Share {% endblock %}
+{% block content %}
+    <section id="page-title" class="row">
+        <div class="eight columns">
+            <h2>Help your Friends. Help Yourself.</h2>
+        </div>
+        <hr />
+    </section>
+
+<section id="main" data-URL={{ URL }} class="row">
+
+<div class="row">
+    <div class="eight columns">
+        <span><h6>These friends have been favorited on Mutuality. Invite them to see more and better matches.</h6></span>
+        
+        <form>
+            <div class="row">
+                <div class="four columns">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch0" checked>
+                        <label class="onoffswitch-label" for="myonoffswitch0">
+                            <div class="onoffswitch-inner"></div>
+                            <div class="onoffswitch-switch"></div>
+                        </label>  
+                    </div>
+                </div>
+                <div class="eight columns">
+                    <label class="share-name" for="onoffswitch">Jeff Ames</label>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="four columns">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch1" checked>
+                        <label class="onoffswitch-label" for="myonoffswitch1">
+                            <div class="onoffswitch-inner"></div>
+                            <div class="onoffswitch-switch"></div>
+                        </label>  
+                    </div>
+                </div>
+                <div class="eight columns">
+                    <label class="share-name" for="onoffswitch">Jared Jones</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="four columns">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch2" checked>
+                        <label class="onoffswitch-label" for="myonoffswitch2">
+                            <div class="onoffswitch-inner"></div>
+                            <div class="onoffswitch-switch"></div>
+                        </label>  
+                    </div>
+                </div>
+                <div class="eight columns">
+                    <label class="share-name" for="onoffswitch">Shiv Kachru</label>
+                </div>
+            </div>    
+            <div class="row">
+                <div class="four columns">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch3" checked>
+                        <label class="onoffswitch-label" for="myonoffswitch3">
+                            <div class="onoffswitch-inner"></div>
+                            <div class="onoffswitch-switch"></div>
+                        </label>  
+                    </div>
+                </div>
+                <div class="eight columns">
+                    <label class="share-name" for="onoffswitch">Kamran Munshi</label>
+                </div>
+            </div>                    
+        </form>   
+        <hr> 
+        
+        <div class="four columns">
+            <span><h6>= 230 more matches</h6></span>
+        </div>
+        <div id="progress-bar" class="three columns offset-by-two progress large-6 secondary round">
+            <span class="meter" style="width:40%"></span>
+        </div>
+
+    </div>    
+</div> 
+
+</section>    
+{% endblock %}
+{% block extrascript %}
+    <script>
+    	$("#triggerModal").trigger('click');
+        Mutuality.init('{{ profile.facebookID }}','{{rest_token}}', '../');
+
+        Mutuality.updateFriendList(0, function(){
+            $(".close-reveal-modal").trigger('click');
+            console.log("CLOSE MODAL");
+        });
+
+        $.getScript('{{ MEDIA_URL }}/javascripts/share.js').fail(function(xhr, settings, exception){
+           console.log(exception);
+        });
+
+        // Hide navbar links
+        $(".right").hide();
+
+        mixpanel.track("Share loaded");
+    
+    </script>
+{% endblock %}
+
+

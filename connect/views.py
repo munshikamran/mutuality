@@ -207,6 +207,27 @@ def messages(request):
         html = render_to_string('messages.html', RequestContext(request, context_dict))
         return HttpResponse(html)
 
+@login_required
+def share(request):
+    context_dict = {}
+    context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
+    context_dict['info'] = fbinfo(request)
+    context_dict['URL'] = settings.URL
+    if hasattr(request, 'user'):
+        context_dict['user'] = request.user
+        try:
+            profile = request.user.get_profile()
+            authtoken = Token.objects.get(user=request.user).key
+            context_dict['rest_token'] = authtoken
+            context_dict['profile'] = profile
+            if(PageHasBeenViewed(profile, SITE_PAGES.MESSAGES )):
+                context_dict['viewed'] = True
+            ViewPage(profile, SITE_PAGES.MESSAGES)
+        except Profile.DoesNotExist:
+            pass
+        html = render_to_string('share.html', RequestContext(request, context_dict))
+        return HttpResponse(html)
+
 def about(request):
     context_dict = {}
     context_dict['FACEBOOK_APP_ID'] = settings.FACEBOOK_APP_ID
