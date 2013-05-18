@@ -41,6 +41,7 @@ class FacebookUserSerializer(serializers.ModelSerializer):
 
 
 class MeetPeopleProfileSerializer(serializers.Serializer):
+    name = serializers.CharField()
     gender = serializers.Field()
     relationshipStatus = serializers.Field()
     college = serializers.Field()
