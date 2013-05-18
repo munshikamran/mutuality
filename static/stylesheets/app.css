@@ -4316,7 +4316,7 @@ div.progress .meter {
 }
 /* line 265, ../../../../../../../Library/Ruby/Gems/1.8/gems/zurb-foundation-3.2.2/scss/foundation/components/modules/_ui.scss */
 div.progress.secondary .meter {
-  background: #ba1075;
+  background: #4096b6;
 }
 /* line 266, ../../../../../../../Library/Ruby/Gems/1.8/gems/zurb-foundation-3.2.2/scss/foundation/components/modules/_ui.scss */
 div.progress.success .meter {
@@ -10408,7 +10408,7 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
 .onoffswitch {
     position: relative; width: 85px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-    margin: 10px 110px;
+    margin: 10px auto;
 }
 
 .onoffswitch-checkbox {
@@ -10467,8 +10467,32 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
 }
 
 .share-name {
-  margin:16px auto;
+  margin:16px 0px;
   color:#000;
   font-weight: lighter;
   font-size:16px;
+}
+
+.share-friend-number {
+  float:right;
+  font-size:14px;
+  margin:15px 0px;
+}
+
+#share-friend-total {
+  font-size:16px;
+}
+
+.invite.button {
+  float:right;
+  width:100px;
+  margin:20px 0px;
+}
+
+#progress-bar {
+  margin:20px auto;
+}
+
+#network-completion{
+  margin:0px 50px;
 }
