@@ -1,6 +1,15 @@
 
 (function($) {
 
+    function initialize() {
+        var mapOptions = {
+            center: new google.maps.LatLng(-34.397, 150.644),
+            zoom: 8,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    }
+
     // Initialize ajax autocomplete for beacon places:
 	$('#reg-place').autocomplete({
 		serviceUrl: 'https://graph.facebook.com/search?type=place&fields=name,location',
@@ -181,6 +190,9 @@
 /* End Helper functions */
 
 /* Begin Account Main Code */
+
+    //initialize Google Maps API
+    google.maps.event.addDomListener(window, 'load', initialize)
 
 	// Initially, hide them all
 	hideAllMessages();

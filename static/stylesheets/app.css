@@ -10404,3 +10404,9 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
 #homepage-info-body {
   font-size:16px;
 }
+
+#map-canvas {
+  display:block;
+  height:400px;
+  width:600px;
+}
