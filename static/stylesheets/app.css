@@ -10406,7 +10406,135 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
 }
 
 #map-canvas {
-  display:block;
-  height:400px;
-  width:600px;
+  display:inline-block;
+  height:230px;
+  width:550px;
+  margin-top:4px;
+  float:right;
+ /* top:4px;
+  left:384px;*/
+  border:1px solid #eaeaea;
 }
+
+#current-beacon-container {
+  height:275px;
+  width:945px;
+  padding:4px;
+  border:1px solid #d9d9d9;
+}
+
+#current-beacon-inner {
+  height:100%;
+  width:100%;
+  background:#fcfcfc;
+}
+
+#current-beacon-header {
+  display:block;
+  height:30px;
+  width:100%;
+  background: #c9e3ef;
+  /*margin:3px auto;*/
+}
+
+#current-beacon-headline {
+  font-size:16px;
+  color:#424141;
+  font-weight:bolder;
+  margin:auto 10px;
+  line-height:1.9;
+}
+
+#current-beacon-preview-container {
+  display:inline-block;
+  margin-top:4px;
+  height:230px;
+  width:380px;
+}
+
+#current-beacon-preview {
+  width:260px;
+  margin:10% auto;
+}
+
+#current-beacon-activity {
+  display:block;
+  font-size:25px;
+  font-weight:bolder;
+  text-align:center;
+  margin:12px 0px;
+  color:#424141;
+}
+
+#current-beacon-at {
+  display:block;
+  font-size:25px;
+  margin:12px 0px;
+  text-align:center;
+  color:#424141;
+}
+
+#current-beacon-place {
+  display:block;
+  font-size:25px;
+  margin:12px 0px;
+  font-weight:normal;
+  text-align:center;
+  color:#424141;
+}
+
+.beacon-button {
+  background:#3e8ebb;
+  text-align:center;
+}
+
+#promote-beacon {
+  display:block;
+  width:160px;
+  height:33px;
+  margin:0px auto;
+}
+
+.beacon-button-text {
+ color:#ffffff;
+  font-size:14px;
+  line-height: 2.2;
+}
+
+#beacon-performance {
+  height:170px;
+  margin:9px;
+}
+
+#beacon-likes{
+  height:170px;
+  background:#000;
+  margin:9px;
+}
+
+#beacon-tips {
+  height:170px;
+  background:#000;
+  margin:9px;
+}
+
+#mybeacon-bottom-container {
+  margin-top:30px;
+}
+
+.beacon-headline {
+  font-size:17px;
+  font-weight:bolder;
+  color:#424141;
+  display:block;
+  margin-bottom:9px;
+}
+
+.beacon-headline-border{
+  height:7px;
+  width:231px;
+  background:#f4f4f4;
+  display:block;
+}
+
+

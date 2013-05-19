@@ -9,20 +9,54 @@
 
 <section id="page-title" style="margin-bottom:10px" class="row">
     <div class="eight columns">
-        <h2>Set Your Beacon</h2>
+        <h2>Beacons</h2>
     </div>
     <hr />
 </section>
 
 <section id="main" data-URL={{ URL }} class="row">
-<div id='adjustBeaconSelectionTitle'>
+<!-- <div id='adjustBeaconSelectionTitle'>
     <span id="beaconDefinitionTitle">Bea&bull;con</span> <span id="beaconNoun">n.</span>
         <div><span class="beaconNumbers">1.</span><span class="beaconDefinition"> A proposed activity at a particular place that you'd enjoy with friends-of-friends.</span></div>
-</div>
+</div> -->
 
-<div id="map-canvas" />
 
-<div id="slidorion">
+    <div id="current-beacon-container">
+        <div id="current-beacon-inner">
+            <div id="current-beacon-header">
+                <span id="current-beacon-headline">Current Beacon</span>
+            </div>
+            <div id="current-beacon-preview-container">
+                <div id="current-beacon-preview">
+                    <span id="current-beacon-activity">420</span>
+                    <span id="current-beacon-at">at</span>
+                    <span id="current-beacon-place">Cal Anderson Park</span>
+                </div> 
+                <div class="beacon-button" id="promote-beacon">
+                    <span class='beacon-button-text'>Promote to Friends</span>
+                </div>   
+            </div>      
+            <div id="map-canvas" />
+        </div>
+    </div>    
+
+    <div class="row">
+        <div id="mybeacon-bottom-container">
+            <div id="beacon-performance" class="three columns">
+                <span class="beacon-headline">Beacon Performance</span>
+                <span class="beacon-headline-border"><span>
+            </div>
+            <div id="beacon-likes" class="six columns">
+                
+            </div> 
+            <div id="beacon-tips" class="two columns">
+                
+            </div>     
+        </div>
+    </div>   
+    
+
+<!-- <div id="slidorion">
     <div id="slider">
         <div class="slide">
             <img src="{{ MEDIA_URL }}/images/red.png" height="260px" width="368px">
@@ -157,12 +191,12 @@
                 </form>
             </section>
         </div>
-				</div>
-					<div class="row">
+	</div> -->
+					<!-- <div class="row">
 					  <div class="five columns">
 						    <input id="save-button" class="medium button setBeaconButton" type="button" href="#" class="medium button" value="Set Beacon" />
                       </div>
-					</div>
+					</div> -->
 				</form>
 			</section>
             <br />
