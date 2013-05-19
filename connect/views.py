@@ -14,9 +14,11 @@ from common.enums.site_pages import SITE_PAGES
 from datetime import datetime
 from connect.functions.getProfileAuthToken import GetProfileAuthToken
 from connect.functions.getBeacon import GetBeacon
-from connect.functions.beaconSet import BeaconHasBeenSet
-import facebook
+from connect.models.pageView import PageView
 from rest_framework.authtoken.models import Token
+from datetime import datetime
+from datetime import timedelta
+import facebook
 
 def index(request):
     context_dict = {}
@@ -85,13 +87,13 @@ def account(request):
             if request.user.is_authenticated():
                 #Get the profile and the auth_token
                 profile = request.user.get_profile()
+                ViewPage(profile, SITE_PAGES.ACCOUNT)
                 authtoken = Token.objects.get(user=request.user).key
                 context_dict['rest_token'] = authtoken
                 context_dict['profile'] = profile
                 context_dict['AUTH_TOKEN'] = GetProfileAuthToken(profile)
                 #Get location lat/long to pass to template so that places dropdown results are narrowed
                 graph = facebook.GraphAPI(GetProfileAuthToken(profile))
-                print GetProfileAuthToken(profile)
                 fields = ["location"]
                 kwargs = {"fields": fields}
                 data=graph.get_object(profile.facebookID,**kwargs)
@@ -114,6 +116,7 @@ def beacon(request):
             if request.user.is_authenticated():
                 #Get the profile and the auth_token
                 profile = request.user.get_profile()
+                ViewPage(profile, SITE_PAGES.BEACON)
                 authtoken = Token.objects.get(user=request.user).key
                 context_dict['rest_token'] = authtoken
                 context_dict['profile'] = profile
@@ -153,8 +156,6 @@ def makematches(request):
             authtoken = Token.objects.get(user=request.user).key
             context_dict['rest_token'] = authtoken
             context_dict['profile'] = profile
-            if(PageHasBeenViewed(profile, SITE_PAGES.MAKE_MATCHES )):
-                context_dict['viewed'] = True
             ViewPage(profile, SITE_PAGES.MAKE_MATCHES)
         except Profile.DoesNotExist:
             pass
@@ -178,8 +179,18 @@ def meetpeople(request):
             authtoken = Token.objects.get(user=request.user).key
             context_dict['rest_token'] = authtoken
             context_dict['profile'] = profile
-            if PageHasBeenViewed(profile, SITE_PAGES.MEET_PEOPLE):
-                context_dict['viewed'] = True
+
+            #if user has not seen/gone to invite page for 5 days, redirect them
+            pageView = None
+            try:
+                pageView = PageView.objects.filter(user=profile, page_viewed=SITE_PAGES.INVITE).latest('date_viewed')
+            except PageView.DoesNotExist:
+                return redirect("/share/")
+
+            if pageView is not None:
+                fiveDaysAgo = datetime.now() - timedelta(5)
+                if pageView.date_viewed.date() < fiveDaysAgo.date():
+                    return redirect("/share/")
             ViewPage(profile, SITE_PAGES.MEET_PEOPLE)
         except Profile.DoesNotExist:
             pass
@@ -199,7 +210,7 @@ def messages(request):
             authtoken = Token.objects.get(user=request.user).key
             context_dict['rest_token'] = authtoken
             context_dict['profile'] = profile
-            if(PageHasBeenViewed(profile, SITE_PAGES.MESSAGES )):
+            if(PageHasBeenViewed(profile, SITE_PAGES.MESSAGES)):
                 context_dict['viewed'] = True
             ViewPage(profile, SITE_PAGES.MESSAGES)
         except Profile.DoesNotExist:
@@ -220,9 +231,7 @@ def share(request):
             authtoken = Token.objects.get(user=request.user).key
             context_dict['rest_token'] = authtoken
             context_dict['profile'] = profile
-            if(PageHasBeenViewed(profile, SITE_PAGES.MESSAGES )):
-                context_dict['viewed'] = True
-            ViewPage(profile, SITE_PAGES.MESSAGES)
+            ViewPage(profile, SITE_PAGES.INVITE)
         except Profile.DoesNotExist:
             pass
         html = render_to_string('share.html', RequestContext(request, context_dict))
