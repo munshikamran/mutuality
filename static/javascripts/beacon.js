@@ -10,6 +10,51 @@
         var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
     }
 
+    function initBeaconLikeCarousel() {
+		$('#beacon-likes-carousel').carouFredSel({
+			auto : false,
+			width: 470,
+			height: 100,
+			prev: "#ask-prev",
+			next: "#ask-next",
+			items: {
+				visible: 1
+			},
+			scroll: {
+				fx: 'fade',
+				items: 1
+			}
+		});
+	};
+
+	// function loadBeaconLikes() {
+	// for (var i = 0; i < mutualFriends.length; i++) {
+	// 	var friendID = mutualFriends[i].facebookID;
+	// 	var friendName = mutualFriends[i].name; //.split(" ")[0];
+	// 	var messageString = "Can you tell me more about " + otherName + "?";
+	// 	var mutualFriendImage = 'background-image: url(' + Mutuality.getProfilePictureURL(friendID, 100, 100) + ')';
+	// 	var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple."
+
+	// 	if (i % 4 === 0){
+	// 		newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo($('#ask-about'));
+	// 		}
+		
+	// 		var liElem = $(newUlElem).append
+	// 			($('<li>').append(
+	// 				$('<a>').attr({
+	// 					'href': '#',
+	// 					'data-facebookid':friendID,
+	// 					'data-name':otherName,
+	// 					'data-id':i,
+	// 					'onclick': Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, friendID, messageString, "www.mymutuality.com?src=messages_ask_about", "http://i.imgur.com/Hcy3Clo.jpg", description)
+	// 				}).append(
+	// 					$('<span>').attr({
+	// 							class: "profile-thumb tooltip",
+	// 							title: "Ask " + friendName,
+	// 							style: mutualFriendImage
+	// 							}))));
+	// 	}
+	// }
 //     // Initialize ajax autocomplete for beacon places:
 // 	$('#reg-place').autocomplete({
 // 		serviceUrl: 'https://graph.facebook.com/search?type=place&fields=name,location',
@@ -193,7 +238,9 @@
 
     //initialize Google Maps API
     google.maps.visualRefresh = true;
-    google.maps.event.addDomListener(window, 'load', initialize)
+    google.maps.event.addDomListener(window, 'load', initialize);
+    // loadBeaconLikes();
+    initBeaconLikeCarousel();
 
 	// // Initially, hide them all
 	// hideAllMessages();

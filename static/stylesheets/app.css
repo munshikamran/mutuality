@@ -10508,13 +10508,11 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
 
 #beacon-likes{
   height:170px;
-  background:#000;
   margin:9px;
 }
 
 #beacon-tips {
   height:170px;
-  background:#000;
   margin:9px;
 }
 
@@ -10532,9 +10530,115 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
 
 .beacon-headline-border{
   height:7px;
-  width:231px;
+  width:100%;
   background:#f4f4f4;
   display:block;
+  margin-bottom:16px;
 }
 
+.performance-info {
+  display:block;
+  margin:10px;
+}
 
+.performance-info img {
+  margin-left:10px; 
+  float:left;
+}
+
+.performance-info span {
+  font-size:16px;
+  float:left;
+  line-height: 2;
+  margin-left:30px;
+  color: #585757;
+}
+
+#beacon-likes-carousel {
+  height: 150px;
+}
+
+/* line 541, ../sass/app.scss */
+#beacon-likes-carousel ul {
+  height: 100px;
+  width: 470px;
+  list-style: none;
+  margin:5px 0px 0px 45px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* line 542, ../sass/app.scss */
+#beacon-likes-carousel li {
+  margin: 0px 15px;
+  float: left;
+  z-index: 0;
+}
+
+/* line 543, ../sass/app.scss */
+#beacon-likes-carousel a {
+  display: inline-block;
+  padding: 3px;
+  width: 65px;
+  height: 65px;
+}
+
+/* line 544, ../sass/app.scss */
+#beacon-likes-carousel .profile-thumb {
+  width: 70px;
+  height: 70px;
+  border-width: 3px;
+}
+
+/* line 545, ../sass/app.scss */
+#beacon-likes-carousel .profile-thumb:hover {
+  border-width: 4px;
+  border-color: #4fa8c4;
+  -webkit-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+  -moz-box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+  box-shadow: rgba(29, 171, 226, 0.9) 0 1px 8px;
+}
+
+#beacon-next {
+ position:relative;
+ display:block;
+ float:right;
+ height:20px;
+ width:20px;
+ bottom:65px;
+ right:10px;
+ background:url(../images/right-grey-arrow.png) no-repeat;
+}
+
+#beacon-prev{
+  position:relative;
+ display:block;
+ float:left;
+ height:20px;
+ width:20px;
+ bottom:65px;
+ left:10px;
+ background:url(../images/left-grey-arrow.png) no-repeat;
+}
+
+#beacon-next:hover {
+ position:relative;
+ display:block;
+ float:right;
+ height:20px;
+ width:20px;
+ bottom:65px;
+ right:10px;
+ background:url(../images/right-blue-arrow.png) no-repeat;
+}
+
+#beacon-prev:hover {
+  position:relative;
+ display:block;
+ float:left;
+ height:20px;
+ width:20px;
+ bottom:65px;
+ left:10px;
+ background:url(../images/left-blue-arrow.png) no-repeat;
+}
