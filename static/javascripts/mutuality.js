@@ -568,6 +568,21 @@ var Mutuality = (function($){
        });
     },
 
+    getGoodFriends: function( limit, success )
+    {
+         var self = this;
+         self.__post('api/goodFriendsResponse/', {token: this.token, lim: limit }, function( response ){
+             if(response)
+             {
+                 if(success instanceof Function) success.call(self, response);
+             }
+             else
+             {
+                 console.log("Error: Failed to find a beacon.");
+             }
+         });
+     },
+
     hasLikedBeacon: function( fbID, success )
     {
        var self = this;
