@@ -15,6 +15,6 @@ FACEBOOK_APP_ID = '475217095841801'
 FACEBOOK_APP_SECRET = '1304979d3d82251c8dd383e179c30126'
 
 # celery
-BROKER_URL = 'amqp://nfhtezck:VA2WoDvlivIMoZnISotQzFFZS9F16tv6@tiger.cloudamqp.com/nfhtezck'
+BROKER_URL = 'amqp://jkpvdzam:z1KpG7P9PTX-eMvOevGJztyct2IiyIun@lemur.cloudamqp.com/jkpvdzam'
 BROKER_POOL_LIMIT = None
 
