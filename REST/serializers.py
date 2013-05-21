@@ -62,6 +62,8 @@ class BeaconSerializer(serializers.ModelSerializer):
 class BeaconResponseSerializer(serializers.Serializer):
     beacon = BeaconSerializer()
     beaconLikes = ProfileSerializer()
+    latitude = serializers.CharField()
+    longitude = serializers.CharField()
 
 class MessagesSerializer(serializers.ModelSerializer):
     sender = ProfileSerializer()

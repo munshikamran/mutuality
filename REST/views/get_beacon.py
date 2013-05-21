@@ -6,24 +6,34 @@ from REST.serializers import BeaconResponseSerializer
 from connect.functions.getBeacon import GetBeacon
 from connect.functions.getBeaconLikes import GetBeaconLikes
 from connect.classes.beaconResponse import BeaconResponse
+from connect.functions.getProfileAuthToken import GetProfileAuthToken
+import facebook
 
 class GetBeaconAPI(APIView):
     """
     Get a user's beacon.
     """
-    def get_beacon(self, fbID):
+    def post(self, request, format=None):
         try:
-            profile = Profile.objects.get(facebookID=fbID)
+            profile = Profile.objects.get(facebookID=request.DATA['fbID'])
             beacon = GetBeacon(profile)
-            return beacon
         except Profile.DoesNotExist:
             raise Http404
 
-    def post(self, request, format=None):
-        beacon = self.get_beacon(request.DATA['fbID'])
         beaconLikes = []
         if beacon != []:
             beaconLikes = GetBeaconLikes(beacon)
-        beaconResponse = BeaconResponse(beacon, beaconLikes)
+
+        graph = facebook.GraphAPI(GetProfileAuthToken(profile))
+        fields = ['name', 'location']
+        kwargs = {"type": "place", "q": str(beacon.place),  "fields": fields}
+        data = graph.get_object("search", **kwargs)
+        latitude = 0.0
+        longitude = 0.0
+        if len(data['data']) != 0:
+            latitude = data['data'][0]['location']['latitude']
+            longitude = data['data'][0]['location']['longitude']
+
+        beaconResponse = BeaconResponse(beacon, beaconLikes, latitude, longitude)
         serializer = BeaconResponseSerializer(beaconResponse)
         return Response(serializer.data)

@@ -6,3 +6,5 @@ def GetBeacon(profile):
         return beacon
     else:
         return []
+
+
