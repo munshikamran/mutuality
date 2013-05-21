@@ -1,13 +1,35 @@
 
 (function($) {
 
-    function initialize() {
+    function initializeMap() {
         var mapOptions = {
             center: new google.maps.LatLng(-34.397, 150.644),
             zoom: 8,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            panControl: false,
+  			zoomControl: false,
+			mapTypeControl: false,
+			scaleControl: false,
+			streetViewControl: false,
+			overviewMapControl: false
         };
+
         var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    	var dropIcon = {url: 'http://localhost:8000/images/drop-icon.png'};
+    	var dropIconShadow = {url: 'http://images/drop-icon-shadow.png'};
+    	//initialize Google Maps API
+    	google.maps.visualRefresh = true;
+		
+		setTimeout(function() {
+    		var marker = new google.maps.Marker({
+    		position: map.getCenter(),
+    		animation: google.maps.Animation.DROP,
+    		map: map,
+    		image: dropIcon,
+    		shadow: dropIconShadow,
+    		title: 'Click to zoom'
+  			});
+    	}, 1000);
     }
 
     function initBeaconLikeCarousel() {
@@ -15,8 +37,8 @@
 			auto : false,
 			width: 470,
 			height: 100,
-			prev: "#ask-prev",
-			next: "#ask-next",
+			prev: "#beacon-prev",
+			next: "#beacon-next",
 			items: {
 				visible: 1
 			},
@@ -26,6 +48,64 @@
 			}
 		});
 	};
+
+	function loadCurrentBeacon(activity, place) {
+		$('#current-beacon-activity').html(activity);
+		$('#current-beacon-place').html(place);
+	}
+
+	function loadBeaconPerformance(numberOfLikes) {
+		console.log(numberOfLikes);
+		$('#performance-like-number').html(numberOfLikes);
+	}
+
+	function loadBeaconLikes (beaconLikes) {
+		initBeaconLikeCarousel();
+		//var name = otherName.split(" ");
+		var newUlElem;
+		$('#beacon-likes-ul').empty();
+		//$('#askAboutTitle').html("Ask About " + name[0]);
+		for (var i = 0; i < beaconLikes.length; i++) {
+			var beaconLiker = beaconLikes[i].facebookID;
+			var beaconLikerName = beaconLikes[i].name; //.split(" ")[0];
+			//var messageString = "Can you tell me more about " + otherName + "?";
+			var beaconLikerImage = 'background-image: url(' + Mutuality.getProfilePictureURL(beaconLiker, 100, 100) + ')';
+			//var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple."
+
+			if (i % 4 === 0){
+				newUlElem = $('<ul>', {style: "margin-right: 0px;"}).appendTo($('#beacon-likes-carousel'));
+				}
+			
+				var liElem = $(newUlElem).append
+					($('<li>').append(
+						$('<a>').attr({
+							'href': '#',
+							//'data-facebookid':friendID,
+							//'data-name':otherName,
+							//'data-id':i,
+							//'onclick': Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, friendID, messageString, "www.mymutuality.com?src=messages_ask_about", "http://i.imgur.com/Hcy3Clo.jpg", description)
+						}).append(
+							$('<span>').attr({
+									class: "profile-thumb tooltip",
+									title: "Message " + beaconLikerName,
+									style: beaconLikerImage
+									}))));
+			}
+			$('.tooltip').tooltipster();
+			//initAskAboutCarousel();
+	        //$("#profile-fb a").attr('onclick', Mutuality.getFacebookPageURL(facebookID));
+	}
+
+	function loadPage() {
+		google.maps.event.addDomListener(window, 'load', initializeMap);
+		Mutuality.getBeacon(571681248, function(currentBeacon) {
+			console.log(currentBeacon);
+			loadCurrentBeacon(currentBeacon.beacon.activity, currentBeacon.beacon.place);
+			loadBeaconPerformance(currentBeacon.beaconLikes.length);
+			loadBeaconLikes(currentBeacon.beaconLikes);
+		});	
+
+	}
 
 	// function loadBeaconLikes() {
 	// for (var i = 0; i < mutualFriends.length; i++) {
@@ -236,11 +316,43 @@
 
 /* Begin Account Main Code */
 
-    //initialize Google Maps API
-    google.maps.visualRefresh = true;
-    google.maps.event.addDomListener(window, 'load', initialize);
+	loadPage();
     // loadBeaconLikes();
-    initBeaconLikeCarousel();
+
+    $('#promote-beacon').on('click','span', function(){
+    	setTimeout(function(){
+		    FB.ui(
+		        {
+		           method: 'feed',
+		           name: 'Anyone want to join me for ' + $('#current-beacon-activity').html() + ' at ' + $('#current-beacon-place').html() + '?',
+		           link: $("#main").data('url'),
+		         },
+		      function(response) {
+		        if (response && response.post_id) {
+		          console.log('Post was published to facebook.');
+		          mixpanel.track("Beacon set", {
+		                "Activity": profileDict['beacon-activity'],
+		                "Place": profileDict['beacon-place'],
+		                "FacebookPosted": "true"}, function() {
+		                window.location = '/meetpeople/';
+		                });
+		          
+
+		        } else {
+		          console.log('Post was not published to facebook.');
+		          mixpanel.track("Beacon set", {
+		                "Activity": profileDict['beacon-activity'],
+		                "Place": profileDict['beacon-place'],
+		                "FacebookPosted": "false"}, function() {
+		                window.location = '/meetpeople/';
+		                });
+		        }
+		      }
+		    );
+		},300);
+    })
+	    
+
 
 	// // Initially, hide them all
 	// hideAllMessages();
