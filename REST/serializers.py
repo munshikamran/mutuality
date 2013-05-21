@@ -71,4 +71,11 @@ class MessagesSerializer(serializers.ModelSerializer):
             model = Message
             fields = ('body', 'recipient', 'sender', 'sent_timestamp')
 
+class GoodFriendsSerializer(serializers.Serializer):
+    id = serializers.CharField()
+    name = serializers.CharField()
 
+class GoodFriendsResponseSerializer(serializers.Serializer):
+    goodFriends = GoodFriendsSerializer()
+    numFriends = serializers.CharField()
+    numPotentialMatches = serializers.CharField()
