@@ -15,21 +15,24 @@
         };
 
         var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    	
     	var dropIcon = {url: 'http://localhost:8000/images/drop-icon.png'};
-    	var dropIconShadow = {url: 'http://images/drop-icon-shadow.png'};
+    	var dropIconShadow = {url: 'http://localhost:8000/images/drop-icon-shadow.png'};
     	//initialize Google Maps API
     	google.maps.visualRefresh = true;
 		
+    	
+
 		setTimeout(function() {
-    		var marker = new google.maps.Marker({
-    		position: map.getCenter(),
-    		animation: google.maps.Animation.DROP,
-    		map: map,
-    		image: dropIcon,
-    		shadow: dropIconShadow,
-    		title: 'Click to zoom'
-  			});
-    	}, 1000);
+		 	var marker = new google.maps.Marker({
+			position: map.getCenter(),
+			animation: google.maps.Animation.DROP,
+			map: map,
+			icon: dropIcon,
+			shadow: dropIconShadow,
+			title: 'Click to zoom'
+			});
+     	}, 1000);
     }
 
     function initBeaconLikeCarousel() {
