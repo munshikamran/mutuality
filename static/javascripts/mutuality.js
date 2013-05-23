@@ -209,6 +209,7 @@ var Mutuality = (function($){
         var sendJS = "FB.ui({ method: 'send', name: '" + name +"', link:'" + link + "', to:'" + userID + "', picture: '" + pictureURL + "', description: '" + description + "', redirect_uri: '" + redirect + "'});"
         return sendJS;       
       },
+
       // Get the list of facebook friends for the current user
       loadFriendsList: function( num, success )
       {

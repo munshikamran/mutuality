@@ -1,12 +1,13 @@
 
-(function($) {
+var friendCache = new Array();
 
+(function($) {
     function loadPage() {
         var friendNumber = calculateNumberOfFriends(2,5);
         Mutuality.getGoodFriends(friendNumber, function(goodFriendsObject) {
-            console.log(goodFriendsObject);
             addFriendDiv(friendNumber, goodFriendsObject);
             addMatchNumber(friendNumber, goodFriendsObject.numPotentialMatches, goodFriendsObject.numFriends);
+            friendCache = goodFriendsObject.goodFriends.slice(0);
         });
     }
 
@@ -61,23 +62,26 @@
         });
 
         $('.invite.button').on('click', function(){
-        var currentPersonName = Mutuality.getFriendOfFriendProfile(Mutuality.mpcache.current);
-        var messageStringIntro = "Hey can you introduce me to " + currentPersonName.name + "?";
-        var messageStringAsk = "Can you tell me more about " + currentPersonName.name + "?";
-        var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple.";
-
-        Mutuality.getSendNudgeURL(Mutuality.cache.facebookID, mutualFriends[i].facebookID, messageStringAsk, "www.mymutuality.com?src=meetPeople_askAbout", "http://i.imgur.com/Hcy3Clo.jpg", description, [redirect]);
-
+            sendFacebookMessages(0);
         });
     }
-//var liElem = $('<li>', {class:'meet-profile', facebookID:friends[i].facebookID}).appendTo(meetProfilesElem);
-//                        var aElem = $('<a>', {class:"loaded"}).appendTo(liElem);
-//                        var imgElem = $('<img>', {src:Mutuality.getProfilePictureURL(friends[i].facebookID, 350, 350)}).appendTo(aElem);
-//                        var spanElem = $('<span>', {class:"match-profile-details"}).appendTo(aElem);
-//                        var inFavorites = friends[i].isFavorite;
 
     function calculateNumberOfFriends(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function sendFacebookMessages (count) {
+        var name = "test";
+        var link = "http://www.cnn.com"
+        var pictureURL = "www.mymutuality.com/images/BlueLogo.png";
+        var description = "no idea";
+        if (count < friendCache.length) {
+            FB.ui({ method: 'send', name: name , link: link, to: friendCache[count].uid, picture: pictureURL, description: description}, function() {
+                    sendFacebookMessages(count+1);
+            });
+        } else {
+            window.location = "/meetpeople/";
+        }
     }
 
     function addMatchNumber(friendNumber, numMatches, numFriends) {
