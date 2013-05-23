@@ -20,67 +20,88 @@
         <div><span class="beaconNumbers">1.</span><span class="beaconDefinition"> A proposed activity at a particular place that you'd enjoy with friends-of-friends.</span></div>
 </div> -->
 
-
-    <div id="current-beacon-container">
-        <div id="current-beacon-inner">
-            <div id="current-beacon-header">
-                <span id="current-beacon-headline">Current Beacon</span>
-            </div>
-            <div id="current-beacon-preview-container">
-                <div id="current-beacon-preview">
-                    <span id="current-beacon-activity"></span>
-                    <span id="current-beacon-at">at</span>
-                    <span id="current-beacon-place"></span>
-                </div> 
-                <div class="beacon-button" id="promote-beacon">
-                    <span class='beacon-button-text'>Promote to Friends</span>
-                </div>   
-            </div>      
-            <div id="map-canvas" />
-        </div>
+    <div id="beacon-navbar">
+        <ul>
+            <li class="active">
+                <span>Browse Beacons</span>
+            </li>
+            
+            <li>
+                <span>My Beacon</span>
+            </li>    
+        </ul>    
     </div>    
-
-    <div class="row">
-        <div id="mybeacon-bottom-container">
-            <div id="beacon-performance" class="three columns">
-                <span class="beacon-headline">Beacon Performance</span>
-                <span class="beacon-headline-border"></span>
-                <span class="performance-info">
-                    <img src="{{ MEDIA_URL }}/images/views-icon.png">
-                    <span class="performance-info-span">30 Views</span>
-                </span>
-                <div style="clear: both;"></div>
-                <span class="performance-info">
-                    <img src="{{ MEDIA_URL }}/images/thumb-icon.png">
-                    <span class="performance-info-span"><span id='performance-like-number'>5</span> Likes</span>
-                </span>
-                <div style="clear: both;"></div>
-                <span class="performance-info">
-                    <img src="{{ MEDIA_URL }}/images/percentage-icon.png">
-                    <span class="performance-info-span">17% Liked</span>
-                </span>
-            </div>
-            <div id="beacon-likes" class="six columns">
-                <span class="beacon-headline">Beacon Likes (5)</span>
-                <span class="beacon-headline-border"></span>
-                <div id="beacon-likes-carousel" class="">
-                <!--     <ul>
-                        <li><a><span class="profile-thumb" style="background-image:url(http://www.mymutuality.com/images/betty.jpg)"></span></a></li>
-                        <li><a><span class="profile-thumb" style="background-image:url(http://www.mymutuality.com/images/betty.jpg)"></span></a></li>
-                        <li><a><span class="profile-thumb" style="background-image:url(http://www.mymutuality.com/images/betty.jpg)"></span></a></li>
-                        <li><a><span class="profile-thumb" style="background-image:url(http://www.mymutuality.com/images/betty.jpg)"></span></a></li>
-                    </ul> -->
+    <div id="browsebeacon-container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="browse-beacon-scroll" class="five columns">
                 </div>
-                    <a href="#" id="beacon-prev"></a>
-                    <a href="#" id="beacon-next"></a>
-                </div> 
-            <div id="beacon-tips" class="two columns">
-                <span class="beacon-headline">Beacon Tips</span>
-                <span class="beacon-headline-border"></span>
-            </div>     
-        </div>
-    </div>   
-    
+                <div id="browse-beacon-map" class="seven columns">
+                </div>    
+            </div>    
+        </div>   
+    </div>
+    <div id="mybeacon-container">
+        <div id="current-beacon-container">
+            <div id="current-beacon-inner">
+                <div id="current-beacon-header">
+                    <span id="current-beacon-headline">Current Beacon</span>
+                </div>
+                <div id="current-beacon-preview-container">
+                    <div id="current-beacon-preview">
+                        <span id="current-beacon-activity"></span>
+                        <span id="current-beacon-at">at</span>
+                        <span id="current-beacon-place"></span>
+                    </div> 
+                    <div class="beacon-button" id="promote-beacon">
+                        <span class='beacon-button-text'>Promote to Friends</span>
+                    </div>   
+                </div>      
+                <div id="map-canvas" />
+            </div>
+        </div>    
+
+        <div class="row">
+            <div id="mybeacon-bottom-container">
+                <div id="beacon-performance" class="three columns">
+                    <span class="beacon-headline">Beacon Performance</span>
+                    <span class="beacon-headline-border"></span>
+                    <span class="performance-info">
+                        <img src="{{ MEDIA_URL }}/images/views-icon.png">
+                        <span class="performance-info-span">30 Views</span>
+                    </span>
+                    <div style="clear: both;"></div>
+                    <span class="performance-info">
+                        <img src="{{ MEDIA_URL }}/images/thumb-icon.png">
+                        <span class="performance-info-span"><span id='performance-like-number'>5</span> Likes</span>
+                    </span>
+                    <div style="clear: both;"></div>
+                    <span class="performance-info">
+                        <img src="{{ MEDIA_URL }}/images/percentage-icon.png">
+                        <span class="performance-info-span">17% Liked</span>
+                    </span>
+                </div>
+                <div id="beacon-likes" class="six columns">
+                    <span class="beacon-headline">Beacon Likes (5)</span>
+                    <span class="beacon-headline-border"></span>
+                    <div id="beacon-likes-carousel" class="">
+                    <!--     <ul>
+                            <li><a><span class="profile-thumb" style="background-image:url(http://www.mymutuality.com/images/betty.jpg)"></span></a></li>
+                            <li><a><span class="profile-thumb" style="background-image:url(http://www.mymutuality.com/images/betty.jpg)"></span></a></li>
+                            <li><a><span class="profile-thumb" style="background-image:url(http://www.mymutuality.com/images/betty.jpg)"></span></a></li>
+                            <li><a><span class="profile-thumb" style="background-image:url(http://www.mymutuality.com/images/betty.jpg)"></span></a></li>
+                        </ul> -->
+                    </div>
+                        <a href="#" id="beacon-prev"></a>
+                        <a href="#" id="beacon-next"></a>
+                    </div> 
+                <div id="beacon-tips" class="two columns">
+                    <span class="beacon-headline">Beacon Tips</span>
+                    <span class="beacon-headline-border"></span>
+                </div>     
+            </div>
+        </div>   
+    </div>
 
 <!-- <div id="slidorion">
     <div id="slider">

@@ -2438,7 +2438,7 @@ ul.flyout li.active a, .nav-bar li ul li.active a {
 /* line 68, ../../../../../../../Library/Ruby/Gems/1.8/gems/zurb-foundation-3.2.2/scss/foundation/components/modules/_topbar.scss */
 .top-bar ul > li.search form input[type=text] + .button {
   border-left: none;
-  -moz-border-radius-topleft: 0;
+  -moz-border-radius-top-left: 0;
   -webkit-border-top-left-radius: 0;
   border-top-left-radius: 0;
   -moz-border-radius-bottomleft: 0;
@@ -10635,11 +10635,67 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
 
 #beacon-prev:hover {
   position:relative;
- display:block;
- float:left;
- height:20px;
- width:20px;
- bottom:65px;
- left:10px;
- background:url(../images/left-blue-arrow.png) no-repeat;
+  display:block;
+  float:left;
+  height:20px;
+  width:20px;
+  bottom:65px;
+  left:10px;
+  background:url(../images/left-blue-arrow.png) no-repeat;
+}
+
+#beacon-navbar {
+  display:block;
+  height:35px;
+  width:100%;
+  margin-top:30px;
+  margin-bottom:10px;
+}
+
+#beacon-navbar li {
+  display:inline;
+  list-style-type:none; 
+  background:#727272;
+  margin-right:10px;
+  cursor:pointer;
+  padding:15px 20px 10px 20px;
+  -moz-border-radius-top-left: 5px;
+  -webkit-border-top-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-border-radius-top-right: 5px;
+  -webkit-border-top-right-radius: 5px;
+  border-top-right-radius: 5px;
+} 
+
+#beacon-navbar ul span {
+  font-size:16px;
+  color:#FFFFFF;
+  font-weight:bolder;
+}
+
+#beacon-navbar .active {
+  background:#62a3c7;
+}
+
+#mybeacon-container {
+  display:none;
+  width:970px;
+  height:500px;
+}
+
+#browsebeacon-container {
+  width:970px;
+  height:500px;
+}
+
+#browse-beacon-scroll {
+  display:block-inline;
+  height:500px;
+  border:#d0d0d0 solid 1px;
+}
+
+#browse-beacon-map {
+  display:block-inline;
+  height:500px;
+  border:#d0d0d0 solid 1px;
 }

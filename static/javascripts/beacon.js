@@ -1,10 +1,11 @@
 
 (function($) {
 
-    function initializeMap() {
+    function initializeMap(currentBeacon) {
+        console.log(currentBeacon);
         var mapOptions = {
-            center: new google.maps.LatLng(-34.397, 150.644),
-            zoom: 8,
+            center: new google.maps.LatLng(currentBeacon.latitude, currentBeacon.longitude),
+            zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             panControl: false,
   			zoomControl: false,
@@ -100,12 +101,11 @@
 	}
 
 	function loadPage() {
-		google.maps.event.addDomListener(window, 'load', initializeMap);
 		Mutuality.getBeacon(571681248, function(currentBeacon) {
-			console.log(currentBeacon);
 			loadCurrentBeacon(currentBeacon.beacon.activity, currentBeacon.beacon.place);
 			loadBeaconPerformance(currentBeacon.beaconLikes.length);
 			loadBeaconLikes(currentBeacon.beaconLikes);
+			google.maps.event.addDomListener(window, 'load', initializeMap(currentBeacon));
 		});	
 
 	}
@@ -321,6 +321,18 @@
 
 	loadPage();
     // loadBeaconLikes();
+
+    $('#beacon-navbar').on('click', 'li', function() {
+    	$('#beacon-navbar').find('li').removeClass('active');
+    	$(this).addClass('active');
+    	if ($(this).index()===1) {
+    		$('#browsebeacon-container').hide();
+    		$('#mybeacon-container').fadeIn();
+    	} else {
+    		$('#mybeacon-container').hide();
+    		$('#browsebeacon-container').fadeIn();
+    	}
+    });
 
     $('#promote-beacon').on('click','span', function(){
     	setTimeout(function(){
