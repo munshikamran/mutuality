@@ -205,8 +205,8 @@ var Mutuality = (function($){
         return "window.open('http://facebook.com/" + facebookID +"'); return false;";
       },
       // Get the JS to pop open a fb message dialog
-      getSendNudgeURL: function(facebookID, userID, name, link, pictureURL, description){
-        var sendJS = "FB.ui({ method: 'send', name: '" + name +"', link:'" + link + "', to:'" + userID + "', picture: '" + pictureURL + "', description: '" + description + "'});"
+      getSendNudgeURL: function(facebookID, userID, name, link, pictureURL, description, redirect){
+        var sendJS = "FB.ui({ method: 'send', name: '" + name +"', link:'" + link + "', to:'" + userID + "', picture: '" + pictureURL + "', description: '" + description + "', redirect_uri: '" + redirect + "'});"
         return sendJS;       
       },
       // Get the list of facebook friends for the current user

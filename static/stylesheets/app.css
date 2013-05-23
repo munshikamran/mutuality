@@ -10475,24 +10475,33 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
 
 .share-friend-number {
   float:right;
-  font-size:14px;
+  font-weight: bolder;
+  font-size:15px;
   margin:15px 0px;
 }
 
 #share-friend-total {
-  font-size:16px;
+  font-size:18px;
+  font-weight:bolder;
 }
 
 .invite.button {
   float:right;
   width:100px;
-  margin:20px 0px;
+  margin:0px 30px 20px 0px;
 }
 
 #progress-bar {
-  margin:20px auto;
+  margin:10px 0px;
 }
 
 #network-completion{
-  margin:0px 50px;
+  display:block;
+  margin:20px 51px;
+  font-size:17px;
+}
+
+#invite-info {
+  font-size:20px;
+  margin:auto 75px;
 }

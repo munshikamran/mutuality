@@ -12,14 +12,22 @@
 
 <div class="row">
     <div class="nine columns">
-        <span><h6>These friends have been favorited on Mutuality. Invite them to see more and better matches.</h6></span>
+        <span><h3>These friends have been favorited on Mutuality</h3></span> 
+        <div class="twelve columns">
+            <div class="twelve columns">
+                <div id="progress-bar" class="twelve columns progress large-6 secondary round">
+                <span class="meter" style="width:40%"></span>
+                </div>
+            </div>
+            <span id="network-completion">You will see <span id="share-friend-total"></span> more matches making your <span id="location">Seattle</span> network <span id="network-percentage"></span>% complete</span>
+        </div>  
     </div>
 </div>
 <div class="row">
     
     <div class="eight columns offset-by-one">  
-        <form>
-            <div class="row">
+        <form id="friend-list">
+            <!-- <div class="row">
                 <div class="two columns">
                     <span class="share-friend-number">+<span class="share-number" id="share-friend-number-one">30</span> Matches</span>
                 </div>    
@@ -36,6 +44,7 @@
                     <label class="share-name" for="onoffswitch">Jeff Ames</label>
                 </div>
             </div> 
+
             <div class="row">
                 <div class="two columns">
                     <span class="share-friend-number">+<span class="share-number" id="share-friend-number-two">30</span> Matches</span>
@@ -86,17 +95,9 @@
                 <div class="seven columns">
                     <label class="share-name" for="onoffswitch">Kamran Munshi</label>
                 </div>
-            </div>                    
-        </form>
-            <div class="twelve columns">
-                <span id="network-completion">You will see <span id="share-friend-total"></span> more matches making you <span id="location">Seattle</span> network <span id="network-percentage">44</span>% complete.</span>
-            <div class="twelve columns offset-by-two">
-                <div id="progress-bar" class="six columns progress large-6 secondary round">
-                <span class="meter" style="width:40%"></span>
-                </div>
-            </div>
-        </div>     
-        
+            </div>                    --> 
+        </form>  
+              <!--  <span><h5 id="invite-info">Invite them to see more matches</h5></span>  -->
       
     
         <div class="row">
