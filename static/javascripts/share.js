@@ -1,6 +1,4 @@
 
-var friendCache = new Array();
-
 (function($) {
     function loadPage() {
         var friendNumber = calculateNumberOfFriends(2,5);
@@ -32,7 +30,7 @@ var friendCache = new Array();
 
             var innerDiv = $('<div>',{class:"onoffswitch-inner"});
             var switchDiv = $('<div>',{class:"onoffswitch-switch"});
-            var onOffSwitch = $('<input>', {type:"checkbox", name:"onoffswitch", id:"onoffswitch" + i, class:"onoffswitch-checkbox", checked:true});
+            var onOffSwitch = $('<input>', {type:"checkbox", name:"onoffswitch", id:"onoffswitch" + i, class:"onoffswitch-checkbox", "data-friends": goodFriendsObject.goodFriends[i].uid, checked:true});
             var onOffSwitchLabel = $('<label>', {class:"onoffswitch-label", for:"onoffswitch" + i}).append(innerDiv, switchDiv);
             $('#friend-list').find('.row').last().find('.two').append($('<div>', {class:"onoffswitch"}).append(onOffSwitch, onOffSwitchLabel));
 
@@ -45,6 +43,7 @@ var friendCache = new Array();
 
         $('.onoffswitch-checkbox').on('click', function() {
         var checkboxBoolean = $(this).is(':checked');
+        
         if (checkboxBoolean === false) {
             var newFriendNumber = $(this).closest('.row').find('.share-number').html();
             $(this).closest('.row').find('.share-number').attr('data-friends', newFriendNumber);
@@ -70,13 +69,19 @@ var friendCache = new Array();
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function sendFacebookMessages (count) {
-        var name = "test";
-        var link = "http://www.cnn.com"
-        var pictureURL = "www.mymutuality.com/images/BlueLogo.png";
-        var description = "no idea";
+   function sendFacebookMessages (count) {
+        var title = "You should check out Mutuality";
+        var link = "http://www.mymutuality.com"
+        var pictureURL = "www.mymutuality.com/images/mutualityicon.png";
+        var description = "Everyone on Mutuality is a friend-of-a-friend. Mutuality (finally) makes meeting cool people safe and simple.";
+        var friendCache = new Array();
+        
+        for(i = 0; i < $('.onoffswitch-checkbox').filter(':checked').size(); i++) {    
+            friendCache.push($('.onoffswitch-checkbox').filter(':checked').eq(i).data('friends'));
+        }
+        
         if (count < friendCache.length) {
-            FB.ui({ method: 'send', name: name , link: link, to: friendCache[count].uid, picture: pictureURL, description: description}, function() {
+            FB.ui({ method: 'send', name: title , link: link, to: friendCache[count], picture: pictureURL, description: description}, function() {
                     sendFacebookMessages(count+1);
             });
         } else {
