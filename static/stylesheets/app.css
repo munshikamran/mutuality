@@ -10692,10 +10692,44 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
   display:block-inline;
   height:500px;
   border:#d0d0d0 solid 1px;
+  border-right:none;
 }
 
 #browse-beacon-map {
   display:block-inline;
   height:500px;
   border:#d0d0d0 solid 1px;
+}
+
+.browse-beacon-div {
+  display:block;
+  height:25%;
+  padding:15px 0px;
+}
+
+.browse-beacon-thumb {
+  padding:0px 0px;
+  display:block;
+  margin:2% auto;
+  width:100%;
+}
+
+.browse-beacon-thumb img {
+  display:block;
+  float:none;
+  margin:auto;
+  height:80px;
+  width:80px;
+}
+
+.browse-beacon-title {
+  display:block;
+  font-size:17px;
+  font-weight:bolder;
+}
+
+.browse-beacon-specifics {
+  display:block;
+  font-size:16px;
+  font-weight:normal;
 }

@@ -1,7 +1,40 @@
 
 (function($) {
 
-    function initializeMap(currentBeacon) {
+    function initializeBrowseBeaconMap() {
+    	var mapOptions = {
+            center: new google.maps.LatLng(47.609476, -122.315842),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            panControl: false,
+  			zoomControl: false,
+			mapTypeControl: false,
+			scaleControl: false,
+			streetViewControl: false,
+			overviewMapControl: false
+        };
+
+        var map = new google.maps.Map(document.getElementById("browse-beacon-map"), mapOptions);
+    	
+    	var dropIcon = {url: 'http://localhost:8000/images/drop-icon.png'};
+    	var dropIconShadow = {url: 'http://localhost:8000/images/drop-icon-shadow.png'};
+    	
+    	//initialize Google Maps API
+    	google.maps.visualRefresh = true;
+
+    	setTimeout(function() {
+		 	var marker = new google.maps.Marker({
+			position: map.getCenter(),
+			animation: google.maps.Animation.DROP,
+			map: map,
+			icon: dropIcon,
+			shadow: dropIconShadow,
+			title: 'Click to zoom'
+			});
+     	}, 1000);
+    } 
+
+    function initializeMyBeaconMap(currentBeacon) {
         console.log(currentBeacon);
         var mapOptions = {
             center: new google.maps.LatLng(currentBeacon.latitude, currentBeacon.longitude),
@@ -21,8 +54,6 @@
     	var dropIconShadow = {url: 'http://localhost:8000/images/drop-icon-shadow.png'};
     	//initialize Google Maps API
     	google.maps.visualRefresh = true;
-		
-    	
 
 		setTimeout(function() {
 		 	var marker = new google.maps.Marker({
@@ -100,14 +131,18 @@
 	        //$("#profile-fb a").attr('onclick', Mutuality.getFacebookPageURL(facebookID));
 	}
 
-	function loadPage() {
+	function loadMyBeaconPage() {
 		Mutuality.getBeacon(571681248, function(currentBeacon) {
 			loadCurrentBeacon(currentBeacon.beacon.activity, currentBeacon.beacon.place);
 			loadBeaconPerformance(currentBeacon.beaconLikes.length);
 			loadBeaconLikes(currentBeacon.beaconLikes);
-			google.maps.event.addDomListener(window, 'load', initializeMap(currentBeacon));
+			google.maps.event.addDomListener(window, 'load', initializeMyBeaconMap(currentBeacon));
 		});	
 
+	}
+
+	function loadBrowseBeaconPage() {
+		google.maps.event.addDomListener(window, 'load', initializeBrowseBeaconMap());
 	}
 
 	// function loadBeaconLikes() {
@@ -319,7 +354,8 @@
 
 /* Begin Account Main Code */
 
-	loadPage();
+	loadMyBeaconPage();
+	loadBrowseBeaconPage();
     // loadBeaconLikes();
 
     $('#beacon-navbar').on('click', 'li', function() {
