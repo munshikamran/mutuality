@@ -10472,6 +10472,7 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
   margin:12px 0px;
   text-align:center;
   color:#424141;
+  font-family: "Brush Script Std";
 }
 
 #current-beacon-place {
@@ -10703,8 +10704,19 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
 
 .browse-beacon-div {
   display:block;
+  cursor:pointer;
   height:25%;
   padding:15px 0px;
+  border-bottom:#d5d5d5 1px solid;
+}
+
+.browse-beacon-div:hover {
+  display:block;
+  cursor:pointer;
+  height:25%;
+  padding:15px 0px;
+  background:#d5d5d5;
+  border-bottom:#d5d5d5 1px solid;
 }
 
 .browse-beacon-thumb {
@@ -10718,18 +10730,147 @@ background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transpar
   display:block;
   float:none;
   margin:auto;
-  height:80px;
-  width:80px;
+  height:60px;
+  width:60px;
 }
 
 .browse-beacon-title {
   display:block;
+  margin-top:20px;
+  margin-bottom:10px;
   font-size:17px;
-  font-weight:bolder;
+  color:#424141;
+  font-weight:normal;
 }
 
 .browse-beacon-specifics {
   display:block;
   font-size:16px;
+  color:#424141;
+  font-weight:bolder;
+}
+
+.browse-beacon-like {
+  display:block;
+  position:relative;
+  bottom:-75px;
+  right:-25px;
+}
+
+.browse-beacon-like img {
+  height:17px;
+  width:17px;
+  margin-right:4px;
+}
+
+.browse-beacon-like span {
+  color:#424141;
+}
+
+#browse-beacon-filters {
+  position:absolute;
+  top:10px;
+  right:90px;
+  height:60px;
+}
+
+#browse-beacon-filters li {
+  display:inline-block;
+  list-style-type:none; 
+  width: 160px !important;
+  padding:5px 10px;
+  margin:0px 25px;
+  text-align:center;
   font-weight:normal;
+  cursor:pointer;
+  font-size: 17px;
+  color: #fff;
+  text-shadow: 1px 1px #205c7d;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #3e8ebb;
+  -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.5), inset 1px 1px #fff;
+  -moz-box-shadow: 1px 1px 2px rgba(0,0,0,.5), inset 1px 1px #fff;
+  box-shadow: 1px 1px 2px rgba(0,0,0,.5), inset 1px 1px #fff;
+  background-image: -webkit-linear-gradient(bottom, #3380ab, #57a1c9);
+  background-image: -moz-linear-gradient(bottom, #3380ab, #57a1c9);
+  background-image: -o-linear-gradient(bottom, #3380ab, #57a1c9);
+  background-image: -ms-linear-gradient(bottom, #3380ab, #57a1c9);
+  background-image: linear-gradient(to top, #3380ab, #57a1c9);
+}
+
+#browse-beacon-filters li:hover {
+  background-color: #3e8ebb;
+  -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.5), inset 1px 1px #fff;
+  -moz-box-shadow: 1px 1px 2px rgba(0,0,0,.5), inset 1px 1px #fff;
+  box-shadow: 1px 1px 2px rgba(0,0,0,.5), inset 1px 1px #fff;
+  background-image: -webkit-linear-gradient(bottom, #62a3c7, #80c4e5);
+  background-image: -moz-linear-gradient(bottom, #62a3c7, #80c4e5);
+  background-image: -o-linear-gradient(bottom, #62a3c7, #80c4e5);
+  background-image: -ms-linear-gradient(bottom, #62a3c7, #80c4e5);
+  background-image: linear-gradient(to top, #62a3c7, #80c4e5);
+}
+
+.browse-beacon-like span:hover {
+  color:#424141;
+  text-decoration: underline;
+}
+
+#browse-single-beacon {
+  display:none;
+  position:absolute;
+  top:0px;
+  left:0px;
+}
+
+#browse-single-beacon .profile-thumb {
+  display:inline-block;
+  height:50px;
+  width:50px;
+  margin:20px 25px;
+}
+
+.single-beacon-title {
+  display:block;
+  margin:30px 0px;
+  font-family: "Proxima Nova Condensed";
+  font-size: 19px;
+  color: #424141;
+  font-weight:bolder;
+}
+
+.single-beacon-at {
+  display:block;
+  margin:0px auto;
+  width:20px;
+  font-family: "Brush Script Std";
+  font-size: 25px;
+  color: #424141;
+}
+
+.single-beacon-activity {
+  display:block;
+  margin-top:75px;
+  margin-bottom:20px;
+  text-align:center;
+  font-weight:bolder;
+  font-family: "Proxima Nova Condensed";
+  font-size: 22px;
+  color: #424141;
+  text-shadow: 1px 1px #fff;
+}
+
+.single-beacon-place {
+  display:block;
+  text-align:center;
+  margin-top:20px;
+  font-family: "Proxima Nova Condensed";
+  font-size: 22px;
+  color: #424141;
+  text-shadow: 1px 1px #fff;
+}
+
+#single-beacon-info {
+  display:block;
 }

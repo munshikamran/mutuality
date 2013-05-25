@@ -370,6 +370,11 @@
     	}
     });
 
+    $('.browse-beacon-div').on('click', function() {
+    	$('.browse-beacon-div').hide();
+    	$('#browse-single-beacon').show();
+    });
+
     $('#promote-beacon').on('click','span', function(){
     	setTimeout(function(){
 		    FB.ui(
